@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP, hardening 
+permalink: cyber-vault/ontap-cyber-vault-interoperability.html 
+summary: Interoperabilidade do Cyber Vault 
+---
+= Interoperabilidade do Cyber Vault
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O hardware e o software ONTAP podem ser usados para criar uma configuração de cofre cibernético.
+
+
+
+== Recomendações de hardware da ONTAP
+
+Todos os storages físicos unificados do ONTAP podem ser usados para uma implementação de ciber Vault.
+
+* O storage híbrido da FAS oferece a solução mais econômica.
+* A série C da AFF oferece o consumo de energia e a densidade mais eficientes.
+* O AFF A-Series é a plataforma de mais alto desempenho que oferece o melhor rto. Com o anúncio recente de nossa mais recente AFF A-Series, essa plataforma oferecerá a melhor eficiência de storage sem comprometer a performance.
+
+
+
+
+== Recomendações do software ONTAP
+
+A partir do ONTAP 9.14,1, é possível especificar períodos de retenção para rótulos SnapMirror específicos na política do SnapMirror do relacionamento do SnapMirror para que as cópias Snapshot replicadas do volume de origem para o volume de destino sejam mantidas pelo período de retenção especificado na regra. Se nenhum período de retenção for especificado, o período de retenção padrão do volume de destino será usado.
+
+A partir do ONTAP 9.13,1, é possível restaurar instantaneamente uma cópia Snapshot bloqueada no volume SnapLock de destino de uma relação de Vault do SnapLock criando um FlexClone com a opção SnapLock-type definida como "non-SnapLock" e especificando a cópia Snapshot como "pai-snapshot" ao executar a operação de criação de clone de volume. Saiba mais link:https://docs.netapp.com/us-en/ontap/volumes/create-flexclone-task.html?q=volume+clone["Criando um volume FlexClone com um tipo SnapLock"^]sobre o .
+
+
+
+== Configuração do MetroCluster
+
+Para configurações do MetroCluster, você deve estar ciente do seguinte:
+
+* Você pode criar uma relação do SnapVault apenas entre SVMs de origem sincronizada, e não entre uma SVM de origem sincronizada e um SVM de destino sincronizado.
+* Você pode criar uma relação de SnapVault a partir de um volume em uma SVM de origem sincronizada até um SVM de fornecimento de dados.
+* Você pode criar uma relação de SnapVault de um volume em uma SVM de fornecimento de dados a um volume de DP em uma fonte sincronizada SVM.
+

@@ -1,0 +1,141 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_install_trident.html 
+keywords:  
+summary:  
+---
+= Instale o Trident
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para instalar o Trident usando o Helm, execute as seguintes etapas:
+
+. Instale o Helm (para obter instruções de instalação, visite o https://helm.sh/docs/intro/install/["fonte"^] ).
+. Baixe e extraia o instalador do Trident 20.01.1.
++
+....
+$wget
+$tar -xf trident-installer-21.01.1.tar.gz
+....
+. Altere o diretório para `trident-installer`.
++
+....
+$cd trident-installer
+....
+. Copie `tridentctl` para um diretório no sistema `$PATH`.
++
+....
+$sudo cp ./tridentctl /usr/local/bin
+....
+. Instale o Trident no cluster Kubernetes (K8s) com o Helm ( https://scaleoutsean.github.io/2021/02/02/trident-21.01-install-with-helm-on-netapp-hci.html["fonte"^] ):
++
+.. Altere o diretório para o `helm` diretório.
++
+....
+$cd helm
+....
+.. Instale o Trident.
++
+....
+$helm install trident trident-operator-21.01.1.tgz --namespace trident --create-namespace
+....
+.. Verificar o status dos pods do Trident.
++
+....
+$kubectl -n trident get pods
+....
++
+Se todos os pods estiverem ativos e em execução, o Trident será instalado e você poderá avançar.
+
+
+
+. Configure o backend e a classe de armazenamento do Azure NetApp Files para o AKS.
++
+.. Crie um princípio de Serviço do Azure.
++
+O principal de serviço é como o Trident se comunica com o Azure para manipular seus recursos do Azure NetApp Files.
+
++
+....
+$az ad sp create-for-rbac --name ""
+....
++
+A saída deve parecer com o seguinte exemplo:
+
++
+....
+{
+"appId": "xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", 
+"displayName": "netapptrident", 
+"name": "", 
+"password": "xxxxxxxxxxxxxxx.xxxxxxxxxxxxxx", 
+"tenant": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
+} 
+....
+
+
+. Crie um arquivo json de back-end do Trident, nome de exemplo `anf-backend.json` .
+. Usando seu editor de texto preferido, preencha os seguintes campos dentro do `anf-backend.json` arquivo:
++
+....
+{
+    "version": 1,
+    "storageDriverName": "azure-netapp-files",
+    "subscriptionID": "fakec765-4774-fake-ae98-a721add4fake",
+    "tenantID": "fakef836-edc1-fake-bff9-b2d865eefake",
+    "clientID": "fake0f63-bf8e-fake-8076-8de91e57fake",
+    "clientSecret": "SECRET",
+    "location": "westeurope",
+    "serviceLevel": "Standard",
+    "virtualNetwork": "anf-vnet",
+    "subnet": "default",
+    "nfsMountOptions": "vers=3,proto=tcp",
+    "limitVolumeSize": "500Gi",
+    "defaults": {
+    "exportRule": "0.0.0.0/0",
+    "size": "200Gi"
+}
+....
+. Substitua os seguintes campos:
++
+** `subscriptionID`. Sua ID de assinatura do Azure.
+** `tenantID`. Sua ID do Azure Tenant a partir da saída do `az ad sp` na etapa anterior.
+** `clientID`. Seu appID da saída do `az ad sp` na etapa anterior.
+** `clientSecret`. A sua palavra-passe a partir da saída do `az ad sp` passo anterior.
+
+
+. Instrua o Trident a criar o back-end do Azure NetApp Files no `trident` namespace `anf-backend.json` usando como arquivo de configuração:
++
+....
+$tridentctl create backend -f anf-backend.json -n trident
+....
++
+image:aks-anf_image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Crie uma classe de armazenamento. Os usuários do Kubernetes provisionam volumes usando PVCs que especificam uma classe de storage por nome. Instrua K8s a criar uma classe de armazenamento `azurenetappfiles` que faça referência ao back-end do Trident criado na etapa anterior.
+. Crie um (`anf-storage-class.yaml`arquivo YAML ) para classe de armazenamento e cópia.
++
+....
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+name: azurenetappfiles
+provisioner: netapp.io/trident
+parameters:
+backendType: "azure-netapp-files"
+$kubectl create -f anf-storage-class.yaml
+....
+. Verifique se a classe de armazenamento foi criada.
++
+....
+kubectl get sc azurenetappfiles
+....
+
+
+image:aks-anf_image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

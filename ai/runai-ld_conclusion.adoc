@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: ai/runai-ld_conclusion.html 
+keywords: azure, lane, detection, run, ai, workloads 
+summary: A NetApp Run AI fez uma parceria na criação deste relatório técnico para demonstrar as funcionalidades exclusivas do Azure NetApp Files junto com a plataforma de AI RUN para simplificar a orquestração de workloads de AI. 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp e RUN: A AI fez uma parceria na criação deste relatório técnico para demonstrar as funcionalidades exclusivas do Azure NetApp Files juntamente com o RUN: Plataforma de AI para simplificar a orquestração de workloads de AI. Esse relatório técnico fornece uma arquitetura de referência para otimizar o processo de pipelines de dados e orquestração do workload para treinamento de deteção de faixas distribuídas.
+
+Em conclusão, em relação ao treinamento distribuído em escala (especialmente em um ambiente de nuvem pública), o componente de orquestração de recursos e storage é uma parte essencial da solução. Garantir que o gerenciamento de dados nunca atrapalhe o processamento de várias GPU, portanto, resulta na utilização ideal dos ciclos de GPU. Assim, tornando o sistema o mais rentável possível para fins de treinamento distribuídos em larga escala.
+
+O Data Fabric da NetApp supera o desafio ao permitir que cientistas e engenheiros de dados se conetem on-premises e na nuvem com dados síncronos, sem realizar qualquer intervenção manual. Em outras palavras, o Data Fabric suaviza o processo de gerenciamento do fluxo de trabalho de AI distribuído em vários locais. Ele também facilita a disponibilidade de dados baseada em demanda, pois os dados ficam perto da computação e realizam análises, treinamento e validação, onde e quando necessário. Essa funcionalidade não só permite a integração dos dados, mas também a proteção e a segurança de todo o pipeline de dados.

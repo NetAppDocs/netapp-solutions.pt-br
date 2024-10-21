@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: rhhc/self-managed/rhhc-sm-gcp-setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP, Google Cloud Platform, Google Cloud, GCP 
+summary:  
+---
+= Implante e configure a plataforma de contêiner Red Hat OpenShift no GCP
+:allow-uri-read: 
+
+
+
+
+== Implante e configure a plataforma de contêiner Red Hat OpenShift no GCP
+
+[role="lead"]
+Esta seção descreve um fluxo de trabalho de alto nível de como configurar e gerenciar clusters OpenShift no GCP e implantar aplicativos com monitoramento de estado neles. Isso mostra o uso do storage NetApp Cloud Volumes ONTAP com a ajuda do Astra Trident para fornecer volumes persistentes. Fornecemos detalhes sobre o uso do Astra Control Center para realizar atividades de proteção e migração de dados para as aplicações com estado monitorado.
+
+Aqui está um diagrama que mostra os clusters implantados no GCP e conectados ao data center usando uma VPN.
+
+image:rhhc-self-managed-gcp.png[""]
+
+
+NOTE: Há várias maneiras de implantar clusters de plataforma de contêiner do Red Hat OpenShift no GCP. Esta descrição de alto nível da configuração fornece links de documentação para o método específico que foi usado. Pode consultar os outros métodos nos links relevantes fornecidos no link:../rhhc-resources.html["seção recursos"].
+
+O processo de configuração pode ser dividido nas seguintes etapas:
+
+.Instale um cluster de OCP no GCP a partir da CLI.
+[%collapsible]
+====
+* Certifique-se de que cumpriu todos os pré-requisitos link:https://docs.openshift.com/container-platform/4.13/installing/installing_gcp/installing-gcp-default.html["aqui"]indicados .
+* Para a conetividade VPN entre o local e o GCP, uma VM pfsense foi criada e configurada. Para obter instruções, https://docs.netgate.com/pfsense/en/latest/recipes/ipsec-s2s-psk.html["aqui"] consulte .
++
+** O endereço de gateway remoto no pfsense só pode ser configurado depois de criar um gateway VPN no Google Cloud Platform.
+** Os endereços IP de rede remota para a fase 2 só podem ser configurados após o programa de instalação do cluster OpenShift ser executado e criar os componentes de infraestrutura para o cluster.
+** A VPN no Google Cloud só pode ser configurada depois que os componentes de infraestrutura do cluster forem criados pelo programa de instalação.
+
+
+* Agora instale o cluster OpenShift no GCP.
++
+** Obtenha o programa de instalação e o segredo de recebimento e implante o cluster seguindo as etapas fornecidas na documentação https://docs.openshift.com/container-platform/4.13/installing/installing_gcp/installing-gcp-default.html["aqui"].
+** A instalação cria uma rede VPC no Google Cloud Platform. Ele também cria uma zona privada no Cloud DNS e adiciona Registros.
++
+*** Use o endereço de bloco CIDR da rede VPC para configurar o pfsense e estabelecer a conexão VPN. Certifique-se de que os firewalls estão configurados corretamente.
+*** Adicione Registros no DNS do ambiente local usando o endereço IP nos Registros A do DNS do Google Cloud.
+
+
+** A instalação do cluster é concluída e fornecerá um arquivo kubeconfig, nome de usuário e senha para fazer login no console do cluster.
+
+
+
+
+====
+.Implante o Cloud Volumes ONTAP no GCP usando o BlueXP .
+[%collapsible]
+====
+* Instale um conetor no Google Cloud. Consulte as instruções https://docs.netapp.com/us-en/bluexp-setup-admin/task-install-connector-google-bluexp-gcloud.html["aqui"].
+* Implante uma instância do CVO no Google Cloud usando o conetor. Consulte as instruções aqui. https://docs.netapp.com/us-en/bluexp-cloud-volumes-ontap/task-getting-started-gcp.html[]
+
+
+====
+.Instalar o Astra Trident no cluster de OCP no GCP
+[%collapsible]
+====
+* Há muitos métodos para implantar o Astra Trident, conforme mostrado https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["aqui"].
+* Para este projeto, o Astra Trident foi instalado implantando manualmente o Operador do Astra Trident usando as instruções https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["aqui"].
+* Crie backend e classes de armazenamento. Consulte as instruções link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["aqui"].
+
+
+====
+.Adicione o cluster OCP no GCP ao Astra Control Center.
+[%collapsible]
+====
+* Crie um arquivo KubeConfig separado com uma função de cluster que contenha as permissões mínimas necessárias para que um cluster seja gerenciado pelo Astra Control. As instruções podem ser link:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overview.html#create-a-cluster-role-kubeconfig["aqui"]encontradas .
+* Adicione o cluster ao Astra Control Center seguindo as instruções link:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overview.html#add-cluster["aqui"]
+
+
+====
+.Usando o recurso de topologia CSI do Trident para arquiteturas multi-zona
+Os provedores de nuvem, hoje, permitem que os administradores de cluster do Kubernetes/OpenShift criem nós dos clusters baseados em zona. Os nós podem ser localizados em diferentes zonas de disponibilidade dentro de uma região ou em várias regiões. Para facilitar o provisionamento de volumes para workloads em uma arquitetura de várias zonas, o Astra Trident usa topologia de CSI. Usando o recurso de topologia de CSI, o acesso a volumes pode ser limitado a um subconjunto de nós, com base em regiões e zonas de disponibilidade. link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aqui"]Consulte para obter mais detalhes.
+
+
+NOTE: O Kubernetes oferece suporte a dois modos de vinculação de volume: - Quando **_VolumeBindingMode_ está definido como _imediato_** (padrão), o Astra Trident cria o volume sem qualquer reconhecimento de topologia. Os volumes persistentes são criados sem depender dos requisitos de agendamento do pod solicitante. - Quando **_VolumeBindingMode_ definido como _WaitForFirstConsumer_**, a criação e vinculação de um volume persistente para um PVC é adiada até que um pod que usa o PVC seja programado e criado. Dessa forma, os volumes são criados para atender às restrições de agendamento impostas pelos requisitos de topologia. Os back-ends de storage do Astra Trident podem ser desenvolvidos para provisionar volumes de forma seletiva com base em zonas de disponibilidade (back-end com reconhecimento de topologia). Para o StorageClasses que fazem uso de tal back-end, um volume só seria criado se solicitado por um aplicativo agendado em uma região/zona suportada. (StorageClass com reconhecimento de topologia) link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aqui"]consulte para obter detalhes adicionais.
+
+[Underline] no.*Vídeo de demonstração* no
+
+.Instalação do OpenShift Cluster no Google Cloud Platform
+video::4efc68f1-d37f-4cdd-874a-b09700e71da9[panopto,width=360]
+.Importação de clusters do OpenShift para o Astra Control Center
+video::57b63822-6bf0-4d7b-b844-b09700eac6ac[panopto,width=360]

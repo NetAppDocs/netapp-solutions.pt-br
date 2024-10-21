@@ -1,0 +1,307 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-why-netapp-nfs-for-kafka-workloads.html 
+keywords: cpu utilization, broker recovery, architecture, testing methodology, observation, das, nfs 
+summary: Agora que há uma solução para o problema de renomeação boba no armazenamento NFS com o Kafka, você pode criar implantações robustas que aproveitam o armazenamento NetApp ONTAP para sua carga de trabalho do Kafka. Isso não só reduz significativamente a sobrecarga operacional, mas também traz os seguintes benefícios para seus clusters Kafka. 
+---
+= Por que NetApp NFS para cargas de trabalho Kafka?
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Agora que há uma solução para o problema de renomeação boba no armazenamento NFS com o Kafka, você pode criar implantações robustas que aproveitam o armazenamento NetApp ONTAP para sua carga de trabalho do Kafka. Isso não só reduz significativamente a sobrecarga operacional, mas também traz os seguintes benefícios para seus clusters Kafka:
+
+* * Redução da utilização de CPU em corretores Kafka.* O uso de storage NetApp ONTAP desagregado separa as operações de e/S de disco do agente e, assim, reduz o espaço físico da CPU.
+* * Tempo de recuperação mais rápido do corretor.* Como o armazenamento desagregado do NetApp ONTAP é compartilhado entre os nós de corretores do Kafka, uma nova instância de computação pode substituir um corretor ruim em qualquer momento em uma fração do tempo em comparação com implantações convencionais do Kafka sem reconstruir os dados.
+* *Eficiência de armazenamento.* Como a camada de storage do aplicativo agora é provisionada por meio do NetApp ONTAP, os clientes podem aproveitar todos os benefícios da eficiência de storage oferecida pelo ONTAP, como compressão de dados in-line, deduplicação e compactação.
+
+
+Esses benefícios foram testados e validados em casos de teste que discutimos detalhadamente nesta seção.
+
+
+
+== Utilização reduzida da CPU no corretor Kafka
+
+Descobrimos que a utilização geral da CPU é menor do que a sua contrapartida DAS quando executamos cargas de trabalho semelhantes em dois clusters Kafka sperate que eram idênticos em suas especificações técnicas, mas diferiam em suas tecnologias de armazenamento. Não só a utilização geral da CPU é menor quando o cluster Kafka está usando armazenamento ONTAP, mas o aumento na utilização da CPU demonstrou um gradiente mais suave do que em um cluster Kafka baseado em DAS.
+
+
+
+=== Configuração arquitetónica
+
+A tabela a seguir mostra a configuração ambiental usada para demonstrar a utilização reduzida da CPU.
+
+|===
+| Componente da plataforma | Configuração do ambiente 
+
+
+| Ferramenta de Benchmarking Kafka 3.2.3: OpenMessaging  a| 
+* 3 x zookeepers – t2.small
+* 3 x servidores de corretores – i3en.2xlarge
+* 1 x Grafana – c5n.2xlarge
+* 4 x produtor/consumidor -- c5n.2xlarge
+
+
+
+
+| Sistema operacional em todos os nós | RHEL 8,7 ou posterior 
+
+
+| Instância do NetApp Cloud Volumes ONTAP | Instância de nó único – M5,2xLarge 
+|===
+
+
+=== Ferramenta de benchmarking
+
+A ferramenta de benchmarking usada neste caso de teste é a https://openmessaging.cloud/["OpenMessaging"^] estrutura. O OpenMessaging é independente de fornecedor e de linguagem; fornece diretrizes do setor para finanças, comércio eletrônico, IoT e big data; e ajuda a desenvolver aplicativos de mensagens e streaming em sistemas e plataformas heterogêneas. A figura a seguir mostra a interação dos clientes OpenMessaging com um cluster Kafka.
+
+image:kafka-nfs-image8.png["Esta imagem mostra a interação dos clientes OpenMessaging com um cluster Kafka."]
+
+* *Compute.* Usamos um cluster Kafka de três nós com um conjunto zookeeper de três nós em execução em servidores dedicados. Cada corretor tinha dois pontos de montagem NFSv4,1 para um único volume na instância do NetApp CVO através de um LIF dedicado.
+* *Monitoramento.* Usamos dois nós para uma combinação Prometheus-Grafana. Para gerar cargas de trabalho, temos um cluster de três nós separado que pode produzir e consumir a partir deste cluster Kafka.
+* *Armazenamento.* Usamos uma instância do NetApp Cloud Volumes ONTAP de nó único com seis volumes AWS-EBS 250GB GP2 montados na instância. Esses volumes foram então expostos ao cluster Kafka como seis volumes NFSv4,1 através de LIFs dedicados.
+* *Configuração.* Os dois elementos configuráveis neste caso de teste foram as cargas de trabalho Kafka Brokers e OpenMessaging.
++
+** *Configuração do corretor* As seguintes especificações foram selecionadas para os corretores Kafka. Utilizou-se o fator de replicação de 3 para todas as medições, como é destacado abaixo.
+
+
+
+
+image:kafka-nfs-image9.png["Esta imagem mostra as especificações selecionadas para os corretores Kafka."]
+
+* *Configuração da carga de trabalho do OpenMessaging benchmark (OMB).* As seguintes especificações foram fornecidas. Especificamos uma taxa de produtor-alvo, destacada abaixo.
+
+
+image:kafka-nfs-image10.png["Esta imagem mostra as especificações selecionadas para a configuração da carga de trabalho de benchmark do OpenMessaging."]
+
+
+
+=== Metodologia de testes
+
+. Dois clusters semelhantes foram criados, cada um com seu próprio conjunto de enxames de cluster de benchmarking.
++
+** *Cluster 1.* Cluster Kafka baseado em NFS.
+** *Cluster 2.* Cluster Kafka baseado em DAS.
+
+
+. Usando um comando OpenMessaging, cargas de trabalho semelhantes foram acionadas em cada cluster.
++
+....
+sudo bin/benchmark --drivers driver-kafka/kafka-group-all.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+. A configuração da taxa de produção foi aumentada em quatro iterações, e a utilização da CPU foi registrada com Grafana. A taxa de produção foi definida para os seguintes níveis:
++
+** 10.000
+** 40.000
+** 80.000
+** 100.000
+
+
+
+
+
+
+=== Observação
+
+Há dois principais benefícios de usar o armazenamento NetApp NFS com Kafka:
+
+* *Você pode reduzir o uso da CPU em quase um terço.* O uso geral de CPU em cargas de trabalho semelhantes foi menor para NFS em comparação com SSDs DAS; a economia varia de 5% para taxas de produção mais baixas para 32% para taxas de produção mais altas.
+* * Uma redução de três vezes na deriva da utilização da CPU a taxas de produção mais elevadas.* Como esperado, houve uma tendência ascendente para o aumento na utilização da CPU à medida que as taxas de produção foram aumentadas. No entanto, a utilização de CPU em corretores Kafka usando DAS aumentou de 31% para a menor taxa de produção para 70% para a maior taxa de produção, um aumento de 39%. No entanto, com um back-end de storage NFS, a utilização de CPU aumentou de 26% para 38%, um aumento de 12%.
+
+
+image:kafka-nfs-image11.png["Este gráfico mostra o comportamento de um cluster baseado em DAS."]
+
+image:kafka-nfs-image12.png["Este gráfico descreve o comportamento de um cluster baseado em NFS."]
+
+Além disso, em 100.000 mensagens, O DAS mostra mais utilização de CPU do que um cluster NFS.
+
+image:kafka-nfs-image13.png["Este gráfico mostra o comportamento de um cluster baseado em DAS em 100.000 mensagens."]
+
+image:kafka-nfs-image14.png["Este gráfico descreve o comportamento de um cluster baseado em NFS em 100.000 mensagens."]
+
+
+
+== Recuperação mais rápida de corretores
+
+Descobrimos que os corretores Kafka se recuperam mais rapidamente quando estão usando armazenamento NetApp NFS compartilhado. Quando um corretor falha em um cluster Kafka, este corretor pode ser substituído por um corretor saudável com um mesmo ID de corretor. Ao executar este caso de teste, descobrimos que, no caso de um cluster Kafka baseado em DAS, o cluster reconstrói os dados em um corretor saudável recém-adicionado, que é demorado. No caso de um cluster Kafka baseado em NFS NetApp, o corretor de substituição continua a ler dados do diretório de log anterior e recupera muito mais rapidamente.
+
+
+
+=== Configuração arquitetónica
+
+A tabela a seguir mostra a configuração ambiental de um cluster Kafka usando nas.
+
+|===
+| Componente da plataforma | Configuração do ambiente 
+
+
+| Kafka 3.2.3  a| 
+* 3 x zookeepers – t2.small
+* 3 x servidores de corretores – i3en.2xlarge
+* 1 x Grafana – c5n.2xlarge
+* 4 x produtor/consumidor -- c5n.2xlarge
+* 1 x nó Kafka de backup – i3en.2xlarge
+
+
+
+
+| Sistema operacional em todos os nós | RHEL8,7 ou posterior 
+
+
+| Instância do NetApp Cloud Volumes ONTAP | Instância de nó único – M5,2xLarge 
+|===
+A figura a seguir mostra a arquitetura de um cluster Kafka baseado em nas.
+
+image:kafka-nfs-image8.png["Esta figura representa a arquitetura de um cluster Kafka baseado em nas."]
+
+* *Compute.* Um cluster Kafka de três nós com um conjunto zookeeper de três nós em execução em servidores dedicados. Cada agente tem dois pontos de montagem NFS em um único volume na instância do NetApp CVO por meio de um LIF dedicado.
+* *Monitoramento.* Dois nós para uma combinação Prometheus-Grafana. Para gerar cargas de trabalho, usamos um cluster de três nós separado que pode produzir e consumir para este cluster Kafka.
+* *Armazenamento.* Uma instância do NetApp Cloud Volumes ONTAP de nó único com seis volumes AWS-EBS 250GB GP2 montados na instância. Esses volumes são então expostos ao cluster Kafka como seis volumes NFS por meio de LIFs dedicados.
+* *Configuração do corretor.* O único elemento configurável neste caso de teste são os corretores Kafka. As seguintes especificações foram selecionadas para os corretores Kafka.  `replica.lag.time.mx.ms`O é definido como um valor alto porque isso determina a rapidez com que um determinado nó é retirado da lista ISR. Quando você alterna entre nós ruins e saudáveis, você não quer que o ID do corretor seja excluído da lista ISR.
+
+
+image:kafka-nfs-image15.png["Esta imagem mostra as especificações escolhidas para os corretores Kafka."]
+
+
+
+=== Metodologia de testes
+
+. Dois clusters semelhantes foram criados:
++
+** Um cluster confluente baseado em EC2.
+** Um cluster confluente baseado em NetApp NFS.
+
+
+. Um nó Kafka de reserva foi criado com uma configuração idêntica aos nós do cluster Kafka original.
+. Em cada um dos clusters, um tópico de amostra foi criado, e aproximadamente 110GB de dados foram preenchidos em cada um dos corretores.
++
+** *Cluster baseado em EC2.* Um diretório de dados do corretor Kafka é mapeado `/mnt/data-2` (na figura a seguir, Broker-1 de cluster1 [terminal esquerdo]).
+** *Cluster baseado em NFS NetApp.* Um diretório de dados do broker Kafka é montado no ponto NFS `/mnt/data` (na figura a seguir, Broker-1 de cluster2 [terminal direito]).
++
+image:kafka-nfs-image16.png["Esta imagem mostra dois ecrãs de terminais."]
+
+
+
+. Em cada um dos clusters, o Broker-1 foi encerrado para acionar um processo de recuperação de corretores com falha.
+. Depois que o corretor foi encerrado, o endereço IP do corretor foi atribuído como um IP secundário ao corretor de reserva. Isso foi necessário porque um corretor em um cluster Kafka é identificado pelo seguinte:
++
+** *Endereço IP.* Atribuído reatribuindo o IP do corretor com falha ao corretor de reserva.
+** *ID do corretor.* Isso foi configurado no corretor de reserva `server.properties` .
+
+
+. Após a atribuição de IP, o serviço Kafka foi iniciado no corretor de reserva.
+. Depois de um tempo, os logs do servidor foram puxados para verificar o tempo necessário para criar dados no nó de substituição no cluster.
+
+
+
+
+=== Observação
+
+A recuperação do corretor Kafka foi quase nove vezes mais rápida. O tempo necessário para recuperar um nó de corretor com falha foi significativamente mais rápido ao usar armazenamento compartilhado NetApp NFS em comparação com o uso de SSDs DAS em um cluster Kafka. Para 1TB de dados de tópico, o tempo de recuperação para um cluster baseado em DAS foi de 48 minutos, comparado a menos de 5 minutos para um cluster Kafka baseado em NetApp-NFS.
+
+Observamos que o cluster baseado em EC2 levou 10 minutos para reconstruir os 110GB PB de dados no novo nó de agente, enquanto o cluster baseado em NFS concluiu a recuperação em 3 minutos. Também observamos nos logs do in que as compensações do consumidor para as partições para EC2 eram 0, enquanto, no cluster NFS, as compensações do consumidor foram retiradas do corretor anterior.
+
+....
+[2022-10-31 09:39:17,747] INFO [LogLoader partition=test-topic-51R3EWs-0000-55, dir=/mnt/kafka-data/broker2] Reloading from producer snapshot and rebuilding producer state from offset 583999 (kafka.log.UnifiedLog$)
+[2022-10-31 08:55:55,170] INFO [LogLoader partition=test-topic-qbVsEZg-0000-8, dir=/mnt/data-1] Loading producer state till offset 0 with message format version 2 (kafka.log.UnifiedLog$)
+....
+
+
+==== Cluster baseado em DAS
+
+. O nó de cópia de segurança começou às 08:55:53.730.
++
+image:kafka-nfs-image17.png["Esta imagem mostra a saída de log para um cluster baseado em DAS."]
+
+. O processo de reconstrução de dados terminou às 09:05:24.860. O processamento de 110GB TB de dados requer aproximadamente 10 minutos.
++
+image:kafka-nfs-image18.png["Esta imagem mostra a saída de log para um cluster baseado em DAS."]
+
+
+
+
+
+==== Cluster baseado em NFS
+
+. O nó de cópia de segurança foi iniciado às 09:39:17.213. A entrada de registo inicial é realçada abaixo.
++
+image:kafka-nfs-image19.png["Esta imagem mostra a saída de log para um cluster baseado em NFS."]
+
+. O processo de reconstrução de dados terminou às 09:42:29.115. O processamento de 110GB TB de dados requer aproximadamente 3 minutos.
++
+image:kafka-nfs-image20.png["Esta imagem mostra a saída de log para um cluster baseado em NFS."]
+
++
+O teste foi repetido para corretores contendo cerca de 1TB dados, o que levou aproximadamente 48 minutos para o DAS e 3 min para o NFS. Os resultados são apresentados no gráfico seguinte.
+
++
+image:kafka-nfs-image21.png["Este gráfico mostra o tempo necessário para a recuperação do corretor, dependendo da quantidade de dados carregados no corretor para um cluster baseado em DAS ou um cluster baseado em NFS."]
+
+
+
+
+
+== Eficiência de storage
+
+Como a camada de storage do cluster do Kafka foi provisionada por meio do NetApp ONTAP, temos todos os recursos de eficiência de storage do ONTAP. Isso foi testado gerando uma quantidade significativa de dados em um cluster do Kafka com armazenamento NFS provisionado no Cloud Volumes ONTAP. Pudemos ver que houve uma redução significativa de espaço devido aos recursos do ONTAP.
+
+
+
+=== Configuração arquitetónica
+
+A tabela a seguir mostra a configuração ambiental de um cluster Kafka usando nas.
+
+|===
+| Componente da plataforma | Configuração do ambiente 
+
+
+| Kafka 3.2.3  a| 
+* 3 x zookeepers – t2.small
+* 3 x servidores de corretores – i3en.2xlarge
+* 1 x Grafana – c5n.2xlarge
+* 4 x produtor/consumidor -- c5n.2xlarge *
+
+
+
+
+| Sistema operacional em todos os nós | RHEL8,7 ou posterior 
+
+
+| Instância do NetApp Cloud Volumes ONTAP | Instância de nó único – M5,2xLarge 
+|===
+A figura a seguir mostra a arquitetura de um cluster Kafka baseado em nas.
+
+image:kafka-nfs-image8.png["Esta figura representa a arquitetura de um cluster Kafka baseado em nas."]
+
+* *Compute.* Usamos um cluster Kafka de três nós com um conjunto zookeeper de três nós em execução em servidores dedicados. Cada agente tinha dois pontos de montagem NFS em um único volume na instância do NetApp CVO por meio de um LIF dedicado.
+* *Monitoramento.* Usamos dois nós para uma combinação Prometheus-Grafana. Para gerar cargas de trabalho, usamos um cluster de três nós separado que poderia produzir e consumir para este cluster Kafka.
+* *Armazenamento.* Usamos uma instância do NetApp Cloud Volumes ONTAP de nó único com seis volumes AWS-EBS 250GB GP2 montados na instância. Esses volumes foram então expostos ao cluster Kafka como seis volumes NFS por meio de LIFs dedicados.
+* *Configuração.* Os elementos configuráveis neste caso de teste foram os corretores Kafka.
+
+
+A compressão foi desligada no final do produtor, permitindo assim que os produtores gerassem alto rendimento. Em vez disso, a eficiência de storage foi tratada pela camada de computação.
+
+
+
+=== Metodologia de testes
+
+. Um cluster Kafka foi fornecido com as especificações mencionadas acima.
+. No cluster, cerca de 350GB dados foram produzidos usando a ferramenta de Benchmarking OpenMessaging.
+. Depois que o workload foi concluído, as estatísticas de eficiência de storage foram coletadas usando o Gerenciador de sistema do ONTAP e a CLI.
+
+
+
+
+=== Observação
+
+Para os dados gerados com a ferramenta OMB, observamos uma economia de espaço de cerca de 33%, com uma taxa de eficiência de storage de 1,70:1. Como visto nas figuras a seguir, o espaço lógico utilizado pelos dados produzidos foi de 420,3GB e o espaço físico utilizado para armazenar os dados foi de 281,7GB.
+
+image:kafka-nfs-image22.png["Esta imagem mostra economia de espaço no VMDISK."]
+
+image:kafka-nfs-image23.png["Captura de tela"]
+
+image:kafka-nfs-image24.png["Captura de tela"]

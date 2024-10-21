@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_multitenancy_configuration.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: Configuração de alocação a vários clientes no Red Hat OpenShift com NetApp 
+---
+= Configuração
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para qualquer solução multitenant, nenhum usuário pode ter acesso a mais recursos de cluster do que o necessário. Assim, todo o conjunto de recursos que devem ser configurados como parte da configuração de alocação a vários clientes é dividido entre o cluster-admin, o storage-admin e os desenvolvedores que trabalham em cada projeto.
+
+A tabela a seguir descreve as diferentes tarefas a serem executadas por diferentes usuários:
+
+|===
+| Função | Tarefas 
+
+
+.4+| *Cluster-admin* | Crie projetos para diferentes aplicações ou workloads 
+
+
+| Crie ClusterRoles e RoleBindings para storage-admin 
+
+
+| Crie funções e RoleBindings para desenvolvedores atribuindo acesso a projetos específicos 
+
+
+| [Opcional] Configure projetos para agendar pods em nós específicos 
+
+
+.4+| *Storage-admin* | Crie SVMs no NetApp ONTAP 
+
+
+| Crie backends Trident 
+
+
+| Crie StorageClasses 
+
+
+| Criar recursos de armazenamento 
+
+
+.3+| *Desenvolvedores* | Valide o acesso para criar ou corrigir PVCs ou pods no projeto atribuído 
+
+
+| Valide o acesso para criar ou corrigir PVCs ou pods em outro projeto 
+
+
+| Valide o acesso para exibir ou editar projetos, ResourceQuotes e StorageClasses 
+|===

@@ -1,0 +1,155 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_openshift_OSP.html 
+keywords: OpenShift, OpenStack, private cloud 
+summary: A Red Hat OpenStack Platform oferece uma base integrada para criar, implantar e escalar uma nuvem OpenStack privada segura e confiável. 
+---
+= OpenShift na Red Hat OpenStack Platform
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A Red Hat OpenStack Platform oferece uma base integrada para criar, implantar e escalar uma nuvem OpenStack privada segura e confiável.
+
+O OSP é uma nuvem de infraestrutura como serviço (IaaS) implementada por uma coleção de serviços de controle que gerenciam recursos de computação, armazenamento e rede. O ambiente é gerenciado usando uma interface baseada na Web que permite que administradores e usuários controlem, provisionem e automatizem recursos do OpenStack. Além disso, a infraestrutura OpenStack é facilitada por meio de uma interface de linha de comando e API extensa, permitindo recursos completos de automação para administradores e usuários finais.
+
+O projeto OpenStack é um projeto comunitário desenvolvido rapidamente que fornece lançamentos atualizados a cada seis meses. Inicialmente, o Red Hat OpenStack Platform manteve o ritmo com esse ciclo de lançamento, publicando uma nova versão juntamente com cada versão upstream e fornecendo suporte a longo prazo para cada terceiro lançamento. Recentemente, com o lançamento do OSP 16,0 (baseado no OpenStack Train), a Red Hat optou por não acompanhar os números de lançamento, mas, em vez disso, portou novos recursos para sub-lançamentos. O lançamento mais recente é o Red Hat OpenStack Platform 16,1, que inclui recursos avançados de backported das versões Ussuri e Victoria upstream.
+
+Para obter mais informações sobre o OSP, consulte link:https://www.redhat.com/en/technologies/linux-platforms/openstack-platform["Site da Red Hat OpenStack Platform"^].
+
+
+
+== Serviços OpenStack
+
+Os serviços do OpenStack Platform são implantados como contentores, o que isola os serviços uns dos outros e permite atualizações fáceis. A plataforma OpenStack usa um conjunto de contêineres construídos e gerenciados com o Kolla. A implantação de serviços é realizada puxando imagens de contentor do Red Hat Custom Portal. Esses contentores de serviço são gerenciados usando o comando Podman e são implantados, configurados e mantidos com o Red Hat OpenStack diretor.
+
+image:redhat_openshift_image34.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+[cols="15%, 15%, 70%"]
+|===
+| Serviço | Nome do projeto | Descrição 
+
+
+| Painel de instrumentos | Horizonte | Painel baseado em navegador da Web que você usa para gerenciar serviços OpenStack. 
+
+
+| Identidade | Keystone | Serviço centralizado para autenticação e autorização de serviços OpenStack e para gerenciar usuários, projetos e funções. 
+
+
+| Rede OpenStack | Nêutrons | Fornece conetividade entre as interfaces dos serviços OpenStack. 
+
+
+| Storage de bloco | Cinder | Gerencia volumes de storage de bloco persistente para máquinas virtuais (VMs). 
+
+
+| Computação | Nova | Gerencia e provisiona VMs em execução nos nós de computação. 
+
+
+| Imagem | Relance | Serviço de Registro usado para armazenar recursos, como imagens de VM e snapshots de volume. 
+
+
+| Storage de objetos | Rápido | Permite aos usuários armazenar e recuperar arquivos e dados arbitrários. 
+
+
+| Telemetria | Ceilometer | Fornece medições do uso de recursos de nuvem. 
+
+
+| Orquestração | Calor | Mecanismo de orquestração baseado em modelos compatível com a criação automática de stacks de recursos. 
+|===
+
+
+== Design de rede
+
+A solução Red Hat OpenShift com NetApp usa dois switches de dados para fornecer conetividade de dados primários em 25Gbps GbE. Ele também usa dois switches de gerenciamento adicionais que fornecem conectividade de 1Gbps GbE para gerenciamento na banda para os nós de storage e gerenciamento fora da banda para a funcionalidade IPMI.
+
+A funcionalidade IPMI é exigida pelo Red Hat OpenStack diretor para implantar a Red Hat OpenStack Platform usando o serviço irônico de provisão bare-metal.
+
+
+
+=== Requisitos da VLAN
+
+O Red Hat OpenShift com NetApp foi projetado para separar logicamente o tráfego de rede para diferentes fins usando redes de área local virtual (VLANs). Essa configuração pode ser dimensionada para atender às demandas dos clientes ou para fornecer mais isolamento para serviços de rede específicos. A tabela a seguir lista as VLANs necessárias para implementar a solução enquanto valida a solução no NetApp.
+
+[cols="15%, 70%, 15%"]
+|===
+| VLANs | Finalidade | ID DA VLAN 
+
+
+| Rede de gerenciamento fora da banda | Rede usada para gerenciamento de nós físicos e serviço IPMI para irônico. | 16 
+
+
+| Infraestrutura de storage | Rede usada para nós de controladora para mapear volumes diretamente para dar suporte a serviços de infraestrutura como o Swift. | 201 
+
+
+| Cinder de armazenamento | Rede usada para mapear e anexar volumes de bloco diretamente a instâncias virtuais implantadas no ambiente. | 202 
+
+
+| API interna | Rede usada para comunicação entre os serviços OpenStack usando comunicação API, mensagens RPC e comunicação de banco de dados. | 301 
+
+
+| Locatário | O Neutron fornece a cada locatário suas próprias redes via tunelamento através do VXLAN. O tráfego de rede é isolado dentro de cada rede do locatário. Cada rede de locatário tem uma sub-rede IP associada a ela, e namespaces de rede significam que várias redes de locatários podem usar o mesmo intervalo de endereços sem causar conflitos. | 302 
+
+
+| Gerenciamento de storage | O OpenStack Object Storage (Swift) usa essa rede para sincronizar objetos de dados entre os nós de réplica participantes. O serviço proxy atua como a interface intermediária entre as solicitações do usuário e a camada de storage subjacente. O proxy recebe solicitações recebidas e localiza a réplica necessária para recuperar os dados solicitados. | 303 
+
+
+| PXE | O OpenStack diretor fornece inicialização PXE como parte do irônico serviço de provisionamento bare metal para orquestrar a instalação do OSP Overcloud. | 3484 
+
+
+| Externo | Rede disponível publicamente que hospeda o painel OpenStack (Horizon) para gerenciamento gráfico e permite que chamadas públicas de API gerenciem serviços OpenStack. | 3485 
+
+
+| Rede de gerenciamento na banda | Fornece acesso para funções de administração do sistema, como acesso SSH, tráfego DNS e tráfego NTP (Network Time Protocol). Esta rede também atua como um gateway para nós não controladores. | 3486 
+|===
+
+
+=== Recursos de suporte de infraestrutura de rede
+
+A infra-estrutura a seguir deve estar em vigor antes da implantação da Plataforma de contêiner OpenShift:
+
+* Pelo menos um servidor DNS que fornece uma resolução de nome de host completo.
+* Pelo menos três servidores NTP que podem manter o tempo sincronizado para os servidores na solução.
+* (Opcional) conetividade de Internet outbound para o ambiente OpenShift.
+
+
+
+
+== Práticas recomendadas para implantações de produção
+
+Esta seção lista várias práticas recomendadas que uma organização deve levar em consideração antes de implantar essa solução em produção.
+
+
+
+=== Implante o OpenShift em uma nuvem privada de OSP com pelo menos três nós de computação
+
+A arquitetura verificada descrita neste documento apresenta a implantação mínima de hardware adequada para operações de HA, implantando três nós de controladora OSP e dois nós de computação OSP. Essa arquitetura garante uma configuração tolerante a falhas na qual ambos os nós de computação podem iniciar instâncias virtuais e as VMs implantadas podem migrar entre os dois hipervisores.
+
+Como o Red Hat OpenShift inicialmente é implantado com três nós principais, uma configuração de dois nós pode fazer com que pelo menos dois mestres ocupem o mesmo nó, o que pode levar a uma possível interrupção para o OpenShift se esse nó específico ficar indisponível. Portanto, é uma prática recomendada da Red Hat implantar pelo menos três nós de computação OSP para que os mestres do OpenShift possam ser distribuídos uniformemente e a solução receba um grau adicional de tolerância a falhas.
+
+
+
+=== Configurar afinidade de máquina virtual/host
+
+A distribuição dos mestres do OpenShift entre vários nós de hipervisor pode ser alcançada habilitando a afinidade VM/host.
+
+O Affinity é uma maneira de definir regras para um conjunto de VMs e/ou hosts que determinam se as VMs são executadas juntas no mesmo host ou hosts no grupo ou em hosts diferentes. Ele é aplicado às VMs criando grupos de afinidade que consistem em VMs e/ou hosts com um conjunto de parâmetros e condições idênticos. Dependendo se as VMs em um grupo de afinidade são executadas no mesmo host ou hosts no grupo ou separadamente em hosts diferentes, os parâmetros do grupo de afinidade podem definir afinidade positiva ou afinidade negativa. Na Red Hat OpenStack Platform, as regras de afinidade de host e anti-afinidade podem ser criadas e aplicadas criando grupos de servidores e configurando filtros para que as instâncias implantadas pela Nova em um grupo de servidores sejam implantadas em diferentes nós de computação.
+
+Um grupo de servidores tem um máximo padrão de 10 instâncias virtuais para as quais ele pode gerenciar o posicionamento. Isso pode ser modificado atualizando as cotas padrão para Nova.
+
+
+NOTE: Há um limite específico de afinidade/antiafinidade para grupos de servidores OSP; se não houver recursos suficientes para implantar em nós separados ou não recursos suficientes para permitir o compartilhamento de nós, a VM falha na inicialização.
+
+Para configurar grupos de afinidade, link:https://access.redhat.com/solutions/1977943["Como configuro o Affinity e Anti-Affinity para instâncias OpenStack?"^]consulte .
+
+
+
+=== Use um arquivo de instalação personalizado para a implantação do OpenShift
+
+O IPI facilita a implantação de clusters OpenShift através do assistente interativo discutido anteriormente neste documento. No entanto, é possível que você precise alterar alguns valores padrão como parte de uma implantação de cluster.
+
+Nesses casos, você pode executar e executar a tarefa wizardsem implantar imediatamente um cluster; em vez disso, ele cria um arquivo de configuração a partir do qual o cluster pode ser implantado posteriormente. Isso é muito útil se você precisar alterar qualquer padrão IPI ou se quiser implantar vários clusters idênticos em seu ambiente para outros usos, como alocação a vários clientes. Para obter mais informações sobre como criar uma configuração de instalação personalizada para o OpenShift, link:https://docs.openshift.com/container-platform/4.7/installing/installing_openstack/installing-openstack-installer-custom.html["Red Hat OpenShift Instalando um cluster no OpenStack com personalizações"^]consulte .

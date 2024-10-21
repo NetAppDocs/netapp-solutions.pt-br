@@ -1,0 +1,356 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_configure_working_environment.html 
+keywords: NetApp MLRun ML AI 
+summary:  
+---
+= Configurar ambiente de trabalho
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Copie o `Notebook` `set_env-Example.ipynb` `set_env.ipynb` como . Abra e edite `set_env.ipynb`o . Esse bloco de anotações define variáveis para credenciais, locais de arquivos e drivers de execução.
+
+Se você seguir as instruções acima, as etapas a seguir são as únicas alterações a serem feitas:
+
+. Obtenha esse valor no painel de serviços do Iguazio: `docker_registry`
++
+Exemplo: `docker-registry.default-tenant.app.clusterq.iguaziodev.com:80`
+
+. Mude `admin` para o seu nome de usuário Iguazio:
++
+`IGZ_CONTAINER_PATH = '/users/admin'`
+
++
+A seguir estão os detalhes da conexão do sistema ONTAP. Inclua o nome do volume que foi gerado quando o Trident foi instalado. A configuração a seguir é para um cluster ONTAP no local:
+
++
+....
+ontapClusterMgmtHostname = '0.0.0.0'
+ontapClusterAdminUsername = 'USER'
+ontapClusterAdminPassword = 'PASSWORD'
+sourceVolumeName = 'SOURCE VOLUME'
+....
++
+A seguinte definição é para Cloud Volumes ONTAP:
+
+
+
+....
+MANAGER=ontapClusterMgmtHostname
+svm='svm'
+email='email'
+password=ontapClusterAdminPassword
+weid="weid"
+volume=sourceVolumeName
+....
+
+
+== Crie imagens do Docker base
+
+Tudo o que você precisa para construir um pipeline DE ML está incluído na plataforma Iguazio. O desenvolvedor pode definir as especificações das imagens do Docker necessárias para executar o pipeline e executar a criação de imagens a partir do Jupyter notebook. Abra o notebook `create- images.ipynb` e execute todas as células.
+
+Este caderno cria duas imagens que usamos no pipeline.
+
+* `iguazio/netapp.` Usado para lidar com tarefas DE ML.
+
+
+image:mlrun_image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+* `netapp/pipeline`. Contém utilitários para lidar com cópias Snapshot do NetApp.
+
+
+image:mlrun_image14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Revise notebooks Jupyter individuais
+
+A tabela a seguir lista as bibliotecas e frameworks que usamos para construir essa tarefa. Todos esses componentes foram totalmente integrados com os controles de acesso e segurança baseados em função do Iguazio.
+
+|===
+| Bibliotecas/Framework | Descrição 
+
+
+| MLRun | Um gerenciado pelo Iguazio para permitir a montagem, execução e monitoramento de um pipeline DE ml/AI. 
+
+
+| Nuclio | Uma estrutura de funções sem servidor integrada com o Iguazio. Também disponível como um projeto de código aberto gerenciado pelo Iguazio. 
+
+
+| Kubeflow | Uma estrutura baseada em Kubernetes para implantar o pipeline. Este é também um projeto de código aberto para o qual o Iguazio contribui. Ele é integrado ao Iguazio para maior segurança e integração com o restante da infraestrutura. 
+
+
+| Docker | Um Registro Docker é executado como um serviço na plataforma Iguazio. Você também pode alterar isso para se conetar ao seu Registro. 
+
+
+| NetApp Cloud volumes | O Cloud volumes executados na AWS nos dá acesso a grandes quantidades de dados e a capacidade de fazer cópias Snapshot na versão dos conjuntos de dados usados para treinamento. 
+
+
+| Trident | O Trident é um projeto de código aberto gerenciado pelo NetApp. Facilita a integração com recursos de storage e computação no Kubernetes. 
+|===
+Usamos vários cadernos para construir o pipeline DE ML. Cada notebook pode ser testado individualmente antes de ser reunido no pipeline. Nós cobrimos cada notebook individualmente após o fluxo de implantação deste aplicativo de demonstração.
+
+O resultado desejado é um pipeline que treina um modelo com base em uma cópia Snapshot dos dados e implanta o modelo para inferência. Um diagrama de blocos de um pipeline MLRun concluído é mostrado na imagem a seguir.
+
+image:mlrun_image15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Implantar a função de geração de dados
+
+Esta seção descreve como usamos funções sem servidor do Nuclio para gerar dados de dispositivos de rede. O caso de uso é adaptado de um cliente Iguazio que implantou o pipeline e usou serviços Iguazio para monitorar e prever falhas de dispositivos de rede.
+
+Simulamos dados provenientes de dispositivos de rede. A execução do notebook Jupyter `data- generator.ipynb` cria uma função sem servidor que é executada a cada 10 minutos e gera um arquivo Parquet com novos dados. Para implantar a função, execute todas as células neste notebook. Consulte o https://nuclio.io/["Nuclio website"^] para rever todos os componentes desconhecidos neste notebook.
+
+Uma célula com o seguinte comentário é ignorada ao gerar a função. Presume-se que cada célula do caderno faça parte da função. Importe o módulo Nuclio para ativar `%nuclio magic`o .
+
+....
+# nuclio: ignore
+import nuclio
+....
+Na especificação para a função, definimos o ambiente em que a função é executada, como ela é acionada e os recursos que ela consome.
+
+....
+spec = nuclio.ConfigSpec(config={"spec.triggers.inference.kind":"cron",
+                                "spec.triggers.inference.attributes.interval" :"10m",
+                                "spec.readinessTimeoutSeconds" : 60,
+                                "spec.minReplicas" : 1},……
+....
+A `init_context` função é invocada pelo framework Nuclio após a inicialização da função.
+
+....
+def init_context(context):
+    ….
+....
+Qualquer código que não esteja em uma função é invocado quando a função é inicializada. Quando você invocá-lo, uma função handler é executada. Você pode alterar o nome do manipulador e especificá-lo na especificação da função.
+
+....
+def handler(context, event):
+            …
+....
+Você pode testar a função do notebook antes da implantação.
+
+....
+%%time
+# nuclio: ignore
+init_context(context)
+event = nuclio.Event(body='')
+output = handler(context, event)
+output
+....
+A função pode ser implantada a partir do notebook ou pode ser implantada a partir de um pipeline de CI/CD (adaptando esse código).
+
+....
+addr = nuclio.deploy_file(name='generator',project='netops',spec=spec, tag='v1.1')
+....
+
+
+=== Cadernos de pipeline
+
+Estes blocos de notas não devem ser executados individualmente para esta configuração. Esta é apenas uma revisão de cada caderno. Nós os invocamos como parte do pipeline. Para executá-los individualmente, consulte a documentação do MLRun para executá-los como tarefas do Kubernetes.
+
+
+
+=== snap_cv.ipynb
+
+Esse notebook lida com as cópias do Cloud volume Snapshot no início do pipeline. Ele passa o nome do volume para o contexto do pipeline. Este bloco de notas invoca um script shell para lidar com a cópia Snapshot. Durante a execução no pipeline, o contexto de execução contém variáveis para ajudar a localizar todos os arquivos necessários para execução. Ao escrever esse código, o desenvolvedor não precisa se preocupar com o local do arquivo no contentor que o executa. Como descrito mais tarde, este aplicativo é implantado com todas as suas dependências, e é a definição dos parâmetros de pipeline que fornece o contexto de execução.
+
+....
+command = os.path.join(context.get_param('APP_DIR'),"snap_cv.sh")
+....
+O local de cópia Snapshot criado é colocado no contexto MLRun a ser consumido por etapas no pipeline.
+
+....
+context.log_result('snapVolumeDetails',snap_path)
+....
+Os próximos três notebooks são executados em paralelo.
+
+
+
+=== data-prep.ipynb
+
+As métricas cruas devem ser transformadas em recursos para permitir o treinamento de modelos. Esse notebook lê as métricas brutas do diretório Snapshot e grava os recursos para treinamento de modelos no volume NetApp.
+
+Ao ser executado no contexto do pipeline, a entrada `DATA_DIR` contém o local da cópia Snapshot.
+
+....
+metrics_table = os.path.join(str(mlruncontext.get_input('DATA_DIR', os.getenv('DATA_DIR','/netpp'))),
+                             mlruncontext.get_param('metrics_table', os.getenv('metrics_table','netops_metrics_parquet')))
+....
+
+
+=== descreva.ipynb
+
+Para visualizar as métricas de entrada, implantamos uma etapa de pipeline que fornece gráficos e gráficos que estão disponíveis através dos UIs Kubeflow e MLRun. Cada execução tem sua própria versão desta ferramenta de visualização.
+
+....
+ax.set_title("features correlation")
+plt.savefig(os.path.join(base_path, "plots/corr.png"))
+context.log_artifact(PlotArtifact("correlation",  body=plt.gcf()), local_path="plots/corr.html")
+....
+
+
+=== deploy-feature-function.ipynb
+
+Monitoramos continuamente as métricas em busca de anomalias. Esse notebook cria uma função sem servidor que gera os recursos necessários para executar a previsão das métricas de entrada. Este caderno invoca a criação da função. O código de função está no bloco de notas `data- prep.ipynb`. Observe que usamos o mesmo notebook como uma etapa no pipeline para esse fim.
+
+
+
+=== treinamento.ipynb
+
+Depois de criarmos os recursos, acionamos o treinamento do modelo. A saída desta etapa é o modelo a ser usado para inferência. Também coletamos estatísticas para acompanhar cada execução (experimento).
+
+Por exemplo, o comando a seguir insere a pontuação de precisão no contexto dessa experiência. Este valor é visível em Kubeflow e MLRun.
+
+....
+context.log_result(‘accuracy’,score)
+....
+
+
+=== deploy-inference-function.ipynb
+
+A última etapa no pipeline é implantar o modelo como uma função sem servidor para inferência contínua. Este caderno invoca a criação da função sem servidor definida no `nuclio-inference- function.ipynb`.
+
+
+
+== Revise e construa o pipeline
+
+A combinação de executar todos os notebooks em um pipeline permite a execução contínua de experimentos para reavaliar a precisão do modelo em relação a novas métricas. Primeiro, abra o `pipeline.ipynb` notebook. Nós levamos você através de detalhes que mostram como o NetApp e o Iguazio simplificam a implantação deste pipeline DE ML.
+
+Usamos MLRun para fornecer contexto e lidar com alocação de recursos para cada etapa do pipeline. O serviço da API MLRun é executado na plataforma Iguazio e é o ponto de interação com os recursos do Kubernetes. Cada desenvolvedor não pode solicitar recursos diretamente; a API lida com as solicitações e habilita controles de acesso.
+
+....
+# MLRun API connection definition
+mlconf.dbpath = 'http://mlrun-api:8080'
+....
+O pipeline funciona com o NetApp Cloud volumes e volumes no local. Criamos essa demonstração para usar o Cloud volumes, mas você pode ver no código a opção de executar no local.
+
+....
+# Initialize the NetApp snap fucntion once for all functions in a notebook
+if [ NETAPP_CLOUD_VOLUME ]:
+    snapfn = code_to_function('snap',project='NetApp',kind='job',filename="snap_cv.ipynb").apply(mount_v3io())
+    snap_params = {
+    "metrics_table" : metrics_table,
+    "NETAPP_MOUNT_PATH" : NETAPP_MOUNT_PATH,
+    'MANAGER' : MANAGER,
+    'svm' : svm,
+    'email': email,
+    'password': password ,
+    'weid': weid,
+    'volume': volume,
+    "APP_DIR" : APP_DIR
+       }
+else:
+    snapfn = code_to_function('snap',project='NetApp',kind='job',filename="snapshot.ipynb").apply(mount_v3io())
+….
+snapfn.spec.image = docker_registry + '/netapp/pipeline:latest'
+snapfn.spec.volume_mounts = [snapfn.spec.volume_mounts[0],netapp_volume_mounts]
+      snapfn.spec.volumes = [ snapfn.spec.volumes[0],netapp_volumes]
+....
+A primeira ação necessária para transformar um notebook Jupyter em uma etapa do Kubeflow é transformar o código em uma função. Uma função tem todas as especificações necessárias para executar esse notebook. À medida que você percorre o notebook, você pode ver que definimos uma função para cada etapa do pipeline.
+
+|===
+| Parte do caderno | Descrição 
+
+
+| <code_to_function> (parte do módulo MLRun) | Nome da função: Nome do projeto. Usado para organizar todos os artefatos do projeto. Isso é visível na IU do MLRun. Gentil. Nesse caso, um trabalho do Kubernetes. Isso poderia ser Dask, MPI, sparkk8s e muito mais. Consulte a documentação do MLRun para obter mais detalhes. Ficheiro. O nome do caderno. Isso também pode ser um local no Git (HTTP). 
+
+
+| imagem | O nome da imagem Docker que estamos usando para esta etapa. Nós criamos isso anteriormente com o bloco de notas create-image.ipynb. 
+
+
+| volume_mounts e volumes | Detalhes para montar o volume de nuvem do NetApp em tempo de execução. 
+|===
+Também definimos parâmetros para as etapas.
+
+....
+params={   "FEATURES_TABLE":FEATURES_TABLE,
+           "SAVE_TO" : SAVE_TO,
+           "metrics_table" : metrics_table,
+           'FROM_TSDB': 0,
+           'PREDICTIONS_TABLE': PREDICTIONS_TABLE,
+           'TRAIN_ON_LAST': '1d',
+           'TRAIN_SIZE':0.7,
+           'NUMBER_OF_SHARDS' : 4,
+           'MODEL_FILENAME' : 'netops.v3.model.pickle',
+           'APP_DIR' : APP_DIR,
+           'FUNCTION_NAME' : 'netops-inference',
+           'PROJECT_NAME' : 'netops',
+           'NETAPP_SIM' : NETAPP_SIM,
+           'NETAPP_MOUNT_PATH': NETAPP_MOUNT_PATH,
+           'NETAPP_PVC_CLAIM' : NETAPP_PVC_CLAIM,
+           'IGZ_CONTAINER_PATH' : IGZ_CONTAINER_PATH,
+           'IGZ_MOUNT_PATH' : IGZ_MOUNT_PATH
+            }
+....
+Depois de ter a definição de função para todas as etapas, você pode construir o pipeline. Usamos o `kfp` módulo para fazer essa definição. A diferença entre usar MLRun e construir por conta própria é a simplificação e encurtamento da codificação.
+
+As funções que definimos são transformadas em componentes de etapa usando a `as_step` função de MLRun.
+
+
+
+=== Definição do passo do Snapshot
+
+Inicie uma função Snapshot, saída e monte v3io como fonte:
+
+....
+snap = snapfn.as_step(NewTask(handler='handler',params=snap_params),
+name='NetApp_Cloud_Volume_Snapshot',outputs=['snapVolumeDetails','training_parquet_file']).apply(mount_v3io())
+....
+|===
+| Parâmetros | Detalhes 
+
+
+| NewTask | NewTask é a definição da função RUN. 
+
+
+| (Módulo MLRun) | Manipulador. Nome da função Python a invocar. Usamos o manipulador de nomes no notebook, mas não é necessário. params. Os parâmetros que passamos para a execução. Dentro do nosso código, usamos context.get_param ("PARÂMETRO") para obter os valores. 
+
+
+| as_step | Nome. Nome da etapa de pipeline Kubeflow. Saídas. Estes são os valores que a etapa adiciona ao dicionário na conclusão. Dê uma olhada no notebook snap_cv.ipynb. Mount_v3io(). Isso configura a etapa para montar /User para o usuário que executa o pipeline. 
+|===
+....
+prep = data_prep.as_step(name='data-prep', handler='handler',params=params,
+                          inputs = {'DATA_DIR': snap.outputs['snapVolumeDetails']} ,
+                          out_path=artifacts_path).apply(mount_v3io()).after(snap)
+....
+|===
+| Parâmetros | Detalhes 
+
+
+| entradas | Você pode passar para um passo as saídas de um passo anterior. Neste caso, snap.outputs['snapVolumeDetails'] é o nome da cópia Snapshot que criamos no passo snap. 
+
+
+| out_path | Um local para colocar artefatos gerando usando o módulo MLRun log_Artifacts. 
+|===
+Você pode correr `pipeline.ipynb` de cima para baixo. Você pode então ir para a guia pipelines no painel do Iguazio para monitorar o progresso como visto na guia pipelines do Iguazio.
+
+image:mlrun_image16.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Como registramos a precisão da etapa de treinamento em cada corrida, temos um Registro de precisão para cada experimento, como visto no Registro da precisão do treinamento.
+
+image:mlrun_image17.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Se você selecionar a etapa Snapshot, poderá ver o nome da cópia Snapshot usada para executar esse experimento.
+
+image:mlrun_image18.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A etapa descrita tem artefatos visuais para explorar as métricas que usamos. Você pode expandir para visualizar o gráfico completo como visto na imagem a seguir.
+
+image:mlrun_image19.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O banco de dados da API MLRun também rastreia entradas, saídas e artefatos para cada execução organizada pelo projeto. Um exemplo de entradas, saídas e artefatos para cada execução pode ser visto na imagem a seguir.
+
+image:mlrun_image20.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Para cada trabalho, armazenamos detalhes adicionais.
+
+image:mlrun_image21.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Há mais informações sobre MLRun do que podemos abordar neste documento. Os artefatos Al, incluindo a definição das etapas e funções, podem ser salvos no banco de dados da API, versionados e invocados individualmente ou como um projeto completo. Os projetos também podem ser salvos e enviados para o Git para uso posterior. Nós encorajamos você a aprender mais no https://github.com/mlrun/mlrun["MLRun GitHub site"^].

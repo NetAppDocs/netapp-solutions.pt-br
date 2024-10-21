@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: ehc/dr-draas-overview.html 
+keywords: dr, draas, bluexp, disaster recovery, vmfs datastore, nfs datastore, overview 
+summary: Esta seção do documento descreve a configuração do BlueXP  DRaaS para configurar a recuperação de desastres para VMs VMware locais em outro local designado. 
+---
+= Visão geral
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A recuperação de desastres está na mente de todos os administradores da VMware. Como o VMware encapsula servidores inteiros em uma série de arquivos que compõem a máquina virtual, os administradores aproveitam as técnicas baseadas em armazenamento de blocos, como clones, snapshots e réplicas, para proteger essas VMs. Os arrays ONTAP oferecem replicação incorporada para transferir dados de volume e, portanto, as máquinas virtuais que residem nos LUNs designados do armazenamento de dados, de um local para outro. O BlueXP  DRaaS integra-se ao vSphere e automatiza todo o fluxo de trabalho para failover e failback contínuos em caso de desastre. Ao combinar a replicação de storage com automação inteligente, os administradores agora têm uma maneira gerenciável de configurar, automatizar e testar planos de recuperação de desastres, mas também os meios de executá-los facilmente em caso de desastre.
+
+A maioria das partes demoradas de um failover de DR em um ambiente VMware vSphere é a execução das etapas necessárias para fazer o inventário, Registrar, reconfigurar e ligar VMs no local de DR. Uma solução ideal tem RPO baixo (medido em minutos) e rto baixo (medido em minutos). Um fator que muitas vezes é negligenciado em uma solução de DR é a capacidade de testar a solução de DR com eficiência em um intervalo periódico.
+
+Para arquitetar uma solução de DR, tenha em mente os seguintes fatores:
+
+* Objetivo de tempo de recuperação (rto). O rto é a rapidez com que uma empresa pode se recuperar de um desastre ou, mais especificamente, quanto tempo leva para executar o processo de recuperação para tornar os serviços de negócios disponíveis novamente.
+* Objetivo do ponto de restauração (RPO). O RPO é a idade dos dados recuperados após serem disponibilizados, em relação ao momento em que o desastre ocorreu.
+* Escalabilidade e adaptabilidade. Esse fator inclui a capacidade de aumentar os recursos de storage de forma incremental, à medida que a demanda aumenta.
+
+
+Para obter mais informações técnicas sobre as soluções disponíveis, consulte:
+
+* link:dr-draas-nfs.html["DR usando o BlueXP  DRaaS para datastores NFS"]
+* link:dr-draas-vmfs.html["DR usando BlueXP  DRaaS para datastores VMFS"]
+

@@ -1,0 +1,76 @@
+---
+indexpage:
+  title: Multicloud híbrida da NetApp com workloads de contêiner do Red Hat OpenShift
+  summary: As soluções de multicloud híbrida da NetApp com a plataforma de contêiner
+    OpenShift da Red Hat são um conjunto de recursos estratégicos e tecnológicos que
+    demonstram a facilidade de orquestrar recursos de proteção e migração de dados
+    para workloads de contêiner com estado no local e na nuvem pública.
+  lead: As soluções de multicloud híbrida da NetApp com a plataforma de contêiner
+    OpenShift da Red Hat são um conjunto de recursos estratégicos e tecnológicos que
+    demonstram a facilidade de orquestrar recursos de proteção e migração de dados
+    para workloads de contêiner com estado no local e na nuvem pública.
+  tiles:
+  - title: Como começar
+    links:
+    - title: Visão geral
+      url: "/rhhc-overview.html"
+    - title: Proposições de valor
+      url: "/rhhc-value-prop.html"
+    - title: Soluções validadas
+      url: "/rhhc-solutions.html"
+    - title: Versões validadas
+      url: "/rhhc-versions.html"
+    - title: Opções de armazenamento suportadas
+      url: "/rhhc-storage-options.html"
+  - title: Recursos
+    links:
+    - title: Documentação adicional
+      url: "/rhhc-resources.html"
+    - title: Vídeos e demonstrações
+      url: "../videos.html#rhhc"
+    - title: Blogs
+      url: "../blogs.html#rhhc"
+  - title: Workloads no local
+    links:
+    - title: Solução no local
+      url: "/rhhc-op-solution.html"
+    - title: Configure o ambiente
+      url: "/rhhc-op-setup.html"
+    - title: Proteção de dados usando ACC
+      url: "/rhhc-op-data-protection.html"
+    - title: Migração de dados usando ACC
+      url: "/rhhc-op-data-migration.html"
+  - title: Workloads de nuvem híbrida (componentes autogeridos)
+    links:
+    - title: Solução de nuvem híbrida com componentes autogerenciados
+      url: "/rhhc-sm-solution.html"
+    - title: Configure o ambiente
+      url: "/rhhc-sm-setup.html"
+    - title: Proteção de dados usando ACC
+      url: "/rhhc-sm-data-protection.html"
+    - title: Migração de dados usando ACC
+      url: "/rhhc-sm-data-migration.html"
+  - title: Workloads de nuvem híbrida (componentes gerenciados por fornecedor)
+    links:
+    - title: Solução de nuvem híbrida com componentes gerenciados por fornecedor
+      url: "/rhhc-pm-solution.html"
+    - title: Configure o ambiente
+      url: "/rhhc-pm-setup.html"
+    - title: Proteção de dados usando ACS
+      url: "/rhhc-pm-data-protection.html"
+    - title: Migração de dados usando o BlueXP 
+      url: "/rhhc-pm-data-migration.html"
+  - title: Proteção de dados de aplicativos de contêiner usando ferramentas de terceiros
+    links:
+    - title: Visão geral
+      url: "/rhhc-dp-velero-solution.html"
+    - title: Instalação do OADP
+      url: "/rhhc-dp-velero-installation.html"
+    - title: Cópia de segurança das aplicações de contentor utilizando o Velero
+      url: "/rhhc-dp-velero-backup.html"
+    - title: Restaurar a partir da cópia de segurança utilizando o Velero
+      url: "/rhhc-dp-velero-restore.html"
+    - title: Migrar aplicações
+      url: "/rhhc-dp-velero-migrate.html"
+    - title: Excluir backups e restaurações
+      url: "/rhhc-dp-velero-delete.html"

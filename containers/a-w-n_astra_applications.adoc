@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_astra_applications.html 
+summary: Depois de Registrar seus clusters do Red Hat OpenShift, você poderá descobrir as aplicações que são implantadas e gerenciá-las por meio do Astra Control Center. 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift 
+---
+= Escolha as aplicações a proteger
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Depois de Registrar seus clusters do Red Hat OpenShift, você poderá descobrir as aplicações que são implantadas e gerenciá-las por meio do Astra Control Center.
+
+
+
+== Gerenciar aplicativos
+
+. Depois que os clusters OpenShift e os backends ONTAP são registrados no Centro de Controle Astra, o centro de controle começa automaticamente a descobrir os aplicativos em todos os namespaces que estão usando o storageclass configurado com o back-end ONTAP especificado.
++
+image:redhat_openshift_image98.jpg["Aplicações do Astra Control Center descobertas"]
+
+. Navegue até Apps > descobertos e clique no menu suspenso ao lado do aplicativo que você gostaria de gerenciar usando o Astra. Em seguida, clique em Gerenciar.
++
+image:redhat_openshift_image99.jpg["O Astra Control Center gerencia aplicações"]
+
+. O aplicativo entra no estado disponível e pode ser visualizado na guia gerenciado na seção aplicativos.
++
+image:redhat_openshift_image100.jpg["Aplicações Astra Control Center disponíveis"]
+
+

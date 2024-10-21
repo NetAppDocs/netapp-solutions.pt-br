@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-conclusion.html 
+keywords: conclusion, references 
+summary: O Splunk Enterprise é a solução SIEM líder DE mercado que gera resultados nas equipes de segurança, TI e DevOps. O uso do Splunk aumentou consideravelmente nas organizações dos nossos clientes. Portanto, é necessário adicionar mais fontes de dados e, ao mesmo tempo, reter os dados por um período mais longo, salientando a infraestrutura do Splunk. 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O Splunk Enterprise é a solução SIEM líder DE mercado que gera resultados nas equipes de segurança, TI e DevOps. O uso do Splunk aumentou consideravelmente nas organizações dos nossos clientes. Portanto, é necessário adicionar mais fontes de dados e, ao mesmo tempo, reter os dados por um período mais longo, salientando a infraestrutura do Splunk.
+
+A combinação do Splunk SmartStore e do NetApp StorageGRID foi projetada para fornecer uma arquitetura dimensionável para que as organizações obtenham melhor desempenho de ingestão com o storage de objetos SmartStore e StorageGRID, além de maior escalabilidade para um ambiente Splunk em várias regiões geográficas.
+
+
+
+== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* Recursos de documentação do NetApp StorageGRID
++
+https://www.netapp.com/data-storage/storagegrid/documentation/["https://www.netapp.com/data-storage/storagegrid/documentation/"^]
+
+* Documentação do produto NetApp
++
+https://docs.netapp.com["https://docs.netapp.com"^]
+
+* Documentação do Splunk Enterprise
++
+https://docs.splunk.com/Documentation/Splunk["https://docs.splunk.com/Documentation/Splunk"^]
+
+* Splunk Enterprise sobre o SmartStore
++
+https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/AboutSmartStore["https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/AboutSmartStore"^]
+
+* Manual de implantação distribuída do Splunk Enterprise
++
+https://docs.splunk.com/Documentation/Splunk/8.0.6/Deploy/Distributedoverview["https://docs.splunk.com/Documentation/Splunk/8.0.6/Deploy/Distributedoverview"^]
+
+* Splunk Enterprise Gerenciando indexadores e clusters de indexadores
++
+https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/Aboutindexesandindexers["https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/Aboutindexesandindexers"^]
+
+

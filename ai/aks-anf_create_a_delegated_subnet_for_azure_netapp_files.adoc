@@ -1,0 +1,41 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_create_a_delegated_subnet_for_azure_netapp_files.html 
+keywords: delegated subnet, virtual network, azure portal, vnet, delegation 
+summary: Esta página descreve as etapas necessárias para criar uma sub-rede delegada para o Azure NetApp Files. 
+---
+= Crie uma sub-rede delegada para o Azure NetApp Files
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para criar uma sub-rede delegada para o Azure NetApp Files, execute as seguintes etapas:
+
+. Navegue até redes virtuais no portal do Azure. Encontre sua rede virtual recém-criada. Ele deve ter um prefixo como `aks-vnet` .
+. Clique no nome do VNet.
++
+image:aks-anf_image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em sub-redes e clique em sub-redes na barra de ferramentas superior.
++
+image:aks-anf_image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Forneça à sub-rede um nome `ANF.sn` como e, sob o título Delegação de sub-rede, `Microsoft.Netapp/volumes` selecione . Não mude mais nada. Clique em OK.
++
+image:aks-anf_image7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+Os volumes do Azure NetApp Files são alocados ao cluster de aplicações e consumidos como reivindicações de volume persistente (PVCs) no Kubernetes. Por sua vez, esse processo oferece a flexibilidade de mapeá-los para diferentes serviços, como notebooks Jupyter, funções sem servidor e assim por diante.
+
+Usuários de serviços podem consumir o storage da plataforma de várias maneiras. Como este relatório técnico discute NFSs, os principais benefícios do Azure NetApp Files são:
+
+* Fornecendo aos usuários a capacidade de usar cópias Snapshot.
+* Permitir que os usuários armazenem grandes quantidades de dados em volumes Azure NetApp Files.
+* Uso dos benefícios de desempenho do Azure NetApp Files volumes ao executar seus modelos em grandes conjuntos de arquivos.
+

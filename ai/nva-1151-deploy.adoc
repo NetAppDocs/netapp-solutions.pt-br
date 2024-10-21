@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: ai/nva-1151-deploy.html 
+keywords:  
+summary:  
+---
+= NVA-1151-DEPLOY: NetApp ONTAP AI com sistemas NVIDIA DGX A100
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+David Arnette, NetApp
+
+[role="lead"]
+O NVA-1151-DEPLOY inclui instruções de implantação do sistema de storage para workloads de arquitetura verificada da NetApp (NVA) para aprendizado de máquina (ML) e inteligência artificial (AI) usando sistemas de storage da NetApp AFF A800, sistemas NVIDIA DGX A100 e switches de rede NVIDIA Mellanox. Ele também inclui instruções para executar testes de benchmark de validação após a conclusão da implantação.
+
+link:https://www.netapp.com/pdf.html?item=/media/20708-nva-1151-deploy.pdf["NVA-1151-DEPLOY: NetApp ONTAP AI com sistemas NVIDIA DGX A100"^]

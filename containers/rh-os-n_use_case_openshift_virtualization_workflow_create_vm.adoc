@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_create_vm.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualização OpenShift da Red Hat com NetApp ONTAP 
+---
+= Fluxos de trabalho: Virtualização OpenShift da Red Hat com NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção aborda como criar uma máquina virtual com o Red Hat OpenShift Virtualization.
+
+
+
+== Criar VM
+
+As VMs são implantações com estado monitorado que exigem volumes para hospedar o sistema operacional e os dados. Com o CNV, como as VMs são executadas como pods, as VMs são apoiadas por PVS hospedadas no NetApp ONTAP por meio do Trident. Esses volumes são anexados como discos e armazenam todo o sistema de arquivos, incluindo a fonte de inicialização da VM.
+
+image:redhat_openshift_image52.png["Criar arquitetura de VM"]
+
+Para criar rapidamente uma máquina virtual no cluster OpenShift, execute as seguintes etapas:
+
+. Navegue até virtualização > máquinas virtuais e clique em criar.
+. Selecione a partir do modelo.
+. Selecione o sistema operacional desejado para o qual a fonte de inicialização está disponível.
+. Marque a caixa de seleção Iniciar o VirtualMachine após a criação.
+. Clique em criar rapidamente VirtualMachine.
+
+
+A máquina virtual é criada e iniciada e chega ao estado *Running*. Ele cria automaticamente um PVC e um PV correspondente para o disco de inicialização usando a classe de armazenamento padrão. Para poder migrar a VM em tempo real no futuro, você deve garantir que a classe de armazenamento usada para os discos possa suportar volumes RWX. Esse é um requisito para a migração ao vivo. o ONTAP-nas e o ONTAP-san (bloco volumeMode para protocolos iSCSI e NVMe/TCP) podem suportar modos de acesso RWX para os volumes criados usando as respetivas classes de armazenamento.
+
+Para configurar a classe de armazenamento ONTAP-san no cluster, consulte link:rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["Seção para migrar uma VM do VMware para a virtualização OpenShift"].
+
+
+NOTE: Você pode configurar o ONTAP nas ou iSCSI como a classe de armazenamento padrão para o cluster. Clicar em criar rapidamente VirtualMachine usará a classe de armazenamento padrão para criar o PVC e o PV para o disco raiz inicializável para a VM. Se sua classe de armazenamento padrão não for ONTAP-nas ou ONTAP-san, você pode selecionar a classe de armazenamento para o disco, selecionando Personalizar VirtualMachine > Personalizar parâmetros VirtualMachine > discos e editando o disco para usar a classe de armazenamento necessária.
+
+Normalmente, o modo de acesso de bloco é preferido em comparação com os sistemas de arquivos enquanto provisionam os discos da VM.
+
+Para personalizar a criação da máquina virtual depois de selecionar o modelo do sistema operacional, clique em Personalizar VirtualMachine em vez de criar rápida.
+
+. Se o sistema operacional selecionado tiver a fonte de inicialização configurada, você pode clicar em *Personalizar parâmetros VirtualMachine*.
+. Se o sistema operacional selecionado não tiver nenhuma fonte de inicialização configurada, você deverá configurá-la. Pode ver detalhes sobre os procedimentos apresentados no link:https://docs.openshift.com/container-platform/4.14/virt/virtual_machines/creating_vms_custom/virt-creating-vms-from-custom-images-overview.html["documentação"].
+. Depois de configurar o disco de inicialização, você pode clicar em *Customize VirtualMachine parameters*.
+. Você pode personalizar a VM a partir das guias desta página. Por exemplo, clique na guia *Disks* e clique em *Add disk* para adicionar outro disco à VM.
+. Clique em criar Máquina Virtual para criar a máquina virtual; isso gira um pod correspondente em segundo plano.
+
+
+
+NOTE: Quando uma fonte de inicialização é configurada para um modelo ou sistema operacional a partir de um URL ou de um Registro, ele cria um PVC no `openshift-virtualization-os-images` projeto e baixa a imagem de convidado KVM para o PVC. Você deve garantir que os PVCs de modelo tenham espaço provisionado suficiente para acomodar a imagem de convidado KVM para o SO correspondente. Esses PVCs são então clonados e anexados como rootdisk a máquinas virtuais quando são criados usando os respetivos modelos em qualquer projeto.
+
+image:rh-os-n_use_case_vm_create_1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:rh-os-n_use_case_vm_create_2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:rh-os-n_use_case_vm_create_3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:rh-os-n_use_case_vm_create_4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:rh-os-n_use_case_vm_create_5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

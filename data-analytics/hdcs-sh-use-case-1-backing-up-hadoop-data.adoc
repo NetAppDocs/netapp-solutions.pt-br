@@ -1,0 +1,164 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-use-case-1-backing-up-hadoop-data.html 
+keywords: use case 2, Hadoop repository, dr, disaster recovery 
+summary: Nesse cenário, o cliente tem um grande repositório Hadoop no local e deseja fazer backup para fins de recuperação de desastres. No entanto, a solução de backup atual do cliente é cara e está sofrendo de um longo período de backup de mais de 24 horas. 
+---
+= Caso de uso 1: Backup de dados do Hadoop
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesse cenário, o cliente tem um grande repositório Hadoop no local e deseja fazer backup para fins de recuperação de desastres. No entanto, a solução de backup atual do cliente é cara e está sofrendo de um longo período de backup de mais de 24 horas.
+
+
+
+== Requisitos e desafios
+
+Os principais requisitos e desafios para esse caso de uso incluem:
+
+* Compatibilidade com versões anteriores do software:
++
+** A solução alternativa de backup proposta deve ser compatível com as versões de software em execução atuais usadas no cluster Hadoop de produção.
+
+
+* Para atender aos SLAs comprometidos, a solução alternativa proposta deve alcançar RPOs e RTOs muito baixos.
+* O backup criado pela solução de backup do NetApp pode ser usado no cluster do Hadoop construído localmente no data center, bem como no cluster do Hadoop executado no local de recuperação de desastres no local remoto.
+* A solução proposta deve ser rentável.
+* A solução proposta deve reduzir o efeito de desempenho nos trabalhos de análise em produção em execução atualmente durante os tempos de backup.
+
+
+
+
+== Solução de backup existente do cliente
+
+A figura abaixo mostra a solução original de backup nativa do Hadoop.
+
+image:hdcs-sh-image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os dados de produção são protegidos em fita por meio do cluster de backup intermediário:
+
+* Os dados HDFS1 são copiados para HDFS2 executando o `hadoop distcp -update <hdfs1> <hdfs2>` comando.
+* O cluster de backup atua como um gateway NFS e os dados são copiados manualmente para a fita por meio do comando Linux `cp` por meio da biblioteca de fitas.
+
+
+Os benefícios da solução original de backup nativa do Hadoop incluem:
+
+* A solução é baseada em comandos nativos do Hadoop, o que evita que o usuário tenha que aprender novos procedimentos.
+* A solução utiliza a arquitetura e o hardware padrão do setor.
+
+
+As desvantagens da solução de backup nativa Hadoop original incluem:
+
+* O tempo longo da janela de backup excede 24 horas, o que torna os dados de produção vulneráveis.
+* Degradação significativa da performance do cluster durante o tempo de backup.
+* Copiar para fita é um processo manual.
+* A solução de backup é cara em termos de hardware necessário e horas humanas necessárias para processos manuais.
+
+
+
+
+== Soluções de backup
+
+Com base nesses desafios e requisitos, e levando em consideração o sistema de backup existente, três possíveis soluções de backup foram sugeridas. As subseções a seguir descrevem cada uma dessas três soluções de backup diferentes, rotuladas solução A A a solução C..
+
+
+
+=== Solução A
+
+Na solução A, o cluster Hadoop de backup envia os backups secundários para os sistemas de storage NetApp NFS, eliminando o requisito de fita, como mostrado na figura abaixo.
+
+image:hdcs-sh-image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+As tarefas detalhadas para a solução A incluem:
+
+* O cluster Hadoop de produção tem os dados de análise do cliente no HDFS que exigem proteção.
+* O cluster Hadoop de backup com HDFS atua como um local intermediário para os dados. Apenas um monte de discos (JBOD) fornece o armazenamento para HDFS nos clusters Hadoop de produção e backup.
+* Proteger os dados de produção do Hadoop são protegidos do cluster de produção HDFS para o cluster de backup HDFS executando o `Hadoop distcp –update –diff <hdfs1> <hdfs2>` comando.
+
+
+
+NOTE: O snapshot do Hadoop é usado para proteger os dados da produção para o cluster do Hadoop de backup.
+
+* O controlador de storage do NetApp ONTAP fornece um volume exportado de NFS, que é provisionado para o cluster do Hadoop de backup.
+* Ao executar o `Hadoop distcp` comando utilizando MapReduce e vários mappers, os dados de análise são protegidos do cluster de backup do Hadoop para NFS.
++
+Depois que os dados são armazenados em NFS no sistema de storage NetApp, as tecnologias NetApp Snapshot, SnapRestore e FlexClone são usadas para fazer backup, restaurar e duplicar os dados do Hadoop, conforme necessário.
+
+
+
+
+NOTE: Com a tecnologia SnapMirror, os dados do Hadoop podem ser protegidos na nuvem e locais de recuperação de desastres.
+
+Os benefícios da solução A incluem:
+
+* Os dados de produção do Hadoop são protegidos contra o cluster de backup.
+* Os dados do HDFS são protegidos por meio do NFS, o que possibilita a proteção para locais de recuperação de desastres e nuvem.
+* Melhora o desempenho transferindo as operações de backup para o cluster de backup.
+* Elimina as operações manuais de fita
+* Permite funções de gerenciamento empresarial por meio de ferramentas do NetApp.
+* Requer alterações mínimas no ambiente existente.
+* É uma solução econômica.
+
+
+A desvantagem desta solução é que requer um cluster de backup e mapeadores adicionais para melhorar o desempenho.
+
+Recentemente, o cliente implantou a solução A devido à simplicidade, custo e desempenho geral.
+
+Nesta solução, os discos SAN do ONTAP podem ser usados em vez do JBOD. Essa opção descarrega a carga de storage de cluster de backup para o ONTAP. No entanto, a desvantagem é que os switches de malha SAN são necessários.
+
+
+
+=== Solução B
+
+A solução B adiciona volume NFS ao cluster Hadoop de produção, o que elimina a necessidade do cluster Hadoop de backup, como mostrado na figura abaixo.
+
+image:hdcs-sh-image7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+As tarefas detalhadas para a solução B incluem:
+
+* O controlador de storage NetApp ONTAP provisiona a exportação de NFS para o cluster Hadoop de produção.
++
+O comando Hadoop native `hadoop distcp` protege os dados do Hadoop do cluster de produção HDFS para NFS.
+
+* Depois que os dados são armazenados em NFS no sistema de storage NetApp, as tecnologias Snapshot, SnapRestore e FlexClone são usadas para fazer backup, restaurar e duplicar os dados do Hadoop, conforme necessário.
+
+
+Os benefícios da solução B incluem:
+
+* O cluster de produção é ligeiramente modificado para a solução de backup, o que simplifica a implementação e reduz os custos adicionais de infraestrutura.
+* Não é necessário um cluster de cópia de segurança para a operação de cópia de segurança.
+* Os dados de produção do HDFS são protegidos na conversão para dados NFS.
+* A solução permite funções de gerenciamento empresarial por meio de ferramentas NetApp.
+
+
+A desvantagem dessa solução é que ela é implementada no cluster de produção, que pode adicionar tarefas adicionais de administrador no cluster de produção.
+
+
+
+=== Solução C
+
+Na solução C, os volumes de SAN NetApp são provisionados diretamente para o cluster de produção do Hadoop para armazenamento HDFS, como mostrado na figura abaixo.
+
+image:hdcs-sh-image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+As etapas detalhadas para a solução C incluem:
+
+* O armazenamento SAN NetApp ONTAP é provisionado no cluster Hadoop de produção para armazenamento de dados HDFS.
+* As tecnologias NetApp Snapshot e SnapMirror são usadas para fazer backup dos dados HDFS do cluster Hadoop de produção.
+* Não há efeito de desempenho na produção para o cluster Hadoop/Spark durante o processo de backup de cópia Snapshot porque o backup está na camada de storage.
+
+
+
+NOTE: A tecnologia Snapshot fornece backups que são concluídos em segundos, independentemente do tamanho dos dados.
+
+Os benefícios da solução C incluem:
+
+* O backup com uso eficiente de espaço pode ser criado com a tecnologia Snapshot.
+* Permite funções de gerenciamento empresarial por meio de ferramentas do NetApp.
+

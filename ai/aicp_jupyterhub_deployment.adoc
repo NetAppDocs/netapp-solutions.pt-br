@@ -1,0 +1,154 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_jupyterhub_deployment.html 
+keywords: AI, control plane, MLOps, JupyterHub 
+summary: MLOps de código aberto com NetApp - implantação do JupyterHub 
+---
+= Implantação do JupyterHub
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção descreve as tarefas que você deve concluir para implantar o JupyterHub no cluster do Kubernetes.
+
+
+NOTE: É possível implantar o JupyterHub em plataformas diferentes do Kubernetes. A implantação do JupyterHub em plataformas diferentes do Kubernetes está fora do escopo desta solução.
+
+
+
+== Pré-requisitos
+
+Antes de executar o exercício de implantação descrito nesta seção, assumimos que você já executou as seguintes tarefas:
+
+. Você já tem um cluster do Kubernetes em funcionamento.
+. Você já instalou e configurou o NetApp Trident no cluster do Kubernetes. Para obter mais detalhes sobre o Trident, consulte o link:https://docs.netapp.com/us-en/trident/index.html["Documentação do Trident"^].
+
+
+
+
+== Instale o Helm
+
+O JupyterHub é implantado usando o Helm, um gerenciador de pacotes popular para Kubernetes. Antes de implantar o JupyterHub, você deve instalar o Helm no nó de controle do Kubernetes. Para instalar o Helm, siga o https://helm.sh/docs/intro/install/["instruções de instalação"^] na documentação oficial do Helm.
+
+
+
+== Defina o Kubernetes StorageClass padrão
+
+Antes de implantar o JupyterHub, você deve designar um StorageClass padrão no cluster do Kubernetes. Para designar um StorageClass padrão no cluster, siga as instruções descritas na link:aicp_kubeflow_deployment_overview.html["Implantação do Kubeflow"]seção. Se você já tiver designado um StorageClass padrão no cluster, então você pode pular esta etapa.
+
+
+
+== Implantar o JupyterHub
+
+Depois de concluir as etapas acima, agora você está pronto para implantar o JupyterHub. A implantação do JupyterHub requer as seguintes etapas:
+
+
+
+=== Configurar a implantação do JupyterHub
+
+Antes da implantação, é uma boa prática otimizar a implantação do JupyterHub para seu respetivo ambiente. Você pode criar um arquivo *config.yaml* e utilizá-lo durante a implantação usando o gráfico Helm.
+
+Um exemplo de arquivo *config.yaml* pode ser encontrado em  https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/HEAD/jupyterhub/values.yaml[]
+
+
+NOTE: Neste arquivo config.yaml, você pode definir o parâmetro *(singleuser.storage.Dynamic.storageClass)* para o NetApp Trident StorageClass. Esta é a classe de armazenamento que será usada para provisionar os volumes para espaços de trabalho de usuário individuais.
+
+
+
+=== Adicionar volumes partilhados
+
+Se você quiser usar um volume compartilhado para todos os usuários do JupyterHub, você pode ajustar seu *config.yaml* de acordo. Por exemplo, se você tiver um PersistentVolumeClaim compartilhado chamado jupyterhub-shared-volume, poderá montá-lo como /home/shared em todos os pods de usuário como:
+
+[source, shell]
+----
+singleuser:
+  storage:
+    extraVolumes:
+      - name: jupyterhub-shared
+        persistentVolumeClaim:
+          claimName: jupyterhub-shared-volume
+    extraVolumeMounts:
+      - name: jupyterhub-shared
+        mountPath: /home/shared
+----
+
+NOTE: Esta é uma etapa opcional, você pode ajustar esses parâmetros às suas necessidades.
+
+
+
+=== Implante o JupyterHub com o Helm Chart
+
+Informe o Helm sobre o repositório de gráficos do JupyterHub Helm.
+
+[source, shell]
+----
+helm repo add jupyterhub https://hub.jupyter.org/helm-chart/
+helm repo update
+----
+Isso deve mostrar saída como:
+
+[source, shell]
+----
+Hang tight while we grab the latest from your chart repositories...
+...Skip local chart repository
+...Successfully got an update from the "stable" chart repository
+...Successfully got an update from the "jupyterhub" chart repository
+Update Complete. ⎈ Happy Helming!⎈
+----
+Agora instale o gráfico configurado pelo seu config.yaml executando este comando a partir do diretório que contém o seu config.yaml:
+
+[source, shell]
+----
+helm upgrade --cleanup-on-fail \
+  --install my-jupyterhub jupyterhub/jupyterhub \
+  --namespace my-namespace \
+  --create-namespace \
+  --values config.yaml
+----
+
+NOTE: Neste exemplo:
+
+O <helm-release-name> está definido como my-jupyterhub, que será o nome da sua versão do JupyterHub. O <k8s-namespace> é definido como my-namespace, que é o namespace onde você deseja instalar o JupyterHub. O sinalizador --create-namespace é usado para criar o namespace se ele ainda não existir. O sinalizador --values especifica o arquivo config.yaml que contém as opções de configuração desejadas.
+
+
+
+=== Verifique a implantação
+
+Enquanto a etapa 2 estiver em execução, você pode ver os pods sendo criados a partir do seguinte comando:
+
+[source, shell]
+----
+kubectl get pod --namespace <k8s-namespace>
+----
+Aguarde que o hub e o pod proxy entrem no estado em execução.
+
+[source, shell]
+----
+NAME                    READY     STATUS    RESTARTS   AGE
+hub-5d4ffd57cf-k68z8    1/1       Running   0          37s
+proxy-7cb9bc4cc-9bdlp   1/1       Running   0          37s
+----
+
+
+=== Acesse o JupyterHub
+
+Encontre o IP que podemos usar para acessar o JupyterHub. Execute o seguinte comando até que o IP EXTERNO do serviço proxy-público esteja disponível como na saída de exemplo.
+
+
+NOTE: Nós usamos o serviço NodePort em nosso arquivo config.yaml, você pode ajustar para o seu ambiente com base em sua configuração (por exemplo, LoadBalancer).
+
+[source, shell]
+----
+kubectl --namespace <k8s-namespace> get service proxy-public
+----
+[source, shell]
+----
+NAME           TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)        AGE
+proxy-public   NodePort   10.51.248.230   104.196.41.97   80:30000/TCP   1m
+----
+Para usar o JupyterHub, insira o IP externo do serviço público proxy em um navegador.

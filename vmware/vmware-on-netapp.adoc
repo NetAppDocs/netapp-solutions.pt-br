@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-on-netapp.html 
+keywords: netapp, vmware, getting, started 
+summary:  
+---
+= VMware no NetApp: Qualquer workload, qualquer aplicativo, em qualquer lugar
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NetApp ONTAP dá suporte aos principais produtos da VMware em ambientes locais e de nuvem pública.
+
+
+
+== Soluções da NetApp para VMware
+
+A NetApp oferece uma variedade de soluções que destacam a integração do NetApp com o VMware. Clique em qualquer um dos produtos da VMware para explorar as soluções da NetApp para esse produto específico.
+
+[cols="33%, 33%, 33%"]
+|===
+
+
+| link:vmware-glossary.html#vsphere["*VMware*"] *VSphere* | link:vmware-glossary.html#vmc["*VMware*"] *Serviços em nuvem* | link:vmware-glossary.html#tanzu["*VMware*"] *Tanzu* 
+
+
+| link:vmware-glossary.html#aria["*VMware*"] *Aria* | link:vmware-glossary.html#vvols["*VMware*"] *Volumes virtuais* *(vVols)* | link:vmware-glossary.html#vcf["*VMware*"] *Cloud Foundation* 
+
+
+| link:vmware-glossary.html#srm["*VMware*"] *Site Recovery* *Manager* | image:NTAP_BIG.png["largura: 120 mm"] | link:vmware-glossary.html#hcx["*VMware*"] *HCX* 
+|===

@@ -1,0 +1,96 @@
+= 
+:allow-uri-read: 
+
+
+. Para usar os playbooks do Ansible para implantar o Astra Control Center, você precisa ter uma máquina Ubuntu/RHEL com Ansible instalada. Siga o procedimento descrito link:../automation/automation_ubuntu_debian_setup.html["aqui"] para Ubuntu e link:../automation/automation_rhel_centos_setup.html["aqui"]RHEL.
+. Clone o repositório do GitHub que hospeda o conteúdo do Ansible.
++
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_astra_control_suite.git
+----
+. Entre no site de suporte da NetApp e faça o download da versão mais recente do NetApp. Para isso, é necessária uma licença anexada à sua conta NetApp. Depois de transferir o tarball, transfira-o para a estação de trabalho.
++
+
+NOTE: Para começar a usar uma licença de avaliação para Astra Control, visite o https://cloud.netapp.com/astra-register["Site de Registro Astra"^].
+
+. Crie ou obtenha um arquivo kubeconfig com acesso de administrador ao cluster OpenShift no qual o Astra Control Center deve ser instalado.
+. Altere o diretório para `na_astra_control_suite` .
++
+[source, cli]
+----
+cd na_astra_control_suite
+----
+. Edite o arquivo vars/vars.yml e preencha as variáveis com as informações necessárias.
++
+[source, cli]
+----
+#Define whether or not to push the Astra Control Center images to your private registry [Allowed values: yes, no]
+push_images: yes
+
+#The directory hosting the Astra Control Center installer
+installer_directory: /home/admin/
+
+#Name of the Astra Control Center installer (Do not include the extension, just the name)
+astra_tar_ball_name: astra-control-center-21.12.60
+
+#The complete path to the kubeconfig file of the kubernetes/openshift cluster Astra Control Center needs to be installed to.
+hosting_ocp_kubeconfig_path: /home/admin/ocp-kubeconfig
+
+#Namespace in which Astra Control Center is to be installed
+astra_namespace: netapp-astra-cc
+
+#Astra Control Center Resources Scaler. Leave it blank if you want to accept the Default setting.
+astra_resources_scaler: Default
+
+#Storageclass to be used for Astra Control Center PVCs, it must be created before running the playbook [Leave it blank if you want the PVCs to use default storageclass]
+astra_trident_storageclass: basic
+
+#Reclaim Policy for Astra Control Center Persistent Volumes [Allowed values: Retain, Delete]
+storageclass_reclaim_policy: Retain
+
+#Private Registry Details
+astra_registry_name: "docker.io"
+
+#Whether the private registry requires credentials [Allowed values: yes, no]
+require_reg_creds: yes
+
+#If require_reg_creds is yes, then define the container image registry credentials
+#Usually, the registry namespace and usernames are same for individual users
+astra_registry_namespace: "registry-user"
+astra_registry_username: "registry-user"
+astra_registry_password: "password"
+
+#Kuberenets/OpenShift secret name for Astra Control Center
+#This name will be assigned to the K8s secret created by the playbook
+astra_registry_secret_name: "astra-registry-credentials"
+
+#Astra Control Center FQDN
+acc_fqdn_address: astra-control-center-ui.cie.netapp.com
+
+#Name of the Astra Control Center instance
+acc_account_name: ACC Account Name
+
+#Administrator details for Astra Control Center
+admin_email_address: admin@example.com
+admin_first_name: Admin
+admin_last_name: Admin
+----
+. Execute o manual de estratégia para implantar o Astra Control Center. O manual de estratégia requer Privileges raiz para certas configurações.
++
+Se o usuário que executa o playbook for root ou tiver um sudo sem senha configurado, execute o seguinte comando para executar o playbook.
+
++
+[source, cli]
+----
+ansible-playbook playbook.yml
+----
++
+Se o usuário tiver acesso sudo baseado em senha configurado, execute o seguinte comando para executar o manual de estratégia e insira a senha sudo.
+
++
+[source, cli]
+----
+ansible-playbook playbook.yml -K
+----
+

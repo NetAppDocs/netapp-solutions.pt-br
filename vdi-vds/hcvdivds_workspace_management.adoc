@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_workspace_management.html 
+keywords: Microsoft Azure, Windows Virtual Desktops, workspace, WVD 
+summary: Um espaço de trabalho consiste em um ambiente de desktop, que pode ser compartilhado sessões de desktop remoto hospedadas no local ou em qualquer ambiente de nuvem de suporte. Com o Microsoft Azure, o ambiente de desktop pode ser persistente com os desktops virtuais do Windows. Cada workspace está associado a uma organização ou cliente específico. 
+---
+= Gerenciamento do workspace
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Um espaço de trabalho consiste em um ambiente de desktop; isso pode ser compartilhado sessões de desktop remoto hospedadas no local ou em qualquer ambiente de nuvem compatível. Com o Microsoft Azure, o ambiente de desktop pode ser persistente com os desktops virtuais do Windows. Cada workspace está associado a uma organização ou cliente específico. As opções disponíveis ao criar uma nova área de trabalho podem ser vistas na figura a seguir.
+
+image:hcvdivds_image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+NOTE: Cada workspace é associado a uma implantação específica.
+
+Os workspaces contêm aplicativos e serviços de aplicativos associados, pastas de dados compartilhados, servidores e uma instância WVD. Cada workspace pode controlar opções de segurança, como reforçar a complexidade da senha, autenticação multifator, auditorias de arquivos, etc.
+
+Os workspaces podem controlar a agenda da carga de trabalho para ligar servidores extras, limitar o número de usuários por servidor ou definir a programação dos recursos disponíveis para determinado período (sempre ligado/desligado). Os recursos também podem ser configurados para serem ativados sob demanda.
+
+O espaço de trabalho pode substituir os padrões de recursos da VM de implantação, se necessário. Para WVD, os pools de host WVD (que contém hosts de sessão e grupos de aplicativos) e os espaços de trabalho WVD também podem ser gerenciados no portal do pacote de gerenciamento de espaço de trabalho na nuvem. Para obter mais informações sobre o pool de hosts WVD, consulte este https://www.youtube.com/watch?v=kaHZm9yCv8g&feature=youtu.be&ab_channel=NetApp["vídeo"^].

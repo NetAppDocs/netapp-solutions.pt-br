@@ -1,0 +1,32 @@
+---
+indexpage:
+  title: VMware Sovereign Cloud
+  summary: A Sovereign Cloud é um tipo de computação em nuvem que prioriza a residência
+    e a soberania de dados para as organizações. Isso significa que os dados são armazenados
+    e processados em uma localização geográfica sujeita às leis de privacidade do
+    país onde são coletados, garantindo o cumprimento das leis de privacidade e regulamentos
+    de proteção de dados. Essas regulamentações e leis nacionais ou regionais regem
+    tudo, desde onde os dados residem geograficamente até o fluxo de dados transfronteiriços.
+  lead: A Sovereign Cloud é um tipo de computação em nuvem que prioriza a residência
+    e a soberania de dados para as organizações. Isso significa que os dados são armazenados
+    e processados em uma localização geográfica sujeita às leis de privacidade do
+    país onde são coletados, garantindo o cumprimento das leis de privacidade e regulamentos
+    de proteção de dados. Essas regulamentações e leis nacionais ou regionais regem
+    tudo, desde onde os dados residem geograficamente até o fluxo de dados transfronteiriços.
+  tiles:
+  - title: Recursos da VMware para Sovereign Cloud
+    links:
+    - title: Visão geral do VMware Sovereign Cloud
+      url: https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/docs/vmw-sovereign-cloud-solution-brief-customer.pdf
+    - title: O que é o VMware Sovereign Cloud?
+      url: https://www.vmware.com/topics/glossary/content/sovereign-cloud.html
+    - title: Apresentamos a nova iniciativa VMware Sovereign Cloud
+      url: https://blogs.vmware.com/cloud/2021/10/06/vmware-sovereign-cloud/
+    - title: Solução VMware Sovereign Cloud
+      url: https://www.vmware.com/solutions/cloud-infrastructure/sovereign-cloud
+  - title: 'Nuvem Soberana VMware com NetApp: Casos de uso'
+    links:
+    - title: Visão geral
+      url: "/sc-overview.html"
+    - title: StorageGRID como uma extensão de armazenamento de objetos
+      url: "/sc-use-cases.html#storageGRID"

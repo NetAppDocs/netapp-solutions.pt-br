@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: ai/tr-4859.html 
+keywords:  
+summary:  
+---
+= TR-4859: Implantando o IBM Spectrum Scale com o storage NetApp e-Series - Instalação e validação
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Chris Seirer, NetApp
+
+[role="lead"]
+TR-4859 descreve o processo de implantação de uma solução de sistema de arquivos paralelos completos baseada na pilha de software Spectrum Scale da IBM. O TR-4859 foi projetado para fornecer detalhes sobre como instalar o Spectrum Scale, validar a infraestrutura e gerenciar a configuração.
+
+link:https://www.netapp.com/pdf.html?item=/media/22029-tr-4859.pdf["TR-4859: Implantando o IBM Spectrum Scale com o storage NetApp e-Series - Instalação e validação"^]

@@ -1,0 +1,10 @@
+---
+section: virtualization
+title: Virtualização
+entries:
+- title: Visão geral da virtualização
+  url: "/virtualization/virt-overview.html"
+- section: vmware
+- section: hyperv
+- section: osv
+- section: proxmox

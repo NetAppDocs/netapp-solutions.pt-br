@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_load_criteo_click_logs_day_15_in_pandas_and_train_a_scikit-learn_random_forest_model.html 
+keywords: criteo, click log, pandas, scikit-learn, random, forest, model, dataframes, 
+summary: Esta página descreve como usamos o PANDAS e o Dask DataFrames para carregar os dados do Click Logs do conjunto de dados Criteo Terabyte. O caso de uso é relevante na publicidade digital para trocas de anúncios para criar perfis de usuários, prevendo se os anúncios serão clicados ou se a troca não está usando um modelo preciso em um pipeline automatizado. 
+---
+= Carregue o Criteo Click Logs dia 15 no Pandas e treine um modelo de floresta aleatória scikit-learn
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção descreve como usamos o PANDAS e o Dask DataFrames para carregar os dados do Click Logs do conjunto de dados Criteo Terabyte. O caso de uso é relevante na publicidade digital para trocas de anúncios para criar perfis de usuários, prevendo se os anúncios serão clicados ou se a troca não está usando um modelo preciso em um pipeline automatizado.
+
+Nós carregamos dados do dia 15 do conjunto de dados Click Logs, totalizando 45GB. Executar a seguinte célula no notebook Jupyter `CTR-PandasRF-collated.ipynb` cria um DataFrame PANDAS que contém os primeiros 50 milhões de linhas e gera um modelo de floresta aleatória scikit-learn.
+
+....
+%%time
+import pandas as pd
+import numpy as np
+header = ['col'+str(i) for i in range (1,41)] #note that according to criteo, the first column in the dataset is Click Through (CT). Consist of 40 columns
+first_row_taken = 50_000_000 # use this in pd.read_csv() if your compute resource is limited.
+# total number of rows in day15 is 20B
+# take 50M rows
+"""
+Read data & display the following metrics:
+1. Total number of rows per day
+2. df loading time in the cluster
+3. Train a random forest model
+"""
+df = pd.read_csv(file, nrows=first_row_taken, delimiter='\t', names=header)
+# take numerical columns
+df_sliced = df.iloc[:, 0:14]
+# split data into training and Y
+Y = df_sliced.pop('col1') # first column is binary (click or not)
+# change df_sliced data types & fillna
+df_sliced = df_sliced.astype(np.float32).fillna(0)
+from sklearn.ensemble import RandomForestClassifier
+# Random Forest building parameters
+# n_streams = 8 # optimization
+max_depth = 10
+n_bins = 16
+n_trees = 10
+rf_model = RandomForestClassifier(max_depth=max_depth, n_estimators=n_trees)
+rf_model.fit(df_sliced, Y)
+....
+Para realizar a previsão usando um modelo de floresta aleatória treinado, execute o seguinte parágrafo neste caderno. Nós pegamos os últimos um milhão de linhas do dia 15 como o conjunto de testes para evitar qualquer duplicação. A célula também calcula a precisão da previsão, definida como a porcentagem de ocorrências que o modelo prevê com precisão se um usuário clica ou não em um anúncio. Para rever quaisquer componentes desconhecidos neste notebook, consulte o https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html["documentação oficial do scikit-learn"^].
+
+....
+# testing data, last 1M rows in day15
+test_file = '/data/day_15_test'
+with open(test_file) as g:
+    print(g.readline())
+
+# dataFrame processing for test data
+test_df = pd.read_csv(test_file, delimiter='\t', names=header)
+test_df_sliced = test_df.iloc[:, 0:14]
+test_Y = test_df_sliced.pop('col1')
+test_df_sliced = test_df_sliced.astype(np.float32).fillna(0)
+# prediction & calculating error
+pred_df = rf_model.predict(test_df_sliced)
+from sklearn import metrics
+# Model Accuracy
+print("Accuracy:",metrics.accuracy_score(test_Y, pred_df))
+....

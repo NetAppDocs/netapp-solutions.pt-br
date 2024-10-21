@@ -1,0 +1,102 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-versions.html 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, vmware, ROSA, ACC, Astra Control Center, Advanced Cluster Management, ACM, Hub Cluster 
+summary:  
+---
+= Versões de vários componentes utilizados na validação da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A solução testa e valida migração e proteção de dados centralizada com a plataforma de contêiner OpenShift, o Gerenciador avançado de clusters OpenShift, o NetApp ONTAP e o Centro de Controle NetApp Astra.
+
+Os cenários 1, 2 e 3 da solução foram validados usando as versões como mostrado na tabela abaixo:
+
+[cols="25%, 75%"]
+|===
+
+
+| *Componente* | *Versão* 
+
+
+| *VMware* | VSphere Client versão 8.0.0.10200 VMware ESXi, 8,0.0, 20842819 
+
+
+| *Cluster do Hub* | OpenShift 4.11.34 
+
+
+| *Clusters de origem e destino* | OpenShift 4.12.9 on-premises e na AWS 
+
+
+| *NetApp Trident* | Servidor Trident e Cliente 23.04.0 
+
+
+| *Centro de Controle NetApp* | ACC 22.11.0-82 
+
+
+| *NetApp ONTAP* | ONTAP 9.12,1 
+
+
+| *AWS FSX ONTAP* | Único AZ 
+|===
+O cenário 4 da solução foi validado usando as versões como mostrado na tabela abaixo:
+
+[cols="25%, 75%"]
+|===
+
+
+| *Componente* | *Versão* 
+
+
+| *VMware* | VSphere Client versão 8.0.2.00000 VMware ESXi, 8,0.2, 22380479 
+
+
+| *Cluster do Hub* | OpenShift 4.13.13 
+
+
+| *Clusters de origem e destino* | OpenShift 4.13.12 no local e no Google Cloud 
+
+
+| *NetApp Trident* | Servidor Trident e Cliente 23.07.0 
+
+
+| *Centro de Controle NetApp* | ACC 23.07.0-25 
+
+
+| *NetApp ONTAP* | ONTAP 9.12,1 
+
+
+| *Cloud Volumes ONTAP* | Único AZ, único nó, 9.14.0 
+|===
+O cenário 5 da solução foi validado usando as versões como mostrado na tabela abaixo:
+
+[cols="25%, 75%"]
+|===
+
+
+| *Componente* | *Versão* 
+
+
+| *VMware* | VSphere Client versão 8.0.2.00000 VMware ESXi, 8,0.2, 22380479 
+
+
+| *Clusters de origem e destino* | OpenShift 4.13.25 on-premises e no Azure 
+
+
+| *NetApp Trident* | Servidor e Cliente do Trident e Parceiro de Controle Astra 23.10.0 
+
+
+| *Centro de Controle NetApp* | ACC 23,10 
+
+
+| *NetApp ONTAP* | ONTAP 9.12,1 
+
+
+| *Cloud Volumes ONTAP* | Único AZ, único nó, 9.14.0 
+|===

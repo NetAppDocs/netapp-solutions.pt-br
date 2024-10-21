@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: databases/marketing_overview.html 
+keywords: Linux, RHEL Oracle19c, NFS, ONTAP, Ansible 
+summary: Esta página descreve o método automatizado de implantação do Oracle19c no storage NetApp ONTAP. 
+---
+= Visão geral da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta página descreve o método automatizado de implantação do Oracle19c no storage NetApp ONTAP.
+
+
+
+== Implantação automatizada do Oracle19c para ONTAP em NFS
+
+As organizações estão automatizando seus ambientes para ganhar eficiência, acelerar implantações e reduzir o esforço manual. Ferramentas de gerenciamento de configuração, como o Ansible, estão sendo usadas para otimizar as operações de banco de dados empresariais. Nessa solução, demonstramos como você pode usar o Ansible para automatizar o provisionamento e a configuração do Oracle 19Ci com o NetApp ONTAP. Ao permitir que administradores de storage, administradores de sistemas e DBAs implantem um novo storage de forma consistente e rápida, configure servidores de banco de dados e instale o software Oracle 19Ci, você obtém os seguintes benefícios:
+
+* Elimine complexidades de design e erros humanos e implemente práticas recomendadas e implantação consistentes e repetíveis
+* Diminua o tempo de provisionamento de armazenamento, configuração de hosts de banco de dados e instalação do Oracle
+* Aumentar a produtividade dos administradores de banco de dados, sistemas e administradores de storage
+* Habilite o dimensionamento de storage e bancos de dados com facilidade
+
+
+O NetApp fornece aos clientes funções e módulos validados do Ansible para acelerar a implantação, a configuração e o gerenciamento de ciclo de vida do seu ambiente de banco de dados Oracle. Essa solução fornece instruções e código de manual do Ansible para você:
+
+* Criar e configurar o storage ONTAP NFS para o banco de dados Oracle
+* Instale o Oracle 19Ci no RedHat Enterprise Linux 7/8 ou Oracle Linux 7/8
+* Configurar o Oracle 19Ci no storage ONTAP NFS
+
+
+Para obter mais detalhes ou para começar, consulte os vídeos de visão geral abaixo.
+
+
+
+=== Implantações AWX/Tower
+
+Parte 1: Introdução, requisitos, Detalhes de automação e configuração inicial de AWX/Tower
+
+.Implantação de AWX
+video::d844a9c3-4eb3-4512-bf21-b01200f09f66[panopto]
+Parte 2: Variáveis e executando o Playbook
+
+.AWX Playbook Run
+video::6da1b960-e1c9-4950-b750-b01200f0bdfa[panopto]
+
+
+=== Implantação da CLI
+
+Parte 1: Primeiros passos, requisitos, detalhes de automação e configuração do host de controle Ansible
+
+.Implantação da CLI
+video::373e7f2a-c101-4292-a3e4-b01200f0d078[panopto]
+Parte 2: Variáveis e executando o Playbook
+
+.CLI Playbook Run
+video::d58ebdb0-8bac-4ef9-b4d1-b01200f95047[panopto]

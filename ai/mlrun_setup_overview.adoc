@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_setup_overview.html 
+keywords: NetApp Iguazio Installation Provazio 
+summary:  
+---
+= Visão geral da configuração
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O Iguazio pode ser instalado no local ou em um provedor de nuvem.
+
+
+
+== Instalação do Iguazio
+
+O provisionamento pode ser feito como um serviço e gerenciado pelo Iguazio ou pelo cliente. Em ambos os casos, o Iguazio fornece um aplicativo de implantação (Provazio) para implantar e gerenciar clusters.
+
+Para instalação no local, https://www.netapp.com/pdf.html?item=/media/7677-nva1121designpdf.pdf["NVA-1121"^] consulte para obter informações sobre a configuração de computação, rede e armazenamento. A implantação no local do Iguazio é fornecida pela Iguazio sem custo adicional para o cliente.  https://www.iguazio.com/docs/latest-release/intro/setup/howto/["esta página"^]Consulte para obter as configurações de servidor DNS e SMTP. A página de instalação do Provazio é mostrada da seguinte forma.
+
+image:mlrun_image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

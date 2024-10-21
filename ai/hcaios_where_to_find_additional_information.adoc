@@ -1,0 +1,136 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_where_to_find_additional_information.html 
+keywords: NetApp Additional Information 
+summary:  
+---
+= Onde encontrar informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes recursos:
+
+* Cnvrg.io ( https://cnvrg.io["https://cnvrg.io"^]):
++
+** NÚCLEO Cnvrg (plataforma ML livre)
++
+https://cnvrg.io/platform/core[]
+
+** Cnvrg docs
++
+https://app.cnvrg.io/docs["https://app.cnvrg.io/docs"^]
+
+
+
+* Servidores NVIDIA DGX-1:
++
+** Servidores NVIDIA DGX-1
++
+https://www.nvidia.com/en-us/data-center/dgx-1/[]
+
+** NVIDIA GPU NVIDIA GeForce V100M
++
+https://www.nvidia.com/en-us/data-center/tesla-v100/[]
+
+** Nuvem de GPU NVIDIA (NGC)
++
+https://www.nvidia.com/en-us/gpu-cloud/[]
+
+** NetApp FlashAdvantage para AFF
++
+https://www.netapp.com/pdf.html?item=/media/19894-ds-3733.pdf[]
+
+** Documentação do ONTAP 9.x
++
+http://mysupport.netapp.com/documentation/productlibrary/index.html?productID=62286[]
+
+** Relatório técnico da NetApp FlexGroup
++
+https://www.netapp.com/pdf.html?item=/media/7337-tr4557pdf.pdf[]
+
+
+
+* Storage persistente do NetApp para contêineres:
++
+** NetApp Trident
++
+https://netapp.io/persistent-storage-provisioner-for-kubernetes/[]
+
+
+
+* Matriz de interoperabilidade do NetApp:
++
+** Ferramenta de Matriz de interoperabilidade do NetApp
++
+https://mysupport.netapp.com/matrix/#welcome[]
+
+
+
+* Rede ONTAP AI:
++
+** Switches Cisco Nexus 3232C
++
+https://www.cisco.com/c/en/us/products/switches/nexus-3232c-switch/index.html[]
+
+** Switches Mellanox Spectrum série 2000
++
+http://www.mellanox.com/page/products_dyn?product_family=251&mtag=sn2000[]
+
+
+
+* Estrutura e ferramentas DO ML:
++
+** DALI
++
+https://github.com/NVIDIA/DALI[]
+
+** TensorFlow: Uma estrutura de aprendizado de máquina de código aberto para todos
++
+https://www.tensorflow.org/[]
+
+** Horovod: Estrutura de Aprendizagem profunda distribuída de Código aberto da Uber para o TensorFlow
++
+https://eng.uber.com/horovod/[]
+
+** Habilitando GPUs no ecossistema do Container Runtime
++
+https://devblogs.nvidia.com/gpu-containers-runtime/[]
+
+** Docker
++
+https://docs.docker.com[]
+
+** Kubernetes
++
+https://kubernetes.io/docs/home/[]
+
+** NVIDIA DeepOps
++
+https://github.com/NVIDIA/deepops[]
+
+** Kubeflow
++
+http://www.kubeflow.org/[]
+
+** Servidor de notebook Jupyter
++
+http://www.jupyter.org/[]
+
+
+
+* Conjuntos de dados e benchmarks:
++
+** Conjunto de dados de raios X torácicos NIH
++
+https://nihcc.app.box.com/v/ChestXray-NIHCC[]
+
+** Xiaosong Wang, Yifan Peng, Le Lu, Zhiyong Lu, Mohammadhadi Bagheri, Ronald Summers, chestX-ray8: Banco de dados de raios X torácicos em escala hospitalar e referências sobre classificação e localização fracamente supervisionadas de doenças do tórax comuns, IEEE CVPR, pp. 3462-3471, 2017TR-4841-0620
+
+
+

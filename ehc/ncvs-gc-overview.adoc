@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-overview.html 
+keywords: 4918, tr4918, overview, introduction, scope, audience, abbreviation, definition 
+summary: A segurança, particularmente na nuvem em que a infraestrutura está fora do controle dos administradores de storage, é fundamental para confiar seus dados nas ofertas de serviço fornecidas por provedores de nuvem. Este documento é uma visão geral das ofertas de segurança que o NetApp Cloud Volumes Service oferece no Google Cloud. 
+---
+= TR-4918: Visão geral da segurança - NetApp Cloud Volumes Service no Google Cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp, Justin Parisi, Oliver Krause
+
+[role="lead"]
+A segurança, particularmente na nuvem em que a infraestrutura está fora do controle dos administradores de storage, é fundamental para confiar seus dados nas ofertas de serviço fornecidas por provedores de nuvem. Este documento é uma visão geral das ofertas de segurança que o NetApp https://cloud.netapp.com/cloud-volumes-service-for-gcp["O Cloud Volumes Service fornece no Google Cloud"^] .
+
+
+
+== Público-alvo
+
+O público-alvo deste documento inclui, entre outros, as seguintes funções:
+
+* Fornecedores de nuvem
+* Administradores de storage
+* Arquitetos de storage
+* Recursos de campo
+* Tomadores de decisão de negócios
+
+
+Se você tiver dúvidas sobre o conteúdo deste relatório técnico, consulte a seção link:ncvs-gc-additional-information.html#contact-us["Entre em Contato conosco."]
+
+|===
+| Abreviatura | Definição 
+
+
+| CVS-SW | Cloud Volumes Service, tipo de serviço CVS 
+
+
+| CVS-performance | Cloud volume Service, tipo de serviço CVS-Performance 
+
+
+| PSA |  
+|===

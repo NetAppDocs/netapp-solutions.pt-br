@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-benefits-of-this-solution.html 
+keywords: benefits, performance, multisite, scalability, capacity, availability, cache 
+summary: A solução permite adicionar recursos de computação, storage ativo ou S3 para atender à demanda crescente em termos de número de usuários ou taxa de ingestão em implantações únicas e multisite. 
+---
+= Benefícios desta solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A solução permite adicionar recursos de computação, storage ativo ou S3 para atender à demanda crescente em termos de número de usuários ou taxa de ingestão em implantações únicas e multisite.
+
+* *Desempenho.* A combinação do Splunk SmartStore e do NetApp StorageGRID oferece migração rápida de dados entre buckets ativos e buckets ativos usando o storage de objetos. O StorageGRID turbina o processo de migração fornecendo desempenho rápido para workloads de objetos grandes.
+* *Multisite pronto.* Com a arquitetura distribuída do StorageGRID, o Splunk SmartStore pode estender as implantações em um ou vários locais por meio de um namespace global. Nele, os dados podem ser acessados em qualquer lugar, onde quer que estejam.
+* * Melhor escalabilidade.* Escale os recursos de storage independentemente dos recursos de computação para atender às crescentes necessidades e demandas do ambiente Splunk, fornecendo TCO aprimorado.
+* *Capacidade.* Atenda aos volumes que crescem rapidamente na implantação do Splunk com o StorageGRID, ao dimensionar um namespace único para mais de 560PB PB.
+* *Disponibilidade de dados.* Otimize a disponibilidade, a performance, a distribuição geográfica, a retenção, a proteção e os custos de storage dos dados com políticas orientadas por metadados que podem ser ajustadas de forma dinâmica de acordo com o desenvolvimento do valor de negócios dos seus dados.
+
+
+Aumente a performance com o cache SmartStore, que é um componente do indexador que manipula a transferência de cópias de bucket entre o storage local (quente) e o storage remoto (quente). O dimensionamento do Splunk para essa solução baseia-se no https://docs.splunk.com/Documentation/Splunk/8.0.5/Capacity/Summaryofperformancerecommendations["Diretrizes fornecidas pelo Splunk"^]. A solução permite adicionar recursos de computação, storage ativo ou S3 para atender à demanda crescente em termos de número de usuários ou taxa de ingestão em implantações únicas e multisite.

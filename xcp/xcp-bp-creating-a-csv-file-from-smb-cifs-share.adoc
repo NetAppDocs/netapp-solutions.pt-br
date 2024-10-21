@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-creating-a-csv-file-from-smb-cifs-share.html 
+keywords: csv, data dump 
+summary: O comando nesta seção despeja dados no formato CSV. Você pode resumir a coluna tamanho para obter o tamanho total dos dados. 
+---
+= Criando um arquivo CSV a partir do compartilhamento SMB/CIFS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O comando a seguir despeja dados no formato CSV. Você pode resumir a coluna tamanho para obter o tamanho total dos dados.
+
+....
+xcp scan -match "((now-x.atime) / 3600) > 31*day" -fmt "'{}, {}, {}, {}'.format(relpath, name, strftime(x.atime, '%y-%m-%d-%H:%M:%S'), humanize_size(size))" -preserve-atime  >file.csv
+....
+A saída deve ser semelhante a este exemplo:
+
+....
+erase\report_av_fp_cdot_crosstab.csvreport_av_fp_cdot_crosstab.csv20-01-29-10:26:2449.6MiB
+....
+Para verificar até a profundidade de três subdiretórios e fornecer o resultado em ordem de classificação, execute o `xcp -du` comando e dump o tamanho em cada nível de diretório até a profundidade de três subdiretórios.
+
+....
+./xcp  scan -du -depth 3 NFS_Server_IP:/source_vol
+ 
+....
+Para classificar, despejar as informações em um arquivo CSV e classificar as informações.
+
+....
+xcp scan -match “type == d” -depth 3 -fmt "'{}, {}, {}, {}'.format(name, relpath, size)" NFS_Server_IP:/share > directory_report.csv
+....
+Este é um relatório personalizado que usa o `-fmt` comando. Ele verifica todos os diretórios e despeja o nome do diretório, caminho e tamanho do diretório em um arquivo CSV. Pode ordenar a coluna tamanho a partir da aplicação de folha de cálculo.

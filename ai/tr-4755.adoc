@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/tr-4755.html 
+keywords:  
+summary:  
+---
+= TR-4755: Guia de implantação do BeeGFS com NetApp e-Series
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O BeeGFS no NetApp com storage e-Series é uma solução comprovada e integrada com uma infraestrutura de HPC simples, confiável, dimensionável e econômica que acompanha os workloads mais extremos.
+
+link:https://www.netapp.com/us/media/tr-4755.pdf["BeeGFS com o guia de implantação do NetApp e-Series"^]

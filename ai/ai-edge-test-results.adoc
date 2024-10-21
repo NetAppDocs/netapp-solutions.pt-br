@@ -1,0 +1,87 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-test-results.html 
+keywords: test, results, aff, offline, single-stream, ef 
+summary: 'Uma infinidade de testes foram executados para avaliar o desempenho da arquitetura proposta. Existem seis cargas de trabalho diferentes (classificação de imagem, deteção de objetos [pequeno], deteção de objetos [grande], imagens médicas, fala-texto e processamento de linguagem natural [NLP]), que você pode executar em três cenários diferentes - offline, fluxo único e multistream.' 
+---
+= Resultados do teste
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Uma infinidade de testes foram executados para avaliar o desempenho da arquitetura proposta.
+
+Existem seis cargas de trabalho diferentes (classificação de imagem, deteção de objetos [pequeno], deteção de objetos [grande], imagens médicas, fala-texto e processamento de linguagem natural [NLP]), que você pode executar em três cenários diferentes: Offline, fluxo único e multistream.
+
+
+NOTE: O último cenário é implementado apenas para classificação de imagens e deteção de objetos.
+
+Isso dá 15 cargas de trabalho possíveis, que foram todas testadas em três configurações diferentes:
+
+* Servidor único/armazenamento local
+* Armazenamento de rede/servidor único
+* Armazenamento multi-servidor/rede
+
+
+Os resultados são descritos nas seções a seguir.
+
+
+
+== Inferência de IA no cenário off-line para AFF
+
+Nesse cenário, todos os dados estavam disponíveis para o servidor e o tempo necessário para processar todas as amostras foi medido. Relatamos larguras de banda em amostras por segundo como os resultados dos testes. Quando mais de um servidor de computação foi usado, relatamos a largura de banda total somada em todos os servidores. Os resultados para os três casos de uso são mostrados na figura abaixo. Para o caso de dois servidores, relatamos a largura de banda combinada de ambos os servidores.
+
+image:ai-edge-image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os resultados mostram que o storage de rede não afeta negativamente a performance. A alteração é mínima e, para algumas tarefas, nenhuma é encontrada. Ao adicionar o segundo servidor, a largura de banda total duplica exatamente ou, na pior das hipóteses, a alteração é inferior a 1%.
+
+
+
+== Inferência de IA em um cenário de fluxo único para AFF
+
+Este benchmark mede a latência. Para o caso de vários servidores computacionais, relatamos a latência média. Os resultados para o conjunto de tarefas são fornecidos na figura abaixo. Para o caso de dois servidores, relatamos a latência média de ambos os servidores.
+
+image:ai-edge-image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os resultados, novamente, mostram que o armazenamento de rede é suficiente para lidar com as tarefas. A diferença entre armazenamento local e de rede no caso de um servidor é mínima ou nenhuma. Da mesma forma, quando dois servidores usam o mesmo armazenamento, a latência em ambos os servidores permanece a mesma ou muda em uma quantidade muito pequena.
+
+
+
+== Inferência de IA no cenário de multistream para AFF
+
+Neste caso, o resultado é o número de fluxos que o sistema pode lidar enquanto satisfaz a restrição QoS. Assim, o resultado é sempre um inteiro. Para mais de um servidor, relatamos o número total de fluxos somados em todos os servidores. Nem todas as cargas de trabalho são compatíveis com esse cenário, mas executamos as que o fazem. Os resultados de nossos testes estão resumidos na figura abaixo. Para o caso de dois servidores, relatamos o número combinado de fluxos de ambos os servidores.
+
+image:ai-edge-image14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os resultados mostram o desempenho perfeito da configuração. O storage local e de rede oferecem os mesmos resultados e a adição do segundo servidor duplica o número de fluxos que a configuração proposta pode lidar.
+
+
+
+== Resultados do teste para EF
+
+Uma infinidade de testes foram executados para avaliar o desempenho da arquitetura proposta. Existem seis cargas de trabalho diferentes (classificação de imagem, deteção de objetos [pequeno], deteção de objetos [grande], imagens médicas, fala-texto e processamento de linguagem natural [NLP]), que foram executadas em dois cenários diferentes: Offline e fluxo único. Os resultados são descritos nas seções a seguir.
+
+
+
+=== Inferência de IA no cenário off-line para EF
+
+Nesse cenário, todos os dados estavam disponíveis para o servidor e o tempo necessário para processar todas as amostras foi medido. Relatamos larguras de banda em amostras por segundo como os resultados dos testes. Para execuções de um único nó, relatamos a média de ambos os servidores, enquanto para duas execuções de servidor relatamos a largura de banda total somada em todos os servidores. Os resultados para casos de uso são mostrados na figura abaixo.
+
+image:ai-edge-image15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os resultados mostram que o storage de rede não afeta negativamente a performance. A alteração é mínima e, para algumas tarefas, nenhuma é encontrada. Ao adicionar o segundo servidor, a largura de banda total duplica exatamente ou, na pior das hipóteses, a alteração é inferior a 1%.
+
+
+
+=== Inferência de IA em um cenário de fluxo único para EF
+
+Este benchmark mede a latência. Para todos os casos, relatamos latência média em todos os servidores envolvidos nas execuções. Os resultados para o conjunto de tarefas são dados.
+
+image:ai-edge-image16.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os resultados mostram novamente que o armazenamento de rede é suficiente para lidar com as tarefas. A diferença entre o armazenamento local e de rede no caso de um servidor é mínima ou nenhuma. Da mesma forma, quando dois servidores usam o mesmo armazenamento, a latência em ambos os servidores permanece a mesma ou muda em uma quantidade muito pequena.

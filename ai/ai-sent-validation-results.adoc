@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-validation-results.html 
+keywords: validation, errors, metrics, score, recall, precision 
+summary: Como mencionado na seção anterior, os erros são propagados ao longo do pipeline sempre que há dois ou mais modelos de aprendizado de máquina sendo executados em sequência. Para esta solução, o sentimento da sentença é o fator mais importante na medição do nível de risco de estoque da empresa. O modelo de fala para texto, embora essencial para o pipeline, serve como a unidade de pré-processamento antes que os sentimentos possam ser previstos. 
+---
+= Resultados da validação
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Como mencionado na seção anterior, os erros são propagados ao longo do pipeline sempre que há dois ou mais modelos de aprendizado de máquina sendo executados em sequência. Para esta solução, o sentimento da sentença é o fator mais importante na medição do nível de risco de estoque da empresa. O modelo de fala para texto, embora essencial para o pipeline, serve como a unidade de pré-processamento antes que os sentimentos possam ser previstos. O que realmente importa é a diferença de sentimento entre as frases básicas da verdade e as frases previstas. Isso serve como um proxy para a taxa de erro de palavra (WER). A precisão de fala para texto é importante, mas o WER não é usado diretamente na métrica final do pipeline.
+
+....
+PIPELINE_SENTIMENT_METRIC = MEAN(DIFF(GT_sentiment, ASR_sentiment))
+....
+Essas métricas de sentimento podem ser calculadas para a Pontuação, Recall e precisão de cada frase F1. Os resultados podem ser então agregados e exibidos dentro de uma matriz de confusão, juntamente com os intervalos de confiança para cada métrica.
+
+O benefício de usar o aprendizado de transferência é um aumento no desempenho do modelo para uma fração dos requisitos de dados, tempo de treinamento e custo. Os modelos ajustados também devem ser comparados com suas versões de base para garantir que o aprendizado de transferência melhore o desempenho em vez de prejudicá-lo. Em outras palavras, o modelo ajustado deve ter um melhor desempenho nos dados do centro de suporte do que o modelo pré-treinado.
+
+
+
+== Avaliação do pipeline
+
+|===
+| Caso de teste | Detalhes 
+
+
+| Número do teste | Métrica de sentimento do pipeline 
+
+
+| Pré-requisitos de teste | Modelos ajustados para modelos de análise de fala para texto e sentimento 
+
+
+| Resultado esperado | A métrica de sentimento do modelo ajustado tem um desempenho melhor do que o modelo pré-treinado original. 
+|===
+
+
+== Métrica de sentimento do pipeline
+
+. Calcule a métrica de sentimento para o modelo de linha de base.
+. Calcule a métrica de sentimento para o modelo ajustado.
+. Calcule a diferença entre essas métricas.
+. Média das diferenças entre todas as frases.
+

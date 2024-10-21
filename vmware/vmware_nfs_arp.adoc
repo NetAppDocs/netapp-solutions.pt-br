@@ -1,0 +1,112 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_nfs_arp.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, ransomeware 
+summary:  
+---
+= Proteção autônoma contra ransomware para storage NFS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Detectar ransomware o mais cedo possível é crucial para evitar sua propagação e evitar o tempo de inatividade caro. Uma estratégia eficaz de detecção de ransomware deve incorporar várias camadas de proteção nos níveis de host ESXi e VM convidada. Embora várias medidas de segurança sejam implementadas para criar uma defesa abrangente contra ataques de ransomware, o ONTAP permite adicionar mais camadas de proteção à abordagem geral de defesa. Para citar alguns recursos, ele começa com Snapshots, Autonomous ransomware Protection, snapshots à prova de violações e assim por diante.
+
+Vejamos como os recursos mencionados acima funcionam com a VMware para proteger e recuperar os dados contra ransomware. Para proteger o vSphere e as VMs convidadas contra ataques, é essencial tomar várias medidas, incluindo a segmentação, utilizando o EDR/XDR/SIEM para endpoints e instalando atualizações de segurança e aderindo às diretrizes de proteção apropriadas. Cada máquina virtual residente em um datastore também hospeda um sistema operacional padrão. Certifique-se de que os conjuntos de produtos anti-malware de servidor empresarial sejam instalados e atualizados regularmente sobre eles, o que é um componente essencial da estratégia de proteção contra ransomware de várias camadas. Além disso, habilite a proteção Autonomous ransomware (ARP) no volume NFS que alimenta o armazenamento de dados. O ARP utiliza o ONBOX ML integrado que analisa a atividade do volume de trabalho e a entropia de dados para detectar automaticamente ransomware. O ARP é configurável através da interface de gerenciamento integrada do ONTAP ou do Gerenciador do sistema e é ativado por volume.
+
+image:nfs-arp-image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+NOTE: Com o novo NetApp ARP/AI, que está atualmente em visualização técnica, não há necessidade de um modo de aprendizado. Em vez disso, ele pode ir direto para o modo ativo com sua funcionalidade de detecção de ransomware baseada em AI.
+
+
+NOTE: Com o ONTAP One, todos esses conjuntos de recursos são completamente gratuitos. Acesse o pacote robusto de proteção de dados, segurança e todos os recursos que o ONTAP oferece da NetApp sem se preocupar com as barreiras de licenciamento.
+
+Uma vez no modo ativo, ele começa a procurar a atividade de volume anormal que pode potencialmente ser ransomware. Se for detetada atividade anormal, uma cópia Snapshot automática é imediatamente obtida, o que fornece um ponto de restauração o mais próximo possível da infeção do arquivo. O ARP pode detetar alterações em extensões de arquivo específicas de VM em um volume NFS localizado fora da VM quando uma nova extensão é adicionada ao volume criptografado ou a extensão de um arquivo é modificada.
+
+image:nfs-arp-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Se um ataque de ransomware segmentar a máquina virtual (VM) e alterar arquivos dentro da VM sem fazer alterações fora da VM, o ARP (Advanced ransomware Protection) ainda detetará a ameaça se a entropia padrão da VM for baixa, por exemplo, para tipos de arquivos como .txt, .docx ou .mp4. Mesmo que o ARP crie um snapshot de proteção nesse cenário, ele não gera um alerta de ameaça porque as extensões de arquivo fora da VM não foram adulteradas. Em tais cenários, as camadas iniciais de defesa identificariam a anomalia, no entanto ARP ajuda na criação de um snapshot baseado na entropia.
+
+Para obter informações detalhadas, consulte a seção "ARP e máquinas virtuais" no link:https://docs.netapp.com/us-en/ontap/anti-ransomware/use-cases-restrictions-concept.html#supported-configurations["Utilizações e considerações do ARP"].
+
+Migrando de arquivos para dados de backup, os ataques de ransomware agora visam cada vez mais backups e pontos de recuperação de snapshot ao tentar excluí-los antes de começar a criptografar arquivos. No entanto, com o ONTAP, isso pode ser evitado criando snapshots à prova de violações em sistemas primários ou secundários com link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["Bloqueio de cópias NetApp Snapshot"]o .
+
+image:nfs-arp-image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Essas cópias Snapshot não podem ser excluídas ou alteradas por invasores de ransomware ou administradores desonestos, portanto, elas ficam disponíveis mesmo após um ataque. Se o armazenamento de dados ou máquinas virtuais específicas forem afetados, o SnapCenter poderá recuperar dados da máquina virtual em segundos, minimizando o tempo de inatividade da organização.
+
+image:nfs-arp-image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O acima demonstra como o armazenamento ONTAP adiciona uma camada adicional às técnicas existentes, melhorando a proteção de futuro do ambiente.
+
+Para obter informações adicionais, consulte as orientações link:https://www.netapp.com/media/7334-tr4572.pdf["Soluções da NetApp para ransomware"]do .
+
+Agora, se tudo isso precisa ser orquestrado e integrado com ferramentas SIEM, o serviço OFFTAP, como a proteção contra ransomware BlueXP , pode ser usado. Ele é um serviço desenvolvido para proteger os dados de ransomware. Esse serviço oferece proteção para workloads baseados em aplicações, como Oracle, MySQL, armazenamentos de dados de VM e compartilhamentos de arquivos no storage NFS no local.
+
+Neste exemplo, o armazenamento de dados NFS "src_NFS_DS04" é protegido usando a proteção contra ransomware do BlueXP .
+
+image:nfs-arp-image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:nfs-arp-image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Para obter informações detalhadas sobre como configurar a proteção contra ransomware do BlueXP , link:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-start-setup.html["Configurar a proteção contra ransomware do BlueXP "]consulte e link:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-use-settings.html#add-amazon-web-services-as-a-backup-destination["Configurar as configurações de proteção contra ransomware do BlueXP"].
+
+É hora de passar por isso com um exemplo. Neste passo a passo, o datastore "src_NFS_DS04" é afetado.
+
+image:nfs-arp-image7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O ARP acionou imediatamente um instantâneo no volume após a deteção.
+
+image:nfs-arp-image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:nfs-arp-image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Depois que a análise forense estiver concluída, as restaurações podem ser feitas de forma rápida e perfeita usando a proteção contra ransomware SnapCenter ou BlueXP . Com o SnapCenter, vá para as máquinas virtuais afetadas e selecione o instantâneo apropriado para restaurar.
+
+image:nfs-arp-image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Esta seção analisa como a proteção contra ransomware do BlueXP  orquestra a recuperação de um incidente de ransomware em que os arquivos da VM são criptografados.
+
+
+NOTE: Se a VM for gerenciada pelo SnapCenter, a proteção contra ransomware do BlueXP  restaura a VM para o estado anterior usando o processo consistente com a VM.
+
+. Acesse a proteção contra ransomware do BlueXP  e um alerta aparece no Painel de proteção contra ransomware do BlueXP .
+. Clique no alerta para rever os incidentes nesse volume específico para o alerta gerado
++
+image:nfs-arp-image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Marque o incidente de ransomware como pronto para recuperação (após os incidentes serem neutralizados) selecionando "Marcar restauração necessária"
++
+image:nfs-arp-image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+
+NOTE: O alerta pode ser dispensado se o incidente se revelar falso positivo.
+
+. Acesse a guia recuperação e revise as informações da carga de trabalho na página recuperação e selecione o volume do datastore que está no estado "Restaurar necessário" e selecione Restaurar.
++
+image:nfs-arp-image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Nesse caso, o escopo de restauração é "por VM" (para SnapCenter para VMs, o escopo de restauração é "por VM")
++
+image:nfs-arp-image14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Escolha o ponto de restauração a ser usado para restaurar os dados e selecione destino e clique em Restaurar.
++
+image:nfs-arp-image15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. No menu superior, selecione recuperação para revisar a carga de trabalho na página recuperação onde o status da operação se move pelos estados. Depois que a restauração estiver concluída, os arquivos da VM são restaurados como mostrado abaixo.
++
+image:nfs-arp-image16.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+NOTE: A recuperação pode ser realizada a partir do plugin SnapCenter para VMware ou SnapCenter, dependendo do aplicativo.
+
+A solução NetApp oferece várias ferramentas eficazes de visibilidade, detecção e correção, ajudando você a identificar ransomware com antecedência, prevenir essa propagação e se recuperar rapidamente, se necessário, para evitar tempo de inatividade caro. As soluções tradicionais de defesa em camadas continuam prevalecendo, assim como as soluções de terceiros e parceiros para visibilidade e detecção. A correção eficaz continua sendo uma parte crucial da resposta a qualquer ameaça.

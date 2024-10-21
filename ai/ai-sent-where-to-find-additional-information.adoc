@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-where-to-find-additional-information.html 
+keywords:  
+summary:  
+---
+= Onde encontrar informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* 3D demonstrações interativas
++
+http://www.netapp.com/ai["www.NetApp.com/ai"^]
+
+* Conete-se diretamente com um especialista em IA da NetApp
++
+https://www.netapp.com/artificial-intelligence/["https://www.netapp.com/artificial-intelligence/"^]
+
+* Resumo da solução NVDIA base Command Platform com NetApp
++
+https://www.netapp.com/pdf.html?item=/media/32792-DS-4145-NVIDIA-Base-Command-Platform-with-NetApp.pdf["https://www.netapp.com/pdf.html?item=/media/32792-DS-4145-NVIDIA-Base-Command-Platform-with-NetApp.pdf"^]
+
+* Infográfico de boas razões para o NetApp for AI 10
++
+https://www.netapp.com/us/media/netapp-ai-10-good-reasons.pdf["https://www.netapp.com/pdf.html?item=/media/16147-netapp-ai-10-good-reasonspdf.pdf"^]
+
+* Ai em Saúde: Aprendizagem profunda para identificar lesões de COVID-19 em exames de TC pulmonar white paper
++
+https://www.netapp.com/pdf.html?item=/media/31240-WP-7342.pdf["https://www.netapp.com/pdf.html?item=/media/31240-WP-7342.pdf"^]
+
+* Ai na área de saúde: Monitoramento do uso de máscara facial em ambientes de saúde white paper
++
+https://www.netapp.com/pdf.html?item=/media/37490-NA-611-Monitoring-face-mask-usage-in-healthcare-settings.pdf["https://www.netapp.com/pdf.html?item=/media/37490-NA-611-Monitoring-face-mask-usage-in-healthcare-settings.pdf"^]
+
+* Ai em Saúde: Relatório Técnico de Diagnóstico por imagem
++
+https://www.netapp.com/pdf.html?item=/media/7395-tr4811.pdf["https://www.netapp.com/pdf.html?item=/media/7395-tr4811.pdf"^]
+
+* Ai para varejo: IA conversacional NetApp usando o NVIDIA RIVA
++
+link:cainvidia_executive_summary.html["Resumo executivo"]
+
+* Resumo da solução de AI da NetApp ONTAP
++
+https://www.netapp.com/pdf.html?item=/media/6736-sb-3939.pdf["https://www.netapp.com/pdf.html?item=/media/6736-sb-3939.pdf"^]
+
+* Resumo da solução do Toolkit DataOps do NetApp
++
+https://www.netapp.com/pdf.html?item=/media/21480-SB-4111-1220-NA-Data-Science-Toolkit.pdf["https://www.netapp.com/pdf.html?item=/media/21480-SB-4111-1220-NA-Data-Science-Toolkit.pdf"^]
+
+* Resumo da solução NetApp AI Control Plane
++
+https://www.netapp.com/pdf.html?item=/media/6737-sb-4055.pdf["https://www.netapp.com/pdf.html?item=/media/6737-sb-4055.pdf"^]
+
+* Transformando o setor com o eBook Data Drive AI
++
+https://www.netapp.com/pdf.html?item=/media/16968-na-337pdf.pdf["https://www.netapp.com/us/media/na-337.pdf"^]
+
+* Resumo da solução de AI do NetApp EF-Series
++
+https://www.netapp.com/pdf.html?item=/media/26708-SB-4136-NetApp-AI-E-Series.pdf["https://www.netapp.com/pdf.html?item=/media/26708-SB-4136-NetApp-AI-E-Series.pdf"^]
+
+* Resumo da solução de inferência de AI da NetApp AI e Lenovo ThinkSystem for AI
++
+https://www.netapp.com/pdf.html?item=/media/25316-SB-4129.pdf["https://www.netapp.com/pdf.html?item=/media/25316-SB-4129.pdf"^]
+
+* Resumo da solução NetApp AI e Lenovo ThinkSystem para IA e ML empresarial
++
+https://www.netapp.com/pdf.html?item=/media/25317-SB-4128.pdf["https://www.netapp.com/pdf.html?item=/media/25317-SB-4128.pdf"^]
+
+* NetApp e NVIDIA – redefinindo o que é possível com o vídeo AI
++
+https://www.youtube.com/watch?v=38xw65SteUc["https://www.youtube.com/watch?v=38xw65SteUc"^]
+
+

@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_click-through_rate_prediction_use_case_summary.html 
+keywords: use case, terabyte click log, random forest, training 
+summary: Esta página resume as vantagens do Azure NetApp Files em treinamento distribuído ou em larga escala. 
+---
+= Resumo do caso de uso da previsão de taxa de cliques
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este caso de uso é baseado no conjunto de dados https://ailab.criteo.com/["Criteo AI Lab"^] disponível publicamente http://labs.criteo.com/2013/12/download-terabyte-click-logs/["Terabyte clique em Logs"^] do . Com os recentes avanços em plataformas e aplicações DE ML, muita atenção está agora em aprendizagem em escala. A taxa de cliques (CTR) é definida como o número médio de cliques por cem impressões de anúncios on-line (expresso em porcentagem). Ele é amplamente adotado como uma métrica chave em vários setores verticais e casos de uso do setor, incluindo marketing digital, varejo, e-commerce e provedores de serviços. Exemplos de uso da CTR como uma métrica importante para o tráfego potencial de clientes incluem o seguinte:
+
+* *Marketing digital:* em https://support.google.com/google-ads/answer/2615875?hl=en["Google Analytics"^], CTR pode ser usado para avaliar o desempenho de palavras-chave, anúncios e listas gratuitas de um anunciante ou comerciante. Um CTR alto é uma boa indicação de que os usuários acham seus anúncios e listagens úteis e relevantes. CTR também contribui para o CTR esperado da sua palavra-chave, que é um componente https://support.google.com/google-ads/answer/1752122?hl=en["Classificação do anúncio"^] do .
+* *E-commerce:* além de alavancar https://analytics.google.com/analytics/web/provision/#/provision["Google Analytics"^], há pelo menos algumas estatísticas de visitantes em um backend de e-commerce. Embora essas estatísticas possam não parecer úteis à primeira vista, elas geralmente são fáceis de ler e podem ser mais precisas do que outras informações. Conjuntos de dados primários compostos por tais estatísticas são proprietários e, portanto, são os mais relevantes para vendedores, compradores e plataformas de comércio eletrônico. Esses conjuntos de dados podem ser usados para definir benchmarks, comparando resultados com o ano passado e ontem, construindo uma série temporal para análise posterior.
+* * Varejo: * Os Varejistas de tijolo e argamassa podem correlacionar o número de visitantes e o número de clientes com o CTR. O número de clientes pode ser visto a partir do seu histórico de ponto de venda. O CTR dos sites dos Varejistas ou tráfego de anúncios pode resultar nas vendas acima mencionadas. Os programas de fidelidade são outro caso de uso, porque os clientes redirecionados de anúncios online ou outros sites podem participar para ganhar recompensas. Os Varejistas podem adquirir clientes por meio de programas de fidelidade e Registrar comportamentos de históricos de vendas para construir um sistema de recomendação que não apenas prevê comportamentos de compra de consumidores em diferentes categorias, mas também personaliza cupons e diminui a rotatividade.
+* *Prestadores de serviços:* empresas de telecomunicações e provedores de serviços de internet têm uma abundância de dados de telemetria de usuários primários para casos de uso perspicazes de IA, ML e análise. Por exemplo, uma Telecom pode aproveitar diariamente os Registros de histórico de domínio de alto nível de navegação na web de seus assinantes móveis para ajustar modelos existentes para produzir segmentação de público atualizada, prever o comportamento do cliente e colaborar com anunciantes para colocar anúncios em tempo real para uma melhor experiência on-line. Nesse fluxo de trabalho de marketing orientado por dados, o CTR é uma métrica importante para refletir as conversões.
+
+
+No contexto do marketing digital http://labs.criteo.com/2013/12/download-terabyte-click-logs/["Criteo Terabyte clique em Logs"^], são agora o conjunto de dados de referência na avaliação da escalabilidade de plataformas e algoritmos DE ML. Ao prever a taxa de cliques, um anunciante pode selecionar os visitantes mais propensos a responder aos anúncios, analisar seu histórico de navegação e mostrar os anúncios mais relevantes com base nos interesses do usuário.
+
+A solução fornecida neste relatório técnico destaca os seguintes benefícios:
+
+* Vantagens do Azure NetApp Files em treinamento distribuído ou em larga escala
+* Data Processing habilitado para CUDA (cuDF, cuPy, e assim por diante) e algoritmos de ML (cuML)
+* A estrutura de computação paralela Dask para treinamento distribuído
+
+
+Um fluxo de trabalho de ponta a ponta construído em RAPIDS AI e Azure NetApp Files demonstra a melhoria drástica no tempo de treinamento de modelos florestais aleatórios por duas ordens de magnitude. Esta melhoria é significativa em comparação com a abordagem convencional PANDAS ao lidar com logs de cliques do mundo real com 45GB de dados tabulares estruturados (em média) a cada dia. Isso é equivalente a um DataFrame contendo cerca de vinte bilhões de linhas. Demonstraremos a configuração do ambiente de cluster, a instalação da estrutura e biblioteca, o carregamento e processamento de dados, o treinamento convencional versus distribuído, a visualização e o monitoramento, e compararemos os resultados críticos de tempo de execução ponta a ponta neste relatório técnico.

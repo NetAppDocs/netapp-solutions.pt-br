@@ -1,0 +1,24 @@
+---
+sidebar: sidebar 
+permalink: containers/vtwn_videos_and_demos.html 
+keywords: video, demonstration, deployment, VMware Tanzu with NetApp, NetApp, Tanzu 
+summary: Esta página contém links para vídeos que demonstram algumas das capacidades descritas neste documento. 
+---
+= Vídeos e demonstrações: VMware Tanzu com o NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Os vídeos a seguir demonstram alguns dos recursos descritos neste documento:
+
+.Use o Trident para provisionar storage persistente no VMware Tanzu - VMware Tanzu com NetApp
+video::8db3092b-3468-4754-b2d7-b01200fbb38d[panopto,width=360]
+.Use o Astra Control Center para clonar aplicativos no VMware Tanzu - VMware Tanzu com NetApp
+video::01aff358-a0a2-4c4f-9062-b01200fb9abd[panopto,width=360]
+
+NOTE: Essas demos foram gravadas como uma prévia técnica usando a versão 1.3.1 do TKG e a versão 21,12 do Astra Control Center. Consulte a Matriz de suporte para ver as versões oficiais suportadas.

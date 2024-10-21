@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-conclusion.html 
+keywords: conclusion 
+summary: A solução NetApp para o problema de renomeação boba fornece uma forma de storage simples, barata e gerenciada centralmente para cargas de trabalho que antes eram incompatíveis com o NFS. 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A solução NetApp para o problema de renomeação boba fornece uma forma de storage simples, barata e gerenciada centralmente para cargas de trabalho que antes eram incompatíveis com o NFS.
+
+Este novo paradigma permite que os clientes criem clusters Kafka mais gerenciáveis que são mais fáceis de migrar e espelhar para fins de recuperação de desastres e proteção de dados. Também vimos que o NFS oferece benefícios adicionais, como utilização reduzida da CPU e tempo de recuperação mais rápido, eficiência de storage significativamente melhorada e melhor performance com o NetApp ONTAP.

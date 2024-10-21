@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_use_netapp_cloud_sync_to_archive_conversation_history.html 
+keywords: BlueXP Copy and Sync, Conversation History, Jarvis, 
+summary:  
+---
+= Use cópia e sincronização do NetApp BlueXP  para arquivar histórico de conversas
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ao despejar o histórico de conversas em um arquivo CSV uma vez por dia, podemos aproveitar o BlueXP  Copy and Sync para fazer o download dos arquivos de log no storage local. A figura a seguir mostra a arquitetura de ter o Jarvis implantado no local e em nuvens públicas, enquanto usa a cópia e sincronização do BlueXP  para enviar o histórico de conversas para o treinamento Nemo. Detalhes do treinamento Nemo podem ser encontrados na link:cainvidia_expand_intent_models_using_nemo_training.html["Expanda modelos de intenção usando o Nemo Training"]seção .
+
+image:cainvidia_image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

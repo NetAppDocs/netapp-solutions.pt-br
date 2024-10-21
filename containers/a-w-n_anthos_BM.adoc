@@ -1,0 +1,135 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_anthos_BM.html 
+keywords: Anthos, bare metal, linux 
+summary: Os recursos independentes de hardware do Anthos em bare metal permitem que você selecione uma plataforma de computação otimizada para seu caso de uso personalizado e também forneça muitos benefícios adicionais. 
+---
+= Anthos em bare metal
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Os recursos independentes de hardware do Anthos em bare metal permitem que você selecione uma plataforma de computação otimizada para seu caso de uso personalizado e também forneça muitos benefícios adicionais.
+
+
+
+== Benefícios
+
+Os recursos independentes de hardware do Anthos em bare metal permitem que você selecione uma plataforma de computação otimizada para seu caso de uso personalizado e também forneça muitos benefícios adicionais.
+
+Os exemplos incluem o seguinte:
+
+* *Traga seu próprio servidor.* Você pode usar servidores que correspondem à sua infraestrutura existente para reduzir as despesas de capital e os custos de gerenciamento.
+* *Traga seu próprio sistema operacional Linux.* Ao escolher o sistema operacional Linux para o qual você deseja implantar seu ambiente Anthos-on-bare-metal, você pode garantir que o ambiente Anthos se encaixa perfeitamente em sua infraestrutura e esquemas de gerenciamento existentes.
+* *Melhor desempenho e menor custo.* Sem a necessidade de um hipervisor, os clusters Anthos-on-bare-metal exigem acesso direto aos recursos de hardware do servidor, incluindo dispositivos de hardware otimizados para desempenho, como GPUs.
+* *Melhor desempenho da rede e menor latência.* Como os nós de servidor Anthos-on-bare-metal são conetados diretamente à sua rede sem uma camada de abstração virtualizada, eles podem ser otimizados para baixa latência e desempenho.
+
+
+
+
+== Requisitos de hardware
+
+
+
+=== Computação
+
+O Google Cloud solicita periodicamente a validação atualizada das plataformas de servidor de parceiros com novas versões do Anthos através do programa de parceiros da plataforma Anthos Ready. Uma lista de plataformas de servidor atualmente validadas e as versões do Anthos suportadas pode ser encontrada https://cloud.google.com/anthos/docs/resources/partner-platforms["aqui"^].
+
+A tabela a seguir contém plataformas de servidor que foram testadas por engenheiros parceiros da NetApp e da NetApp para a validação do Anthos em implantações bare metal.
+
+|===
+
+
+| Fabricante | Marca | Modelo 
+
+
+| Cisco | UCS | B200 M5 
+
+
+| HPE | ProLiant | DL360 
+|===
+
+
+=== Sistema operacional
+
+Os nós de Anthos-on-bare-metal podem ser configurados com várias distribuições Linux diferentes, conforme escolhido pelo cliente, para ajudar a corresponder à sua infra-estrutura de data center atual.
+
+A tabela a seguir contém uma lista de sistemas operacionais Linux que foram usados pela NetApp e nossos parceiros para validar a solução.
+
+|===
+| Sistema operacional | Solte | Versões do Anthos 
+
+
+| CentOS | 8.4.2105 | 1,14 
+
+
+| Red Hat Enterprise Linux | 8,4 | 1,14 
+
+
+| Ubuntu | 18.04.5 LTS (com kernel 5,4.0-81-genérico) | 1,14 
+
+
+| Ubuntu | 20.04.2 LTS | 1,14 
+|===
+
+
+=== Hardware adicional
+
+Para concluir a implantação do Anthos em bare metal como uma solução totalmente validada, componentes adicionais de data center para rede e storage foram testados pela NetApp e por nossos engenheiros de parceiros.
+
+A tabela a seguir inclui informações sobre esses componentes adicionais de infraestrutura.
+
+|===
+| Fabricante | Nome do hardware | Modelo 
+
+
+| Cisco | Nexus | C9336C-FX2 
+
+
+| NetApp | AFF | A250, A220 
+|===
+
+
+=== Software adicional
+
+A tabela a seguir inclui uma lista de versões de software adicionais implantadas no ambiente de validação.
+
+|===
+| Fabricante | Nome do software | Versão 
+
+
+| Cisco | NXOS | 9,3 mm (5 mm) 
+
+
+| NetApp | ONTAP | 9.11.1P4 
+
+
+| NetApp | Trident | 23.01.0 
+|===
+Durante a validação da plataforma Anthos Ready realizada pela NetApp e nossa equipe de parceiros na World Wide Technology (WWT), o ambiente de laboratório foi construído com base no diagrama a seguir, o que nos permitiu testar a funcionalidade de cada tipo de servidor, sistema operacional, dispositivos de rede e sistemas de armazenamento implantados na solução.
+
+image:a-w-n_anthos_baremetal_validation.png["Anthos BareMetal Diagrama de hardware físico"]
+
+image:a-w-n_anthos_baremetal_logical_topology.png["Anthos BareMetal Diagrama de rede lógica"]
+
+
+NOTE: Este ambiente multi-os mostra interoperabilidade com versões de SO suportadas para a solução Anthos-on-bare-metal. Prevemos que os clientes padronizarão em um ou um subconjunto de sistemas operacionais para sua implantação.
+
+
+
+=== Recursos de suporte de infraestrutura
+
+A infra-estrutura a seguir deve estar em vigor antes da implantação do Anthos em bare metal:
+
+* Pelo menos um servidor DNS que fornece uma resolução completa do nome de host acessível a partir da rede de gerenciamento.
+* Pelo menos um servidor NTP acessível a partir da rede de gestão.
+* (Opcional) conetividade de Internet de saída para a rede de gerenciamento na banda.
+
+
+
+NOTE: Há um vídeo de demonstração de um Anthos sobre a implantação de bare metal na seção vídeos e demos deste documento.

@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_technology_overview.html 
+keywords: overview, technology, microsoft, azure, anf, dask, nvidia, rapids 
+summary: Esta página fornece uma visão geral da tecnologia utilizada nesta solução. 
+---
+= Visão geral da tecnologia
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta página fornece uma visão geral da tecnologia utilizada nesta solução.
+
+
+
+== Microsoft e NetApp
+
+Desde maio de 2019, a Microsoft disponibilizou um serviço de portal primário nativo do Azure para serviços empresariais de arquivos NFS e SMB baseados na tecnologia NetApp ONTAP. Esse desenvolvimento é impulsionado por uma parceria estratégica entre a Microsoft e a NetApp e estende ainda mais o alcance dos serviços de dados ONTAP de classe mundial para o Azure.
+
+
+
+== Azure NetApp Files
+
+O serviço Azure NetApp Files é um serviço mensurado de storage de arquivos de classe empresarial, de alta performance. O Azure NetApp Files é compatível com qualquer tipo de workload e é altamente disponível por padrão. Você pode selecionar níveis de serviço e performance e configurar cópias Snapshot por meio do serviço. O Azure NetApp Files é um serviço de primeira parte do Azure para migração e execução dos workloads de arquivos empresariais mais exigentes na nuvem, incluindo bancos de dados, SAP e aplicações de computação de alta performance sem alterações no código.
+
+Essa arquitetura de referência oferece às ORGANIZAÇÕES DE TI as seguintes vantagens:
+
+* Elimina complexidades de design
+* Possibilita o dimensionamento independente da computação e do storage
+* Permite que os clientes comecem aos poucos e escalem de forma otimizada
+* Oferece uma variedade de camadas de storage para vários pontos de performance e custo
+
+
+
+
+== Visão geral de Dark e NVIDIA RAPIDS
+
+Dask é uma ferramenta de computação paralela de código aberto que dimensiona bibliotecas Python em várias máquinas e fornece processamento mais rápido de grandes quantidades de dados. Ele fornece uma API semelhante a bibliotecas Python convencionais de um único thread, como Pandas, Numpy e scikit-learn. Como resultado, os usuários nativos do Python não são forçados a alterar muito em seu código existente para usar recursos em todo o cluster.
+
+O NVIDIA RAPIDS é um pacote de bibliotecas de código aberto que possibilita a execução de fluxos de trabalho DE ML e análise de dados completos inteiramente em GPUs. Juntamente com a Dask, ele permite que você escale facilmente da estação de trabalho GPU (aumento de escala) para clusters multi-GPU multinodes (escalabilidade horizontal).
+
+Para implantar o Dask em um cluster, você pode usar o Kubernetes para orquestração de recursos. Você também pode aumentar ou diminuir a escala dos nós de trabalho de acordo com o requisito do processo, o que, por sua vez, pode ajudar a otimizar o consumo de recursos do cluster, como mostrado na figura a seguir.
+
+image:aks-anf_image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

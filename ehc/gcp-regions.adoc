@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-regions.html 
+keywords: NetApp Solutions, google cloud, gcp, gcve, regions 
+summary:  
+---
+= Disponibilidade da região – armazenamento de dados NFS suplementar para o Google Cloud Platform (GCP)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba mais sobre o suporte da região Global para GCP, GCVE e CVS.
+
+
+NOTE: O armazenamento de dados NFS estará disponível em regiões onde ambos os serviços (GCVE e CVS Performance) estão disponíveis.
+
+O armazenamento de dados NFS suplementar para GCVE é compatível com o Serviço de volume de nuvem da NetApp.
+
+
+NOTE: Somente os volumes CVS-Performance podem ser usados para o armazenamento de dados GCVE NFS. Para obter informações sobre a localização disponível, consulte link:https://bluexp.netapp.com/cloud-volumes-global-regions#cvsGc["Mapa da região global"]
+
+O Google Cloud VMware Engine está disponível nos seguintes locais:
+
+image:gcve_regions_Mar2023.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Para minimizar a latência, o volume CVS do NetApp e o GCVE em que você pretende montar o volume devem estar na mesma zona de disponibilidade. Trabalhe com arquitetos de soluções Google e NetApp para otimizar a disponibilidade e o TCO.

@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_install_and_set_up_the_aks_cluster.html 
+keywords: aks, install, cluster, node type, system, worker 
+summary: Esta página descreve os passos necessários para configurar o cluster AKS. 
+---
+= Instale e configure o conjunto AKS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para instalar e configurar o cluster AKS, consulte a página da Web https://docs.microsoft.com/azure/aks/kubernetes-walkthrough-portal["Crie um cluster AKS"^] e, em seguida, execute as seguintes etapas:
+
+. Ao selecionar o tipo de nó (nós do sistema [CPU] ou do trabalhador [GPU]), selecione o seguinte:
++
+.. Os nós do sistema primário devem ser padrão DS2v2 (`agentpool`três nós).
+.. Em seguida, adicione o pool de nó de trabalho Standard_NC6s_v3 (no mínimo três nós) para o grupo de usuários (para nós de GPU) chamado `gpupool`.
++
+image:aks-anf_image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+. A implantação leva de 5 a 10 minutos. Depois de concluído, clique em conetar ao cluster.
+. Para se conetar ao cluster AKS recém-criado, instale o seguinte em seu ambiente local (laptop/pc):
++
+.. A ferramenta de linha de comando do Kubernetes usando o. https://kubernetes.io/docs/tasks/tools/install-kubectl/["Instruções fornecidas para o seu sistema operacional específico"^]
+.. A CLI do Azure conforme descrito no documento, https://docs.microsoft.com/cli/azure/install-azure-cli["Instale a CLI do Azure"^]
+
+
+. Para aceder ao cluster AKS a partir do terminal, introduza `az login` e introduza as credenciais.
+. Execute os seguintes dois comandos:
++
+....
+az account set --subscription xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxx
+aks get-credentials --resource-group resourcegroup --name aksclustername
+....
+. Introduza `Azure CLI: kubectl get nodes`.
+. Se todos os seis nós estiverem ativos e em execução, como mostrado no exemplo a seguir, seu cluster AKS estará pronto e conetado ao seu ambiente local
+
+
+image:aks-anf_image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

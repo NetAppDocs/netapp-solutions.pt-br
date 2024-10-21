@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-summary.html 
+keywords:  
+summary:  
+---
+= Resumo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vários cenários de aplicações emergentes, como sistemas avançados de assistência ao condutor (ADAS), indústria 4,0, cidades inteligentes e Internet das coisas (IoT), exigem o processamento de fluxos de dados contínuos sob uma latência quase nula. Este documento descreve uma arquitetura de computação e storage para implantar a inferência de inteligência artificial (AI) baseada em GPU em controladores de storage NetApp e servidores Lenovo ThinkSystem em um ambiente de borda que atenda a esses requisitos. Este documento também fornece dados de desempenho para o benchmark de inferência MLPerf padrão do setor, avaliando várias tarefas de inferência em servidores de borda equipados com GPUs NVIDIA T4. Investigamos o desempenho de cenários de inferência off-line, de fluxo único e multistream e mostramos que a arquitetura com um sistema de storage compartilhado em rede econômico é de alta performance e fornece um ponto central para gerenciamento de dados e modelos para vários servidores de borda.

@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: ai/runai-ld_additional_information.html 
+keywords: azure, lane, detection, additional, information, websites 
+summary: Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e sites. 
+---
+= Informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* Conjunto de dados: TuSimple
++
+https://github.com/TuSimple/tusimple-benchmark/tree/master/doc/lane_detection["https://github.com/TuSimple/tusimple-benchmark/tree/master/doc/lane_detection"^]
+
+* Deep Learning Network Architecture: Rede neural convolucional espacial
++
+https://arxiv.org/abs/1712.06080["https://arxiv.org/abs/1712.06080"^]
+
+* Estrutura de treinamento de aprendizagem profunda distribuída: Horovod
++
+https://horovod.ai/["https://horovod.ai/"^]
+
+* Run: Solução de orquestração de contêineres de IA: RUN: Introdução de produtos de IA
++
+https://docs.run.ai/home/components/["https://docs.run.ai/home/components/"^]
+
+* Executar: Documentação de instalação de IA
++
+https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/#step-3-install-runai["https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/#step-3-install-runai"^] https://docs.run.ai/Administrator/Researcher-Setup/cli-install/["https://docs.run.ai/Administrator/Researcher-Setup/cli-install/#runai-cli-installation"^]
+
+* Envio de trabalhos em EXECUÇÃO: Ai CLI
++
+https://docs.run.ai/Researcher/cli-reference/runai-submit/["https://docs.run.ai/Researcher/cli-reference/runai-submit/"^]
+
++
+https://docs.run.ai/Researcher/cli-reference/runai-submit-mpi/["https://docs.run.ai/Researcher/cli-reference/runai-submit-mpi/"^]
+
+* Recursos de nuvem do Azure: Azure NetApp Files
++
+https://docs.microsoft.com/azure/azure-netapp-files/["https://docs.microsoft.com/azure/azure-netapp-files/"^]
+
+* Serviço Kubernetes do Azure
++
+https://azure.microsoft.com/services/kubernetes-service/-features["https://azure.microsoft.com/services/kubernetes-service/-features"^]
+
+* SKUs VM do Azure
++
+https://azure.microsoft.com/services/virtual-machines/["https://azure.microsoft.com/services/virtual-machines/"^]
+
+* VM Azure com SKUs de GPU
++
+https://docs.microsoft.com/azure/virtual-machines/sizes-gpu["https://docs.microsoft.com/azure/virtual-machines/sizes-gpu"^]
+
+* NetApp Trident
++
+https://github.com/NetApp/trident/releases["https://github.com/NetApp/trident/releases"^]
+
+* Data Fabric da NetApp
++
+https://www.netapp.com/data-fabric/what-is-data-fabric/["https://www.netapp.com/data-fabric/what-is-data-fabric/"^]
+
+* Documentação do produto NetApp
++
+https://www.netapp.com/support-and-training/documentation/["https://www.netapp.com/support-and-training/documentation/"^]
+
+

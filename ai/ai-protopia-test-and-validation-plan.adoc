@@ -1,0 +1,22 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-protopia-test-and-validation-plan.html 
+keywords: validation scenarios, obfuscation, batch inferencing job 
+summary: Esta seção fornece uma visão geral dos três cenários validados nesta solução. 
+---
+= Plano de teste e validação
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para esse projeto de solução, os três cenários a seguir foram validados:
+
+* Uma tarefa de inferência, com e sem ofuscação do Protopia, dentro de um espaço de trabalho do JupyterLab que foi orquestrada com o uso do Kit de Ferramentas de DataOps do NetApp para Kubernetes.
+* Trabalho de inferência em lote, com e sem ofuscação do Protopia, no Kubernetes com um volume de dados orquestrado pelo uso do Kit de Ferramentas de DataOps do NetApp para Kubernetes.
+* Uma tarefa de inferência usando uma instância do servidor de inferência do NVIDIA Triton que foi orquestrada com o kit de ferramentas de DataOps do NetApp para Kubernetes. Aplicamos a ofuscação Protopia à imagem antes de invocar a API de inferência Triton para simular o requisito comum de que qualquer dado transmitido pela rede deve ser ofuscado. Esse fluxo de trabalho é aplicável aos casos de uso em que os dados são coletados em uma zona confiável, mas devem ser passados fora dessa zona confiável para inferência. Sem ofuscação do Protopia, não é possível implementar este tipo de fluxo de trabalho sem que dados confidenciais saiam da zona confiável.
+

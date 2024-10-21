@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: ai/tr-4799.html 
+keywords:  
+summary:  
+---
+= TR-4799-design: Arquitetura de referência de AI da NetApp ONTAP para workloads com direção autônoma
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp e Shiloh
+
+[role="lead"]
+A família de sistemas DGX da NVIDIA é a primeira plataforma de inteligência artificial (AI) integrada do mundo criada sob medida para a AI empresarial. Os sistemas de storage da NetApp AFF oferecem performance extrema e recursos de gerenciamento de dados de nuvem híbrida líderes do setor. A NetApp e a NVIDIA se uniram para criar a arquitetura de referência do NetApp ONTAP AI para oferecer aos clientes uma solução pronta para uso para suporte a workloads de IA e aprendizado de máquina (ML) com desempenho, confiabilidade e suporte de nível empresarial.
+
+link:https://www.netapp.com/pdf.html?item=/media/8554-tr4799designpdf.pdf["TR-4799-design: Arquitetura de referência de AI da NetApp ONTAP para workloads com direção autônoma"^]

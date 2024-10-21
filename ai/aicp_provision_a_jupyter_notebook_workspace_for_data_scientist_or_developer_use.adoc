@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html 
+keywords: Jupyter, Notebook, Workspace, Kubeflow 
+summary: MLOps de código aberto com NetApp - provisione um espaço de trabalho de notebook do Jupyter para uso de cientista de dados ou desenvolvedor 
+---
+= Provisione um espaço de trabalho do Jupyter notebook para uso de cientista de dados ou desenvolvedor
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O Kubeflow é capaz de provisionar rapidamente novos servidores Jupyter notebook para atuar como espaços de trabalho de cientista de dados. Para obter mais informações sobre notebooks Jupyter no contexto Kubeflow, consulte https://www.kubeflow.org/docs/components/notebooks/["Documentação oficial do Kubeflow"^].
+
+image:aicp_image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

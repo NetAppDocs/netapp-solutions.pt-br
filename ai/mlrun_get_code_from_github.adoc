@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_get_code_from_github.html 
+keywords: NetApp GitHub Cloud Volume 
+summary:  
+---
+= Obtenha o código do GitHub
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Agora que o volume NetApp Cloud volume ou NetApp Trident está disponível para o cluster Iguazio e para o ambiente de desenvolvedor, você pode começar a revisar o aplicativo.
+
+Os usuários têm sua própria área de trabalho (diretório). Em cada bloco de anotações, o caminho para o diretório do usuário é `/User`. A plataforma Iguazio gerencia o diretório. Se você seguir as instruções acima, o volume da nuvem do NetApp estará disponível `/netapp` no diretório.
+
+Obtenha o código do GitHub usando um terminal Jupyter.
+
+image:mlrun_image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+No prompt do terminal do Jupyter, clone o projeto.
+
+....
+cd /User
+git clone .
+....
+Agora você deve ver a `netops- netapp` pasta na árvore de arquivos no espaço de trabalho do Jupyter.

@@ -1,0 +1,92 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_software_and_hardware_requirements.html 
+keywords: NetApp, Software, Hardware, Network, Requirements 
+summary:  
+---
+= Requisitos de software e hardware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+este artigo define os requisitos de hardware que devem ser atendidos para implantar essa solução.
+
+
+
+== Configuração de rede
+
+O seguinte é o requisito de configuração de rede para configuração na nuvem:
+
+* O cluster do Iguazio e o NetApp Cloud volumes devem estar na mesma nuvem privada virtual.
+* O gerente de nuvem deve ter acesso à porta 6443 nos nós do aplicativo Iguazio.
+* Usamos o Amazon Web Services neste relatório técnico. No entanto, os usuários têm a opção de implantar a solução em qualquer provedor de nuvem. Para testes no local no ONTAP AI com o NVIDIA DGX-1, usamos o serviço DNS hospedado no Iguazio por conveniência.
+
+
+Os clientes devem poder acessar domínios DNS criados dinamicamente. Os clientes podem usar seu próprio DNS, se desejado.
+
+
+
+== Requisitos de hardware
+
+Você pode instalar o Iguazio on-premises em seu próprio cluster. Verificamos a solução no NetApp ONTAP AI com um sistema NVIDIA DGX-1. A tabela a seguir lista o hardware usado para testar essa solução.
+
+|===
+| Hardware | Quantidade 
+
+
+| Sistemas DGX-1 | 1 
+
+
+| Sistema NetApp AFF A800 | 1 par de alta disponibilidade (HA), inclui 2 controladoras e 48 SSDs NVMe (3,8TB ou superior) 
+
+
+| Switches de rede Cisco Nexus 3232C | 2 
+|===
+A tabela a seguir lista os componentes de software necessários para o teste no local:
+
+|===
+| Software | Versão ou outras informações 
+
+
+| Software de gerenciamento de dados NetApp ONTAP | 9,7 
+
+
+| Firmware do switch Cisco NX-os | 7,0 (3)I6 (1) 
+
+
+| NVIDIA DGX os | 4,4 - Ubuntu 18,04 LTS 
+
+
+| Plataforma de contêiner do Docker | 19.03.5 
+
+
+| Versão do contentor | 20,01-tf1-py2 
+
+
+| Estrutura de aprendizado de máquina | TensorFlow 1.15.0 
+
+
+| Iguazio | Versão 2,8 mais recente 
+
+
+| ESX Server | 6,5 
+|===
+Essa solução foi totalmente testada com o Iguazio versão 2,5 e o NetApp Cloud Volumes ONTAP para AWS. O cluster Iguazio e o software NetApp estão sendo executados na AWS.
+
+|===
+| Software | Versão ou tipo 
+
+
+| Iguazio | Versão 2,8 mais recente 
+
+
+| Nó da aplicação | M5.4xlarge 
+
+
+| Nó de dados | I3.4xlarge 
+|===

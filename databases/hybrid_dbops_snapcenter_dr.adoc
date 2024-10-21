@@ -1,0 +1,184 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_dr.html 
+summary: Soluções de banco de dados em nuvem híbrida com workflow SnapCenter DR 
+keywords: 'netapp, solutions, database, SnapCenter, DR, "business continuity", "disaster recovery"' 
+---
+= Fluxo de trabalho de recuperação de desastre
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+As empresas adotaram a nuvem pública como um recurso viável e destino para recuperação de desastres. O SnapCenter torna esse processo o mais perfeito possível. Esse fluxo de trabalho de recuperação de desastres é muito semelhante ao fluxo de trabalho clone, mas a recuperação de banco de dados é executada pelo último log disponível que foi replicado para a nuvem para recuperar todas as transações comerciais possíveis. No entanto, existem etapas adicionais de pré-configuração e pós-configuração específicas para a recuperação de desastres.
+
+
+
+== Clone um banco de dados de produção Oracle local para a nuvem para DR
+
+. Para validar que a recuperação do clone é executada pelo último log disponível, criamos uma pequena tabela de teste e inserimos uma linha. Os dados de teste seriam recuperados após uma recuperação completa para o último log disponível.
++
+image:snapctr_ora_dr_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Faça login no SnapCenter como um ID de usuário de gerenciamento de banco de dados para Oracle. Navegue até a guia recursos, que mostra os bancos de dados Oracle protegidos pelo SnapCenter.
++
+image:snapctr_ora_dr_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione o grupo de recursos de log Oracle e clique em fazer backup agora para executar manualmente um backup de log Oracle para liberar a transação mais recente para o destino na nuvem. Em um cenário real de DR, a última transação recuperável depende da frequência de replicação do volume de log do banco de dados para a nuvem, que por sua vez depende da política de rto ou RPO da empresa.
++
+image:snapctr_ora_dr_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:snapctr_ora_dr_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+
+NOTE: O Asynchronous SnapMirror perde dados que não chegaram ao destino da nuvem no intervalo de backup do log do banco de dados em um cenário de recuperação de desastres. Para minimizar a perda de dados, é possível agendar um backup de log mais frequente. No entanto, há um limite para a frequência de backup de log que é tecnicamente viável.
+
+. Selecione o último backup de log no(s) secundário(s) espelho(s) Backup(s) e monte o backup de log.
++
+image:snapctr_ora_dr_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:snapctr_ora_dr_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione o último backup completo do banco de dados e clique em Clone para iniciar o fluxo de trabalho do clone.
++
+image:snapctr_ora_dr_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione um ID de banco de dados clone exclusivo no host.
++
+image:snapctr_ora_dr_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Provisione um volume de log e monte-o no servidor de DR de destino para a área de recuperação flash Oracle e logs on-line.
++
+image:snapctr_ora_dr_09.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:snapctr_ora_dr_10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+
+NOTE: O procedimento de clone do Oracle não cria um volume de log, que precisa ser provisionado no servidor de DR antes da clonagem.
+
+. Selecione o host e o local do clone de destino para colocar os arquivos de dados, os arquivos de controle e refazer os logs.
++
+image:snapctr_ora_dr_11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione as credenciais para o clone. Preencha os detalhes da configuração inicial do Oracle no servidor de destino.
++
+image:snapctr_ora_dr_12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique os scripts a serem executados antes da clonagem. Os parâmetros do banco de dados podem ser ajustados se necessário.
++
+image:snapctr_ora_dr_13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione até Cancelar como a opção de recuperação para que a recuperação seja executada em todos os logs de arquivamento disponíveis para recuperar a última transação replicada para o local de nuvem secundário.
++
+image:snapctr_ora_dr_14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure o servidor SMTP para notificação por e-mail, se necessário.
++
+image:snapctr_ora_dr_15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Resumo do clone de DR.
++
+image:snapctr_ora_dr_16.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Os DBS clonados são registrados no SnapCenter imediatamente após a conclusão do clone e estão disponíveis para proteção de backup.
++
+image:snapctr_ora_dr_16_1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Validação e configuração de clones pós-DR para Oracle
+
+. Valide a última transação de teste que foi lavada, replicada e recuperada no local de DR na nuvem.
++
+image:snapctr_ora_dr_17.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure a área de recuperação do flash.
++
+image:snapctr_ora_dr_18.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure o ouvinte Oracle para acesso do usuário.
+. Divida o volume clonado fora do volume de origem replicado.
+. Replicação reversa da nuvem para o local e reconstrua o servidor de banco de dados local com falha.
+
+
+
+NOTE: A divisão de clones pode incorrer em utilização temporária de espaço de storage muito maior do que a operação normal. No entanto, depois que o servidor de banco de dados local é reconstruído, espaço extra pode ser liberado.
+
+
+
+== Clone um banco de dados de produção SQL no local para a nuvem para DR
+
+. Da mesma forma, para validar que a recuperação do clone SQL foi executada através do último log disponível, criamos uma pequena tabela de teste e inserimos uma linha. Os dados de teste seriam recuperados após uma recuperação completa para o último log disponível.
++
+image:snapctr_sql_dr_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Faça login no SnapCenter com um ID de usuário de gerenciamento de banco de dados para SQL Server. Navegue até a guia recursos, que mostra o grupo recursos de proteção do SQL Server.
++
+image:snapctr_sql_dr_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Execute manualmente um backup de log para liberar a última transação a ser replicada para o storage secundário na nuvem pública.
++
+image:snapctr_sql_dr_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione o último backup completo do SQL Server para o clone.
++
+image:snapctr_sql_dr_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Defina a configuração do clone, como o servidor Clone, a instância de clone, o Nome do clone e a opção de montagem. O local de armazenamento secundário onde a clonagem é executada é preenchido automaticamente.
++
+image:snapctr_sql_dr_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione todos os backups de log a serem aplicados.
++
+image:snapctr_sql_dr_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique quaisquer scripts opcionais para serem executados antes ou depois da clonagem.
++
+image:snapctr_sql_dr_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique um servidor SMTP se a notificação por e-mail for desejada.
++
+image:snapctr_sql_dr_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Resumo do clone de DR. Os bancos de dados clonados são imediatamente registrados no SnapCenter e estão disponíveis para proteção de backup.
++
+image:snapctr_sql_dr_09.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:snapctr_sql_dr_10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Validação e configuração do clone pós-DR para SQL
+
+. Monitorar o status do trabalho clone.
++
+image:snapctr_sql_dr_11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Valide que a última transação foi replicada e recuperada com todos os clones e recuperação de arquivos de log.
++
+image:snapctr_sql_dr_12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure um novo diretório de log do SnapCenter no servidor DR para backup de log do SQL Server.
+. Divida o volume clonado fora do volume de origem replicado.
+. Replicação reversa da nuvem para o local e reconstrua o servidor de banco de dados local com falha.
+
+
+
+
+== Onde ir para ajuda?
+
+Se você precisar de ajuda com esta solução e casos de uso, entre no link:https://netapppub.slack.com/archives/C021R4WC0LC["A comunidade de automação de soluções da NetApp oferece suporte ao canal Slack"] e procure o canal de automação de soluções para postar suas perguntas ou perguntas.

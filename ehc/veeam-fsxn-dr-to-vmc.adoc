@@ -1,0 +1,228 @@
+---
+sidebar: sidebar 
+permalink: ehc/veeam-fsxn-dr-to-vmc.html 
+keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, fsxn, FSx ONTAP, FSx ONTAP, disaster recovery, dr, veeam, replication 
+summary:  
+---
+= Usando o Veeam Replication e o FSX ONTAP para recuperação de desastres no VMware Cloud na AWS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A integração do Amazon FSX ONTAP com o VMware Cloud on AWS é um datastore NFS externo gerenciado pela AWS, criado no sistema de arquivos ONTAP da NetApp, que pode ser anexado a um cluster no SDDC. Ele fornece aos clientes uma infraestrutura de storage virtualizada flexível e de alto desempenho que pode ser dimensionada independentemente dos recursos de computação.
+
+Autor: Niyaz Mohamed - Engenharia de soluções da NetApp
+
+
+
+== Visão geral
+
+Para os clientes que desejam usar o VMware Cloud no AWS SDDC como destino de recuperação de desastres, os datastores do FSX ONTAP podem ser usados para replicar dados no local usando qualquer solução validada de terceiros que ofereça funcionalidade de replicação de VM. Ao adicionar o armazenamento de dados do FSX ONTAP, ele permitirá uma implantação com custo otimizado do que a criação da nuvem VMware no AWS SDDC com uma enorme quantidade de hosts ESXi apenas para acomodar o armazenamento.
+
+Essa abordagem também ajuda os clientes a usar o cluster de luz piloto no VMC juntamente com os datastores do FSX ONTAP para hospedar as réplicas de VM. O mesmo processo também pode ser estendido como uma opção de migração para o VMware Cloud on AWS, falhando suavemente o plano de replicação.
+
+
+
+== Declaração de problema
+
+Este documento descreve como usar o armazenamento de dados do FSX ONTAP e o Veeam Backup e a replicação para configurar a recuperação de desastres para VMs VMware locais no VMware Cloud na AWS usando a funcionalidade de replicação de VM.
+
+O Veeam Backup & Replication permite a replicação no local e remota para recuperação de desastres (DR). Quando as máquinas virtuais são replicadas, o Veeam Backup & Replication cria uma cópia exata das VMs no formato nativo do VMware vSphere no cluster de destino do VMware Cloud no AWS SDDC e mantém a cópia sincronizada com a VM original.
+
+A replicação fornece os melhores valores de objetivo de tempo de recuperação (rto), pois há uma cópia de uma VM no estado pronto para iniciar. Esse mecanismo de replicação garante que as cargas de trabalho possam iniciar rapidamente no VMware Cloud no AWS SDDC em caso de desastre. O software Veeam Backup & Replication também otimiza a transmissão de tráfego para replicação por WAN e conexões lentas. Além disso, ele também filtra blocos de dados duplicados, blocos de dados zero, arquivos de swap e arquivos de sistema operacional convidado VM excluídos e comprime o tráfego de réplica.
+
+Para evitar que os trabalhos de replicação consumam toda a largura de banda da rede, podem ser implementados aceleradores de WAN e regras de limitação de rede. O processo de replicação no Veeam Backup & Replication é orientado a trabalhos, o que significa que a replicação é realizada configurando tarefas de replicação. Em caso de desastre, o failover pode ser acionado para recuperar as VMs com falha na cópia de réplica.
+
+Quando o failover é executado, uma VM replicada assume a função da VM original. O failover pode ser executado no estado mais recente de uma réplica ou em qualquer um de seus pontos de restauração conhecidos. Isso possibilita a recuperação de ransomware ou testes isolados, conforme necessário. No Veeam Backup & Replication, o failover e o failback são etapas intermediárias temporárias que devem ser finalizadas. O Veeam Backup & Replication oferece várias opções para lidar com diferentes cenários de recuperação de desastres.
+
+image:dr-veeam-fsx-image1.png["Diagrama do cenário de DR usando o Veeam Replication e o FSX ONTAP para VMC"]
+
+
+
+== Implantação de soluções
+
+
+
+=== Degraus de alto nível
+
+. O software Veeam Backup and Replication é executado em um ambiente local com conectividade de rede apropriada.
+. Para implantar, configurar o VMware Cloud no AWS link:https://vmc.techzone.vmware.com/fsx-guide["Integração do VMware Cloud no AWS com o Guia de implantação do Amazon FSX ONTAP"]SDDC e o FSX ONTAP como armazenamento de dados NFS. (Um ambiente de luz piloto configurado com uma configuração mínima pode ser usado para fins de DR. As VMs farão failover para esse cluster no caso de um incidente, e nós adicionais podem ser adicionados).
+. Configure tarefas de replicação para criar réplicas de VM usando o Veeam Backup and Replication.
+. Crie um plano de failover e execute o failover.
+. Volte para as VMs de produção assim que o evento de desastre estiver concluído e o local principal estiver ativo.
+
+
+
+
+=== Pré-requisitos para replicação de VM Veeam para armazenamentos de dados VMC e FSX ONTAP
+
+. Garanta que a VM de backup do Veeam Backup & Replication esteja conetada ao vCenter de origem, bem como à nuvem de destino do VMware nos clusters AWS SDDC.
+. O servidor de backup deve ser capaz de resolver nomes curtos e conetar-se a vCenters de origem e destino.
+. O armazenamento de dados FSX ONTAP de destino deve ter espaço livre suficiente para armazenar VMDKs de VMs replicadas
+
+
+Para obter informações adicionais, consulte "considerações e limitações" cobertas link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["aqui"].
+
+
+
+=== Detalhes da implantação
+
+.Etapa 1: Replique VMs
+[%collapsible]
+====
+O Veeam Backup & Replication utiliza os recursos de snapshot do VMware vSphere e, durante a replicação, o Veeam Backup & Replication solicita ao VMware vSphere que crie um snapshot de VM. O snapshot da VM é a cópia pontual de uma VM que inclui discos virtuais, estado do sistema, configuração e assim por diante. O Veeam Backup & Replication usa o snapshot como fonte de dados para replicação.
+
+Para replicar VMs, siga as etapas abaixo:
+
+. Abra o Veeam Backup & Replication Console.
+. Na visualização inicial, selecione trabalho de replicação > Máquina virtual > VMware vSphere.
+. Especifique um nome de tarefa e selecione a caixa de seleção de controle avançado apropriada. Clique em seguinte.
++
+** Marque a caixa de seleção réplica de semeadura se a conetividade entre o local e a AWS tiver largura de banda restrita.
+** Marque a caixa de seleção remapeamento de rede (para sites VMC da AWS com redes diferentes) se os segmentos no VMware Cloud no AWS SDDC não corresponderem aos das redes locais.
+** Se o esquema de endereçamento IP no local de produção local for diferente do esquema no site AWS VMC, selecione a caixa de seleção Replica Re-IP (para sites de DR com esquema de endereçamento IP diferente).
++
+image:dr-veeam-fsx-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+. Selecione as VMs que precisam ser replicadas para o armazenamento de dados do FSX ONTAP conetado ao VMware Cloud no AWS SDDC na etapa *máquinas virtuais*. As máquinas virtuais podem ser colocadas no VSAN para preencher a capacidade disponível do armazenamento de dados VSAN. Em um cluster de luzes piloto, a capacidade utilizável de um cluster de 3 nós será limitada. O restante dos dados pode ser replicado para os datastores do FSX ONTAP. Clique em *Add*, em seguida, na janela *Add Object*, selecione as VMs ou os contentores VM necessários e clique em *Add*. Clique em *seguinte*.
++
+image:dr-veeam-fsx-image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Depois disso, selecione o destino como VMware Cloud no cluster/host AWS SDDC e o pool de recursos apropriado, a pasta VM e o datastore FSX ONTAP para réplicas de VM. Em seguida, clique em *seguinte*.
++
+image:dr-veeam-fsx-image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na próxima etapa, crie o mapeamento entre a rede virtual de origem e destino, conforme necessário.
++
+image:dr-veeam-fsx-image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na etapa *Job Settings*, especifique o repositório de backup que armazenará metadados para réplicas de VM, política de retenção e assim por diante.
+. Atualize os servidores proxy *Source* e *Target* na etapa *Data Transfer* e deixe a seleção *Automatic* (padrão) e mantenha a opção *Direct* selecionada e clique em *Next*.
+. Na etapa *processamento de convidados*, selecione a opção *Ativar processamento com reconhecimento de aplicativos* conforme necessário. Clique em *seguinte*.
++
+image:dr-veeam-fsx-image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Escolha o agendamento de replicação para executar o trabalho de replicação regularmente.
+. Na etapa *Summary* do assistente, revise os detalhes da tarefa de replicação. Para iniciar o trabalho logo após o encerramento do assistente, marque a caixa de seleção *Executar o trabalho quando clicar em concluir*; caso contrário, deixe a caixa de seleção não selecionada. Em seguida, clique em *Finish* para fechar o assistente.
++
+image:dr-veeam-fsx-image7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+Quando a tarefa de replicação for iniciada, as VMs com o sufixo especificado serão preenchidas no cluster/host VMC SDDC de destino.
+
+image:dr-veeam-fsx-image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Para obter informações adicionais sobre a replicação da Veeam, link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["Como a replicação funciona"]consulte .
+
+====
+.Etapa 2: Crie um plano de failover
+[%collapsible]
+====
+Quando a replicação inicial ou a semeadura estiver concluída, crie o plano de failover. O plano de failover ajuda a executar o failover para VMs dependentes, uma por uma ou como um grupo automaticamente. O plano de failover é o modelo da ordem em que as VMs são processadas, incluindo os atrasos de inicialização. O plano de failover também ajuda a garantir que as VMs dependentes críticas já estejam em execução.
+
+Para criar o plano, navegue até a nova subseção chamada réplicas e selecione Plano de failover. Escolha as VMs apropriadas. O Veeam Backup & Replication procurará os pontos de restauração mais próximos a esse ponto no tempo e os usará para iniciar réplicas de VM.
+
+
+NOTE: O plano de failover só pode ser adicionado quando a replicação inicial estiver concluída e as réplicas da VM estiverem no estado Pronto.
+
+
+NOTE: O número máximo de VMs que podem ser iniciadas simultaneamente ao executar um plano de failover é 10.
+
+
+NOTE: Durante o processo de failover, as VMs de origem não serão desligadas.
+
+Para criar o *Plano de failover*, faça o seguinte:
+
+. Na visualização inicial, selecione *Plano de failover > VMware vSphere*.
+. Em seguida, forneça um nome e uma descrição para o plano. Os scripts pré e pós-failover podem ser adicionados conforme necessário. Por exemplo, execute um script para desligar as VMs antes de iniciar as VMs replicadas.
++
+image:dr-veeam-fsx-image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Adicione as VMs ao plano e modifique a ordem de inicialização da VM e os atrasos de inicialização para atender às dependências do aplicativo.
++
+image:dr-veeam-fsx-image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+Para obter informações adicionais sobre a criação de trabalhos de replicação, link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["Criando trabalhos de replicação"]consulte .
+
+====
+.Etapa 3: Execute o plano de failover
+[%collapsible]
+====
+Durante o failover, a VM de origem no local de produção é comutada para a réplica no local de recuperação de desastres. Como parte do processo de failover, o Veeam Backup & Replication restaura a réplica da VM para o ponto de restauração necessário e move todas as atividades de e/S da VM de origem para a réplica. As réplicas podem ser usadas não apenas em caso de desastre, mas também para simular exercícios de DR. Durante a simulação de failover, a VM de origem permanece em execução. Uma vez que todos os testes necessários tenham sido realizados, você pode desfazer o failover e retornar às operações normais.
+
+
+NOTE: Certifique-se de que a segmentação de rede está em vigor para evitar conflitos de IP durante os exercícios de DR.
+
+Para iniciar o plano de failover, basta clicar na guia *planos de failover* e clicar com o botão direito do Mouse no plano de failover. Selecione *Iniciar*. Isso fará failover usando os pontos de restauração mais recentes das réplicas de VM. Para fazer failover para pontos de restauração específicos de réplicas de VM, selecione *Iniciar para*.
+
+image:dr-veeam-fsx-image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:dr-veeam-fsx-image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O estado da réplica da VM muda de Pronto para failover e as VMs serão iniciadas no VMware Cloud de destino no cluster/host do AWS SDDC.
+
+image:dr-veeam-fsx-image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Quando o failover estiver concluído, o status das VMs mudará para "failover".
+
+image:dr-veeam-fsx-image14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+NOTE: O Veeam Backup & Replication interrompe todas as atividades de replicação da VM de origem até que a réplica seja retornada ao estado Pronto.
+
+Para obter informações detalhadas sobre planos de failover, link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_plan.html?ver=120["Planos de failover"]consulte .
+
+====
+.Passo 4: Failback para o local de produção
+[%collapsible]
+====
+Quando o plano de failover está em execução, ele é considerado como uma etapa intermediária e precisa ser finalizado com base no requisito. As opções incluem o seguinte:
+
+* *Failback to Production* - volte para a VM original e transfira todas as alterações que ocorreram enquanto a réplica da VM estava sendo executada para a VM original.
+
+
+
+NOTE: Quando você executa o failback, as alterações são transferidas apenas, mas não publicadas. Escolha *Commit failback* (uma vez que a VM original for confirmada para funcionar como esperado) ou *Undo failback* para voltar à réplica da VM se a VM original não estiver funcionando como esperado.
+
+* *Undo failover* - alterne de volta para a VM original e descarte todas as alterações feitas na réplica da VM enquanto ela estava sendo executada.
+* * Failover permanente* - alterne permanentemente da VM original para uma réplica da VM e use essa réplica como a VM original.
+
+
+Nesta demonstração, o Failback to Production foi escolhido. O failback para a VM original foi selecionado durante a etapa de destino do assistente e a caixa de seleção "Power on VM after restoring" foi ativada.
+
+image:dr-veeam-fsx-image15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:dr-veeam-fsx-image16.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A confirmação de failback é uma das maneiras de finalizar a operação de failback. Quando o failback é confirmado, ele confirma que as alterações enviadas para a VM que está com falha (a VM de produção) estão funcionando como esperado. Após a operação de confirmação, o Veeam Backup & Replication retoma as atividades de replicação para a VM de produção.
+
+Para obter informações detalhadas sobre o processo de failback, consulte a documentação da Veeam para link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["Failover e failback para replicação"].
+
+image:dr-veeam-fsx-image17.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:dr-veeam-fsx-image18.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Depois que o failback para a produção for bem-sucedido, todas as VMs serão restauradas de volta ao local de produção original.
+
+image:dr-veeam-fsx-image19.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+====
+
+
+== Conclusão
+
+O recurso de armazenamento de dados do FSX ONTAP permite que a Veeam ou qualquer ferramenta de terceiros validada forneça solução de DR de baixo custo usando o cluster de luz piloto e sem colocar um grande número de hosts no cluster apenas para acomodar a cópia de réplica da VM. Isso fornece uma solução poderosa para lidar com um plano de recuperação de desastres personalizado e também permite reutilizar produtos de backup existentes internamente para atender às necessidades de DR, permitindo assim a recuperação de desastres baseada na nuvem saindo de datacenters DR no local. O failover pode ser feito como failover planejado ou failover com um clique em um botão quando ocorre um desastre, e é tomada a decisão de ativar o local de DR.
+
+Para saber mais sobre esse processo, fique à vontade para seguir o vídeo detalhado.
+
+video::15fed205-8614-4ef7-b2d0-b061015e925a[panopto,width=Video walkthrough of the solution]

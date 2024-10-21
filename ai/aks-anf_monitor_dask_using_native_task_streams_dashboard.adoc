@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_monitor_dask_using_native_task_streams_dashboard.html 
+keywords: dashboard, progress bar, bytes stored, task stream, dataframe, criteo click log 
+summary: Esta página descreve como monitorar o Dask usando o painel nativo do fluxo de tarefas. 
+---
+= Monitore o Dask usando o painel nativo Task Streams
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O https://docs.dask.org/en/latest/scheduling.html["Dask Programador distribuído"^] fornece feedback em direto em duas formas:
+
+* Um painel interativo contendo muitos gráficos e tabelas com informações ao vivo
+* Uma barra de progresso adequada para uso interativo em consoles ou notebooks
+
+
+No nosso caso, a figura a seguir mostra como você pode monitorar o progresso da tarefa, incluindo bytes armazenados, o fluxo de tarefas com uma discriminação detalhada do número de fluxos e progresso por nomes de tarefas com funções associadas executadas. No nosso caso, como temos três nós de trabalho, há três blocos principais de fluxo e os códigos de cores denotam tarefas diferentes dentro de cada fluxo.
+
+image:aks-anf_image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Você tem a opção de analisar tarefas individuais e examinar o tempo de execução em milissegundos ou identificar quaisquer obstáculos ou obstáculos. Por exemplo, a figura a seguir mostra os fluxos de tarefa para a etapa de ajuste de modelo de floresta aleatória. Há consideravelmente mais funções sendo executadas, incluindo chunk exclusivo para processamento DataFrame, _construct_rf para ajustar a floresta aleatória, e assim por diante. A maior parte do tempo foi gasto em operações do DataFrame devido ao tamanho grande (45GB) de um dia de dados dos Logs de clique da Criteo.
+
+image:aks-anf_image14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

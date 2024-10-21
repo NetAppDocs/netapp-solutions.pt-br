@@ -1,0 +1,110 @@
+---
+sidebar: sidebar 
+permalink: rhhc/on-premises/setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Implante e configure a plataforma de contentor Red Hat OpenShift no VMware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Esta seção descreve um fluxo de trabalho de alto nível de como configurar e gerenciar clusters OpenShift e gerenciar aplicativos com estado neles. Isso mostra o uso de storage arrays NetApp ONTAP com a ajuda do Astra Trident para fornecer volumes persistentes. Fornecemos detalhes sobre o uso do Astra Control Center para realizar atividades de proteção e migração de dados para as aplicações com estado monitorado.
+
+
+NOTE: Há várias maneiras de implantar clusters de plataforma de contentor do Red Hat OpenShift. Esta descrição de alto nível da configuração fornece links de documentação para o método específico que foi usado. Pode consultar os outros métodos nos links relevantes fornecidos no link:../rhhc-resources.html["seção recursos"].
+
+Aqui está um diagrama que mostra os clusters implantados no VMware em um data center.
+
+image:rhhc-on-premises.png[""]
+
+O processo de configuração pode ser dividido nas seguintes etapas:
+
+.Implante e configure uma VM CentOS
+[%collapsible]
+====
+* Ele é implantado no ambiente VMware vSphere.
+* Essa VM é usada para implantar alguns componentes, como o NetApp Astra Trident e o NetApp Astra Control Center, para a solução.
+* Um usuário raiz é configurado nesta VM durante a instalação.
+
+
+====
+.Implantar e configurar um cluster do OpenShift Container Platform no VMware vSphere (Hub Cluster)
+[%collapsible]
+====
+Consulte as instruções para o link:https://access.redhat.com/documentation/en-us/assisted_installer_for_openshift_container_platform/2022/html/assisted_installer_for_openshift_container_platform/installing-on-vsphere#doc-wrapper/["Implantação assistida"] método de implantação de um cluster OCP.
+
+
+TIP: Lembre-se do seguinte: - Criar chave pública e privada ssh para fornecer ao instalador. Essas chaves serão usadas para fazer login nos nós mestre e trabalhador, se necessário. - Baixe o programa de instalação do instalador assistido. Este programa é usado para inicializar as VMs que você cria no ambiente VMware vSphere para os nós mestre e trabalhador. - As VMs devem ter o requisito mínimo de CPU, memória e disco rígido. (Consulte os comandos vm create link:https://access.redhat.com/documentation/en-us/assisted_installer_for_openshift_container_platform/2022/html/assisted_installer_for_openshift_container_platform/installing-on-vsphere#doc-wrapper/["isto"]na página para os nós master e worker que fornecem essas informações) - o diskUUID deve ser ativado em todas as VMs. - Criar um mínimo de 3 nós para mestre e 3 nós para trabalhador. - Uma vez que eles são descobertos pelo instalador, ative o botão de alternância de integração do VMware vSphere.
+
+====
+.Instale o Gerenciamento Avançado de clusters no cluster do Hub
+[%collapsible]
+====
+Isso é instalado usando o Operador de Gerenciamento Avançado de Cluster no cluster do Hub. Consulte as instruções link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/install/installing#doc-wrapper["aqui"].
+
+====
+.Instale um Registro interno do Red Hat Quay no cluster do Hub.
+[%collapsible]
+====
+* É necessário um Registro interno para enviar a imagem Astra. Um Registro interno do Quay é instalado usando o Operador no cluster do Hub.
+* Consulte as instruções link:https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_on_openshift/index#installing_red_hat_quay_on_openshift["aqui"]
+
+
+====
+.Instalar dois clusters OCP adicionais (origem e destino)
+[%collapsible]
+====
+* Os clusters adicionais podem ser implantados usando o ACM no cluster do Hub.
+* Consulte as instruções link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/clusters/cluster_mce_overview#vsphere_prerequisites["aqui"].
+
+
+====
+.Configurar o armazenamento NetApp ONTAP
+[%collapsible]
+====
+* Instalar um cluster ONTAP com conetividade às VMs OCP no ambiente VMware.
+* Criar um SVM.
+* Configurar o lif de dados nas para acessar o storage na SVM.
+
+
+====
+.Instalar o NetApp Trident nos clusters do OCP
+[%collapsible]
+====
+* Instale o NetApp Trident em todos os três clusters: Hub, cluster de origem e destino
+* Consulte as instruções link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["aqui"].
+* Crie um back-end de storage para ONTAP-nas .
+* Crie uma classe de armazenamento para ONTAP-nas.
+* Consulte as instruções link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["aqui"].
+
+
+====
+.Instale o Centro de Controle NetApp Astra
+[%collapsible]
+====
+* O Centro de Controle NetApp Astra é instalado usando o Operador Astra no cluster do cubo.
+* Consulte as instruções link:https://docs.netapp.com/us-en/astra-control-center/get-started/acc_operatorhub_install.html["aqui"].
+
+
+Pontos a lembrar: * Faça o download da imagem do NetApp Astra Control Center no site de suporte. * Empurre a imagem para um Registro interno. * Consulte as instruções aqui.
+
+====
+.Implantar um aplicativo no cluster de origem
+[%collapsible]
+====
+Use OpenShift GitOps para implantar um aplicativo. (Por exemplo, Postgres, Fantasma)
+
+====
+.Adicione os clusters de origem e destino ao Astra Control Center.
+[%collapsible]
+====
+Depois de adicionar um cluster ao gerenciamento do Astra Control, você pode instalar aplicações no cluster (fora do Astra Control) e, em seguida, ir para a página aplicações no Astra Control para definir as aplicações e seus recursos. link:https://docs.netapp.com/us-en/astra-control-center/use/manage-apps.html["Comece a gerenciar aplicações da seção Astra Control Center"]Consulte a .
+
+====
+A próxima etapa é usar o Astra Control Center para proteção de dados e migração de dados da origem para o cluster de destino.

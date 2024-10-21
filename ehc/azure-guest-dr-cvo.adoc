@@ -1,0 +1,442 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure-guest-dr-cvo.html 
+keywords: tr4935, 4935, azure, avs, jetstream, guest connect, dr, disaster recovery 
+summary: A recuperação de desastres na nuvem é uma maneira resiliente e econômica de proteger workloads contra interrupções no local e eventos de corrupção de dados, como ransomware. Com o NetApp SnapMirror, os workloads da VMware no local que usam storage conectado ao hóspede podem ser replicados para o NetApp Cloud Volumes ONTAP em execução no Azure. 
+---
+= Recuperação de desastres com CVO e AVS (armazenamento conetado ao convidado)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A recuperação de desastres na nuvem é uma maneira resiliente e econômica de proteger workloads contra interrupções no local e eventos de corrupção de dados, como ransomware. Com o NetApp SnapMirror, os workloads da VMware no local que usam storage conectado ao hóspede podem ser replicados para o NetApp Cloud Volumes ONTAP em execução no Azure.
+
+
+
+== Visão geral
+
+Autores: Ravi BCB e Niyaz Mohamed, NetApp
+
+ This covers application data; however, what about the actual VMs themselves. Disaster recovery should cover all dependent components, including virtual machines, VMDKs, application data, and more. To accomplish this, SnapMirror along with Jetstream can be used to seamlessly recover workloads replicated from on-premises to Cloud Volumes ONTAP while using vSAN storage for VM VMDKs.
+Este documento fornece uma abordagem passo a passo para configurar e executar a recuperação de desastres que usa NetApp SnapMirror, JetStream e a solução VMware Azure (AVS).
+
+image:dr-cvo-avs-image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Suposições
+
+Este documento se concentra no storage in-Guest para dados de aplicativos (também conhecido como Guest Connected), e assumimos que o ambiente local está usando o SnapCenter para backups consistentes com aplicativos.
+
+
+NOTE: Este documento aplica-se a qualquer solução de backup ou recuperação de terceiros. Dependendo da solução usada no ambiente, siga as práticas recomendadas para criar políticas de backup que atendam aos SLAs organizacionais.
+
+Para conetividade entre o ambiente local e a rede virtual do Azure, use o alcance global de rota expressa ou uma WAN virtual com um gateway VPN. Os segmentos devem ser criados com base no design da VLAN local.
+
+
+NOTE: Existem várias opções para conetar datacenters locais ao Azure, o que nos impede de delinear um fluxo de trabalho específico neste documento. Consulte a documentação do Azure para obter o método de conetividade local para Azure apropriado.
+
+
+
+== Implantando a solução de DR
+
+
+
+=== Visão geral da implantação da solução
+
+. Garanta o backup dos dados das aplicações usando o SnapCenter com os requisitos de RPO necessários.
+. Provisione o Cloud Volumes ONTAP com o tamanho de instância correto usando o Cloud Manager dentro da assinatura apropriada e da rede virtual.
++
+.. Configure o SnapMirror para os volumes de aplicativos relevantes.
+.. Atualize as políticas de backup no SnapCenter para acionar atualizações do SnapMirror após os trabalhos programados.
+
+
+. Instale o software JetStream DR no data center local e inicie a proteção para máquinas virtuais.
+. Instale o software JetStream DR na nuvem privada Azure VMware Solution.
+. Durante um evento de desastre, quebre a relação do SnapMirror usando o Cloud Manager e acione o failover de máquinas virtuais para o Azure NetApp Files ou para armazenamentos de dados VSAN no local de recuperação de desastres designado.
++
+.. Reconecte as LUNs ISCSI e as montagens NFS das VMs da aplicação.
+
+
+. Invoque o failback para o local protegido por ressincronização reversa do SnapMirror após a recuperação do local principal.
+
+
+
+
+=== Detalhes da implantação
+
+.Configure o CVO no Azure e replique volumes para o CVO
+[%collapsible]
+====
+A primeira etapa é configurar o Cloud Volumes ONTAP no Azure (link:azure-guest.html["Link"^]) e replicar os volumes desejados para o Cloud Volumes ONTAP com as frequências desejadas e retenções de instantâneos.
+
+image:dr-cvo-avs-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+====
+.Configurar hosts AVS e acesso a dados CVO
+[%collapsible]
+====
+Dois fatores importantes a serem considerados ao implantar o SDDC são o tamanho do cluster SDDC na solução Azure VMware e o tempo para manter o SDDC em serviço. Essas duas principais considerações para uma solução de recuperação de desastres ajudam a reduzir os custos operacionais gerais. O SDDC pode ser tão pequeno quanto três hosts, até um cluster de vários hosts em uma implantação em escala completa.
+
+A decisão de implantar um cluster AVS baseia-se principalmente nos requisitos de RPO/rto. Com a solução Azure VMware, o SDDC pode ser provisionado a tempo em preparação para testes ou um evento de desastre real. Um SDDC implantado apenas no tempo economiza nos custos do host ESXi quando você não está lidando com um desastre. No entanto, essa forma de implantação afeta o rto por algumas horas enquanto o SDDC está sendo provisionado.
+
+A opção mais comum implantada é ter SDDC funcionando em um modo de operação sempre ativo e com luz piloto. Essa opção oferece um pequeno espaço físico de três hosts que estão sempre disponíveis e também acelera as operações de recuperação fornecendo uma linha de base em execução para atividades de simulação e verificações de conformidade, evitando assim o risco de desvio operacional entre os locais de produção e DR. O cluster de luz piloto pode ser dimensionado rapidamente para o nível desejado, quando necessário para lidar com um evento de DR real.
+
+Para configurar o AVS SDDC (seja no modo sob demanda ou no modo de luz piloto), link:azure-setup.html["Implantar e configurar o ambiente de virtualização no Azure"^]consulte . Como pré-requisito, verifique se as VMs convidadas que residem nos hosts AVS são capazes de consumir dados do Cloud Volumes ONTAP após a conetividade ter sido estabelecida.
+
+Depois que o Cloud Volumes ONTAP e o AVS tiverem sido configurados corretamente, comece a configurar o Jetstream para automatizar a recuperação de cargas de trabalho locais para AVS (VMs com VMDKs de aplicação e VMs com armazenamento in-Guest) utilizando o mecanismo VAIO e utilizando o SnapMirror para cópias de volumes de aplicações para o Cloud Volumes ONTAP.
+
+====
+.Instalar o JetStream DR no data center local
+[%collapsible]
+====
+O software Jetstream DR consiste em três componentes principais: O JetStream DR Management Server Virtual Appliance (MSA), o DR Virtual Appliance (DRVA) e componentes de host (pacotes de filtro de e/S). O MSA é usado para instalar e configurar componentes de host no cluster de computação e, em seguida, para administrar o software JetStream DR. O processo de instalação é o seguinte:
+
+. Verifique os pré-requisitos.
+. Execute a ferramenta de Planejamento de capacidade para obter recomendações de recursos e configuração.
+. Implante o JetStream DR MSA para cada host vSphere no cluster designado.
+. Inicie o MSA usando seu nome DNS em um navegador.
+. Registre o servidor vCenter com o MSA.
+. Depois que o JetStream DR MSA tiver sido implantado e o vCenter Server tiver sido registrado, navegue até o plug-in JetStream DR com o vSphere Web Client. Isso pode ser feito navegando até Datacenter > Configure > JetStream DR.
++
+image:dr-cvo-avs-image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na interface de DR do JetStream, execute as seguintes tarefas:
++
+.. Configure o cluster com o pacote de filtro de e/S.
++
+image:dr-cvo-avs-image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+.. Adicione o storage Azure Blob localizado no local de recuperação.
++
+image:dr-cvo-avs-image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+. Implemente o número necessário de dispositivos virtuais DR (DRVAS) a partir do separador appliances.
++
+
+NOTE: Use a ferramenta de Planejamento de capacidade para estimar o número de DRVAS necessárias.
+
++
+image:dr-cvo-avs-image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:dr-cvo-avs-image7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Crie volumes de log de replicação para cada DRVA usando o VMDK nos datastores disponíveis ou no pool de armazenamento iSCSI compartilhado independente.
++
+image:dr-cvo-avs-image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na guia domínios protegidos, crie o número necessário de domínios protegidos usando informações sobre o site armazenamento de Blob do Azure, a instância DRVA e o log de replicação. Um domínio protegido define uma VM específica ou um conjunto de VMs de aplicação dentro do cluster que são protegidas em conjunto e atribuídas uma ordem de prioridade para operações de failover/failback.
++
+image:dr-cvo-avs-image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:dr-cvo-avs-image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione as VMs a serem protegidas e agrupe as VMs em grupos de aplicações com base na dependência. As definições de aplicativo permitem agrupar conjuntos de VMs em grupos lógicos que contêm suas ordens de inicialização, atrasos de inicialização e validações opcionais de aplicativos que podem ser executadas após a recuperação.
++
+
+NOTE: Certifique-se de que o mesmo modo de proteção seja usado para todas as VMs em um domínio protegido.
+
++
+
+NOTE: O modo write-back (VMDK) oferece maior desempenho.
+
++
+image:dr-cvo-avs-image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Certifique-se de que os volumes de log de replicação sejam colocados em armazenamento de alto desempenho.
++
+image:dr-cvo-avs-image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Depois de terminar, clique em Iniciar proteção para o domínio protegido. Isso inicia a replicação de dados para as VMs selecionadas para o armazenamento de Blob designado.
++
+image:dr-cvo-avs-image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Após a conclusão da replicação, o status de proteção da VM é marcado como recuperável.
++
+image:dr-cvo-avs-image14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+
+NOTE: Os runbooks de failover podem ser configurados para agrupar as VMs (chamadas de grupo de recuperação), definir a sequência de ordem de inicialização e modificar as configurações de CPU/memória juntamente com as configurações IP.
+
+. Clique em Configurações e, em seguida, clique no link Configuração do runbook para configurar o grupo do runbook.
++
+image:dr-cvo-avs-image15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique no botão criar grupo para começar a criar um novo grupo de runbook.
++
+
+NOTE: Se necessário, na parte inferior da tela, aplique pré-scripts personalizados e pós-scripts para serem executados automaticamente antes e depois da operação do grupo runbook. Certifique-se de que os scripts do runbook residem no servidor de gerenciamento.
+
++
+image:dr-cvo-avs-image16.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Edite as configurações da VM conforme necessário. Especifique os parâmetros para recuperar as VMs, incluindo a sequência de inicialização, o atraso de inicialização (especificado em segundos), o número de CPUs e a quantidade de memória a alocar. Altere a sequência de arranque das VMs clicando nas setas para cima ou para baixo. Também são fornecidas opções para reter o MAC.
++
+image:dr-cvo-avs-image17.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Os endereços IP estáticos podem ser configurados manualmente para as VMs individuais do grupo. Clique no link NIC View de uma VM para configurar manualmente suas configurações de endereço IP.
++
+image:dr-cvo-avs-image18.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique no botão Configurar para salvar as configurações da NIC para as respetivas VMs.
++
+image:dr-cvo-avs-image19.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:dr-cvo-avs-image20.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+O status dos runbooks de failover e failback agora está listado como configurado. Os grupos runbook failover e failback são criados em pares usando o mesmo grupo inicial de VMs e configurações. Se necessário, as configurações de qualquer grupo de runbook podem ser personalizadas individualmente clicando em seu respetivo link Detalhes e fazendo alterações.
+
+====
+.Instale o JetStream DR para AVS em nuvem privada
+[%collapsible]
+====
+Uma prática recomendada para um local de recuperação (AVS) é criar um cluster de luz piloto de três nós com antecedência. Isso permite que a infraestrutura do local de recuperação seja pré-configurada, incluindo o seguinte:
+
+* Segmentos de rede de destino, firewalls, serviços como DHCP e DNS, e assim por diante
+* Instalação do JetStream DR para AVS
+* Configuração de volumes do ANF como datastores e muito mais
+
+
+O Jetstream DR suporta um modo rto quase zero para domínios de missão crítica. Para esses domínios, o armazenamento de destino deve ser pré-instalado. Nesse caso, o ANF é um tipo de storage recomendado.
+
+
+NOTE: A configuração de rede, incluindo a criação de segmentos, deve ser configurada no cluster AVS para corresponder aos requisitos locais.
+
+
+NOTE: Dependendo dos requisitos de SLA e rto, você pode usar o modo de failover contínuo ou o modo de failover normal (padrão). Para rto quase zero, você deve começar a reidratação contínua no local de recuperação.
+
+. Para instalar o JetStream DR para AVS em uma nuvem privada da Azure VMware Solution, use o comando Executar. No portal do Azure, vá para a solução Azure VMware, selecione a nuvem privada e selecione Executar comando > Pacotes > JSDR.Configuration.
++
+
+NOTE: O usuário padrão do CloudAdmin da solução Azure VMware não tem Privileges suficiente para instalar o JetStream DR para AVS. A solução VMware do Azure permite a instalação simplificada e automatizada do JetStream DR invocando o comando Azure VMware Solution Run para o JetStream DR.
+
++
+A captura de tela a seguir mostra a instalação usando um endereço IP baseado em DHCP.
+
++
+image:dr-cvo-avs-image21.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Depois que a instalação do JetStream DR para AVS estiver concluída, atualize o navegador. Para aceder à IU do JetStream DR, aceda a SDDC Datacenter > Configure > JetStream DR.
++
+image:dr-cvo-avs-image22.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na interface de DR do JetStream, execute as seguintes tarefas:
++
+.. Adicione a conta de armazenamento Blob do Azure que foi usada para proteger o cluster local como um site de armazenamento e execute a opção Scan Domains (Digitalizar domínios).
+.. Na janela de diálogo pop-up que aparece, selecione o domínio protegido a importar e, em seguida, clique no link Importar.
++
+image:dr-cvo-avs-image23.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+. O domínio é importado para recuperação. Vá para a guia domínios protegidos e verifique se o domínio pretendido foi selecionado ou escolha o desejado no menu Selecionar domínio protegido. Uma lista das VMs recuperáveis no domínio protegido é exibida.
++
+image:dr-cvo-avs-image24.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Depois que os domínios protegidos são importados, implante dispositivos DRVA.
++
+
+NOTE: Essas etapas também podem ser automatizadas usando planos criados pelo CPT.
+
+. Crie volumes de log de replicação usando armazenamentos de dados VSAN ou ANF disponíveis.
+. Importe os domínios protegidos e configure o VA de recuperação para usar um armazenamento de dados do ANF para colocações de VM.
++
+image:dr-cvo-avs-image25.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+
+NOTE: Certifique-se de que o DHCP está ativado no segmento selecionado e que existem IPs suficientes disponíveis. IPs dinâmicos são usados temporariamente enquanto os domínios estão se recuperando. Cada VM em recuperação (incluindo reidratação contínua) requer um IP dinâmico individual. Após a conclusão da recuperação, o IP é liberado e pode ser reutilizado.
+
+. Selecione a opção de failover apropriada (failover contínuo ou failover). Neste exemplo, a reidratação contínua (failover contínuo) é selecionada.
++
+
+NOTE: Embora os modos de failover contínuo e failover difiram em quando a configuração é executada, ambos os modos de failover são configurados usando as mesmas etapas. As etapas de failover são configuradas e executadas em conjunto em resposta a um evento de desastre. O failover contínuo pode ser configurado a qualquer momento e, em seguida, pode ser executado em segundo plano durante a operação normal do sistema. Após um evento de desastre, o failover contínuo é concluído para transferir imediatamente a propriedade das VMs protegidas para o local de recuperação (rto quase zero).
+
++
+image:dr-cvo-avs-image26.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+O processo de failover contínuo começa e seu progresso pode ser monitorado a partir da IU. Clicar no ícone azul na seção Etapa atual expõe uma janela pop-up mostrando detalhes da etapa atual do processo de failover.
+
+====
+.Failover e failback
+[%collapsible]
+====
+. Depois que um desastre ocorre no cluster protegido do ambiente local (falha parcial ou completa), você pode acionar o failover para VMs usando o Jetstream depois de quebrar a relação do SnapMirror para os respetivos volumes de aplicativos.
++
+image:dr-cvo-avs-image27.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:dr-cvo-avs-image28.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+
+NOTE: Esta etapa pode ser facilmente automatizada para facilitar o processo de recuperação.
+
+. Acesse a IU do Jetstream no AVS SDDC (lado de destino) e acione a opção de failover para concluir o failover. A barra de tarefas mostra o progresso das atividades de failover.
++
+Na janela de diálogo que aparece ao concluir o failover, a tarefa de failover pode ser especificada como planejada ou assumida como forçada.
+
++
+image:dr-cvo-avs-image29.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:dr-cvo-avs-image30.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+O failover forçado assume que o site principal não está mais acessível e a propriedade do domínio protegido deve ser assumida diretamente pelo site de recuperação.
+
++
+image:dr-cvo-avs-image31.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:dr-cvo-avs-image32.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Após a conclusão do failover contínuo, é exibida uma mensagem confirmando a conclusão da tarefa. Quando a tarefa estiver concluída, acesse as VMs recuperadas para configurar sessões ISCSI ou NFS.
++
+
+NOTE: O modo failover muda para execução no failover e o status da VM é recuperável. Todas as VMs do domínio protegido estão agora em execução no local de recuperação no estado especificado pelas configurações do runbook de failover.
+
++
+
+NOTE: Para verificar a configuração e a infraestrutura de failover, o JetStream DR pode ser operado no modo de teste (opção Test failover) para observar a recuperação de máquinas virtuais e seus dados do armazenamento de objetos em um ambiente de recuperação de teste. Quando um procedimento de failover é executado no modo de teste, sua operação se assemelha a um processo de failover real.
+
++
+image:dr-cvo-avs-image33.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Depois que as máquinas virtuais forem recuperadas, use a recuperação de desastres de armazenamento para armazenamento no convidado. Para demonstrar esse processo, o SQL Server é usado neste exemplo.
+. Inicie sessão na VM SnapCenter recuperada no AVS SDDC e ative o modo DR.
++
+.. Acesse a IU do SnapCenter usando o browserN.
++
+image:dr-cvo-avs-image34.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+.. Na página Configurações, navegue até Configurações > Configurações globais > recuperação de desastres.
+.. Selecione Ativar recuperação de desastres.
+.. Clique em aplicar.
++
+image:dr-cvo-avs-image35.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+.. Verifique se o trabalho DR está ativado clicando em Monitor > trabalhos.
++
+
+NOTE: O NetApp SnapCenter 4,6 ou posterior deve ser usado para recuperação de desastres de storage. Para versões anteriores, snapshots consistentes com aplicativos (replicados usando SnapMirror) devem ser usados e a recuperação manual deve ser executada no caso de backups anteriores precisarem ser recuperados no local de recuperação de desastres.
+
+
+
+. Certifique-se de que a relação SnapMirror está quebrada.
++
+image:dr-cvo-avs-image36.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Anexe o LUN do Cloud Volumes ONTAP à VM convidada SQL recuperada com as mesmas letras de unidade.
++
+image:dr-cvo-avs-image37.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Abra o iniciador iSCSI, limpe a sessão desconetada anterior e adicione o novo destino juntamente com o multipath para os volumes Cloud Volumes ONTAP replicados.
++
+image:dr-cvo-avs-image38.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Certifique-se de que todos os discos estejam conetados usando as mesmas letras de unidade usadas antes do DR.
++
+image:dr-cvo-avs-image39.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Reinicie o serviço de servidor MSSQL.
++
+image:dr-cvo-avs-image40.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Certifique-se de que os recursos SQL estão novamente online.
++
+image:dr-cvo-avs-image41.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+
+NOTE: No caso de NFS, anexe os volumes usando o comando mount e atualize as `/etc/fstab` entradas.
+
++
+Nesse ponto, as operações podem ser executadas e os negócios continuam normalmente.
+
++
+
+NOTE: No fim do NSX-T, um gateway de camada 1 dedicado separado pode ser criado para simular cenários de failover. Isso garante que todas as cargas de trabalho possam se comunicar entre si, mas que nenhum tráfego possa ser direcionado para dentro ou para fora do ambiente, de modo que qualquer tarefa de triagem, contenção ou endurecimento possa ser executada sem risco de contaminação cruzada. Esta operação está fora do escopo deste documento, mas pode ser facilmente alcançada para simular o isolamento.
+
+
+
+Depois que o site principal estiver funcionando novamente, você poderá executar o failback. A proteção da VM é retomada pelo Jetstream e a relação SnapMirror deve ser revertida.
+
+. Restaure o ambiente no local. Dependendo do tipo de incidente de desastre, pode ser necessário restaurar e/ou verificar a configuração do cluster protegido. Se necessário, o software JetStream DR pode precisar ser reinstalado.
+. Acesse o ambiente local restaurado, vá para a IU do Jetstream DR e selecione o domínio protegido apropriado. Depois que o site protegido estiver pronto para failback, selecione a opção failback na IU.
++
+
+NOTE: O plano de failback gerado pelo CPT também pode ser usado para iniciar o retorno das VMs e seus dados do armazenamento de objetos de volta ao ambiente VMware original.
+
++
+image:dr-cvo-avs-image42.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+
+NOTE: Especifique o atraso máximo após pausar as VMs no local de recuperação e reiniciá-las no site protegido. O tempo necessário para concluir esse processo inclui a conclusão da replicação após a interrupção das VMs de failover, o tempo necessário para limpar o local de recuperação e o tempo necessário para recriar VMs no local protegido. A NetApp recomenda 10 minutos.
+
++
+image:dr-cvo-avs-image43.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Conclua o processo de failback e confirme a retomada da proteção da VM e da consistência dos dados.
++
+image:dr-cvo-avs-image44.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Depois que as VMs forem recuperadas, desconete o storage secundário do host e conete-se ao storage primário.
++
+image:dr-cvo-avs-image45.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:dr-cvo-avs-image46.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Reinicie o serviço de servidor MSSQL.
+. Verifique se os recursos SQL estão novamente online.
++
+image:dr-cvo-avs-image47.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+
+NOTE: Para fazer o failback para o storage primário, certifique-se de que a direção da relação permaneça a mesma antes do failover executando uma operação de ressincronização reversa.
+
++
+
+NOTE: Para manter as funções de armazenamento primário e secundário após a operação de ressincronização reversa, execute a operação de ressincronização reversa novamente.
+
+
+
+Esse processo é aplicável a outros aplicativos, como Oracle, tipos de banco de dados semelhantes e quaisquer outros aplicativos que usam armazenamento conetado a convidados.
+
+Como sempre, teste as etapas envolvidas para recuperar as cargas de trabalho críticas antes de transferi-las para a produção.
+
+====
+
+
+== Benefícios desta solução
+
+* Usa a replicação eficiente e resiliente do SnapMirror.
+* Recupera-se para todos os pontos disponíveis no tempo com a retenção de snapshots do ONTAP.
+* A automação completa está disponível para todas as etapas necessárias para recuperar de centenas a milhares de VMs, a partir das etapas de validação de storage, computação, rede e aplicativos.
+* O SnapCenter usa mecanismos de clonagem que não alteram o volume replicado.
++
+** Isso evita o risco de corrupção de dados para volumes e snapshots.
+** Evita interrupções de replicação durante os workflows de teste de DR.
+** Aproveita os dados de DR para workflows que vão além da DR, como desenvolvimento/teste, teste de segurança, teste de patch e atualização e teste de correção.
+
+
+* A otimização de CPU e RAM pode ajudar a reduzir os custos da nuvem, permitindo a recuperação para clusters de computação menores.
+

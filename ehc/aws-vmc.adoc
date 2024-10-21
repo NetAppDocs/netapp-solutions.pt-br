@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws-vmc.html 
+keywords: NetApp Solutions, hyperscalers, amazon, vmc, vmware managed cloud, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Funcionalidades do NetApp para AWS VMC
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba mais sobre os recursos que o NetApp oferece para a nuvem AWS VMware (VMC): Do NetApp como um dispositivo de armazenamento conetado convidado ou um datastore NFS suplementar à migração de fluxos de trabalho, estendendo/aumentando para a nuvem, backup/restauração e recuperação de desastres.
+
+Vá para a seção para o conteúdo desejado selecionando as seguintes opções:
+
+* link:#config["Configurando o VMC na AWS"]
+* link:#datastore["Opções de armazenamento do NetApp para VMC"]
+* link:#solutions["Soluções de nuvem da NetApp/VMware"]
+
+
+
+
+== Configurando o VMC na AWS
+
+Assim como no local, Planejar um ambiente de virtualização baseado na nuvem é essencial para um ambiente pronto para a produção bem-sucedido para a criação de VMs e migração.
+
+Esta seção descreve como configurar e gerenciar o VMware Cloud no AWS SDDC e usá-lo em combinação com as opções disponíveis para conetar o armazenamento NetApp.
+
+
+NOTE: O storage in-Guest é o único método com suporte para conetar o Cloud Volumes ONTAP ao AWS VMC.
+
+O processo de configuração pode ser dividido nas seguintes etapas:
+
+* Implante e configure o VMware Cloud para AWS
+* Conete o VMware Cloud ao FSX ONTAP
+
+
+Veja o detalhado link:aws-setup.html["Etapas de configuração para VMC"].
+
+
+
+== Opções de armazenamento do NetApp para VMC
+
+O storage NetApp pode ser utilizado de várias maneiras, seja como adivinhação conectada ou como armazenamento de dados NFS complementar, no AWS VMC.
+
+Visite link:ehc-support-configs.html["Opções de armazenamento NetApp suportadas"] para obter mais informações.
+
+A AWS oferece suporte ao storage NetApp nas seguintes configurações:
+
+* FSX ONTAP como armazenamento conetado ao hóspede
+* Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
+* O FSX ONTAP como um armazenamento de dados NFS complementar
+
+
+Veja o detalhado link:aws-guest.html["Opções de armazenamento Guest Connect para VMC"]. Veja o detalhado link:aws-native-nfs-datastore-option.html["Opções suplementares de armazenamento de dados NFS para VMC"].
+
+
+
+== Casos de uso da solução
+
+Com as soluções de nuvem da NetApp e da VMware, muitos casos de uso são simples de implantar no AWS VMC. Os casos de uso são definidos para cada uma das áreas de nuvem definidas pela VMware:
+
+* Proteger (inclui recuperação de desastres e backup / restauração)
+* Estender
+* Migrar
+
+
+link:aws-solutions.html["Navegue pelas soluções da NetApp para AWS VMC"]

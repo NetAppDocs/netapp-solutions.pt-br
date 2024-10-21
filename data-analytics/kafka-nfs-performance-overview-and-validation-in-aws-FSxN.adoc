@@ -1,0 +1,256 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-performance-overview-and-validation-in-aws-FSxN.html 
+keywords: AWS FSx ONTAP, openmessage benchmarking, architectural setup, kafka 
+summary: Um cluster Kafka com a camada de storage montada no NetApp NFS foi comparado ao desempenho na nuvem da AWS. Os exemplos de benchmarking são descritos nas seções a seguir. 
+---
+= Visão geral e validação do desempenho no AWS FSX ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Um cluster Kafka com a camada de armazenamento montada no NetApp NFS foi avaliado para desempenho no AWS FSX ONTAP. Os exemplos de benchmarking são descritos nas seções a seguir.
+
+
+
+== O AWS FSX ONTAP é um aplicativo gratuito que oferece serviços de gerenciamento de dados
+
+O Network File System (NFS) é um sistema de arquivos de rede amplamente utilizado para armazenar grandes quantidades de dados. Na maioria das organizações, os dados estão sendo gerados cada vez mais por aplicativos de streaming como o Apache Kafka. Esses workloads exigem escalabilidade, baixa latência e uma arquitetura robusta de ingestão de dados com funcionalidades modernas de storage. Para permitir análises em tempo real e fornecer insights acionáveis, é necessária uma infraestrutura bem projetada e de alta performance.
+
+O Kafka by design trabalha com o sistema de arquivos compatível com POSIX e conta com o sistema de arquivos para lidar com operações de arquivos, mas ao armazenar dados em um sistema de arquivos NFSv3, o cliente NFS do corretor Kafka pode interpretar as operações de arquivos de maneira diferente de um sistema de arquivos local como XFS ou EXT4. Um exemplo comum é o nome silly NFS que fez com que os corretores Kafka falhassem ao expandir clusters e realocar partições. Para lidar com esse desafio, a NetApp atualizou o cliente NFS Linux de código aberto com alterações agora geralmente disponíveis em RHEL8,7, RHEL9,1 e compatíveis com a versão atual do FSX ONTAP, ONTAP 9.12,1.
+
+O Amazon FSX ONTAP oferece um sistema de arquivos NFS totalmente gerenciado, dimensionável e de alta performance na nuvem. Os dados do Kafka no FSX ONTAP podem ser dimensionados para lidar com grandes quantidades de dados e garantir tolerância a falhas. O NFS fornece gerenciamento de storage centralizado e proteção de dados para conjuntos de dados essenciais e confidenciais.
+
+Esses aprimoramentos possibilitam que o cliente da AWS aproveite o FSX ONTAP ao executar cargas de trabalho do Kafka em serviços de computação da AWS. Estes benefícios são: * Redução da utilização da CPU para reduzir o tempo de espera de e/S * tempo de recuperação mais rápido do corretor Kafka. * Confiabilidade e eficiência. * Escalabilidade e desempenho. * Disponibilidade de zona de multidisponibilidade. * Proteção de dados.
+
+
+
+=== Visão geral e validação do desempenho no AWS FSX ONTAP
+
+Um cluster Kafka com a camada de storage montada no NetApp NFS foi comparado ao desempenho na nuvem da AWS. Os exemplos de benchmarking são descritos nas seções a seguir.
+
+
+
+==== O que é o AWS FSX ONTAP
+
+Um cluster do Kafka com o AWS FSX ONTAP foi avaliado para desempenho na nuvem da AWS. Este benchmarking é descrito nas seções a seguir.
+
+
+
+==== Configuração arquitetónica
+
+A tabela a seguir mostra a configuração ambiental de um cluster do Kafka usando o AWS FSX ONTAP.
+
+|===
+| Componente da plataforma | Configuração do ambiente 
+
+
+| Kafka 3.2.3  a| 
+* 3 x zookeepers – t2.small
+* 3 x servidores de corretores – i3en.2xlarge
+* 1 x Grafana – c5n.2xlarge
+* 4 x produtor/consumidor -- c5n.2xlarge *
+
+
+
+
+| Sistema operacional em todos os nós | RHEL8.6 
+
+
+| AWS FSX ONTAP | Multi-AZ com taxa de transferência de 4GB MB/s e 160000 IOPS 
+|===
+
+
+==== Configuração do NetApp FSX ONTAP
+
+. Para nossos testes iniciais, criamos um sistema de arquivos FSX ONTAP com 2TB TB de capacidade e 40000 IOPs para taxa de transferência de 2GB GB/seg.
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx create-file-system --region us-east-2  --storage-capacity 2048 --subnet-ids <desired subnet 1> subnet-<desired subnet 2> --file-system-type ONTAP --ontap-configuration DeploymentType=MULTI_AZ_HA_1,ThroughputCapacity=2048,PreferredSubnetId=<desired primary subnet>,FsxAdminPassword=<new password>,DiskIopsConfiguration="{Mode=USER_PROVISIONED,Iops=40000"}
+....
++
+Em nosso exemplo, estamos implantando o FSX ONTAP por meio da AWS CLI. Você precisará personalizar o comando ainda mais em seu ambiente, conforme necessário. Além disso, o FSX ONTAP pode ser implantado e gerenciado por meio do Console da AWS para uma experiência de implantação mais fácil e simplificada com menos entrada de linha de comando.
+
++
+No FSX ONTAP, o IOPS máximo alcançável para um sistema de arquivos de taxa de transferência de 2GB GB/seg em nossa região de teste (US-East-1) é de 80.000 iops. O total máximo de iops para um sistema de arquivos FSX ONTAP é de 160.000 iops que requer uma implantação de taxa de transferência de 4GB GB/seg para alcançar o que demonstraremos mais tarde neste documento.
+
++
+Para obter mais informações sobre as especificações de desempenho do FSX ONTAP, não hesite em visitar a documentação do AWS FSX ONTAP aqui: https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html[] .
+
++
+Sintaxe detalhada da linha de comando para FSX "create-file-system" pode ser encontrada aqui: https://docs.aws.amazon.com/cli/latest/reference/fsx/create-file-system.html[]
+
++
+Por exemplo, você pode especificar uma chave KMS específica em vez da chave mestra padrão do AWS FSX que é usada quando nenhuma chave KMS é especificada.
+
+. Ao criar o sistema de arquivos FSX ONTAP, espere até que o status "ciclo de vida" mude para "DISPONÍVEL" no seu retorno JSON depois de descrever seu sistema de arquivos da seguinte forma:
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx describe-file-systems  --region us-east-1 --file-system-ids fs-02ff04bab5ce01c7c
+....
+. Valide as credenciais fazendo login no FSX ONTAP SSH com o usuário fsxadmin: Fsxadmin é a conta de administrador padrão para sistemas de arquivos FSX ONTAP na criação. A senha para o fsxadmin é a senha que foi configurada ao criar o sistema de arquivos pela primeira vez no Console AWS ou com a CLI da AWS conforme concluímos na Etapa 1.
++
+....
+[root@ip-172-31-33-69 ~]# ssh fsxadmin@198.19.250.244
+The authenticity of host '198.19.250.244 (198.19.250.244)' can't be established.
+ED25519 key fingerprint is SHA256:mgCyRXJfWRc2d/jOjFbMBsUcYOWjxoIky0ltHvVDL/Y.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '198.19.250.244' (ED25519) to the list of known hosts.
+(fsxadmin@198.19.250.244) Password:
+
+This is your first recorded login.
+....
+. Depois que suas credenciais tiverem sido validadas, crie a máquina virtual de armazenamento no sistema de arquivos FSX ONTAP
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx --region us-east-1 create-storage-virtual-machine --name svmkafkatest --file-system-id fs-02ff04bab5ce01c7c
+....
++
+A Storage Virtual Machine (SVM) é um servidor de arquivos isolado com suas próprias credenciais administrativas e endpoints para administrar e acessar dados no FSX ONTAP volumes e fornece alocação a vários clientes do FSX ONTAP.
+
+. Depois de configurar sua máquina virtual de armazenamento principal, faça o SSH no sistema de arquivos FSX ONTAP recém-criado e crie volumes na máquina virtual de armazenamento usando o comando de exemplo abaixo e, da mesma forma, criamos volumes 6 para essa validação. Com base em nossa validação, mantenha o constituinte padrão (8) ou menos constituintes, o que proporcionará melhor desempenho para kafka.
++
+....
+FsxId02ff04bab5ce01c7c::*> volume create -volume kafkafsxN1 -state online -policy default -unix-permissions ---rwxr-xr-x -junction-active true -type RW -snapshot-policy none  -junction-path /kafkafsxN1 -aggr-list aggr1
+....
+. Precisaremos de capacidade adicional em nossos volumes para nossos testes. Estenda o tamanho do volume para 2TB e monte no caminho de junção.
++
+....
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN1 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN1" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN2 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN2" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN3 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN3" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN4 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN4" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN5 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN5" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN6 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN6" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume show -vserver svmkafkatest -volume *
+Vserver   Volume       Aggregate    State      Type       Size  Available Used%
+--------- ------------ ------------ ---------- ---- ---------- ---------- -----
+svmkafkatest
+          kafkafsxN1   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN2   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN3   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN4   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN5   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN6   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          svmkafkatest_root
+                       aggr1        online     RW          1GB    968.1MB    0%
+7 entries were displayed.
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN1 -junction-path /kafkafsxN1
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN2 -junction-path /kafkafsxN2
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN3 -junction-path /kafkafsxN3
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN4 -junction-path /kafkafsxN4
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN5 -junction-path /kafkafsxN5
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN6 -junction-path /kafkafsxN6
+....
++
+No FSX ONTAP, os volumes podem ser thin Provisioning. Em nosso exemplo, a capacidade total de volume estendido excede a capacidade total do sistema de arquivos, então precisaremos estender a capacidade total do sistema de arquivos para desbloquear capacidade adicional de volume provisionado que demonstraremos em nosso próximo passo.
+
+. Em seguida, para obter desempenho e capacidade adicionais, estendemos a capacidade de taxa de transferência do FSX ONTAP de 2GB GB/s para 4GB GB/s e IOPS para 160000 TB, além de capacidade de 5 TB
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx update-file-system --region us-east-1  --storage-capacity 5120 --ontap-configuration 'ThroughputCapacity=4096,DiskIopsConfiguration={Mode=USER_PROVISIONED,Iops=160000}' --file-system-id fs-02ff04bab5ce01c7c
+....
++
+Sintaxe detalhada da linha de comando para FSX "update-file-system" pode ser encontrada aqui: https://docs.aws.amazon.com/cli/latest/reference/fsx/update-file-system.html[]
+
+. Os volumes FSX ONTAP são montados com nconnect e opiões padrão em corretores Kafka
++
+A imagem a seguir mostra nossa arquitetura final de um cluster Kafka baseado no FSX ONTAP:
+
++
+image:aws-fsx-kafka-arch1.png["Esta imagem mostra a arquitetura de um cluster Kafka baseado no FSX ONTAP."]
+
++
+** Computação. Usamos um cluster Kafka de três nós com um conjunto zookeeper de três nós em execução em servidores dedicados. Cada agente tinha seis pontos de montagem de NFS para seis volumes na instância do FSX ONTAP.
+** Monitorização. Usamos dois nós para uma combinação Prometheus-Grafana. Para gerar cargas de trabalho, usamos um cluster de três nós separado que poderia produzir e consumir para este cluster Kafka.
+** Armazenamento. Usamos um FSX ONTAP com seis volumes 2TB montados. O volume foi então exportado para o corretor Kafka com uma montagem NFS. Os volumes FSX ONTAP são montados com 16 sessões nconnect e opções padrão em corretores Kafka.
+
+
+
+
+
+
+==== Configurações de Benchmarking OpenMessage.
+
+Nós usamos a mesma configuração usada para o NetApp Cloud Volumes ONTAP e seus detalhes estão aqui - link:kafka-nfs-performance-overview-and-validation-in-aws.html
+
+
+
+==== Metodologia de testes
+
+. Um cluster Kafka foi provisionado de acordo com a especificação descrita acima usando o Terraform e o Ansible. O Terraform é usado para criar a infraestrutura usando instâncias da AWS para o cluster do Kafka e cria o cluster Kafka neles.
+. Uma carga de trabalho OMB foi acionada com a configuração de carga de trabalho descrita acima e o driver Sync.
++
+....
+sudo bin/benchmark –drivers driver-kafka/kafka-sync.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+. Outro workload foi acionado com o driver de taxa de transferência com a mesma configuração de workload.
++
+....
+sudo bin/benchmark –drivers driver-kafka/kafka-throughput.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+
+
+
+
+==== Observação
+
+Dois tipos diferentes de drivers foram usados para gerar cargas de trabalho para avaliar o desempenho de uma instância do Kafka em execução no NFS. A diferença entre os drivers é a propriedade log flush.
+
+Para um Kafka Replication factor 1 e o FSX ONTAP:
+
+* Taxa de transferência total gerada de forma consistente pelo driver Sync: Cerca de 3218 Mbps e desempenho máximo em cerca de 3652 Mbps.
+* Taxa de transferência total gerada de forma consistente pelo driver de taxa de transferência: Cerca de 3679 Mbps e desempenho máximo em cerca de 3908 Mbps.
+
+
+Para o Kafka com fator de replicação 3 e o FSX ONTAP :
+
+* Taxa de transferência total gerada de forma consistente pelo driver Sync: Cerca de 1252 Mbps e desempenho máximo em cerca de 1382 Mbps.
+* Taxa de transferência total gerada de forma consistente pelo driver de taxa de transferência: Cerca de 1218 Mbps e desempenho máximo em cerca de 1328 Mbps.
+
+
+No fator de replicação Kafka 3, a operação de leitura e gravação aconteceu três vezes no FSX ONTAP, no fator de replicação Kafka 1, a operação de leitura e gravação é uma vez no FSX ONTAP, portanto, em ambas as validações, conseguimos atingir a taxa de transferência máxima de 4GBMB/seg.
+
+O driver Sync pode gerar throughput consistente à medida que os logs são lavados para o disco instantaneamente, enquanto o driver de throughput gera picos de throughput à medida que os logs são comprometidos com o disco em massa.
+
+Esses números de taxa de transferência são gerados para a configuração AWS fornecida. Para requisitos de desempenho mais altos, os tipos de instância podem ser dimensionados e ajustados ainda mais para obter melhores números de throughput. O rendimento total ou a taxa total é a combinação entre a taxa de produção e a taxa de consumo.
+
+image:aws-fsxn-performance-rf-1-rf-3.png["Esta imagem mostra o desempenho de kafka com RF1 e Rf3"]
+
+O gráfico abaixo mostra o FSX ONTAP de 2GB GB/seg e o desempenho de 4GB GB/seg para o fator de replicação Kafka 3. O fator de replicação 3 faz a operação de leitura e gravação três vezes no armazenamento FSX ONTAP. A taxa total para o driver de taxa de transferência é de 881 MB/s, que lê e grava a operação Kafka aproximadamente 2,64 GB/seg no sistema de arquivos FSX ONTAP 2GB/seg e a taxa total para o driver de taxa de transferência é de 1328 MB/seg que lê e grava a operação kafka aproximadamente 3,98 GB/seg. O desempenho do Kafka é linear e escalável com base na taxa de transferência do FSX ONTAP.
+
+image:aws-fsxn-2gb-4gb-scale.png["Esta imagem mostra o desempenho de escala de 2GB/seg e 4GB/seg."]
+
+O gráfico abaixo mostra o desempenho entre a instância EC2 vs o FSX ONTAP (Kafka Replication factor : 3)
+
+image:aws-fsxn-ec2-fsxn-comparition.png["Esta imagem mostra a comparação de desempenho do EC2 vs FSX ONTAP em Rf3."]

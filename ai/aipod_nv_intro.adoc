@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: ai/aipod_nv_intro.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
+summary: O AIPod da NetApp com sistemas DGX da NVIDIA é uma arquitetura de referência pronta para a empresa baseada em NVIDIA BasePOD para deep learning e inteligência artificial usando sistemas de storage da NetApp ONTAP AFF e sistemas de rede e DGX da NVIDIA. 
+---
+= NVA-1173 NetApp AIPod com sistemas DGX da NVIDIA - Introdução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+image:PoweredByNVIDIA.png["200.200,erro: Imagem gráfica em falta"]
+
+[role="lead"]
+Engenharia de soluções da NetApp
+
+
+
+== Resumo executivo
+
+O NetApp AIPod com 8482 os sistemas DGX& n.o 8482 da NVIDIA e os sistemas de storage conectados à nuvem da NetApp simplifica as implantações de infraestrutura para workloads de aprendizado de máquina (ML) e inteligência artificial (AI), eliminando a complexidade do design e as suposições. Com base no design do NVIDIA DGX BasePOD& nº 8482, o AIPod com sistemas NVIDIA DGX agrega aos clientes sistemas de storage da NetApp AFF que permitem que eles comecem com simplicidade e sejam expandidos sem interrupções, enquanto gerenciam dados da borda para o centro e para a nuvem e vice-versa. O NetApp AIPod faz parte do portfólio maior de soluções de IA da NetApp, mostra na figura abaixo.
+
+_Portfólio de soluções de IA da NetApp_
+
+image:aipod_nv_portfolio.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Este documento descreve os principais componentes da arquitetura de referência AIPod, informações de configuração e conetividade do sistema, resultados de testes de validação e orientação de dimensionamento da solução. Este documento destina-se a engenheiros de soluções de parceiros e da NetApp e tomadores de decisão estratégicos de clientes interessados em implantar uma infraestrutura de alto desempenho para WORKLOADS DE ml/DL e análises.

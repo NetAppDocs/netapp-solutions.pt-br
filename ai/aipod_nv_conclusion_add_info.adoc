@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: ai/aipod_nv_conclusion_add_info.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
+summary: NetApp AIPod com sistemas DGX da NVIDIA - onde encontrar informações adicionais 
+---
+= NVA-1173 NetApp AIPod com sistemas DGX da NVIDIA - conclusão e informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção inclui referências para informações adicionais sobre o NetApp AIPod com sistemas DGX da NVIDIA.
+
+
+
+== Conclusão
+
+A arquitetura DGX BasePOD é uma plataforma de deep learning de última geração que exige funcionalidades igualmente avançadas de gerenciamento de dados e storage. Ao combinar o DGX BasePOD com os sistemas NetApp AFF, a arquitetura do NetApp AIPod com os sistemas DGX pode ser implementada em quase qualquer escala. Combinado com a integração superior com a nuvem e as funcionalidades definidas por software do NetApp ONTAP, o AFF habilita uma grande variedade de pipelines de dados que abrangem a borda, o centro e a nuvem para projetos de DL bem-sucedidos.
+
+
+
+== Informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou websites:
+
+* Software de gerenciamento de dados NetApp ONTAP: Biblioteca de informações ONTAP
++
+https://docs.netapp.com/us-en/ontap-family/["https://docs.netapp.com/us-en/ontap-family/"^]
+
+* Sistemas de storage NetApp AFF A900-
++
+https://www.netapp.com/data-storage/aff-a-series/aff-a900/["https://www.netapp.com/data-storage/aff-a-series/aff-a900/"]
+
+* NetApp ONTAP RDMA information-
++
+link:https://docs.netapp.com/us-en/ontap/nfs-rdma/index.html["https://docs.netapp.com/us-en/ontap/nfs-rdma/index.html"]
+
+* Toolkit DataOps do NetApp
++
+https://github.com/NetApp/netapp-dataops-toolkit["https://github.com/NetApp/netapp-dataops-toolkit"^]
+
+* NetApp Trident
++
+link:../containers/rh-os-n_overview_trident.html["Visão geral"]
+
+* Blog de armazenamento GPUDirect do NetApp-
++
+https://www.netapp.com/blog/ontap-reaches-171-gpudirect-storage/["https://www.netapp.com/blog/ontap-reaches-171-gpudirect-storage/"]
+
+* NVIDIA DGX BasePOD
++
+https://www.nvidia.com/en-us/data-center/dgx-basepod/["https://www.nvidia.com/en-us/data-center/dgx-basepod/"^]
+
+* Sistemas NVIDIA DGX H100
++
+https://www.nvidia.com/en-us/data-center/dgx-h100/["https://www.nvidia.com/en-us/data-center/dgx-h100/"^]
+
+* Rede NVIDIA
++
+https://www.nvidia.com/en-us/networking/["https://www.nvidia.com/en-us/networking/"^]
+
+* NVIDIA Magnum IO& no. 8482; GPUDirect e no. 174; armazenamento
++
+https://docs.nvidia.com/gpudirect-storage["https://docs.nvidia.com/gpudirect-storage"]
+
+* Comando básico do NVIDIA
++
+https://www.nvidia.com/en-us/data-center/base-command/["https://www.nvidia.com/en-us/data-center/base-command/"]
+
+* Gerenciador de comandos do NVIDIA base
++
+https://www.nvidia.com/en-us/data-center/base-command/manager["https://www.nvidia.com/en-us/data-center/base-command/manager"]
+
+* NVIDIA AI empresarial
++
+https://www.nvidia.com/en-us/data-center/products/ai-enterprise/["https://www.nvidia.com/en-us/data-center/products/ai-enterprise/"^]
+
+
+
+
+
+== Agradecimentos
+
+Este documento é o trabalho das equipes de soluções e Engenharia ONTAP da NetApp - David Arnette, Olga Kornievskaia, Dustin Fischer, Srikanth Kaligotla, Mohit Kumar e Raghuram Sudhaakar. Os autores também gostariam de agradecer à NVIDIA e à equipe de engenharia do NVIDIA DGX BasePOD por seu suporte contínuo.

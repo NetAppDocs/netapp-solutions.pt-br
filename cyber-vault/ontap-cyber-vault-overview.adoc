@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP 
+permalink: cyber-vault/ontap-cyber-vault-overview.html 
+summary: Esta é uma visão geral da solução de ciber Vault da NetApp ONTAP, alimentada pelo SnapLock Compliance para retenção de dados imutável e indelével. 
+---
+= Visão geral do ONTAP Cyber Vault
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A principal ameaça que impulsiona a implementação de um cofre cibernético é a crescente prevalência e a sofisticação em evolução dos ataques cibernéticos, particularmente ransomware e violações de dados. link:https://www.verizon.com/business/resources/reports/dbir/["Com um aumento no phishing"^] e métodos cada vez mais sofisticados de roubo de credenciais, as credenciais usadas para iniciar um ataque de ransomware podem ser usadas para acessar os sistemas de infraestrutura. Nesses casos, até mesmo sistemas de infraestrutura endurecidos correm o risco de ataques. A única defesa para um sistema comprometido é ter seus dados protegidos e isolados em um cibercofre.
+
+O Cyber Vault baseado em ONTAP da NetApp oferece às organizações uma solução abrangente e flexível para proteger seus ativos de dados mais críticos. Ao utilizar metodologias de fortalecimento lógicas com metodologias robustas, o ONTAP permite que você crie ambientes de storage seguros e isolados que sejam resilientes contra ameaças cibernéticas em evolução. Com o ONTAP, você garante a confidencialidade, integridade e disponibilidade dos dados, mantendo a agilidade e a eficiência da infraestrutura de storage.
+
+
+NOTE: A partir de julho de 2024, o conteúdo de relatórios técnicos publicados anteriormente como PDFs foi integrado à documentação do produto ONTAP. Além disso, os novos relatórios técnicos (TRs), como este documento, deixarão de receber números TR.
+
+
+
+== O que é um cofre cibernético?
+
+Um cofre cibernético é uma técnica específica de proteção de dados que envolve o armazenamento de dados críticos em um ambiente isolado, separado da infraestrutura DE TI primária.
+
+Repositório de dados "Air-gapped", *imutável* e *indelével* que é imune a ameaças que afetam a rede principal, como malware, ransomware ou até ameaças internas. Um cofre cibernético pode ser alcançado com instantâneos *imutáveis* e *indeléveis*.
+
+Backups que usam métodos tradicionais envolvem a criação de espaço e separação física das Mídias primária e secundária. Ao mover a Mídia para fora do local e/ou cortar a conetividade, os maus atores não têm acesso aos dados. Isso protege os dados, mas pode levar a tempos de recuperação mais lentos.
+
+
+
+== A abordagem de NetApp para o Cyber Vault
+
+Os principais recursos da arquitetura de referência do NetApp para um cofre virtual incluem:
+
+* Infraestrutura de storage segura e isolada (por exemplo, sistemas de storage com conexão aérea)
+* As cópias dos dados devem ser tanto *imutáveis* como *indeléveis*, sem exceção
+* Controles de acesso rigorosos e autenticação multifator
+* Recursos de restauração rápida de dados
+
+
+Você pode usar o storage NetApp com o ONTAP como um cofre cibernético com ataques aéreos usando link:https://docs.netapp.com/us-en/ontap/snaplock/commit-snapshot-copies-worm-concept.html["Cópias Snapshot protegidas por SnapLock Compliance para WORM"^]o . Você pode executar todas as tarefas básicas do SnapLock Compliance no Cyber Vault. Uma vez configurados, os volumes do Cyber Vault são protegidos automaticamente, eliminando a necessidade de confirmar manualmente as cópias Snapshot para WORM. Mais informações sobre as gapping lógicas de ar podem ser encontradas neste documento link:https://www.netapp.com/blog/ransomware-protection-snaplock/["blog"^]
+
+O SnapLock Compliance é utilizado para cumprir os regulamentos bancários e financeiros SEC 70a-a-4(f), FINRA 4511(c) e CFTC 1,31(c)-(d). Foi certificado pela Cohasset Associates para aderir a estes regulamentos (relatório de auditoria disponível mediante solicitação). Ao usar o SnapLock Compliance com esta certificação, você obtém um mecanismo endurecido para apurar seus dados que é confiado pelas maiores instituições financeiras do mundo para garantir tanto a retenção quanto a recuperação de Registros bancários.
+
+image:ontap-cyber-vault-logical-air-gap.png["Ciber Vault com conexão lógica usando o NetApp ONTAP"]

@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_monitor_dask_and_rapids_with_prometheus_and_grafana.html 
+keywords: monitoring, monitor, dask, rapids, prometheus, grafana, 
+summary: Depois que tudo for implantado, execute inferências sobre novos dados. Os modelos preveem se um usuário clica em um anúncio com base nas atividades de navegação. Os resultados da previsão são armazenados em um cuDF de Dask. Você pode monitorar os resultados com Prometheus e visualizar em painéis do Grafana. 
+---
+= Monitore Dalk e RAPIDS com Prometheus e Grafana
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Depois que tudo for implantado, execute inferências sobre novos dados. Os modelos preveem se um usuário clica em um anúncio com base nas atividades de navegação. Os resultados da previsão são armazenados em um cuDF de Dask. Você pode monitorar os resultados com Prometheus e visualizar em painéis do Grafana.
+
+Para obter mais informações, consulte este https://medium.com/rapids-ai/monitoring-dask-rapids-with-prometheus-grafana-96eaf6b8f3a0["RAPIDS AI Medium post"^].

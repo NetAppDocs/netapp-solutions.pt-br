@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: databases/tr-4794.html 
+keywords:  
+summary:  
+---
+= TR-4794: Bancos de dados Oracle no NetApp EF-Series
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+José, NetApp
+
+[role="lead"]
+O TR-4794 destina-se a ajudar administradores de storage e administradores de banco de dados a implantarem o Oracle com sucesso no storage EF-Series da NetApp.
+
+link:https://www.netapp.com/pdf.html?item=/media/17248-tr4794pdf.pdf["TR-4794: Bancos de dados Oracle no NetApp EF-Series"^]

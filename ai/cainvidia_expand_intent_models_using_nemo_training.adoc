@@ -1,0 +1,180 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_expand_intent_models_using_nemo_training.html 
+keywords: Intent Models, NeMo, toolkit, ASR, NLP, TTS, NARA, Data Preparation 
+summary:  
+---
+= Expanda modelos de intenção usando o Nemo Training
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NVIDIA Nemo é um kit de ferramentas criado pela NVIDIA para criar aplicativos de conversação de IA. Este kit de ferramentas inclui coleções de módulos pré-treinados para ASR, NLP e TTS, permitindo que pesquisadores e cientistas de dados componham facilmente arquiteturas de redes neurais complexas e coloquem mais foco no design de suas próprias aplicações.
+
+Como mostrado no exemplo anterior, NARA só pode lidar com um tipo limitado de pergunta. Isso ocorre porque o modelo de PNL pré-treinado só treina nesses tipos de perguntas. Se quisermos permitir que a NARA lide com uma gama mais ampla de perguntas, precisamos treiná-la novamente com nossos próprios conjuntos de dados. Assim, aqui, demonstramos como podemos usar o Nemo para estender o modelo de PNL para satisfazer os requisitos. Começamos por converter o log coletado da NARA no formato Nemo e, em seguida, treinamos com o conjunto de dados para aprimorar o modelo NLP.
+
+
+
+== Modelo
+
+Nosso objetivo é permitir que a NARA classifique os itens com base nas preferências do usuário. Por exemplo, podemos pedir à NARA para sugerir o restaurante de sushi mais bem classificado ou talvez queira que a NARA procure as calças de ganga com o preço mais baixo. Para isso, usamos o modelo de deteção de intenção e enchimento de slot fornecido no Nemo como nosso modelo de treinamento. Este modelo permite que a NARA entenda a intenção de buscar preferência.
+
+
+
+== Preparação de dados
+
+Para treinar o modelo, coletamos o conjunto de dados para esse tipo de pergunta e o convertemos para o formato Nemo. Aqui, listamos os arquivos que usamos para treinar o modelo.
+
+
+
+=== dict.intents.csv
+
+Este arquivo lista todas as intenções que queremos que o Nemo entenda. Aqui, temos duas intenções primárias e uma intenção usada apenas para categorizar as perguntas que não se encaixam em nenhuma das intenções primárias.
+
+....
+price_check
+find_the_store
+unknown
+....
+
+
+=== dict.slots.csv
+
+Este arquivo lista todos os slots que podemos identificar em nossas perguntas de treinamento.
+
+....
+B-store.type
+B-store.name
+B-store.status
+B-store.hour.start
+B-store.hour.end
+B-store.hour.day
+B-item.type
+B-item.name
+B-item.color
+B-item.size
+B-item.quantity
+B-location
+B-cost.high
+B-cost.average
+B-cost.low
+B-time.period_of_time
+B-rating.high
+B-rating.average
+B-rating.low
+B-interrogative.location
+B-interrogative.manner
+B-interrogative.time
+B-interrogative.personal
+B-interrogative
+B-verb
+B-article
+I-store.type
+I-store.name
+I-store.status
+I-store.hour.start
+I-store.hour.end
+I-store.hour.day
+I-item.type
+I-item.name
+I-item.color
+I-item.size
+I-item.quantity
+I-location
+I-cost.high
+I-cost.average
+I-cost.low
+I-time.period_of_time
+I-rating.high
+I-rating.average
+I-rating.low
+I-interrogative.location
+I-interrogative.manner
+I-interrogative.time
+I-interrogative.personal
+I-interrogative
+I-verb
+I-article
+O
+....
+
+
+=== comboio.tsv
+
+Este é o principal conjunto de dados de formação. Cada linha começa com a pergunta após a listagem da categoria de intenção no arquivo dict.intent.csv. O rótulo é enumerado a partir de zero.
+
+
+
+=== train_slots.tsv
+
+....
+20 46 24 25 6 32 6
+52 52 24 6
+23 52 14 40 52 25 6 32 6
+…
+....
+
+
+== Treine o modelo
+
+....
+docker pull nvcr.io/nvidia/nemo:v0.10
+....
+Em seguida, usamos o seguinte comando para iniciar o contentor. Neste comando, limitamos o contentor a usar uma única GPU (GPU ID 1), já que este é um exercício de treinamento leve. Também mapeamos nosso espaço de trabalho local /workspace/nemo/ para a pasta dentro do container /nemo.
+
+....
+NV_GPU='1' docker run --runtime=nvidia -it --shm-size=16g \
+                        --network=host --ulimit memlock=-1 --ulimit stack=67108864 \
+                        -v /workspace/nemo:/nemo\
+                        --rm nvcr.io/nvidia/nemo:v0.10
+....
+Dentro do contentor, se quisermos começar a partir do modelo original pré-treinado BERT, podemos usar o seguinte comando para iniciar o procedimento de treinamento. Data_dir é o argumento para configurar o caminho dos dados de treinamento. Work_dir permite que você configure onde você deseja armazenar os arquivos de ponto de verificação.
+
+....
+cd examples/nlp/intent_detection_slot_tagging/
+python joint_intent_slot_with_bert.py \
+    --data_dir /nemo/training_data\
+    --work_dir /nemo/log
+....
+Se tivermos novos conjuntos de dados de treinamento e quisermos melhorar o modelo anterior, podemos usar o seguinte comando para continuar a partir do ponto em que paramos. checkpoint_dir leva o caminho para a pasta de checkpoints anterior.
+
+....
+cd examples/nlp/intent_detection_slot_tagging/
+python joint_intent_slot_infer.py \
+    --data_dir /nemo/training_data \
+    --checkpoint_dir /nemo/log/2020-05-04_18-34-20/checkpoints/ \
+    --eval_file_prefix test
+....
+
+
+== Inferência do modelo
+
+Precisamos validar o desempenho do modelo treinado após um certo número de épocas. O comando a seguir nos permite testar a consulta um a um. Por exemplo, neste comando, queremos verificar se nosso modelo pode identificar adequadamente a intenção da consulta `where can I get the best pasta`.
+
+....
+cd examples/nlp/intent_detection_slot_tagging/
+python joint_intent_slot_infer_b1.py \
+--checkpoint_dir /nemo/log/2020-05-29_23-50-58/checkpoints/ \
+--query "where can i get the best pasta" \
+--data_dir /nemo/training_data/ \
+--num_epochs=50
+....
+Em seguida, o seguinte é a saída da inferência. Na saída, podemos ver que nosso modelo treinado pode prever adequadamente a intenção find_the_store, e retornar as palavras-chave em que estamos interessados. Com essas palavras-chave, permitimos que o NARA procure o que os usuários querem e faça uma busca mais precisa.
+
+....
+[NeMo I 2020-05-30 00:06:54 actions:728] Evaluating batch 0 out of 1
+[NeMo I 2020-05-30 00:06:55 inference_utils:34] Query: where can i get the best pasta
+[NeMo I 2020-05-30 00:06:55 inference_utils:36] Predicted intent:       1       find_the_store
+[NeMo I 2020-05-30 00:06:55 inference_utils:50] where   B-interrogative.location
+[NeMo I 2020-05-30 00:06:55 inference_utils:50] can     O
+[NeMo I 2020-05-30 00:06:55 inference_utils:50] i       O
+[NeMo I 2020-05-30 00:06:55 inference_utils:50] get     B-verb
+[NeMo I 2020-05-30 00:06:55 inference_utils:50] the     B-article
+[NeMo I 2020-05-30 00:06:55 inference_utils:50] best    B-rating.high
+[NeMo I 2020-05-30 00:06:55 inference_utils:50] pasta   B-item.type
+....

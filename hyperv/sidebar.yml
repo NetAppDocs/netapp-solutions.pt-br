@@ -1,0 +1,29 @@
+---
+section: hyperv
+title: Virtualização Hyper-V
+url: "/hyperv/index.html"
+entries:
+- title: Implantação do Microsoft Hyper-V no armazenamento NetApp
+  pdf-filename: Implantação do Hyper-V no armazenamento NetApp
+  entries:
+  - title: Visão geral
+    url: "/hyperv/hyperv-deploy.html"
+  - title: Pré-requisitos para implantação
+    url: "/hyperv/hyperv-deploy-prereqs.html"
+  - title: Considerações para implantação
+    url: "/hyperv/hyperv-deploy-considerations.html"
+  - title: Proteção de dados
+    url: "/hyperv/hyperv-deploy-data-protection.html"
+  - title: Conclusão
+    url: "/hyperv/hyperv-deploy-conclusion.html"
+  - title: Migração usando FlexClone e PowerShell
+    url: "/hyperv/hyperv-deploy-script.html"
+- title: Soluções para Hyper-V com NetApp
+  entries:
+  - title: SnapMirror ative Sync com clusters de estiramento
+    url: "/hyperv/hyperv-smas.html"
+- title: Recursos adicionais
+  entries:
+  - title: Diretrizes de implantação e práticas recomendadas de armazenamento para
+      Hyper-V.
+    url: "/../../../ontap-apps-dbs/microsoft/win_overview.html"

@@ -1,0 +1,118 @@
+---
+sidebar: sidebar 
+permalink: vmware/vsphere_demos_videos.html 
+keywords: vSphere, cloud, hybrid cloud, AWS, Azure, Google cloud, snapmirror cloud, cloud backup service, BlueXP Copy and Sync, FabricPool, ONTAP 
+summary: Esta página fornece e introdução a vídeos e tutoriais. 
+---
+= Vídeos e demonstrações de virtualização
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Veja os vídeos e demonstrações a seguir destacando recursos específicos das soluções de nuvem híbrida, virtualização e contentor.
+
+.Ferramentas do NetApp ONTAP para VMware vSphere
+[%collapsible]
+====
+.Ferramentas do ONTAP para VMware - Visão geral
+video::e8071955-f6f1-45a0-a868-b12a010bba44[panopto]
+.Provisionamento de armazenamento de dados iSCSI da VMware com o ONTAP
+video::5c047271-aecc-437c-a444-b01200f9671a[panopto]
+.Provisionamento de armazenamento de dados VMware NFS com ONTAP
+video::a34bcd1c-3aaa-4917-9a5d-b01200f97f08[panopto]
+====
+.Plug-in do SnapCenter para VMware vSphere
+[%collapsible]
+====
+O software NetApp SnapCenter é uma plataforma empresarial fácil de usar para coordenar e gerenciar com segurança a proteção de dados em aplicações, bancos de dados e sistemas de arquivos.
+
+O plug-in do SnapCenter para VMware vSphere permite que você execute operações de backup, restauração e conexão de VMs e operações de backup e montagem de datastores registrados no SnapCenter diretamente no VMware vCenter.
+
+Para obter mais informações sobre o plug-in do NetApp SnapCenter para VMware vSphere, consulte link:https://docs.netapp.com/ocsc-42/index.jsp?topic=%2Fcom.netapp.doc.ocsc-con%2FGUID-29BABBA7-B15F-452F-B137-2E5B269084B9.html["Visão geral do plug-in do NetApp SnapCenter para VMware vSphere"].
+
+.Plug-in do SnapCenter para VMware vSphere - Pré-requisitos da solução
+video::38881de9-9ab5-4a8e-a17d-b01200fade6a[panopto,width=360]
+.Plug-in do SnapCenter para VMware vSphere - implantação
+video::10cbcf2c-9964-41aa-ad7f-b01200faca01[panopto,width=360]
+.Plug-in do SnapCenter para VMware vSphere - fluxo de trabalho de backup
+video::b7272f18-c424-4cc3-bc0d-b01200faaf25[panopto,width=360]
+.Plug-in do SnapCenter para VMware vSphere - Restaurar fluxo de trabalho
+video::ed41002e-585c-445d-a60c-b01200fb1188[panopto,width=360]
+.SnapCenter - fluxo de trabalho de restauração SQL
+video::8df4ad1f-83ad-448b-9405-b01200fb2567[panopto,width=360]
+====
+.3-2-1 soluções de proteção de dados
+[%collapsible]
+====
+As soluções de proteção de dados 3-2-1 combinam backups primários e secundários locais usando a tecnologia SnapMirror, com cópias replicadas para o storage de objetos usando o backup e a recuperação do BlueXP .
+
+.Proteção de dados 3-2-1 para datastores VMFS com o plug-in SnapCenter para VMware vSphere e backup e recuperação BlueXP  para máquinas virtuais
+video::7c21f3fc-4025-4d8f-b54c-b0e001504c76[panopto,width=360]
+====
+.O AWS FSX ONTAP oferece serviços de nuvem para AWS
+[%collapsible]
+====
+.Armazenamento conetado ao convidado do Windows com o FSX ONTAP usando iSCSI
+video::0d03e040-634f-4086-8cb5-b01200fb8515[panopto,width=360]
+.Armazenamento conetado ao convidado Linux com o FSX ONTAP usando NFS
+video::c3befe1b-4f32-4839-a031-b01200fb6d60[panopto,width=360]
+.Você pode economizar no TCO da AWS com o Amazon FSX ONTAP
+video::f0fedec5-dc17-47af-8821-b01200f00e08[panopto,width=360]
+.VMware Cloud no armazenamento de dados suplementar da AWS com o Amazon FSX ONTAP
+video::2065dcc1-f31a-4e71-a7d5-b01200f01171[panopto,width=360]
+.Configuração e implantação do VMware HCX para VMC
+video::6132c921-a44c-4c81-aab7-b01200fb5d29[panopto,width=360]
+.Demonstração de migração do VMotion com VMware HCX para VMC e FSX ONTAP
+video::52661f10-3f90-4f3d-865a-b01200f06d31[panopto,width=360]
+.Demonstração de migração fria com VMware HCX para VMC e FSX ONTAP
+video::685c0dc2-9d8a-42ff-b46d-b01200f056b0[panopto,width=360]
+====
+.Azure VMware Services no Azure com Azure NetApp Files (ANF)
+[%collapsible]
+====
+.Visão geral do datastore suplementar da solução Azure VMware com o Azure NetApp Files
+video::8c5ddb30-6c31-4cde-86e2-b01200effbd6[panopto,width=360]
+.DR da solução VMware Azure com Cloud Volumes ONTAP, SnapCenter e JetStream
+video::5cd19888-8314-4cfc-ba30-b01200efff4f[panopto,width=360]
+.Demonstração de migração a frio com VMware HCX para AVS e ANF
+video::b7ffa5ad-5559-4e56-a166-b01200f025bc[panopto,width=360]
+.Demonstração do VMotion com VMware HCX para AVS e ANF
+video::986bb505-6f3d-4a5a-b016-b01200f03f18[panopto,width=360]
+.Demonstração de migração em massa com VMware HCX para AVS e ANF
+video::255640f5-4dff-438c-8d50-b01200f017d1[panopto,width=360]
+====
+.VMware Cloud Foundation com NetApp ONTAP
+[%collapsible]
+====
+.Armazenamentos de dados NFS como storage principal para domínios de workload do VCF
+video::9b66ac8d-d2b1-4ac4-a33c-b16900f67df6[panopto]
+.Armazenamentos de dados iSCSI como armazenamento suplementar para domínios de gerenciamento VCF
+video::1d0e1af1-40ae-483a-be6f-b156015507cc[panopto]
+====
+.NetApp com VMware Tanzu
+[%collapsible]
+====
+O VMware Tanzu permite que os clientes implantem, administrem e gerenciem seu ambiente Kubernetes por meio do vSphere ou do VMware Cloud Foundation. Esse portfólio de produtos da VMware permite que o cliente gerencie todos os clusters relevantes do Kubernetes a partir de um único painel de controle escolhendo a edição do VMware Tanzu que melhor atende às suas necessidades.
+
+Para obter mais informações sobre o VMware Tanzu, consulte o https://tanzu.vmware.com/tanzu["Visão geral do VMware Tanzu"^]. Esta revisão abrange casos de uso, adições disponíveis e mais sobre o VMware Tanzu.
+
+.Como usar vVols com NetApp e VMware Tanzu Basic, parte 1
+video::ZtbXeOJKhrc[youtube,width=360]
+.Como usar vVols com NetApp e VMware Tanzu Basic, parte 2
+video::FVRKjWH7AoE[youtube,width=360]
+.Como usar vVols com NetApp e VMware Tanzu Basic, parte 3
+video::Y-34SUtTTtU[youtube,width=360]
+====
+.NetApp Cloud Insights
+[%collapsible]
+====
+O NetApp Cloud Insights é uma plataforma abrangente de monitoramento e análise projetada para fornecer visibilidade e controle sobre sua infraestrutura no local e na nuvem.
+
+.NetApp Cloud Insights - observabilidade para o data center moderno
+video::1e4da521-3104-4d51-8cde-b0e001502d3d[panopto,width=360]
+====

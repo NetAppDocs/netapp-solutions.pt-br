@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-architecture_overview.html 
+keywords: architecture overview, control plane, data plane 
+summary: Parte da confiança em uma solução de nuvem é entender a arquitetura e como ela é protegida. Esta seção descreve diferentes aspetos da arquitetura do Cloud Volumes Service no Google para ajudar a aliviar possíveis preocupações sobre como os dados são protegidos, bem como chamar áreas onde etapas de configuração adicionais podem ser necessárias para obter a implantação mais segura. 
+---
+= Visão geral
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Parte da confiança em uma solução de nuvem é entender a arquitetura e como ela é protegida. Esta seção descreve diferentes aspetos da arquitetura do Cloud Volumes Service no Google para ajudar a aliviar possíveis preocupações sobre como os dados são protegidos, bem como chamar áreas onde etapas de configuração adicionais podem ser necessárias para obter a implantação mais segura.
+
+A arquitetura geral do Cloud Volumes Service pode ser dividida em dois componentes principais: O plano de controle e o plano de dados.
+
+
+
+== Plano de controlo
+
+O plano de controle do Cloud Volumes Service é a infraestrutura de back-end gerenciada por administradores do Cloud Volumes Service e pelo software de automação nativo do NetApp. Esse plano é totalmente transparente para os usuários finais e inclui rede, hardware de storage, atualizações de software etc. para ajudar a agregar valor a uma solução residente na nuvem, como o Cloud Volumes Service.
+
+
+
+== Plano de dados
+
+O plano de dados no Cloud Volumes Service inclui os volumes de dados reais e a configuração geral do Cloud Volumes Service (como controle de acesso, autenticação Kerberos, etc.). O plano de dados está inteiramente sob o controle dos usuários finais e dos consumidores da plataforma Cloud Volumes Service.
+
+Há diferenças distintas em como cada plano é seguro e gerenciado. As seções a seguir abordam essas diferenças, começando com uma visão geral da arquitetura do Cloud Volumes Service.

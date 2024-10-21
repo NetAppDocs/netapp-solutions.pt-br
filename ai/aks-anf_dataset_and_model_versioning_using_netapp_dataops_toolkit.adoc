@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_dataset_and_model_versioning_using_netapp_dataops_toolkit.html 
+keywords: toolkit, dataops, kubernetes, abstraction, python, jupyterlab 
+summary: O kit de ferramentas de DataOps do NetApp para Kubernetes abstrai os recursos de storage e os workloads do Kubernetes até o nível do workspace de ciência de dados. Esses recursos são empacotados em uma interface simples e fácil de usar, projetada para cientistas de dados e engenheiros de dados. 
+---
+= Controle de versão do conjunto de dados e do modelo usando o Toolkit DataOps do NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O kit de ferramentas de DataOps do NetApp para Kubernetes abstrai os recursos de storage e os workloads do Kubernetes até o nível do workspace de ciência de dados. Esses recursos são empacotados em uma interface simples e fácil de usar, projetada para cientistas de dados e engenheiros de dados. Usando a forma familiar de um programa Python, o Toolkit permite que cientistas e engenheiros de dados provisionem e destruam espaços de trabalho do JupyterLab em apenas alguns segundos. Esses espaços de trabalho podem conter terabytes ou até petabytes de capacidade de storage, permitindo que os cientistas de dados armazenem todos os conjuntos de dados de treinamento diretamente nos espaços de trabalho do projeto. Longe vão os dias do gerenciamento separado de workspaces e volumes de dados.
+
+Para obter mais informações, visite o Toolkit's  https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["Repositório do GitHub"^].

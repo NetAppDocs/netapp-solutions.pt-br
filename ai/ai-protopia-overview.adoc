@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-protopia-overview.html 
+keywords: tr4928, 4928, introduction, overview, inferencing, confidential 
+summary: Este documento descreve uma solução de design validada em três cenários diferentes, com e sem ofuscação de imagens relevante para preservar a privacidade e implantar uma solução de IA responsável. 
+---
+= TR-4928: Inteligência artificial responsável e inferência confidencial - NetApp AI com transformação de dados e imagem do Protopia
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Sathish Thyagarajan, Michael Oglesby, NetApp, Jennifer Cwagenberg, Protopia
+
+[role="lead"]
+As interpretações visuais tornaram-se parte integrante da comunicação com o surgimento da captura de imagens e processamento de imagens. A inteligência artificial (IA) no processamento de imagens digitais traz novas oportunidades de negócios, como no campo médico para identificação de Câncer e outras doenças, em análise visual geoespacial para estudar riscos ambientais, no reconhecimento de padrões, no processamento de vídeo para combater o crime, e assim por diante. No entanto, esta oportunidade também vem com responsabilidades extraordinárias.
+
+Quanto mais decisões as organizações colocarem em mãos da IA, mais elas aceitam riscos relacionados à privacidade e segurança dos dados, além de questões legais, éticas e regulatórias. A IA responsável permite uma prática que permite que empresas e organizações governamentais criem confiança e governança que são cruciais para a IA em escala em grandes empresas. Este documento descreve uma solução de inferência de IA validada pela NetApp em três cenários diferentes usando tecnologias de gerenciamento de dados da NetApp com software de ofuscação de dados Protopia para privatizar dados confidenciais e reduzir riscos e preocupações éticas.
+
+Milhões de imagens são geradas todos os dias com vários dispositivos digitais por consumidores e entidades empresariais. A consequente explosão massiva de dados e carga de trabalho computacional faz com que as empresas recorram a plataformas de computação em nuvem para escala e eficiência. Enquanto isso, as preocupações com a privacidade sobre as informações confidenciais contidas nos dados de imagem surgem com a transferência para uma nuvem pública. A falta de garantias de segurança e privacidade se tornou a principal barreira para a implantação de sistemas de IA de processamento de imagens.
+
+Além disso, existe o https://gdpr.eu/right-to-be-forgotten/["direito ao apagamento"^] direito de um indivíduo solicitar que uma organização apague todos os seus dados pessoais. Há também o https://www.justice.gov/opcl/privacy-act-1974["Lei de Privacidade"^], que estabelece um código de práticas justas de informação. Imagens digitais, como fotografias, podem constituir dados pessoais sob o RGPD, que rege como os dados devem ser coletados, processados e apagados. O não cumprimento do RGPD é uma falha, o que pode levar a multas pesadas por violação de conformidades que podem ser seriamente prejudiciais para as organizações. Os princípios de privacidade estão entre os pilares da implementação de IA responsável que garantem a equidade nas previsões do modelo de aprendizado de máquina (ML) e deep learning (DL) e reduzem os riscos associados à violação da privacidade ou da conformidade regulamentar.
+
+Este documento descreve uma solução de design validada em três cenários diferentes, com e sem ofuscação de imagem relevante para preservar a privacidade e implantar uma solução de IA responsável:
+
+* *Cenário 1.* Inferência sob demanda no notebook Jupyter.
+* *Cenário 2.* Inferência em lote no Kubernetes.
+* *Cenário 3.* Servidor de inferência NVIDIA Triton.
+
+
+Para esta solução, usamos o conjunto de dados de detecção de rosto e o Benchmark (FDDB), um conjunto de dados de regiões de rosto projetado para estudar o problema da deteção de rosto sem restrições, combinado com a estrutura de aprendizado de máquina PyTorch para implementação do FaceBoxes. Este conjunto de dados contém as anotações para 5171 faces num conjunto de 2845 imagens de várias resoluções. Além disso, este relatório técnico apresenta algumas das áreas de solução e casos de uso relevantes coletados de clientes e engenheiros de campo da NetApp em situações em que essa solução é aplicável.
+
+
+
+== Público-alvo
+
+Este relatório técnico destina-se aos seguintes públicos:
+
+* Líderes empresariais e arquitetos empresariais que desejam projetar e implantar IA responsável e abordar questões de proteção de dados e privacidade relacionadas ao processamento de imagens faciais em espaços públicos.
+* Cientistas de dados, engenheiros de dados, pesquisadores de AI/aprendizado de máquina (ML) e desenvolvedores de sistemas de AI/ML com o objetivo de proteger e preservar a privacidade.
+* Arquitetos empresariais que projetam soluções de ofuscação de dados para modelos e aplicativos de IA/ML que estejam em conformidade com padrões regulatórios como GDPR, CCPA ou a Lei de Privacidade do Departamento de Defesa (DoD) e organizações governamentais.
+* Cientistas de dados e engenheiros de AI buscam maneiras eficientes de implantar modelos de inferência de AI/ML/DL e DL que protejam informações confidenciais.
+* Gerentes de dispositivos de borda e administradores de servidor de borda responsáveis pela implantação e gerenciamento de modelos de inferência de borda.
+
+
+
+
+== Arquitetura da solução
+
+Essa solução foi projetada para lidar com workloads de AI de inferência em lote e em tempo real em grandes conjuntos de dados usando o poder de processamento das GPUs juntamente com CPUs tradicionais. Essa validação demonstra a inferência de preservação de privacidade para ML e o gerenciamento de dados ideal necessário para organizações que buscam implantações responsáveis de AI. Essa solução fornece uma arquitetura adequada para uma plataforma Kubernetes de um ou vários nós para computação em borda e nuvem interconetada com o NetApp ONTAP AI no núcleo on-premises, o Kit de ferramentas de DataOps do NetApp e o software de ofuscação Protopia usando as interfaces de laboratório e CLI do Jupyter. A figura a seguir mostra a visão geral da arquitetura lógica do Data Fabric com o NetApp com o Toolkit DataOps e o Protopia.
+
+image:ai-protopia-image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O software de ofuscação Protopia é executado perfeitamente em cima do Toolkit DataOps do NetApp e transforma os dados antes de sair do servidor de armazenamento.

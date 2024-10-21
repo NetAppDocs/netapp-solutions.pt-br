@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_abstract.html 
+keywords: NetApp Abstract 
+summary:  
+---
+= Resumo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este white paper oferece diretrizes para clientes que criam soluções de inteligência artificial (IA) conversacionais usando a estrutura NVIDIA Jarvis e NetApp ONTAP AI e BlueXP  Copy and Sync para varejo e outros casos de uso. Ele inclui informações sobre os fluxos de trabalho de alto nível usados no desenvolvimento de modelos de processamento de linguagem natural (PNL) para assistentes virtuais, casos de teste validados e resultados.

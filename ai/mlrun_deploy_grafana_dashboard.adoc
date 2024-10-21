@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_deploy_grafana_dashboard.html 
+keywords: NetApp, AI, ML, Cleanup, Grafana 
+summary:  
+---
+= Implantar o Grafana Dashboard
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Depois que tudo é implantado, executamos inferências sobre novos dados. Os modelos preveem a falha no equipamento de dispositivo de rede. Os resultados da previsão são armazenados em uma tabela do Iguazio TimeSeries. Você pode visualizar os resultados com Grafana na plataforma integrada à política de segurança e acesso a dados do Iguazio.
+
+É possível implantar o painel importando o arquivo JSON fornecido nas interfaces Grafana no cluster.
+
+. Para verificar se o serviço Grafana está em execução, consulte Serviços.
++
+image:mlrun_image22.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Se não estiver presente, implante uma instância da seção Serviços:
++
+.. Clique em novo serviço.
+.. Selecione Grafana na lista.
+.. Aceite os padrões.
+.. Clique em Next Step (próximo passo).
+.. Introduza a sua ID de utilizador.
+.. Clique em Save Service (Guardar serviço).
+.. Clique em aplicar alterações na parte superior.
+
+
+. Para implantar o painel, baixe o arquivo `NetopsPredictions-Dashboard.json` pela interface do Jupyter.
++
+image:mlrun_image23.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Abra o Grafana na seção Serviços e importe o painel.
++
+image:mlrun_image24.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em carregar `*.json` ficheiro e selecione o ficheiro que transferiu anteriormente (`NetopsPredictions-Dashboard.json`). O painel é apresentado após a conclusão do carregamento.
+
+
+image:mlrun_image25.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Implantar a função Limpeza
+
+Quando você gera muitos dados, é importante manter as coisas limpas e organizadas. Para fazer isso, implante a função de limpeza com o `cleanup.ipynb` notebook.
+
+
+
+== Benefícios
+
+O NetApp e o Iguazio aceleram e simplificam a implantação de aplicações de IA e ML, criando estruturas essenciais, como Kubeflow, Apache Spark e TensorFlow, juntamente com ferramentas de orquestração como Docker e Kubernetes. Ao unificar o pipeline de dados completo, o NetApp e o Iguazio reduzem a latência e a complexidade inerentes a muitas cargas de trabalho de computação avançadas, reduzindo efetivamente a lacuna entre o desenvolvimento e as operações. Os cientistas de dados podem executar consultas em grandes conjuntos de dados e compartilhar com segurança dados e modelos algorítmicos com usuários autorizados durante a fase de treinamento. Depois que os modelos em contêiner estiverem prontos para produção, você poderá migrá-los facilmente de ambientes de desenvolvimento para ambientes operacionais.

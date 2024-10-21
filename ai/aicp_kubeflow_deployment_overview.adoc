@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_kubeflow_deployment_overview.html 
+keywords: Kubeflow, Prerequisites, Kubernetes, cluster 
+summary: MLOps de código aberto com NetApp - implantação do Kubeflow 
+---
+= Implantação do Kubeflow
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção descreve as tarefas que você deve concluir para implantar o Kubeflow no cluster do Kubernetes.
+
+
+
+== Pré-requisitos
+
+Antes de executar o exercício de implantação descrito nesta seção, assumimos que você já executou as seguintes tarefas:
+
+. Você já tem um cluster do Kubernetes em funcionamento e está executando uma versão do Kubernetes que é compatível com a versão do Kubeflow que você pretende implantar. Para obter uma lista das versões do Kubernetes com suporte, consulte as dependências da versão do Kubeflow no link:https://www.kubeflow.org/docs/releases/["Documentação oficial do Kubeflow"^].
+. Você já instalou e configurou o NetApp Trident no cluster do Kubernetes. Para obter mais detalhes sobre o Trident, consulte o link:https://docs.netapp.com/us-en/trident/index.html["Documentação do Trident"].
+
+
+
+
+== Defina o Kubernetes StorageClass padrão
+
+Antes de implantar o Kubeflow, recomendamos a designação de um StorageClass padrão no cluster do Kubernetes. O processo de implantação do Kubeflow pode tentar provisionar novos volumes persistentes usando o StorageClass padrão. Se nenhum StorageClass for designado como o StorageClass padrão, a implantação poderá falhar. Para designar um StorageClass padrão no cluster, execute a seguinte tarefa a partir do host de salto de implantação. Se você já tiver designado um StorageClass padrão no cluster, então você pode pular esta etapa.
+
+. Designe um de seus StorageClasses existentes como o StorageClass padrão. Os comandos de exemplo a seguir mostram a designação de um StorageClass nomeado `ontap-ai-flexvols-retain` como o StorageClass padrão.
+
+
+
+NOTE: O `ontap-nas-flexgroup` tipo backend Trident tem um tamanho mínimo de PVC que é bastante grande. Por padrão, o Kubeflow tenta provisionar PVCs com apenas alguns GBs de tamanho. Portanto, você não deve designar um StorageClass que utilize o `ontap-nas-flexgroup` tipo de back-end como o StorageClass padrão para fins de implantação do Kubeflow.
+
+....
+$ kubectl get sc
+NAME                                PROVISIONER             AGE
+ontap-ai-flexgroups-retain          csi.trident.netapp.io   25h
+ontap-ai-flexgroups-retain-iface1   csi.trident.netapp.io   25h
+ontap-ai-flexgroups-retain-iface2   csi.trident.netapp.io   25h
+ontap-ai-flexvols-retain            csi.trident.netapp.io   3s
+$ kubectl patch storageclass ontap-ai-flexvols-retain -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+storageclass.storage.k8s.io/ontap-ai-flexvols-retain patched
+$ kubectl get sc
+NAME                                 PROVISIONER             AGE
+ontap-ai-flexgroups-retain           csi.trident.netapp.io   25h
+ontap-ai-flexgroups-retain-iface1    csi.trident.netapp.io   25h
+ontap-ai-flexgroups-retain-iface2    csi.trident.netapp.io   25h
+ontap-ai-flexvols-retain (default)   csi.trident.netapp.io   54s
+....
+
+
+== Opções de implantação do Kubeflow
+
+Existem muitas opções diferentes para implantar o Kubeflow. Consulte link:https://www.kubeflow.org/docs/started/installing-kubeflow/["Documentação oficial do Kubeflow"]a para obter uma lista de opções de implementação e escolha a opção que melhor se adapta às suas necessidades.
+
+
+NOTE: Para fins de validação, implantamos o Kubeflow 1,7 usando link:https://www.deploykf.org["DeployKF"] o 0,1.1.

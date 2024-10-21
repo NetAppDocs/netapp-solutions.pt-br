@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-overview-of-hadoop-data-protection-use-cases.html 
+keywords: summary, overview, backup, devtest, data protection 
+summary: 'Esta seção fornece uma descrição de alto nível dos casos de uso de proteção de dados, que constituem o foco deste documento. As seções restantes fornecem mais detalhes para cada caso de uso, como o problema do cliente (cenário), requisitos e desafios e soluções.' 
+---
+= Visão geral dos casos de uso de proteção de dados do Hadoop
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção fornece uma descrição de alto nível dos casos de uso de proteção de dados, que constituem o foco deste documento. As seções restantes fornecem mais detalhes para cada caso de uso, como o problema do cliente (cenário), requisitos e desafios e soluções.
+
+
+
+== Caso de uso 1: Backup de dados do Hadoop
+
+Nesse caso de uso, o volume de NFS da NetApp ajudou uma grande instituição financeira a reduzir o longo tempo do período de backup de mais de 24 horas para pouco menos de algumas horas.
+
+
+
+== Caso de uso 2: Backup e recuperação de desastres da nuvem para o local
+
+Ao usar o Data Fabric desenvolvido pela NetApp como componentes básicos, uma grande empresa de radiodifusão conseguiu cumprir seus requisitos de backup de dados na nuvem em seu data center local, dependendo dos diferentes modos de transferência de dados, como sob demanda, instantânea ou com base na carga do cluster Hadoop/Spark.
+
+
+
+== Caso de uso 3: Habilitando o DevTest em dados existentes do Hadoop
+
+As soluções da NetApp ajudaram um distribuidor de música on-line a criar rapidamente vários clusters Hadoop com uso eficiente de espaço em diferentes ramificações para criar relatórios e executar tarefas diárias de teste de desenvolvimento usando políticas agendadas.
+
+
+
+== Caso de uso 4: Proteção de dados e conectividade multicloud
+
+Um grande fornecedor de serviços usou o Data Fabric fornecido pela NetApp para fornecer análises de várias nuvens aos clientes a partir de diferentes instâncias de nuvem.
+
+
+
+== Caso de uso 5: Acelere workloads analíticos
+
+Um dos maiores bancos de investimento e serviços financeiros usou a solução de storage conectado à rede da NetApp para reduzir o tempo de espera de e/S e acelerar sua plataforma de análise financeira quantitativa.

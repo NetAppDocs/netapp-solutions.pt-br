@@ -1,0 +1,68 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-conclusion.html 
+keywords: vector database, conclusion 
+summary: conclusão - solução de banco de dados vetorial para NetApp 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção conclui a solução de banco de dados vetorial para NetApp.
+
+
+
+== Conclusão
+
+Em conclusão, este documento fornece uma visão geral abrangente da implantação e gerenciamento de bancos de dados vetoriais, como Milvus e pgvector, em soluções de armazenamento NetApp. Discutimos as diretrizes de infraestrutura para aproveitar o armazenamento de objetos NetApp ONTAP e StorageGRID e validamos o banco de dados Milvus no AWS FSX ONTAP por meio de armazenamento de arquivos e objetos.
+
+Exploramos a dualidade arquivo-objeto do NetApp, demonstrando seu utilitário não apenas para dados em bancos de dados vetoriais, mas também para outras aplicações. Também destacamos como o SnapCenter, produto de gerenciamento empresarial da NetApp, oferece funcionalidades de backup, restauração e clonagem para dados de banco de dados vetoriais, garantindo integridade e disponibilidade de dados.
+
+O documento também aborda como a solução de nuvem híbrida da NetApp oferece replicação e proteção de dados em ambientes locais e na nuvem, proporcionando uma experiência de gerenciamento de dados segura e aprimorada. Fornecemos insights sobre a validação de desempenho de bancos de dados vetoriais como Milvus e pgvecto no NetApp ONTAP, oferecendo informações valiosas sobre sua eficiência e escalabilidade.
+
+Finalmente, discutimos dois casos de uso generativo de IA: RAG with LLM e o ChatAI interno do NetApp. Estes exemplos práticos destacam as aplicações e os benefícios do mundo real dos conceitos e práticas descritos neste documento. No geral, este documento serve como um guia abrangente para qualquer pessoa que queira utilizar as poderosas soluções de armazenamento da NetApp para gerenciar bancos de dados vetoriais.
+
+
+
+=== Agradecimentos
+
+O autor gostaria de agradecer sinceramente aos colaboradores abaixo, outros que forneceram seus comentários e comentários para tornar este artigo valioso para os clientes da NetApp e campos da NetApp.
+
+. Sathish Thyagarajan, Engenheiro de Marketing Técnico, ONTAP AI & Analytics, NetApp
+. Mike Oglesby, engenheiro técnico de marketing, NetApp
+. AJ Mahajan, diretor sênior, NetApp
+. Joe Scott, gerente de engenharia de desempenho de workloads, NetApp
+. Puneet Dhawan, diretor sênior, gerenciamento de produtos FSX, NetApp
+. Yuval Kalderon, gerente sênior de produtos da equipe de produtos do FSX, NetApp
+
+
+
+
+=== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* Documentação Milvus - https://milvus.io/docs/overview.md[]
+* Documentação autônoma do Milvus - https://milvus.io/docs/v2.0.x/install_standalone-docker.md[]
+* Documentação do produto NetApp https://www.netapp.com/support-and-training/documentation/[]
+* instaclustr - link:https://www.instaclustr.com/support/documentation/?_bt=&_bk=&_bm=&_bn=x&_bg=&utm_term=&utm_campaign=&utm_source=adwords&utm_medium=ppc&hsa_acc=1467100120&hsa_cam=20766399079&hsa_grp=&hsa_ad=&hsa_src=x&hsa_tgt=&hsa_kw=&hsa_mt=&hsa_net=adwords&hsa_ver=3&gad_source=1&gclid=CjwKCAjw26KxBhBDEiwAu6KXtzOZhN0dl0H1smOMcj9nsC0qBQphdMqFR7IrVQqeG2Y4aHWydUMj2BoCdFwQAvD_BwE["instalclustr documentação"]
+
+
+
+
+=== Histórico de versões
+
+|===
+
+
+| Versão | Data | Histórico de versões do documento 
+
+
+| Versão 1,0 | Abril de 2024 | Lançamento inicial 
+|===

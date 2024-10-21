@@ -1,0 +1,41 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_training_time_comparison.html 
+keywords: training, time, comparison, pandas, dask, 
+summary: Esta página compara o tempo de treino do modelo utilizando Pandas convencionais em comparação com o Dask. Para Pandas, carregamos uma quantidade menor de dados devido à natureza do tempo de processamento mais lento para evitar o excesso de memória. Portanto, interpolamos os resultados para oferecer uma comparação justa. 
+---
+= Comparação do tempo de treino
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta secção compara o tempo de formação do modelo utilizando Pandas convencionais em comparação com o Dask. Para Pandas, carregamos uma quantidade menor de dados devido à natureza do tempo de processamento mais lento para evitar o excesso de memória. Portanto, interpolamos os resultados para oferecer uma comparação justa.
+
+A tabela a seguir mostra a comparação do tempo de treinamento bruto quando há significativamente menos dados usados para o modelo de floresta aleatória PANDAS (50 milhões de linhas de 20 bilhões por day15 do conjunto de dados). Esta amostra está usando apenas menos de 0,25% de todos os dados disponíveis. Ao passo que para a Dask-cuML treinamos o modelo de floresta aleatória em todas as 20 bilhões de linhas disponíveis. As duas abordagens renderam tempo de treinamento comparável.
+
+|===
+| Abordagem | Tempo de treino 
+
+
+| Scikit-learn: Usando APENAS 50m linhas em day15 como os dados de treinamento | 47 minutos e 21 segundos 
+
+
+| Rapids-Dask: Usando todas as 20B linhas em day15 como os dados de treinamento | 1 hora, 12 minutos e 11 segundos 
+|===
+Se interpolarmos os resultados do tempo de treinamento linearmente, como mostrado na tabela a seguir, há uma vantagem significativa em usar o treinamento distribuído com Dask. Seria necessário a abordagem convencional PANDAS scikit-learn 13 dias para processar e treinar 45GB TB de dados para um único dia de logs de cliques, enquanto a abordagem RAPIDS-Dark processa a mesma quantidade de dados 262,39 vezes mais rápido.
+
+|===
+| Abordagem | Tempo de treino 
+
+
+| Scikit-learn: Usando todas as 20B linhas em day15 como os dados de treinamento | 13 dias, 3 horas, 40 minutos e 11 segundos 
+
+
+| Rapids-Dask: Usando todas as 20B linhas em day15 como os dados de treinamento | 1 hora, 12 minutos e 11 segundos 
+|===
+Na tabela anterior, você pode ver que usando O Rapids com o Dask para distribuir o Data Processing e o treinamento de modelo em várias instâncias de GPU, o tempo de execução é significativamente menor em comparação com o processamento de DataFrame de PANDAS convencional com treinamento de modelo scikit-learn. Essa estrutura permite o dimensionamento vertical e horizontal na nuvem, bem como no local em um cluster multi-GPU multinode.

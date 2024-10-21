@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: vmware/vsphere_auto_introduction.html 
+keywords: vSphere, cloud, hybrid cloud, AWS, Azure, Google cloud, snapmirror cloud, cloud backup service, BlueXP Copy and Sync, FabricPool, ONTAP 
+summary: Esta página descreve os benefícios da automação da funcionalidade básica do ONTAP em um ambiente VMware vSphere. 
+---
+= Introdução à automação para ONTAP e vSphere
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta página descreve os benefícios da automação da funcionalidade básica do ONTAP em um ambiente VMware vSphere.
+
+
+
+== Automação da VMware
+
+A automação tem sido parte integrante do gerenciamento de ambientes VMware desde os primeiros dias do VMware ESX. A capacidade de implantar infraestrutura como código e estender práticas para operações de nuvem privada ajuda a aliviar as preocupações relacionadas a escalabilidade, flexibilidade, autoprovisionamento e eficiência.
+
+A automação pode ser organizada nas seguintes categorias:
+
+* *Implantação de infraestrutura virtual*
+* *Operações de máquina convidado*
+* *Operações em nuvem*
+
+
+Há muitas opções disponíveis para os administradores no que diz respeito à automação da infraestrutura. Seja por meio do uso de recursos nativos do vSphere, como perfis de host ou especificações de personalização para máquinas virtuais, para APIs disponíveis nos componentes de software, sistemas operacionais e sistemas de storage NetApp da VMware, há documentação e orientações significativas disponíveis.
+
+O Data ONTAP 8.0,1 e posterior oferecem suporte a determinados recursos de VMware vSphere APIs for Array Integration (VAAI) quando o host ESX estiver executando o ESX 4,1 ou posterior. O VAAI é um conjunto de APIs que permitem a comunicação entre os hosts do VMware vSphere ESXi e os dispositivos de armazenamento. Esses recursos ajudam a descarregar as operações do host ESX para o sistema de storage e a aumentar a taxa de transferência da rede. O host ESX habilita os recursos automaticamente no ambiente correto. Você pode determinar em que medida seu sistema está usando os recursos do VAAI verificando as estatísticas contidas nos contadores do VAAI.
+
+O ponto de partida mais comum para automatizar a implantação de um ambiente VMware é provisionar armazenamentos de dados baseados em arquivos ou blocos de provisionamento. É importante mapear os requisitos das tarefas reais antes de desenvolver a automação correspondente.
+
+Para obter mais informações sobre a automação de ambientes VMware, consulte os seguintes recursos:
+
+* https://netapp.io/configuration-management-and-automation/["The NetApp Pub"^]. Automação e gerenciamento de configurações do NetApp.
+* https://galaxy.ansible.com/community/vmware["A Comunidade Ansible Galaxy para VMware"^]. Uma coleção de recursos do Ansible para VMware.
+* https://code.vmware.com/resources["Recursos do VMware"^]. Recursos necessários para projetar soluções para o data center definido por software, incluindo fóruns, padrões de design, código de exemplo e ferramentas de desenvolvedor.
+

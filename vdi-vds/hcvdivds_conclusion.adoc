@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_conclusion.html 
+keywords: VDS, Virtual Desktop Service, HCI, conclusion 
+summary: O serviço de desktop virtual da NetApp fornece um ambiente de aplicativos e desktop virtual fácil de consumir, com foco nos desafios empresariais. Ao estender o VDS com o NetApp HCI, você pode usar recursos avançados do NetApp em um ambiente VDS, incluindo deduplicação in-line, compactação, thin Provisioning e compressão. 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O serviço de desktop virtual da NetApp fornece um ambiente de aplicativos e desktop virtual fácil de consumir, com foco nos desafios empresariais. Ao estender o VDS ao ambiente ONTAP no local, você pode usar recursos avançados do NetApp em um ambiente VDS, incluindo clone rápido, deduplicação in-line, compactação, thin Provisioning e compressão. Esses recursos economizam custos de storage e melhoram a performance com o storage all-flash. Com o hipervisor VMware vSphere, que minimiza o tempo de provisionamento de servidor usando volumes virtuais e a integração da vSphere API for Array. Usando a nuvem híbrida, os clientes podem escolher o ambiente certo para seus workloads exigentes e economizar. A sessão de desktop em execução no local pode acessar recursos de nuvem com base na política.

@@ -1,0 +1,101 @@
+---
+section: data-access
+title: Migração de dados e proteção de dados
+entries:
+- title: Ciber Vault da ONTAP
+  entries:
+  - title: Visão geral do ONTAP Cyber Vault
+    url: "/cyber-vault/ontap-cyber-vault-overview.html"
+  - title: Terminologia do Cyber Vault
+    url: "/cyber-vault/ontap-cyber-vault-terminology.html"
+  - title: Dimensionamento do Cyber Vault para ONTAP
+    url: "/cyber-vault/ontap-cyber-vault-sizing.html"
+  - title: Crie um cofre virtual
+    url: "/cyber-vault/ontap-create-cyber-vault-task.html"
+  - title: Endurecimento do Cyber Vault
+    url: "/cyber-vault/ontap-cyber-vault-hardening.html"
+  - title: Interoperabilidade do Cyber Vault
+    url: "/cyber-vault/ontap-cyber-vault-interoperability.html"
+  - title: Recursos do Cyber Vault
+    url: "/cyber-vault/ontap-cyber-vault-resources.html"
+  - title: Criação, fortalecimento e verificação de um cofre cibernético do ONTAP
+      com o PowerShell
+    entries:
+    - title: Visão geral
+      url: "/cyber-vault/ontap-cyber-vault-powershell-overview.html"
+    - title: Criação do Cyber Vault
+      url: "/cyber-vault/ontap-cyber-vault-powershell-creation.html"
+    - title: Endurecimento do Cyber Vault
+      url: "/cyber-vault/ontap-cyber-vault-powershell-hardening.html"
+    - title: Validação do Cyber Vault
+      url: "/cyber-vault/ontap-cyber-vault-powershell-validation.html"
+    - title: Recuperação de dados do Cyber Vault
+      url: "/cyber-vault/ontap-cyber-vault-powershell-data-recovery.html"
+    - title: Considerações adicionais
+      url: "/cyber-vault/ontap-cyber-vault-powershell-considerations.html"
+    - title: Configurar, analisar, script cron
+      url: "/cyber-vault/ontap-cyber-vault-powershell-script.html"
+    - title: Conclusão do Cyber Vault
+      url: "/cyber-vault/ontap-cyber-vault-powershell-conclusion.html"
+- title: Migração de dados
+  entries:
+  - title: Diretrizes de práticas recomendadas para NetApp XCP
+    entries:
+    - title: Introdução
+      url: "/xcp/xcp-bp-introduction.html"
+    - title: NetApp XCP
+      url: "/xcp/xcp-bp-netapp-xcp-overview.html"
+    - title: Fluxo de trabalho de migração
+      url: "/xcp/xcp-bp-migration-workflow-overview.html"
+    - title: Análise de arquivos
+      url: "/xcp/xcp-bp-file-analytics.html"
+    - title: Etapas de implantação
+      url: "/xcp/xcp-bp-deployment-steps.html"
+    - title: Diretrizes de dimensionamento
+      url: "/xcp/xcp-bp-sizing-guidelines-overview.html"
+    - title: Ajuste de desempenho
+      url: "/xcp/xcp-bp-performance-tuning.html"
+    - title: Cenários do cliente
+      entries:
+      - title: Visão geral
+        url: "/xcp/xcp-bp-customer-scenarios-overview.html"
+      - title: Data Lake para ONTAP NFS
+        url: "/xcp/xcp-bp-data-lake-to-ontap-nfs.html"
+      - title: Computação de alto desempenho para o ONTAP NFS
+        url: "/xcp/xcp-bp-high-performance-computing-to-ontap-nfs.html"
+      - title: Usando o XCP Data Mover para migrar milhões de pequenos arquivos para
+          armazenamento flexível
+        url: "/xcp/xcp-bp-using-the-xcp-data-mover-to-migrate-millions-of-small-files-to-flexible-storage.html"
+      - title: Usando o XCP Data Mover para migrar arquivos grandes
+        url: "/xcp/xcp-bp-using-the-xcp-data-mover-to-migrate-large-files.html"
+      - title: Arquivos duplicados
+        url: "/xcp/xcp-bp-duplicate-files.html"
+      - title: Digitalização específica baseada em data e cópia de dados
+        url: "/xcp/xcp-bp-specific-date-based-scan-and-copy-of-data.html"
+      - title: Criando um arquivo CSV a partir do compartilhamento SMB/CIFS
+        url: "/xcp/xcp-bp-creating-a-csv-file-from-smb-cifs-share.html"
+      - title: Migração de dados do modo 7 para o ONTAP
+        url: "/xcp/xcp-bp-data-migration-from-7-mode-to-ontap.html"
+      - title: Migração de dados CIFS com ACLs de uma caixa de armazenamento de origem
+          para o ONTAP
+        url: "/xcp/xcp-bp-cifs-data-migration-with-acls-from-a-source-storage-box-to-ontap.html"
+    - title: Diretrizes e recomendações de melhores práticas
+      url: "/xcp/xcp-bp-best-practice-guidelines-and-recommendations.html"
+    - title: Solução de problemas
+      url: "/xcp/xcp-bp-troubleshooting.html"
+    - title: Onde encontrar informações adicionais
+      url: "/xcp/xcp-bp-where-to-find-additional-information.html"
+- title: Proteção de dados
+  entries:
+  - title: NetApp e-Series e CommVault Data Platform V11
+    url: "/dp-sec/tr-4320.html"
+  - title: Práticas recomendadas de storage e arquitetura de referência do e-Series
+      e EF-Series com o Veeam Backup & Replication 9,5
+    url: "/dp-sec/tr-4471.html"
+  - title: Implantação do Veritas NetBackup com o armazenamento NetApp e-Series
+    url: "/dp-sec/tr-4704.html"
+- title: Segurança
+  entries:
+  - title: Controles de segurança NIST para FISMA com HyTrust para infraestrutura
+      multitenant
+    url: "/dp-sec/nva-1143.html"

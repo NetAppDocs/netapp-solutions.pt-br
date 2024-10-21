@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: ai/tr-4785.html 
+keywords:  
+summary:  
+---
+= TR-4785: Implantação de AI com o NetApp e-Series e o BeeGFS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp, Amine Bennani, Nathaniel, Nathaniel, Nathaniel
+
+[role="lead"]
+Aplicações de inteligência artificial (AI), aprendizado de máquina (ML) e deep learning (DL) envolvem grandes conjuntos de dados e grandes cálculos. Para executar esses workloads com sucesso, você precisa de uma infraestrutura ágil que permita fazer escalabilidade horizontal de nós de storage e computação de forma otimizada. Esse relatório inclui as etapas para executar um modelo de treinamento de AI em modo distribuído, que permite a escalabilidade horizontal aprimorada de nós de computação e storage. O relatório também inclui várias métricas de performance para mostrar como uma solução que combina o storage do NetApp e-Series com o sistema de arquivos paralelos do BeeGFS fornece uma solução flexível, econômica e simples para workloads de AI.
+
+link:https://www.netapp.com/pdf.html?item=/media/17040-tr4785pdf.pdf["TR-4785: Implantação de AI com o NetApp e-Series e o BeeGFS"^]

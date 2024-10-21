@@ -1,0 +1,555 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_getting_started_onprem.html 
+summary: 'A ferramenta NetApp SnapCenter usa o controle de acesso baseado em função (RBAC) para gerenciar permissões e acesso aos recursos do usuário, e a instalação do SnapCenter cria funções pré-preenchidas. Você também pode criar funções personalizadas com base em suas necessidades ou aplicativos.' 
+keywords: workflow, on premises, rbac, roles, permissions 
+---
+= Primeiros passos no local
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A ferramenta NetApp SnapCenter usa o controle de acesso baseado em função (RBAC) para gerenciar permissões e acesso aos recursos do usuário, e a instalação do SnapCenter cria funções pré-preenchidas. Você também pode criar funções personalizadas com base em suas necessidades ou aplicativos.
+
+
+
+== No local
+
+
+
+=== 1. Configurar usuário de administrador de banco de dados no SnapCenter
+
+Faz sentido ter uma ID de usuário de administrador dedicada para cada plataforma de banco de dados suportada pelo SnapCenter para backup, restauração e/ou recuperação de desastres de banco de dados. Você também pode usar um único ID para gerenciar todos os bancos de dados. Em nossos casos de teste e demonstração, criamos um usuário admin dedicado para Oracle e SQL Server, respetivamente.
+
+Certos recursos do SnapCenter só podem ser provisionados com a função SnapCenterAdmin. Os recursos podem então ser atribuídos a outros IDs de usuário para acesso.
+
+Em um ambiente SnapCenter pré-instalado e configurado no local, as seguintes tarefas podem já ter sido concluídas. Caso contrário, as etapas a seguir criam um usuário de administrador de banco de dados:
+
+. Adicione o usuário admin ao ative Directory do Windows.
+. Faça login no SnapCenter usando uma ID concedida com a função SnapCenterAdmin.
+. Navegue até a guia Acesso em Configurações e usuários e clique em Adicionar para adicionar um novo usuário. A nova ID de usuário está vinculada ao usuário admin criado no ative Directory do Windows na etapa 1. . Atribua a função adequada ao usuário conforme necessário. Atribua recursos ao usuário admin, conforme aplicável.
+
+
+image:snapctr_admin_users.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== 2. Pré-requisitos de instalação do plugin SnapCenter
+
+O SnapCenter executa backup, restauração, clone e outras funções usando um agente de plug-in em execução nos hosts de banco de dados. Ele se coneta ao host do banco de dados e banco de dados por meio de credenciais configuradas na guia Configurações e credenciais para instalação do plug-in e outras funções de gerenciamento. Existem requisitos de privilégio específicos baseados no tipo de host de destino, como Linux ou Windows, bem como no tipo de banco de dados.
+
+As credenciais dos hosts DB devem ser configuradas antes da instalação do plug-in do SnapCenter. Geralmente, você deseja usar contas de usuário de administrador no host de banco de dados como suas credenciais de conexão de host para instalação de plug-ins. Você também pode conceder a mesma ID de usuário para acesso ao banco de dados usando autenticação baseada em SO. Por outro lado, você também pode empregar autenticação de banco de dados com diferentes IDs de usuário de banco de dados para acesso de gerenciamento de banco de dados. Se você decidir usar a autenticação baseada em SO, o ID de usuário do administrador do sistema operacional deve ter acesso a banco de dados. Para a instalação do SQL Server baseada em domínio do Windows, uma conta de administrador de domínio pode ser usada para gerenciar todos os SQL Servers dentro do domínio.
+
+Host Windows para SQL Server:
+
+. Se você estiver usando credenciais do Windows para autenticação, você deve configurar sua credencial antes de instalar plugins.
+. Se você estiver usando uma instância do SQL Server para autenticação, você deve adicionar as credenciais após a instalação de plugins.
+. Se você ativou a autenticação SQL durante a configuração das credenciais, a instância descoberta ou o banco de dados será exibido com um ícone de cadeado vermelho. Se o ícone de bloqueio for exibido, você deverá especificar as credenciais da instância ou do banco de dados para adicionar com êxito a instância ou o banco de dados a um grupo de recursos.
+. Você deve atribuir a credencial a um usuário RBAC sem acesso sysadmin quando as seguintes condições forem atendidas:
++
+** A credencial é atribuída a uma instância SQL.
+** A instância ou host SQL é atribuída a um usuário RBAC.
+** O usuário admin de banco de dados RBAC deve ter o grupo de recursos e o Privileges de backup.
+
+
+
+
+Host UNIX para Oracle:
+
+. Você deve ter habilitado a conexão SSH baseada em senha para o usuário root ou não root editando sshd.conf e reiniciando o serviço sshd. A autenticação SSH baseada em senha na instância da AWS é desativada por padrão.
+. Configure o sudo Privileges para que o usuário não-root instale e inicie o processo do plugin. Depois de instalar o plugin, os processos são executados como um usuário root eficaz.
+. Crie credenciais com o modo de autenticação Linux para o usuário de instalação.
+. Você deve instalar o Java 1,8.x (64 bits) em seu host Linux.
+. A instalação do plugin de banco de dados Oracle também instala o plugin SnapCenter para Unix.
+
+
+
+
+=== 3. Instalação do plug-in do host SnapCenter
+
+
+NOTE: Antes de tentar instalar plugins do SnapCenter em instâncias de servidor de banco de dados na nuvem, certifique-se de que todas as etapas de configuração foram concluídas conforme listado na seção de nuvem relevante para implantação de instâncias de computação.
+
+As etapas a seguir ilustram como um host de banco de dados é adicionado ao SnapCenter enquanto um plug-in do SnapCenter é instalado no host. O procedimento se aplica à adição de hosts no local e hosts na nuvem. A demonstração a seguir adiciona um host Windows ou Linux residente na AWS.
+
+
+
+==== Configure as configurações globais do SnapCenter VMware
+
+Navegue até Definições > Definições globais. Selecione "as VMs têm discos iSCSI diretamente conetados ou NFS para todos os hosts" em Configurações do hipervisor e clique em Atualizar.
+
+image:snapctr_vmware_global.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+==== Adicione o host do Windows e a instalação do plugin no host
+
+. Faça login no SnapCenter com um ID de usuário com o SnapCenterAdmin Privileges.
+. Clique na guia hosts no menu à esquerda e, em seguida, clique em Adicionar para abrir o fluxo de trabalho Add Host.
+. Escolha Windows para tipo de host; o Nome do host pode ser um nome de host ou um endereço IP. O nome do host deve ser resolvido para o endereço IP correto do host SnapCenter. Escolha as credenciais do host criadas na etapa 2. Escolha o Microsoft Windows e o Microsoft SQL Server como os pacotes de plug-in a serem instalados.
++
+image:snapctr_add_windows_host_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Depois que o plugin é instalado em um host do Windows, seu Status geral é mostrado como "Configurar diretório de log".
++
+image:snapctr_add_windows_host_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique no Nome do host para abrir a configuração do diretório de log do SQL Server.
++
+image:snapctr_add_windows_host_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em "Configurar diretório de log" para abrir "Configurar Plug-in para SQL Server".
++
+image:snapctr_add_windows_host_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em Procurar para descobrir o armazenamento do NetApp para que um diretório de log possa ser definido; o SnapCenter usa esse diretório de log para implantar os arquivos de log de transações do servidor SQL. Em seguida, clique em Salvar.
++
+image:snapctr_add_windows_host_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+
+NOTE: Para que o storage do NetApp provisionado a um host de banco de dados seja descoberto, o storage (on-premises ou CVO) deve ser adicionado ao SnapCenter, conforme ilustrado na etapa 6 do CVO, como exemplo.
+
+. Depois que o diretório de log é configurado, o status geral do plugin do host do Windows é alterado para em execução.
++
+image:snapctr_add_windows_host_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Para atribuir o host ao ID de usuário de gerenciamento de banco de dados, navegue até a guia Acesso em Configurações e usuários, clique no ID de usuário de gerenciamento de banco de dados (no nosso caso, o sqldba ao qual o host precisa ser atribuído) e clique em Salvar para concluir a atribuição de recursos do host.
++
+image:snapctr_add_windows_host_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:snapctr_add_windows_host_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+==== Adicione o host Unix e a instalação do plugin no host
+
+. Faça login no SnapCenter com um ID de usuário com o SnapCenterAdmin Privileges.
+. Clique na guia hosts no menu à esquerda e clique em Adicionar para abrir o fluxo de trabalho Add Host.
+. Escolha Linux como o tipo de host. O Nome do host pode ser o nome do host ou um endereço IP. No entanto, o nome do host deve ser resolvido para corrigir o endereço IP do host SnapCenter. Escolha as credenciais de host criadas na etapa 2. As credenciais do host exigem o sudo Privileges. Verifique o banco de dados Oracle como o plug-in a ser instalado, que instala ambos os plugins de host Oracle e Linux.
++
+image:snapctr_add_linux_host_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em mais Opções e selecione "Ignorar verificações de pré-instalação". Você é solicitado a confirmar o salto da verificação de pré-instalação. Clique em Sim e, em seguida, em Salvar.
++
+image:snapctr_add_linux_host_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em Enviar para iniciar a instalação do plugin. Você é solicitado a confirmar a impressão digital, como mostrado abaixo.
++
+image:snapctr_add_linux_host_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. O SnapCenter executa a validação e o Registro do host e, em seguida, o plugin é instalado no host Linux. O status é alterado de Installing Plugin para Running.
++
+image:snapctr_add_linux_host_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Atribua o host recém-adicionado ao ID de usuário de gerenciamento de banco de dados adequado (no nosso caso, oradba).
++
+image:snapctr_add_linux_host_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:snapctr_add_linux_host_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== 4. Descoberta de recursos de banco de dados
+
+Com a instalação bem-sucedida do plugin, os recursos do banco de dados no host podem ser imediatamente descobertos. Clique na guia recursos no menu à esquerda. Dependendo do tipo de plataforma de banco de dados, várias visualizações estão disponíveis, como banco de dados, grupo de recursos e assim por diante. Talvez seja necessário clicar na guia Atualizar recursos se os recursos no host não forem descobertos e exibidos.
+
+image:snapctr_resources_ora.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Quando o banco de dados é descoberto inicialmente, o status geral é mostrado como "não protegido". A captura de tela anterior mostra um banco de dados Oracle ainda não protegido por uma política de backup.
+
+Quando uma configuração ou política de backup é configurada e um backup foi executado, o Status geral do banco de dados mostra o status do backup como "Backup successful" e o carimbo de data/hora do último backup. A captura de tela a seguir mostra o status de backup de um banco de dados de usuários do SQL Server.
+
+image:snapctr_resources_sql.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Se as credenciais de acesso ao banco de dados não estiverem configuradas corretamente, um botão de bloqueio vermelho indica que o banco de dados não está acessível. Por exemplo, se as credenciais do Windows não tiverem acesso sysadmin a uma instância de banco de dados, as credenciais de banco de dados devem ser reconfiguradas para desbloquear o bloqueio vermelho.
+
+image:snapctr_add_windows_host_09.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:snapctr_add_windows_host_10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Depois que as credenciais apropriadas são configuradas no nível do Windows ou no nível do banco de dados, o bloqueio vermelho desaparece e as informações do tipo do SQL Server são coletadas e revisadas.
+
+image:snapctr_add_windows_host_11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== 5. Configurar peering de cluster de storage e replicação de volumes de banco de dados
+
+Para proteger os dados do banco de dados local usando uma nuvem pública como destino, os volumes de banco de dados do cluster do ONTAP no local são replicados para o Cloud CVO usando a tecnologia NetApp SnapMirror. Os volumes de destino replicados podem então ser clonados para recuperação de desastres/DESENVOLVIMENTO/OPS. As etapas de alto nível a seguir permitem configurar o peering de cluster e a replicação de volumes de banco de dados.
+
+. Configure LIFs entre clusters para peering de cluster no cluster local e na instância de cluster do CVO. Este passo pode ser executado com o Gestor de sistema ONTAP. Uma implantação padrão do CVO tem LIFs entre clusters configurados automaticamente.
++
+Cluster no local:
+
++
+image:snapctr_cluster_replication_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+Cluster do CVO de destino:
+
++
+image:snapctr_cluster_replication_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Com as LIFs entre clusters configuradas, o peering de cluster e a replicação de volume podem ser configurados usando o recurso arrastar e soltar no Gerenciador de nuvem do NetApp. link:hybrid_dbops_snapcenter_getting_started_aws.html#aws-public-cloud["Primeiros passos: Nuvem pública da AWS"]Consulte para obter detalhes.
++
+Como alternativa, o peering de cluster e a replicação de volume de banco de dados podem ser executados usando o Gerenciador de sistema do ONTAP da seguinte forma:
+
+. Entre no Gerenciador de sistemas do ONTAP. Navegue até Cluster > Settings e clique em Peer Cluster para configurar o peering de cluster com a instância do CVO na nuvem.
++
+image:snapctr_vol_snapmirror_00.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Vá para a guia volumes. Selecione o volume do banco de dados a ser replicado e clique em proteger.
++
+image:snapctr_vol_snapmirror_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Defina a política de proteção como assíncrona. Selecione o cluster de destino e a SVM de armazenamento.
++
+image:snapctr_vol_snapmirror_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Valide que o volume é sincronizado entre a origem e o destino e que a relação de replicação está saudável.
++
+image:snapctr_vol_snapmirror_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== 6. Adicionar SVM de storage de banco de dados do CVO ao SnapCenter
+
+. Faça login no SnapCenter com um ID de usuário com o SnapCenterAdmin Privileges.
+. Clique na guia sistema de storage no menu e, em seguida, clique em novo para adicionar uma SVM de storage do CVO que hospeda volumes de banco de dados de destino replicados ao SnapCenter. Introduza o IP de gestão do cluster no campo sistema de armazenamento e introduza o nome de utilizador e a palavra-passe adequados.
++
+image:snapctr_add_cvo_svm_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em mais Opções para abrir opções de configuração de armazenamento adicionais. No campo Plataforma, selecione Cloud Volumes ONTAP, marque secundário e clique em Salvar.
++
+image:snapctr_add_cvo_svm_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Atribua os sistemas de storage às IDs de usuário de gerenciamento de banco de dados do SnapCenter, conforme mostrado na <<3. Instalação do plug-in do host SnapCenter>>.
++
+image:snapctr_add_cvo_svm_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== 7. Configurar política de backup de banco de dados no SnapCenter
+
+Os procedimentos a seguir demonstram como criar um banco de dados completo ou uma política de backup de arquivo de log. A política pode então ser implementada para proteger os recursos dos bancos de dados. O objetivo do ponto de restauração (RPO) ou o objetivo de tempo de recuperação (rto) dita a frequência dos backups de bancos de dados e/ou logs.
+
+
+
+==== Crie uma política de backup de banco de dados completa para Oracle
+
+. Faça login no SnapCenter como um ID de usuário de gerenciamento de banco de dados, clique em Configurações e clique em políticas.
++
+image:snapctr_ora_policy_data_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em novo para iniciar um novo fluxo de trabalho de criação de política de backup ou escolher uma política existente para modificação.
++
+image:snapctr_ora_policy_data_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione o tipo de cópia de segurança e a frequência de programação.
++
+image:snapctr_ora_policy_data_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Defina a configuração de retenção de backup. Isso define quantas cópias de backup de banco de dados completas devem ser mantidas.
++
+image:snapctr_ora_policy_data_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione as opções de replicação secundária para enviar backups de snapshots primários locais a serem replicados para um local secundário na nuvem.
++
+image:snapctr_ora_policy_data_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique qualquer script opcional para ser executado antes e depois de uma execução de backup.
++
+image:snapctr_ora_policy_data_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Execute a verificação de backup, se desejado.
++
+image:snapctr_ora_policy_data_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Resumo.
++
+image:snapctr_ora_policy_data_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+==== Criar uma política de backup de log de banco de dados para Oracle
+
+. Faça login no SnapCenter com um ID de usuário de gerenciamento de banco de dados, clique em Configurações e clique em políticas.
+. Clique em novo para iniciar um novo fluxo de trabalho de criação de política de backup ou escolha uma política existente para modificação.
++
+image:snapctr_ora_policy_log_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione o tipo de cópia de segurança e a frequência de programação.
++
+image:snapctr_ora_policy_log_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Defina o período de retenção do log.
++
+image:snapctr_ora_policy_log_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Habilite a replicação para um local secundário na nuvem pública.
++
+image:snapctr_ora_policy_log_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique quaisquer scripts opcionais para serem executados antes e depois do backup de log.
++
+image:snapctr_ora_policy_log_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique quaisquer scripts de verificação de backup.
++
+image:snapctr_ora_policy_log_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Resumo.
++
+image:snapctr_ora_policy_log_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+==== Crie uma política de backup de banco de dados completa para SQL
+
+. Faça login no SnapCenter com um ID de usuário de gerenciamento de banco de dados, clique em Configurações e clique em políticas.
++
+image:snapctr_sql_policy_data_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em novo para iniciar um novo fluxo de trabalho de criação de política de backup ou escolha uma política existente para modificação.
++
+image:snapctr_sql_policy_data_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Defina a opção de cópia de segurança e a frequência de programação. Para o SQL Server configurado com um grupo de disponibilidade, uma réplica de backup preferencial pode ser definida.
++
+image:snapctr_sql_policy_data_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Defina o período de retenção da cópia de segurança.
++
+image:snapctr_sql_policy_data_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Habilite a replicação de cópia de backup para um local secundário na nuvem.
++
+image:snapctr_sql_policy_data_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique quaisquer scripts opcionais para serem executados antes ou depois de um trabalho de backup.
++
+image:snapctr_sql_policy_data_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique as opções para executar a verificação de backup.
++
+image:snapctr_sql_policy_data_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Resumo.
++
+image:snapctr_sql_policy_data_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+==== Criar uma política de backup de log de banco de dados para SQL.
+
+. Inicie sessão no SnapCenter com uma ID de utilizador de gestão de bases de dados, clique em Definições > políticas e, em seguida, novo para iniciar um novo fluxo de trabalho de criação de políticas.
++
+image:snapctr_sql_policy_log_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Defina a opção de cópia de segurança do registo e a frequência de programação. Para o SQL Server configurado com um grupo de disponibilidade, uma réplica de backup preferencial pode ser definida.
++
+image:snapctr_sql_policy_log_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. A política de backup de dados do servidor SQL define a retenção de backup de log; aceite os padrões aqui.
++
+image:snapctr_sql_policy_log_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Habilite a replicação do backup de log para secundário na nuvem.
++
+image:snapctr_sql_policy_log_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique quaisquer scripts opcionais para serem executados antes ou depois de um trabalho de backup.
++
+image:snapctr_sql_policy_log_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Resumo.
++
+image:snapctr_sql_policy_log_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== 8. Implementar política de backup para proteger o banco de dados
+
+O SnapCenter usa um grupo de recursos para fazer backup de um banco de dados em um agrupamento lógico de recursos de banco de dados, como vários bancos de dados hospedados em um servidor, um banco de dados compartilhando os mesmos volumes de storage, vários bancos de dados com suporte a um aplicativo empresarial, etc. Proteger um único banco de dados cria um grupo de recursos próprio. Os procedimentos a seguir demonstram como implementar uma política de backup criada na seção 7 para proteger bancos de dados Oracle e SQL Server.
+
+
+
+==== Crie um grupo de recursos para backup completo do Oracle
+
+. Faça login no SnapCenter com um ID de usuário de gerenciamento de banco de dados e navegue até a guia recursos. Na lista suspensa Exibir, escolha Banco de dados ou Grupo de recursos para iniciar o fluxo de trabalho de criação do grupo de recursos.
++
+image:snapctr_ora_rgroup_full_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Forneça um nome e tags para o grupo de recursos. Você pode definir um formato de nomenclatura para a cópia Snapshot e ignorar o destino de log de arquivamento redundante, se configurado.
++
+image:snapctr_ora_rgroup_full_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Adicione recursos de banco de dados ao grupo de recursos.
++
+image:snapctr_ora_rgroup_full_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione uma política de backup completa criada na seção 7 na lista suspensa.
++
+image:snapctr_ora_rgroup_full_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique no sinal para configurar o agendamento de backup desejado.
++
+image:snapctr_ora_rgroup_full_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em carregar localizadores para carregar o volume de origem e destino.
++
+image:snapctr_ora_rgroup_full_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure o servidor SMTP para notificação por e-mail, se desejado.
++
+image:snapctr_ora_rgroup_full_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Resumo.
++
+image:snapctr_ora_rgroup_full_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+==== Criar um grupo de recursos para backup de log do Oracle
+
+. Faça login no SnapCenter com um ID de usuário de gerenciamento de banco de dados e navegue até a guia recursos. Na lista suspensa Exibir, escolha Banco de dados ou Grupo de recursos para iniciar o fluxo de trabalho de criação do grupo de recursos.
++
+image:snapctr_ora_rgroup_log_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Forneça um nome e tags para o grupo de recursos. Você pode definir um formato de nomenclatura para a cópia Snapshot e ignorar o destino de log de arquivamento redundante, se configurado.
++
+image:snapctr_ora_rgroup_log_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Adicione recursos de banco de dados ao grupo de recursos.
++
+image:snapctr_ora_rgroup_log_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione uma política de backup de log criada na seção 7 na lista suspensa.
++
+image:snapctr_ora_rgroup_log_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique no sinal para configurar o agendamento de backup desejado.
++
+image:snapctr_ora_rgroup_log_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Se a verificação de backup estiver configurada, ela será exibida aqui.
++
+image:snapctr_ora_rgroup_log_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure um servidor SMTP para notificação por e-mail, se desejado.
++
+image:snapctr_ora_rgroup_log_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Resumo.
++
+image:snapctr_ora_rgroup_log_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+==== Crie um grupo de recursos para backup completo do SQL Server
+
+. Faça login no SnapCenter com um ID de usuário de gerenciamento de banco de dados e navegue até a guia recursos. Na lista suspensa Exibir, escolha um banco de dados ou um grupo de recursos para iniciar o fluxo de trabalho de criação do grupo de recursos. Forneça um nome e tags para o grupo de recursos. Você pode definir um formato de nomenclatura para a cópia Snapshot.
++
+image:snapctr_sql_rgroup_full_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione os recursos da base de dados a serem copiados.
++
+image:snapctr_sql_rgroup_full_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione uma política de backup SQL completa criada na seção 7.
++
+image:snapctr_sql_rgroup_full_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Adicione o tempo exato para backups, bem como a frequência.
++
+image:snapctr_sql_rgroup_full_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Escolha o servidor de verificação para o backup em secundário se a verificação de backup for executada. Clique em Load Locator (Localizador de carga) para preencher o local de armazenamento secundário.
++
+image:snapctr_sql_rgroup_full_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure o servidor SMTP para notificação por e-mail, se desejado.
++
+image:snapctr_sql_rgroup_full_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Resumo.
++
+image:snapctr_sql_rgroup_full_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+==== Criar um grupo de recursos para backup de log do SQL Server
+
+. Faça login no SnapCenter com um ID de usuário de gerenciamento de banco de dados e navegue até a guia recursos. Na lista suspensa Exibir, escolha um banco de dados ou um grupo de recursos para iniciar o fluxo de trabalho de criação do grupo de recursos. Forneça o nome e as tags para o grupo de recursos. Você pode definir um formato de nomenclatura para a cópia Snapshot.
++
+image:snapctr_sql_rgroup_log_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione os recursos da base de dados a serem copiados.
++
+image:snapctr_sql_rgroup_log_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione uma política de backup de log SQL criada na seção 7.
++
+image:snapctr_sql_rgroup_log_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Adicione o tempo exato para o backup, bem como a frequência.
++
+image:snapctr_sql_rgroup_log_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Escolha o servidor de verificação para o backup em secundário se a verificação de backup for executada. Clique no Localizador de carga para preencher o local de armazenamento secundário.
++
+image:snapctr_sql_rgroup_log_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure o servidor SMTP para notificação por e-mail, se desejado.
++
+image:snapctr_sql_rgroup_log_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Resumo.
++
+image:snapctr_sql_rgroup_log_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== 9. Validar cópia de segurança
+
+Depois que os grupos de recursos de backup de banco de dados são criados para proteger os recursos do banco de dados, os trabalhos de backup são executados de acordo com o agendamento predefinido. Verifique o status da execução da tarefa na guia Monitor.
+
+image:snapctr_job_status_sql.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Vá para a guia recursos, clique no nome do banco de dados para exibir detalhes do backup do banco de dados e alterne entre cópias locais e cópias espelhadas para verificar se os backups Snapshot são replicados em um local secundário na nuvem pública.
+
+image:snapctr_job_status_ora.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Nesse ponto, as cópias de backup de banco de dados na nuvem estão prontas para clonar para executar processos de desenvolvimento/teste ou para recuperação de desastres no caso de uma falha primária.

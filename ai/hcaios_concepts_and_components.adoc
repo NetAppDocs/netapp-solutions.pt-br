@@ -1,0 +1,97 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_concepts_and_components.html 
+keywords: Concepts, Components, Machine Learning, Kubernetes 
+summary:  
+---
+= Conceitos e componentes
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção aborda conceitos e componentes associados ao armazenamento em cache de dados em um fluxo de TRABALHO DE ML.
+
+
+
+== Aprendizado de máquina
+
+Ml está se tornando rapidamente essencial para muitas empresas e organizações em todo o mundo. Portanto, as equipes DE TI e DevOps agora estão enfrentando o desafio de padronizar WORKLOADS DE ML e provisionar recursos de computação híbrida, no local e na nuvem, para dar suporte aos workflows dinâmicos e intensos que os pipelines e trabalhos DE ML exigem.
+
+
+
+== Kubernetes e aprendizado de máquina baseado em contêiner
+
+Os contentores são instâncias isoladas de espaço de usuário que são executadas em cima de um kernel do sistema operacional de host compartilhado. A adoção de contêineres está aumentando rapidamente. Os contêineres oferecem muitos dos mesmos benefícios de sandboxing de aplicações que as máquinas virtuais (VMs) oferecem. No entanto, como as camadas do hypervisor e do sistema operacional convidado em que as VMs dependem foram eliminadas, os contêineres são muito mais leves.
+
+Os contentores também permitem o empacotamento eficiente de dependências de aplicativos, tempos de execução e assim por diante diretamente com um aplicativo. O formato de empacotamento de contentor mais comumente usado é o contentor Docker. Uma aplicação que foi em contentor no formato Docker container pode ser executada em qualquer máquina que possa executar contentores Docker. Isso é verdade mesmo que as dependências do aplicativo não estejam presentes na máquina, porque todas as dependências são empacotadas no próprio contentor. Para obter mais informações, visite o https://www.docker.com/["Site do Docker"^].
+
+O Kubernetes, o popular orquestrador de contêineres, permite que os cientistas de dados iniciem pipelines e trabalhos flexíveis baseados em contêineres. Ele também permite que as equipes de infraestrutura gerenciem e monitorem WORKLOADS DE ML em um único ambiente gerenciado e nativo da nuvem. Para obter mais informações, visite o https://kubernetes.io/["Site do Kubernetes"^].
+
+
+
+== cnvrg.io
+
+O cnvrg.io é um sistema operacional de IA que transforma a maneira como as empresas gerenciam, escalam e aceleram o desenvolvimento de IA e ciência de dados da pesquisa à produção. A plataforma Code-first foi criada por cientistas de dados para cientistas de dados e oferece flexibilidade para execução no local ou na nuvem. Com gerenciamento de modelos, MLOps e soluções contínuas DE ML, o cnvrg.io traz tecnologia de ponta para as equipes de ciência de dados para que elas possam gastar menos tempo em DevOps e se concentrar na magia real: Algoritmos. Desde o uso do cnvrg.io, equipes de todos os setores têm obtido mais modelos de produção, resultando em maior valor comercial.
+
+
+
+=== Cnvrg.io Meta-Scheduler
+
+O cnvrg.io tem uma arquitetura única que permite QUE A TI e os engenheiros anexem diferentes recursos de computação ao mesmo plano de controle e que o cnvrg.io gerencie tarefas de ML em todos os recursos. Isso significa que pode anexar vários clusters de Kubernetes, servidores de VM e contas de nuvem no local e executar WORKLOADS DE ML em todos os recursos, como mostra a figura a seguir.
+
+image:hcaios_image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== Cache de dados cnvrg.io
+
+o cnvrg.io permite que os cientistas de dados definam versões de conjuntos de dados quentes e frios com sua tecnologia de armazenamento em cache de dados. Por padrão, os conjuntos de dados são armazenados em um banco de dados de storage de objetos centralizado. Em seguida, os cientistas de dados podem armazenar em cache uma versão de dados específica no recurso de computação selecionado para economizar tempo no download e, portanto, aumentar o desenvolvimento e a produtividade DE ML. Os conjuntos de dados armazenados em cache e que não estão em uso por alguns dias são automaticamente limpos do NFS selecionado. O armazenamento em cache e a limpeza do cache podem ser executados com um único clique; nenhum trabalho de codificação, TI ou DevOps é necessário.
+
+
+
+=== Fluxos cnvrg.io e tubulações ML
+
+O cnvrg.io flui é uma ferramenta para a construção de tubulações DE ML DE produção. Cada componente em um fluxo é um script/código executado em uma computação selecionada com uma imagem base do docker. Esse projeto permite que cientistas e engenheiros de dados construam um único pipeline que pode ser executado tanto no local quanto na nuvem. O cnvrg.io garante que dados, parâmetros e artefatos estejam se movendo entre os diferentes componentes. Além disso, cada fluxo é monitorado e rastreado para uma ciência de dados 100% reproduzível.
+
+
+
+=== NÚCLEO cnvrg.io
+
+O cnvrg.io CORE é uma plataforma gratuita para a comunidade de ciência de dados para ajudar os cientistas de dados a se concentrarem mais na ciência de dados e menos no DevOps. A infraestrutura flexível DO CORE oferece aos cientistas de dados o controle para usar qualquer linguagem, estrutura de IA ou ambiente de computação, seja no local ou na nuvem, para que eles possam fazer o que fazem melhor, criar algoritmos. O NÚCLEO cnvrg.io pode ser facilmente instalado com um único comando em qualquer cluster do Kubernetes.
+
+
+
+== NetApp ONTAP AI
+
+O ONTAP AI é uma arquitetura de referência de data center para WORKLOADS DE ML e deep learning (DL) que usa os sistemas de storage da NetApp AFF e os sistemas DGX da NVIDIA com GPUs Tesla V100. O ONTAP AI é baseado no protocolo de arquivos NFS padrão do setor em Ethernet de 100GB GB, fornecendo aos clientes uma INFRAESTRUTURA ML/DL de alta performance que usa tecnologias padrão de data center para reduzir a sobrecarga de implementação e administração. O uso de rede e protocolos padronizados permite que o ONTAP AI se integre a ambientes de nuvem híbrida, mantendo a consistência operacional e a simplicidade. Como uma solução de infraestrutura pré-validada, o ONTAP AI reduz o tempo e o risco de implantação e reduz a sobrecarga da administração de maneira significativa, permitindo que os clientes obtenham um retorno mais rápido do investimento.
+
+
+
+== NVIDIA DeepOps
+
+DeepOps é um projeto de código aberto da NVIDIA que, usando o Ansible, automatiza a implantação de clusters de servidor de GPU de acordo com as práticas recomendadas. DeepOps é modular e pode ser usado para várias tarefas de implantação. Para este documento e o exercício de validação que ele descreve, DeepOps é usado para implantar um cluster Kubernetes que consiste em nós de trabalho do servidor de GPU. Para obter mais informações, visite o https://github.com/NVIDIA/deepops["DeepOps website"^].
+
+
+
+== NetApp Trident
+
+O Trident é um orquestrador de storage de código aberto desenvolvido e mantido pela NetApp para simplificar a criação, o gerenciamento e o consumo de storage persistente para workloads do Kubernetes. O Trident em si é uma aplicação nativa do Kubernetes. Ele é executado diretamente no cluster do Kubernetes. Com o Trident, os usuários do Kubernetes (desenvolvedores, cientistas de dados, administradores do Kubernetes etc.) podem criar, gerenciar e interagir com volumes de storage persistentes no formato padrão do Kubernetes que já conhecem. Ao mesmo tempo, elas podem aproveitar os recursos avançados de gerenciamento de dados da NetApp e um Data Fabric com tecnologia NetApp. O Trident abstrai as complexidades do storage persistente e simplifica o consumo. Para obter mais informações, visite o https://netapp-trident.readthedocs.io/en/stable-v18.07/kubernetes/["Site da Trident"^].
+
+
+
+== NetApp StorageGRID
+
+O NetApp StorageGRID é uma plataforma de storage de objetos definida por software projetada para atender a essas necessidades, fornecendo storage simples e semelhante à nuvem que os usuários podem acessar usando o protocolo S3. O StorageGRID é um sistema com escalabilidade horizontal projetado para suportar vários nós em sites conetados à Internet, independentemente da distância. Com o mecanismo de políticas inteligente do StorageGRID, os usuários podem escolher objetos de codificação de apagamento em vários locais para resiliência geográfica ou replicação de objetos entre locais remotos para minimizar a latência de acesso à WAN. A StorageGRID fornece um excelente data Lake de storage de objetos primário em nuvem privada nessa solução.
+
+
+
+== NetApp Cloud Volumes ONTAP
+
+O software de gerenciamento de dados NetApp Cloud Volumes ONTAP oferece controle, proteção e eficiência aos dados do usuário com a flexibilidade de fornecedores de nuvem pública, incluindo AWS, Google Cloud Platform e Microsoft Azure. O Cloud Volumes ONTAP é um software de gerenciamento de dados nativo da nuvem baseado no software de storage NetApp ONTAP, fornecendo aos usuários uma plataforma de storage universal superior que atende às necessidades de dados de nuvem. Ter o mesmo software de storage na nuvem e no local fornece aos usuários o valor do Data Fabric sem precisar treinar a equipe DE TI em todos os novos métodos de gerenciamento de dados.
+
+Para clientes interessados em modelos de implantação de nuvem híbrida, o Cloud Volumes ONTAP pode oferecer os mesmos recursos e performance líder de classe na maioria das nuvens públicas. Assim, você tem uma experiência de usuário consistente e aprimorada em qualquer ambiente.

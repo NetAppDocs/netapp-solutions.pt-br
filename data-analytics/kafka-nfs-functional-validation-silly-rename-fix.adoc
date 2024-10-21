@@ -1,0 +1,140 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-functional-validation-silly-rename-fix.html 
+keywords: validation setup, architecture flow, testing methodology 
+summary: Para a validação funcional, mostramos que um cluster Kafka com uma montagem NFSv3 para armazenamento não consegue executar operações Kafka como redistribuição de partição, enquanto outro cluster montado no NFSv4 com a correção pode executar as mesmas operações sem interrupções. 
+---
+= Validação funcional - correção de renomeação boba
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para a validação funcional, mostramos que um cluster Kafka com uma montagem NFSv3 para armazenamento não consegue executar operações Kafka como redistribuição de partição, enquanto outro cluster montado no NFSv4 com a correção pode executar as mesmas operações sem interrupções.
+
+
+
+== Configuração de validação
+
+A configuração é executada na AWS. A tabela a seguir mostra os diferentes componentes da plataforma e a configuração ambiental usada para a validação.
+
+|===
+| Componente da plataforma | Configuração do ambiente 
+
+
+| Plataforma Confluent versão 7.2.1  a| 
+* 3 x zookeepers – t3.xlarge
+* 4 x servidores de corretores – r3.xlarge
+* 1 x Grafana – T3.xlarge
+* 1 x centro de controle – t3.xlarge
+* 3 x produtor/consumidor
+
+
+
+
+| Sistema operacional em todos os nós | RHEL8,7or mais tarde 
+
+
+| Instância do NetApp Cloud Volumes ONTAP | Instância de nó único – M5,2xLarge 
+|===
+A figura a seguir mostra a configuração arquitetônica para essa solução.
+
+image:kafka-nfs-image1.png["Essas imagens mostram a topologia da AWS que contém uma VPC contendo três sub-redes privadas com um enxame produtor, o cluster Kafka e a instância CVO, respetivamente."]
+
+
+
+== Fluxo arquitetônico
+
+* *Compute.* Usamos um cluster Kafka de quatro nós com um conjunto zookeeper de três nós em execução em servidores dedicados.
+* *Monitoramento.* Usamos dois nós para uma combinação Prometheus-Grafana.
+* *Carga de trabalho.* Para gerar cargas de trabalho, usamos um cluster de três nós separado que pode produzir e consumir a partir deste cluster Kafka.
+* *Armazenamento.* Usamos uma instância do NetApp Cloud Volumes ONTAP de nó único com dois volumes AWS-EBS 500GB GP2 anexados à instância. Esses volumes foram então expostos ao cluster Kafka como um único volume de NFSv4,1 através de um LIF.
+
+
+As propriedades padrão do Kafka foram escolhidas para todos os servidores. O mesmo foi feito para o enxame zookeeper.
+
+
+
+== Metodologia de testes
+
+. Atualize `-is-preserve-unlink-enabled true` para o volume kafka, da seguinte forma:
++
+....
+aws-shantanclastrecall-aws::*> volume create -vserver kafka_svm -volume kafka_fg_vol01 -aggregate kafka_aggr -size 3500GB -state online -policy kafka_policy -security-style unix -unix-permissions 0777 -junction-path /kafka_fg_vol01 -type RW -is-preserve-unlink-enabled true
+[Job 32] Job succeeded: Successful
+....
+. Dois clusters Kafka semelhantes foram criados com a seguinte diferença:
++
+** *Cluster 1.* O servidor de back-end NFS v4,1 executando o ONTAP pronto para produção versão 9.12.1 foi hospedado por uma instância do NetApp CVO. RHEL 8,7/RHEL 9,1 foram instalados nos corretores.
+** *Cluster 2.* O servidor NFS backend foi um servidor genérico Linux NFSv3 criado manualmente.
+
+
+. Um tópico de demonstração foi criado em ambos os clusters do Kafka.
++
+Cluster 1:
+
++
+image:kafka-nfs-image2.png["Esta captura de tela mostra o tópico de demonstração criado no Cluster 1."]
+
++
+Cluster 2:
+
++
+image:kafka-nfs-image3.png["Esta captura de tela mostra o tópico de demonstração criado no Cluster 2."]
+
+. Os dados foram carregados nesses tópicos recém-criados para ambos os clusters. Isso foi feito usando o kit de ferramentas produtor-perf-teste que vem no pacote padrão do Kafka:
++
+....
+./kafka-producer-perf-test.sh --topic __a_demo_topic --throughput -1 --num-records 3000000 --record-size 1024 --producer-props acks=all bootstrap.servers=172.30.0.160:9092,172.30.0.172:9092,172.30.0.188:9092,172.30.0.123:9092
+....
+. Foi realizada uma verificação de integridade para o corretor-1 para cada um dos clusters usando telnet:
++
+** telnet `172.30.0.160 9092`
+** telnet `172.30.0.198 9092`
++
+Uma verificação de integridade bem-sucedida para corretores em ambos os clusters é mostrada na próxima captura de tela:
+
++
+image:kafka-nfs-image4.png["Esta captura de tela mostra a leitura para uma verificação de saúde bem-sucedida em ambos os corretores."]
+
+
+
+. Para acionar a condição de falha que faz com que clusters Kafka usando volumes de armazenamento NFSv3 travem, iniciámos o processo de reatribuição de partição em ambos os clusters. A reatribuição de partição foi realizada usando `kafka-reassign-partitions.sh`o . O processo detalhado é o seguinte:
++
+.. Para reatribuir as partições para um tópico em um cluster do Kafka, geramos o JSON de configuração de reatribuição proposta (isso foi realizado para ambos os clusters).
++
+....
+kafka-reassign-partitions --bootstrap-server=172.30.0.160:9092,172.30.0.172:9092,172.30.0.188:9092,172.30.0.123:9092 --broker-list "1,2,3,4" --topics-to-move-json-file /tmp/topics.json --generate
+....
+.. O JSON de redesignação gerado foi então salvo `/tmp/reassignment- file.json` no .
+.. O processo de reatribuição de partição real foi acionado pelo seguinte comando:
++
+....
+kafka-reassign-partitions --bootstrap-server=172.30.0.198:9092,172.30.0.163:9092,172.30.0.221:9092,172.30.0.204:9092 --reassignment-json-file /tmp/reassignment-file.json –execute
+....
+
+
+. Após alguns minutos, quando a reatribuição foi concluída, outra verificação de integridade nos corretores mostrou que o cluster usando volumes de armazenamento NFSv3 tinha tido um problema de renomeação bobo e tinha falhado, enquanto o cluster 1 usando volumes de armazenamento NetApp ONTAP NFSv4,1 com a correção continuou as operações sem interrupções.
++
+image:kafka-nfs-image5.png["Esta captura de tela mostra a saída de um corretor com falha."]
+
++
+** Cluster1-Broker-1 está vivo.
+** Cluster2-broker-1 está morto.
+
+
+. Ao verificar os diretórios de log do Kafka, ficou claro que o cluster 1 usando volumes de armazenamento do NetApp ONTAP NFSv4,1 com a correção tinha atribuição de partição limpa, enquanto o cluster 2 usando armazenamento NFSv3 genérico não foi devido a problemas de renomeação bobos, o que levou à falha. A imagem a seguir mostra o rebalanceamento de partições do Cluster 2, o que resultou em um problema de renomeação bobo no armazenamento NFSv3.
++
+image:kafka-nfs-image6.png["Esta captura de tela mostra a saída de log para o Cluster 2 travando."]
+
++
+A imagem a seguir mostra um rebalanceamento de partição limpo do cluster 1 usando armazenamento NetApp NFSv4,1.
+
++
+image:kafka-nfs-image7.png["Esta captura de tela mostra a saída do log para uma atribuição de partição limpa bem-sucedida para o Cluster 1, enquanto"]
+
+

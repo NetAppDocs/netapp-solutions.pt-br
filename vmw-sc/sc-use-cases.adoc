@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: vmw-sc/sc-use-cases.html 
+keywords: NetApp Solutions, vmware, sovereign cloud, netapp, use case 
+summary:  
+---
+= Netpp com VMware Sovereign Cloud: Casos de uso
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NetApp oferece suporte aos conceitos de nuvem soberana da VMware por meio da integração de várias tecnologias NetApp.
+
+Use o(s) seguinte(s) link(s) para saber mais sobre as integrações da tecnologia NetApp com o VMware Sovereign Cloud:
+
+* link:#storageGRID["NetApp StorageGRID como uma extensão de armazenamento de objetos"]
+
+
+
+
+== NetApp StorageGRID como uma extensão de armazenamento de objetos
+
+A NetApp colaborou com a VMware para integrar o NetApp StorageGRID ao VMware Cloud diretor em suporte à nuvem soberana da VMware. Esse plug-in do VMware Cloud diretor permite que os provedores de serviços usem o StorageGRID como sua oferta de storage de objetos (independentemente do caso de uso) e permite que o gerenciamento do StorageGRID por meio da mesma solução de alocação a vários clientes (VMware Cloud diretor) usada pelos provedores de serviços gerencie outras partes do catálogo de ofertas.
+
+Os parceiros que fornecem nuvens soberanas da VMware podem escolher o NetApp StorageGRID para ajudá-los a gerenciar e manter ambientes de nuvem com dados não estruturados. Sua compatibilidade universal em seu suporte nativo a APIs padrão do setor, como a API Amazon S3, ajuda a garantir uma interoperabilidade suave em diversos ambientes de nuvem, e inovações exclusivas, como o gerenciamento automatizado do ciclo de vida, ajudam a garantir uma proteção mais econômica, armazenamento e preservação a longo prazo dos dados não estruturados dos clientes.
+
+A integração soberana nuvem da NetApp com fornecedores de Diretor de nuvem clientes com:
+
+* Garantia de que os dados confidenciais, incluindo metadados, permanecem sob controle soberano, ao mesmo tempo em que impedem o acesso de autoridades estrangeiras que possam violar as leis de privacidade de dados.
+* Maior segurança e conformidade que protege aplicações e dados de vetores de ataque em rápida evolução, mantendo a conformidade contínua com uma infraestrutura local confiável, estruturas incorporadas e especialistas locais.
+* Infraestrutura pronta para o futuro para reagir rapidamente às mudanças nas regulamentações de privacidade de dados, às ameaças à segurança e à geopolítica.
+* A capacidade de liberar o valor dos dados com o compartilhamento e a análise de dados seguros para impulsionar a inovação sem violar as leis de privacidade. A integridade dos dados é protegida para garantir insights precisos.
+
+
+Para obter mais informações sobre a integração do StorageGRID, confira o seguinte:
+
+* link:https://www.netapp.com/newsroom/press-releases/news-rel-20231107-561294/["Anúncio do NetApp"]
+

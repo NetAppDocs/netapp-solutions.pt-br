@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-ontap-overview.html 
+keywords: tr4941, 4941, introduction 
+summary: Este documento descreve os benchmarks de desempenho para a plataforma Confluent no NetApp ONTAP usando um kit de benchmarking de armazenamento em camadas. 
+---
+= TR-4941: Confluente com controladores de armazenamento NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam, Joe Scott, NetApp, confluent
+
+[role="lead"]
+Para tornar a Plataforma Confluent mais escalável e elástica, ela deve ser capaz de escalar e equilibrar cargas de trabalho muito rapidamente. O armazenamento em camadas torna o armazenamento de grandes volumes de dados em confluente gerenciável, reduzindo essa carga operacional.
+
+A ideia fundamental é separar o storage de dados do Data Processing, o que facilita o escalonamento independente.
+
+Repleto de inovações líderes do setor, o software de gerenciamento de dados NetApp ONTAP oferece muitas vantagens em qualquer lugar que os dados estejam.
+
+Este documento descreve os benchmarks de desempenho para a plataforma Confluent no NetApp ONTAP usando um kit de benchmarking de armazenamento em camadas.

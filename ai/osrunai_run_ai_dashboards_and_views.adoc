@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_run_ai_dashboards_and_views.html 
+keywords:  
+summary:  
+---
+= Run:AI Dashboards e visualizações
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Depois de instalar o Run:AI no cluster do Kubernetes e configurar os contêineres corretamente, você verá os painéis e exibições a seguir https://app.run.ai/["https://app.run.ai"^] no navegador, como mostrado na figura a seguir.
+
+image:osrunai_image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Há um total de 16 GPUs no cluster fornecido por dois nós DGX-1. É possível ver o número de nós, o total de GPUs disponíveis, as GPUs alocadas atribuídas com cargas de trabalho, o número total de tarefas em execução, tarefas pendentes e GPUs alocadas ociosas. No lado direito, o diagrama de barras mostra GPUs por projeto, que resume como diferentes equipes estão usando o recurso de cluster. No meio está a lista de trabalhos em execução com detalhes da tarefa, incluindo nome da tarefa, projeto, usuário, tipo de tarefa, o nó em que cada tarefa está sendo executada, o número de GPU alocada para essa tarefa, o tempo de execução atual da tarefa, o progresso da tarefa em porcentagem e a utilização da GPU para essa tarefa. Observe que o cluster está subutilizado (utilização de GPU em 23%) porque há apenas três tarefas em execução enviadas por um único grupo (`team-a`).
+
+Na seção a seguir, mostramos como criar várias equipes na guia Projetos e alocar GPUs para cada equipe para maximizar o uso do cluster e gerenciar recursos quando há muitos usuários por cluster. Os cenários de teste imitam ambientes empresariais em que os recursos de memória e GPU são compartilhados entre workloads de treinamento, inferência e interativos.

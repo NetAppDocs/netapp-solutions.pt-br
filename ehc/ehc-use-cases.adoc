@@ -1,0 +1,58 @@
+---
+sidebar: sidebar 
+permalink: ehc/ehc-use-cases.html 
+keywords: NetApp Solutions, ehc, enterprise hybrid cloud, use case, hyperscalers, vmware 
+summary:  
+---
+= Casos de uso de multicloud híbrida da NetApp com VMware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Uma visão geral dos casos de uso importantes para a ORGANIZAÇÃO DE TI ao Planejar implantações de nuvem híbrida ou nuvem em primeiro lugar.
+
+
+
+== Casos de uso populares
+
+Os casos de uso incluem:
+
+* Recuperação de desastres,
+* Hospedagem de cargas de trabalho durante a manutenção do data center, * aumento rápido no qual recursos adicionais são necessários além do que é provisionado no data center local,
+* Expansão do site da VMware,
+* Migração rápida para a nuvem,
+* Desenvolvimento/teste, e.
+* Modernização de aplicativos que utilizam tecnologias suplementares de nuvem.
+
+
+Ao longo dessa documentação, as referências de carga de trabalho na nuvem serão detalhadas usando os casos de uso da VMware. Esses casos de uso são:
+
+* Proteger (inclui recuperação de desastres e backup / restauração)
+* Migrar
+* Estender
+
+
+
+
+=== Dentro da jornada IT
+
+A maioria das organizações está em uma jornada para a transformação e a modernização. Como parte desse processo, as empresas estão tentando usar seus investimentos existentes da VMware, aproveitando os benefícios da nuvem e explorando maneiras de tornar o processo de migração o mais perfeito possível. Essa abordagem tornaria seus esforços de modernização muito fáceis, porque os dados já estão na nuvem.
+
+A resposta mais fácil para esse cenário são as ofertas da VMware em cada hyperscaler. Assim como o NetApp Cloud volumes, o VMware fornece uma maneira de mover ou estender ambientes VMware locais para qualquer nuvem, permitindo que você retenha ativos, habilidades e ferramentas existentes no local enquanto executa workloads nativamente na nuvem. Isso reduz o risco porque não haverá interrupções de serviço ou a necessidade de alterações de IP e fornece à equipe DE TI a capacidade de operar da maneira que eles fazem no local usando habilidades e ferramentas existentes. Isso pode levar a migrações aceleradas de nuvem e a uma transição muito mais suave para uma arquitetura multicloud híbrida.
+
+
+
+=== Compreender a importância das Opções de armazenamento NFS suplementares
+
+Embora o VMware em qualquer nuvem ofereça recursos híbridos exclusivos para cada cliente, as opções limitadas de armazenamento de NFS suplementares restringiram sua utilidade para organizações com cargas de trabalho pesadas de storage. Como o storage está diretamente vinculado a hosts, a única maneira de dimensionar o storage é adicionar mais hosts. Isso pode aumentar os custos em 35 a 40% ou mais para workloads com uso intenso de storage. Essas cargas de trabalho só precisam de armazenamento adicional, não de potência adicional. Mas isso significa pagar por anfitriões adicionais.
+
+Vamos considerar este cenário:
+
+Um cliente requer apenas cinco hosts para CPU e memória, mas tem muitas necessidades de armazenamento e precisa de 12 hosts para atender aos requisitos de armazenamento. Este requisito acaba realmente derrubando a escala financeira, tendo que comprar a potência adicional, quando eles só precisam aumentar o armazenamento.
+
+Quando você está planejando adotar a nuvem e migrações, é sempre importante avaliar a melhor abordagem e seguir o caminho mais fácil que reduz o total de investimentos. A abordagem mais comum e mais fácil para qualquer migração de aplicativos é o realojamento (também conhecido como lift and shift), onde não há máquina virtual (VM) ou conversão de dados. O uso do NetApp Cloud volumes com o data center definido por software (SDDC) da VMware, ao mesmo tempo em que complementa o VSAN, fornece uma opção fácil de migração.

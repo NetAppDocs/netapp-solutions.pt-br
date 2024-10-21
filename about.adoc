@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: about.html 
+keywords: NetApp Solutions, about 
+summary:  
+---
+= Sobre este Repositório
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Breve introdução do repositório de soluções NetApp - onde encontrar soluções específicas e como usar este repositório.
+
+
+
+== Navegação do Repositório
+
+A navegação do repositório é gerenciada pela barra lateral principal que é apresentada no lado esquerdo da página. As soluções são categorizadas em áreas técnicas de nível superior definidas como "torres de tecnologia" para as soluções da NetApp.
+
+
+
+=== Visão geral das Torres tecnológicas
+
+[cols="20%, 60%, 20%"]
+|===
+| *Secção* | *Descrição* | *Página de destino do conteúdo* 
+
+
+| Inteligência artificial | Coleção de soluções baseadas em IA. A página de destino AI oferece conteúdo popular apresentado em "blocos" específicos de conteúdo.  a| 
+* link:ai/index.html["Conteúdo de AI"]
+
+
+
+
+| Análises de dados modernas | Coleta de soluções modernas de Data Analytics (por exemplo, Splunk SmartStore, Apache Spark, etc.). A Landing page do Modern Data Analytics oferece conteúdo popular apresentado em "blocos" específicos de conteúdo.  a| 
+* link:data-analytics/index.html["Conteúdo moderno de Data Analytics"]
+
+
+
+
+| Nuvem pública e híbrida | Define as soluções da NetApp em um modelo de nuvem pública ou híbrida e as opções de storage da NetApp em cada um dos hyperscalers. Existem várias opções para soluções neste espaço.  a| 
+* link:ehc/index.html["Multicloud híbrida com conteúdo VMware"]
+* link:rhhc/index.html["Hybrid MultiCloud com conteúdo Red Hat"]
+* link:vmw-sc/index.html["Conteúdo do VMware Sovereign Cloud"]
+
+
+
+
+| Virtualização | Conjunto de soluções principais de virtualização, incluindo virtualização de desktop. A Landing page da virtualização oferece conteúdo popular apresentado em "blocos" específicos do conteúdo. O tópico cobre a opção de virtualização múltipla.  a| 
+* link:vmware/index.html["Conteúdo de virtualização da VMware"]
+* link:hyperv/index.html["Conteúdo de virtualização Hyper-V."]
+* link:osv/index.html["Conteúdo de virtualização OpenShift"]
+
+
+
+
+| Contêineres | Recolha de soluções baseadas em contentores. A Landing page da virtualização oferece conteúdo popular apresentado em "blocos" específicos do conteúdo.  a| 
+* link:containers/index.html["Conteúdo de contêineres"]
+
+
+
+
+| Bancos de dados | Coleção de soluções de banco de dados Oracle e SQL Server. Os bancos de dados de código aberto também são cobertos nesta seção.  a| 
+* link:databases/index.html["Conteúdo do banco de dados"]
+
+
+|===
+
+
+== Alterar registo
+
+Todas as principais alterações no repositório (novas soluções, atualizações importantes, novos vídeos / demos, etc.) são rastreadas no link:change-log-display.html["alterar registo"].
+
+
+
+== Feedback
+
+Use link:https://github.com/NetAppDocs/netapp-solutions/issues/new?body=%0d%0a%0d%0aFeedback:%20%0d%0aAdditional%20Comments:&title=Feedback["este link"] para solicitar alterações ao conteúdo ou fornecer feedback sobre o conteúdo. Por favor, seja o mais específico possível para garantir que seu feedback seja Tratado de forma adequada.

@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_hardware_used_in_this_solution.html 
+keywords:  
+summary:  
+---
+= Hardware usado nesta solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Essa solução foi validada usando a arquitetura de referência do ONTAP AI, dois nós do DGX-1 e um sistema de storage da AFF A800. Consulte https://www.netapp.com/pdf.html?item=/media/7677-nva1121designpdf.pdf["NVA-1121"^] para obter mais detalhes sobre a infraestrutura utilizada nesta validação.
+
+A tabela a seguir lista os componentes de hardware necessários para implementar a solução conforme testado.
+
+|===
+| Hardware | Quantidade 
+
+
+| Sistemas DGX-1 | 2 
+
+
+| AFF A800 | 1 
+
+
+| Switches Nexus 3232C | 2 
+|===

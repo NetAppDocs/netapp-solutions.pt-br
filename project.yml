@@ -1,0 +1,33 @@
+---
+settings:
+  name: NetApp Solutions
+  harmony_integration: maestro
+  internal:
+    pdf_enabled: false
+  prod:
+    pdf_enabled: true
+    harmony_enabled: false
+    lipi_enabled: false
+  langs: pt-br,us-en,ja-jp,ko-kr,zh-cn,zh-tw,de-de,es-es,fr-fr,it-it
+sidebar:
+  entries:
+  - title: Documentação das soluções da NetApp
+    url: index.html
+  - section: ai
+  - section: data-analytics
+  - section: cloud
+  - section: virtualization
+  - section: containers
+  - section: databases
+  - section: data-access
+  - section: automation
+  - title: SAP E SAP HANA
+    url: https://docs.netapp.com/us-en/netapp-solutions-sap/
+  - title: Soluções da FlexPod
+    url: https://docs.netapp.com/us-en/flexpod/
+  - title: Alterar registo
+    url: change-log-display.html
+  - title: Sobre as soluções da NetApp
+    url: about.html
+  - title: Avisos legais
+    url: "/legal-notices.html"

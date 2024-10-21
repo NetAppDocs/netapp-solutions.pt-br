@@ -1,0 +1,188 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-single-site-smartstore-performance.html 
+keywords: configuration, warm data, cold data, cache storage, indexer, eventgen, event generator, search head 
+summary: Esta página descreve a performance do Splunk SmartStore em uma controladora NetApp StorageGRID. O Splunk SmartStore transfere dados ativos para o storage remoto, que é o storage de objetos StorageGRID na validação de performance. 
+---
+= Desempenho SmartStore de um único local
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção descreve o desempenho do Splunk SmartStore em uma controladora NetApp StorageGRID. O Splunk SmartStore transfere dados ativos para o storage remoto, que, neste caso, é o storage de objetos StorageGRID na validação de performance.
+
+image:stgr-splunkss-image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Usamos EF600 para armazenamento de cache/quente e StorageGRID 6060 para armazenamento remoto. Usamos a seguinte arquitetura para a validação de desempenho. Usamos dois cabeçotes de pesquisa, quatro forwarders pesados para encaminhar os dados para indexadores, sete geradores de eventos Splunk (Eventgens) para gerar os dados em tempo real e 18 indexadores para armazenar os dados.
+
+image:stgr-splunkss-image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Configuração
+
+Esta tabela lista o hardware usado para a validação de desempenho do SmartStorage.
+
+|===
+| Componente Splunk | Tarefa | Quantidade | Núcleos | Memória | SO 
+
+
+| Forwarder pesado | Responsável por inserir dados e encaminhar dados para os indexadores | 4 | 16 núcleos | 32 GB DE RAM | SLED 15 SP2 
+
+
+| Indexador | Gerencia os dados do usuário | 18 | 16 núcleos | 32 GB DE RAM | SLED 15 SP2 
+
+
+| Cabeça de pesquisa | O front-end do usuário pesquisa dados em indexadores | 2 | 16 núcleos | 32 GB DE RAM | SLED 15 SP2 
+
+
+| Search head deployer | Lida com atualizações para clusters de cabeça de pesquisa | 1 | 16 núcleos | 32 GB DE RAM | SLED 15 SP2 
+
+
+| Mestre do cluster | Gerencia a instalação e os indexadores do Splunk | 1 | 16 núcleos | 32 GB DE RAM | SLED 15 SP2 
+
+
+| Console de monitoramento e mestre de licenças | Executa o monitoramento centralizado de toda a implantação do Splunk e gerencia as licenças do Splunk | 1 | 16 núcleos | 32 GB DE RAM | SLED 15 SP2 
+|===
+
+
+== Validação do desempenho da loja remota SmartStore
+
+Nesta validação de desempenho, configuramos o cache SmartStore no armazenamento local em todos os indexadores por 10 dias de dados. Ativamos o `maxDataSize=auto` (tamanho do bucket do 750MB) no gerenciador de clusters do Splunk e levamos as alterações a todos os indexadores. Para medir o desempenho do upload, ingerimos 10TB GB por dia durante 10 dias e rolamos todos os buckets quentes para aquecer ao mesmo tempo e capturamos o pico e a taxa de transferência média por instância e implantação em todo o painel do SmartStore Monitoring Console.
+
+Esta imagem mostra os dados ingeridos num dia.
+
+image:stgr-splunkss-image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Executamos o seguinte comando do master de cluster (o nome do índice é `eventgen-test`). Em seguida, capturamos o pico e a taxa de transferência média de upload por instância e por toda a implantação através dos painéis do SmartStore Monitoring Console.
+
+....
+for i in rtp-idx0001 rtp-idx0002 rtp-idx0003 rtp-idx0004 rtp-idx0005 rtp-idx0006 rtp-idx0007 rtp-idx0008 rtp-idx0009 rtp-idx0010 rtp-idx0011 rtp-idx0012 rtp-idx0013011 rtdx0014 rtp-idx0015 rtp-idx0016 rtp-idx0017 rtp-idx0018 ; do  ssh $i "hostname;  date; /opt/splunk/bin/splunk _internal call /data/indexes/eventgen-test/roll-hot-buckets -auth admin:12345678; sleep 1  "; done
+....
+
+NOTE: O mestre de cluster tem autenticação sem senha para todos os indexadores (RTP-idx0001... rtp-idx0018).
+
+Para medir o desempenho do download, despejamos todos os dados do cache executando a CLI do despejo duas vezes usando o seguinte comando.
+
+
+NOTE: Executamos o seguinte comando do cluster master e executamos a pesquisa a partir da cabeça de pesquisa em cima de 10 dias de dados do armazenamento remoto do StorageGRID. Em seguida, capturamos o pico e a taxa de transferência média de upload por instância e por toda a implantação através dos painéis do SmartStore Monitoring Console.
+
+....
+for i in rtp-idx0001 rtp-idx0002 rtp-idx0003 rtp-idx0004 rtp-idx0005 rtp-idx0006 rtp-idx0007 rtp-idx0008 rtp-idx0009 rtp-idx0010 rtp-idx0011 rtp-idx0012 rtp-idx0013 rtp-idx0014 rtp-idx0015 rtp-idx0016 rtp-idx0017 rtp-idx0018 ; do  ssh $i " hostname;  date; /opt/splunk/bin/splunk _internal call /services/admin/cacheman/_evict -post:mb 1000000000 -post:path /mnt/EF600 -method POST  -auth admin:12345678;   “; done
+....
+As configurações do indexador foram enviadas do mestre do cluster SmartStore. O mestre de cluster tinha a seguinte configuração para o indexador.
+
+....
+Rtp-cm01:~ # cat /opt/splunk/etc/master-apps/_cluster/local/indexes.conf
+[default]
+maxDataSize = auto
+#defaultDatabase = eventgen-basic
+defaultDatabase = eventgen-test
+hotlist_recency_secs = 864000
+repFactor = auto
+[volume:remote_store]
+storageType = remote
+path = s3://smartstore2
+remote.s3.access_key = U64TUHONBNC98GQGL60R
+remote.s3.secret_key = UBoXNE0jmECie05Z7iCYVzbSB6WJFckiYLcdm2yg
+remote.s3.endpoint = 3.sddc.netapp.com:10443
+remote.s3.signature_version = v2
+remote.s3.clientCert =
+[eventgen-basic]
+homePath = $SPLUNK_DB/eventgen-basic/db
+coldPath = $SPLUNK_DB/eventgen-basic/colddb
+thawedPath = $SPLUNK_DB/eventgen-basic/thawed
+[eventgen-migration]
+homePath = $SPLUNK_DB/eventgen-scale/db
+coldPath = $SPLUNK_DB/eventgen-scale/colddb
+thawedPath = $SPLUNK_DB/eventgen-scale/thaweddb
+[main]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[history]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[summary]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[remote-test]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+#for storagegrid config
+remotePath = volume:remote_store/$_index_name
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[eventgen-test]
+homePath = $SPLUNK_DB/$_index_name/db
+maxDataSize=auto
+maxHotBuckets=1
+maxWarmDBCount=2
+coldPath = $SPLUNK_DB/$_index_name/colddb
+#for storagegrid config
+remotePath = volume:remote_store/$_index_name
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[eventgen-evict-test]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+#for storagegrid config
+remotePath = volume:remote_store/$_index_name
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+maxDataSize = auto_high_volume
+maxWarmDBCount = 5000
+rtp-cm01:~ #
+....
+Executamos a seguinte consulta de pesquisa no cabeçalho de pesquisa para coletar a matriz de desempenho.
+
+image:stgr-splunkss-image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Coletamos as informações de desempenho do master do cluster. O desempenho máximo foi de 61,34GBps.
+
+image:stgr-splunkss-image14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O desempenho médio foi de aproximadamente 29GBps.
+
+image:stgr-splunkss-image15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Desempenho do StorageGRID
+
+O desempenho do SmartStore é baseado na pesquisa de padrões e strings específicos de grandes quantidades de dados. Nessa validação, os eventos são gerados usando https://github.com/splunk/eventgen["Eventgen"^] um índice específico do Splunk (eventgen-teSt) por meio da cabeça de pesquisa, e a solicitação vai para o StorageGRID para a maioria das consultas. A imagem a seguir mostra os acertos e falhas dos dados da consulta. Os dados de hits são do disco local e os dados de falha são do controlador StorageGRID.
+
+
+NOTE: A cor verde mostra os dados de hits e a cor laranja mostra os dados de falha.
+
+image:stgr-splunkss-image16.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Quando a consulta é executada para a pesquisa no StorageGRID, o tempo para a taxa de recuperação S3 do StorageGRID é mostrado na imagem a seguir.
+
+image:stgr-splunkss-image17.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Utilização de hardware StorageGRID
+
+A instância do StorageGRID tem um balanceador de carga e três controladores StorageGRID. A utilização de CPU para todas as três controladoras é de 75% a 100%.
+
+image:stgr-splunkss-image18.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== SmartStore com controlador de armazenamento NetApp - benefícios para o cliente
+
+* *Desacoplamento de computação e armazenamento.* O Splunk SmartStore separa a computação e o storage, o que ajuda você a dimensioná-los de forma independente.
+* *Dados sob demanda.* O SmartStore aproxima os dados da computação sob demanda e fornece elasticidade de computação e storage e eficiência de custo para obter retenção de dados mais longa em escala.
+* *COMPATÍVEL COM A API AWS S3.* O SmartStore usa a API AWS S3 para se comunicar com o armazenamento de restauração, que é um armazenamento de objetos compatível com API AWS S3 e S3, como o StorageGRID.
+* * Reduz a exigência e o custo de armazenamento.* O SmartStore reduz os requisitos de armazenamento de dados antigos (quentes/frios). Ele só precisa de uma única cópia de dados porque o storage NetApp oferece proteção de dados e cuida de falhas e alta disponibilidade.
+* *Falha de hardware.* A falha de nó em uma implantação do SmartStore não torna os dados inacessíveis e tem uma recuperação de indexador muito mais rápida de falha de hardware ou desequilíbrio de dados.
+* Cache com reconhecimento de aplicativos e dados.
+* Adicione-remova indexers e configure-teardown cluster sob demanda.
+* A camada de storage não está mais vinculada ao hardware.
+

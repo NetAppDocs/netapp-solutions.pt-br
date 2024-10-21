@@ -1,0 +1,72 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-conclusion.html 
+keywords: conclusion 
+summary: Este documento fornece diretrizes de melhores práticas para usar o Kafka com armazenamento NetApp, incluindo testes de certificação Kafka confluentes, resultados de desempenho, ajuste, conetores Kafka e o recurso de auto-rebalanceamento. 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este documento fornece diretrizes de práticas recomendadas para o uso do armazenamento em camadas confluentes com armazenamento NetApp, incluindo testes de verificação, resultados de desempenho de armazenamento em camadas, ajuste, conetores S3 confluentes e o recurso de auto-balanceamento. Considerando as políticas de ILM, desempenho confluente com vários testes de desempenho para verificação e APIs S3 padrão do setor, o armazenamento de objetos NetApp StorageGRID é a escolha ideal para armazenamento em camadas confluentes.
+
+
+
+== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* O que é Apache Kafka
++
+https://www.confluent.io/what-is-apache-kafka/["https://www.confluent.io/what-is-apache-kafka/"^]
+
+* Documentação do produto NetApp
++
+https://www.netapp.com/support-and-training/documentation/["https://www.netapp.com/support-and-training/documentation/"^]
+
+* Detalhes do parâmetro S3-Sink
++
+https://docs.confluent.io/kafka-connect-s3-sink/current/configuration_options.html["https://docs.confluent.io/kafka-connect-s3-sink/current/configuration_options.html#s3-configuration-options"^]
+
+* Apache Kafka
++
+https://en.wikipedia.org/wiki/Apache_Kafka["https://en.wikipedia.org/wiki/Apache_Kafka"^]
+
+* Armazenamento infinito em Plataforma confluente
++
+https://www.confluent.io/blog/infinite-kafka-storage-in-confluent-platform/["https://www.confluent.io/blog/infinite-kafka-storage-in-confluent-platform/"^]
+
+* Confluent Tiered Storage - melhores práticas e dimensionamento
++
+https://docs.confluent.io/platform/current/kafka/tiered-storage.html#best-practices-and-recommendations["https://docs.confluent.io/platform/current/kafka/tiered-storage.html#best-practices-and-recommendations"^]
+
+* Conetor de pia Amazon S3 para a plataforma confluente
++
+https://docs.confluent.io/kafka-connect-s3-sink/current/overview.html["https://docs.confluent.io/kafka-connect-s3-sink/current/overview.html"^]
+
+* Dimensionamento Kafka
++
+https://eventsizer.io["https://eventsizer.io"]
+
+* Dimensionamento da StorageGRID
++
+https://fusion.netapp.com/["https://fusion.netapp.com/"^]
+
+* Casos de uso de Kafka
++
+https://kafka.apache.org/uses["https://kafka.apache.org/uses"^]
+
+* Clusters Kafka de auto-equilíbrio na plataforma confluente 6,0
++
+https://www.confluent.io/blog/self-balancing-kafka-clusters-in-confluent-platform-6-0/["https://www.confluent.io/blog/self-balancing-kafka-clusters-in-confluent-platform-6-0/"^]
+
++
+https://www.confluent.io/blog/confluent-platform-6-0-delivers-the-most-powerful-event-streaming-platform-to-date/["https://www.confluent.io/blog/confluent-platform-6-0-delivers-the-most-powerful-event-streaming-platform-to-date/"^]
+
+

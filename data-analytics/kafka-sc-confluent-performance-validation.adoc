@@ -1,0 +1,114 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-confluent-performance-validation.html 
+keywords: setup, verification results, Object store, correctness test, Tiering functionality, Tier fetch benchmark, Produce-consume, workload generator, Retention 
+summary: Esta página descreve a validação de desempenho do confluente dentro dos parâmetros desta solução. 
+---
+= Validação de desempenho confluente
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Realizamos a verificação com a Plataforma Confluent para armazenamento em camadas no NetApp ONTAP. As equipes NetApp e confluentes trabalharam nessa verificação juntos e executaram os casos de teste necessários para ela.
+
+
+
+== Configuração confluente
+
+Para a configuração, foram utilizados três zookeepers, cinco corretores e cinco servidores de teste com 256GB GB de RAM e 16 CPUs. Para storage da NetApp, usamos o ONTAP com um par de HA da AFF A900. O armazenamento e os corretores foram conetados através de 100GbE conexões.
+
+A figura a seguir mostra a topologia de rede da configuração usada para verificação de armazenamento em camadas.
+
+image:kafka-sc-image7.png["Este gráfico mostra a topologia de rede da configuração usada para verificação de armazenamento em camadas."]
+
+Os servidores de ferramentas atuam como clientes de aplicativos que enviam ou recebem eventos de ou para nós confluentes.
+
+
+
+== Configuração de armazenamento em camadas confluente
+
+Nós usamos os seguintes parâmetros de teste:
+
+....
+confluent.tier.fetcher.num.threads=80
+confluent.tier.archiver.num.threads=80
+confluent.tier.enable=true
+confluent.tier.feature=true
+confluent.tier.backend=S3
+confluent.tier.s3.bucket=kafkabucket1-1
+confluent.tier.s3.region=us-east-1
+confluent.tier.s3.cred.file.path=/data/kafka/.ssh/credentials
+confluent.tier.s3.aws.endpoint.override=http://wle-mendocino-07-08/
+confluent.tier.s3.force.path.style.access=true
+bootstrap.server=192.168.150.172:9092,192.168.150.120:9092,192.168.150.164:9092,192.168.150.198:9092,192.168.150.109:9092,192.168.150.165:9092,192.168.150.119:9092,192.168.150.133:9092
+debug=true
+jmx.port=7203
+num.partitions=80
+num.records=200000000
+#object PUT size - 512MB and fetch 100MB – netapp
+segment.bytes=536870912
+max.partition.fetch.bytes=1048576000
+#GET size is max.partition.fetch.bytes/num.partitions
+length.key.value=2048
+trogdor.agent.nodes=node0,node1,node2,node3,node4
+trogdor.coordinator.hostname.port=192.168.150.155:8889
+num.producers=20
+num.head.consumers=20
+num.tail.consumers=1
+test.binary.task.max.heap.size=32G
+test.binary.task.timeout.sec=3600
+producer.timeout.sec=3600
+consumer.timeout.sec=3600
+....
+Para verificação, usamos o ONTAP com o protocolo HTTP, mas o HTTPS também funcionou. A chave de acesso e a chave secreta são armazenadas no nome do arquivo fornecido no `confluent.tier.s3.cred.file.path` parâmetro.
+
+
+
+== Controlador de armazenamento NetApp – ONTAP
+
+Configuramos uma configuração de par de HA único no ONTAP para verificação.
+
+image:kafka-sc-image8.png["Este gráfico mostra como o ambiente foi configurado como um único par de HA para verificação."]
+
+
+
+== Resultados da verificação
+
+Nós completamos os cinco casos de teste a seguir para a verificação. Os dois primeiros foram testes de funcionalidade e os três restantes foram testes de desempenho.
+
+
+
+=== Teste de correção do armazenamento de objetos
+
+Esse teste executa operações básicas, como obter, colocar e excluir no armazenamento de objetos usado para o armazenamento em camadas usando chamadas de API.
+
+
+
+=== Disposição em camadas teste correto
+
+Este teste verifica a funcionalidade de ponta a ponta do armazenamento de objetos. Ele cria um tópico, produz um fluxo de evento para o tópico recém-criado, espera que os corretores arquivem os segmentos para o armazenamento de objetos, consome o fluxo de eventos e valida as correspondências de fluxo consumido com o fluxo produzido. Realizamos este teste com e sem uma injeção de falha de armazenamento de objetos. Nós simulamos a falha de nós ao interromper o serviço do gerente de serviço em um dos nós do ONTAP e validar que a funcionalidade completa funciona com storage de objetos.
+
+
+
+=== Referência de obtenção de nível
+
+Este teste validou o desempenho de leitura do armazenamento de objetos em camadas e verificou o intervalo buscar solicitações de leitura sob carga pesada de segmentos gerados pelo benchmark. Neste benchmark, a confluent desenvolveu clientes personalizados para atender as solicitações de busca de nível.
+
+
+
+=== Gerador de workload para produzir e consumir
+
+Esse teste gera indiretamente a carga de trabalho de gravação no armazenamento de objetos por meio do arquivamento de segmentos. A carga de trabalho de leitura (segmentos lidos) foi gerada a partir do armazenamento de objetos quando os grupos de consumidores buscaram os segmentos. Essa carga de trabalho foi gerada por um script TOCC. Este teste verificou o desempenho de leitura e gravação no armazenamento de objetos em threads paralelas. Testamos com e sem injeção de falha de armazenamento de objetos, como fizemos no teste de correção da funcionalidade de disposição em camadas.
+
+
+
+=== Gerador de workload de retenção
+
+Esse teste verificou o desempenho de exclusão de um armazenamento de objetos em uma carga de trabalho de retenção de tópico pesado. A carga de trabalho de retenção foi gerada usando um script TOCC que produz muitas mensagens em paralelo a um tópico de teste. O tópico de teste estava configurando com uma configuração agressiva de retenção baseada em tamanho e tempo que fazia com que o fluxo de eventos fosse continuamente purgado do armazenamento de objetos. Os segmentos foram então arquivados. Isso levou a muitas exclusões no armazenamento de objetos pelo corretor e coleta do desempenho das operações de exclusão de armazenamento de objetos.
+
+Para obter detalhes de verificação, consulte o https://docs.confluent.io/platform/current/kafka/tiered-storage.html["Confluente"^] site.

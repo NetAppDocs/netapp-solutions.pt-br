@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_prerequisite.html 
+summary: Certos pré-requisitos devem ser configurados tanto no local quanto na nuvem antes da execução das cargas de trabalho de banco de dados de nuvem híbrida. A seção a seguir fornece um resumo de alto nível deste processo, e os links a seguir fornecem mais informações sobre a configuração necessária do sistema. 
+keywords: workflow, prerequisites, licensing, networking, security 
+---
+= Pré-requisitos de configuração
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Certos pré-requisitos devem ser configurados tanto no local quanto na nuvem antes da execução das cargas de trabalho de banco de dados de nuvem híbrida. A seção a seguir fornece um resumo de alto nível deste processo, e os links a seguir fornecem mais informações sobre a configuração necessária do sistema.
+
+
+
+== No local
+
+* Instalação e configuração do SnapCenter
+* Configuração de storage do servidor de banco de dados no local
+* Requisitos de licenciamento
+* Rede e segurança
+* Automação
+
+
+
+
+== Nuvem pública
+
+* Um login no NetApp Cloud Central
+* Acesso à rede a partir de um navegador da Web para vários endpoints
+* Um local de rede para um conetor
+* Permissões do provedor de nuvem
+* Rede para serviços individuais
+
+
+Considerações importantes:
+
+. Onde implantar o Cloud Manager Connector?
+. Dimensionamento e arquitetura do Cloud volume ONTAP
+. Nó único ou alta disponibilidade?
+
+
+Os seguintes links fornecem mais detalhes:
+
+link:hybrid_dbops_snapcenter_prereq_onprem.html["No local"]
+
+link:hybrid_dbops_snapcenter_prereq_cloud.html["Nuvem pública"]

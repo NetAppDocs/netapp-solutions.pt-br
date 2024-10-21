@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-confluent-kafka-rebalance.html 
+keywords: rebalance, test, self balancing, brokers 
+summary: Esse teste é baseado no recurso clusters de autobalanceamento, que automatiza o rebalanceamento com base em alterações na topologia do cluster ou carga irregular. 
+---
+= Clusters de auto-equilíbrio confluentes
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Se você já gerenciou um cluster do Kafka antes, provavelmente está familiarizado com os desafios que vêm com a reatribuição manual de partições para diferentes corretores para garantir que a carga de trabalho seja equilibrada em todo o cluster. Para organizações com grandes implantações do Kafka, redistribuir grandes quantidades de dados pode ser assustador, tedioso e arriscado, especialmente se aplicativos de missão crítica forem criados em cima do cluster. No entanto, mesmo para os menores casos de uso de Kafka, o processo é demorado e propenso a erros humanos.
+
+Em nosso laboratório, testamos o recurso clusters de autobalanceamento confluentes, que automatiza o rebalanceamento com base em alterações na topologia do cluster ou carga irregular. O teste de rebalanceamento confluente ajuda a medir o tempo para adicionar um novo agente quando a falha do nó ou o nó de dimensionamento exigem rebalanceamento de dados entre os corretores. Nas configurações clássicas do Kafka, a quantidade de dados a serem rebalanceados cresce à medida que o cluster cresce, mas, no armazenamento em camadas, o rebalanceamento é restrito a uma pequena quantidade de dados. Com base em nossa validação, o rebalanceamento no armazenamento em camadas leva segundos ou minutos em uma arquitetura clássica do Kafka e cresce linearmente à medida que o cluster cresce.
+
+Em clusters de auto-equilíbrio, os rebalanceamentos de partições são totalmente automatizados para otimizar o rendimento do Kafka, acelerar o dimensionamento de corretoras e reduzir a carga operacional de executar um cluster grande. Em estado estável, os clusters de auto-equilíbrio monitoram a inclinação dos dados entre os corretores e reatribuem continuamente partições para otimizar o desempenho do cluster. Ao dimensionar a plataforma para cima ou para baixo, os clusters de auto-equilíbrio reconhecem automaticamente a presença de novos corretores ou a remoção de corretores antigos e acionam uma reatribuição de partição subsequente. Isso permite que você adicione e desative corretoras facilmente, tornando seus clusters Kafka fundamentalmente mais elásticos. Esses benefícios vêm sem necessidade de intervenção manual, matemática complexa ou o risco de erro humano que as atribuições de partição normalmente implicam. Como resultado, os rebalanceamentos de dados são concluídos em muito menos tempo, e você fica livre para se concentrar em projetos de streaming de eventos de maior valor, em vez de precisar supervisionar constantemente seus clusters.

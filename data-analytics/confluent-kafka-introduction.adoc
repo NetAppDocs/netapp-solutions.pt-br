@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-introduction.html 
+keywords: tr-4912, tr4912, 4912, introduction, best practices, Kafka, confluent 
+summary: Este documento descreve as diretrizes de melhores práticas para usar o Kafka em um controlador de armazenamento NetApp. 
+---
+= TR-4912: Diretrizes de melhores práticas para armazenamento em camadas de Kafka confluente com NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam, Joseph Kandatilparambil, NetApp Rancesh Kumar, confluent
+
+[role="lead"]
+Apache Kafka é uma plataforma de transmissão de eventos distribuída pela comunidade capaz de lidar com trilhões de eventos por dia. Inicialmente concebido como uma fila de mensagens, Kafka é baseado em uma abstração de um log de commit distribuído. Desde que foi criado e de código aberto pelo LinkedIn em 2011, o Kafka evoluiu de uma fila de mensagens para uma plataforma completa de streaming de eventos. A Confluent entrega a distribuição do Apache Kafka com a Plataforma Confluent. A Confluent Platform complementa Kafka com recursos adicionais de comunidade e comerciais projetados para melhorar a experiência de streaming de operadores e desenvolvedores em produção em grande escala.
+
+Este documento descreve as diretrizes de práticas recomendadas para o uso do armazenamento em camadas Confluent em uma oferta de armazenamento de objetos do NetApp, fornecendo o seguinte conteúdo:
+
+* Verificação confluente com armazenamento de objetos NetApp – NetApp StorageGRID
+* Testes de desempenho de armazenamento em camadas
+* Diretrizes de práticas recomendadas para confluentes em sistemas de storage NetApp
+
+
+
+
+== Por que Confluent Tiered Storage?
+
+O Confluent se tornou a plataforma de streaming em tempo real padrão para muitos aplicativos, especialmente para cargas de trabalho de big data, análise e streaming. O armazenamento em camadas permite que os usuários separem a computação do armazenamento na plataforma confluente. Ele torna o armazenamento de dados mais econômico, permite armazenar quantidades praticamente infinitas de dados e dimensionar cargas de trabalho para cima (ou para baixo) sob demanda, além de facilitar as tarefas administrativas, como o rebalanceamento de dados e locatários. Os sistemas de armazenamento compatíveis com S3 podem aproveitar todos esses recursos para democratizar os dados com todos os eventos em um só lugar, eliminando a necessidade de engenharia de dados complexa. Para obter mais informações sobre por que você deve usar armazenamento em camadas para Kafka, verifique link:https://docs.confluent.io/platform/current/kafka/tiered-storage.html#netapp-object-storage["este artigo por confluent"^].
+
+
+
+== Por que NetApp StorageGRID para armazenamento em camadas?
+
+O StorageGRID é uma plataforma de storage de objetos líder do setor da NetApp. O StorageGRID é uma solução de storage baseada em objetos e definida por software compatível com as APIs de objeto padrão do setor, incluindo a API Amazon Simple Storage Service (S3). O StorageGRID armazena e gerencia dados não estruturados em escala para fornecer storage de objetos seguro e durável. O conteúdo fica no local certo, no momento certo e na camada de storage certa, otimizando workflows e reduzindo custos com Mídia avançada distribuída globalmente.
+
+O maior diferencial do StorageGRID é o mecanismo de políticas de gerenciamento do ciclo de vida das informações (ILM) que permite o gerenciamento do ciclo de vida dos dados voltado a políticas. O mecanismo de políticas pode usar metadados para gerenciar como os dados são armazenados ao longo de sua vida útil para otimizar inicialmente o desempenho e otimizar automaticamente o custo e a durabilidade à medida que os dados envelhecem.
+
+
+
+== Habilitando o armazenamento em camadas confluentes
+
+A ideia básica de armazenamento em camadas é separar as tarefas de armazenamento de dados do Data Processing. Com essa separação, torna-se muito mais fácil para a camada de storage de dados e a camada Data Processing escalarem de forma independente.
+
+Uma solução de armazenamento em camadas para confluent deve lidar com dois fatores. Primeiro, a TI deve contornar ou evitar propriedades comuns de consistência e disponibilidade de armazenamento de objetos, como inconsistências nas operações DE LISTA e indisponibilidade ocasional de objetos. Em segundo lugar, ele deve lidar corretamente com a interação entre armazenamento em camadas e o modelo de replicação e tolerância a falhas de Kafka, incluindo a possibilidade de líderes Zumbis continuarem a nivelar intervalos de compensação. O storage de objetos do NetApp fornece a disponibilidade de objetos consistente e o modelo de HA tornam o storage cansado disponível para faixas de compensação de categorias. O storage de objetos do NetApp fornece disponibilidade consistente de objetos e um modelo de HA para disponibilizar o storage cansado para os intervalos de compensação de categorias.
+
+Com o storage em camadas, você pode usar plataformas de alto desempenho para leituras e gravações de baixa latência perto da parte traseira dos dados de streaming. Além disso, você também pode usar armazenamentos de objetos mais baratos e escaláveis, como o NetApp StorageGRID, para leituras históricas de alta taxa de transferência. Também temos solução técnica para Spark com controlador de armazenamento NetApp e os detalhes estão aqui. A figura a seguir mostra como o Kafka se encaixa em um pipeline de análise em tempo real.
+
+image:confluent-kafka-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A figura a seguir mostra como o NetApp StorageGRID se encaixa como o nível de armazenamento de objetos do Kafka.
+
+image:confluent-kafka-image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

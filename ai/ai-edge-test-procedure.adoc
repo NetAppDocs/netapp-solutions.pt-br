@@ -1,0 +1,62 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-test-procedure.html 
+keywords: procedure, operating system, ubuntu, nvidia, docker, criteo, brats 
+summary: Esta secção descreve os procedimentos de teste utilizados para validar esta solução. 
+---
+= Procedimento de teste
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta secção descreve os procedimentos de teste utilizados para validar esta solução.
+
+
+
+== Configuração do sistema operacional e inferência de IA
+
+Para o AFF C190, usamos o Ubuntu 18,04 com drivers NVIDIA e docker com suporte para GPUs NVIDIA e usamos o MLPerf https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["código"^] disponível como parte do envio da Lenovo para o MLPerf Inference v0,7.
+
+Para EF280, usamos o Ubuntu 20,04 com drivers NVIDIA e docker com suporte para GPUs NVIDIA e MLPerf https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["código"^] disponível como parte do envio da Lenovo para inferência MLPerf v1,1.
+
+Para configurar a inferência de IA, siga estas etapas:
+
+. Faça o download de conjuntos de dados que exigem Registro, o conjunto de Validação IMAGEnet 2012, o conjunto de dados Criteo Terabyte e o conjunto de Treinamento BRaTS 2019 e, em seguida, descompacte os arquivos.
+. Crie um diretório de trabalho com pelo menos 1TB e defina a variável ambiental `MLPERF_SCRATCH_PATH` referente ao diretório.
++
+Você deve compartilhar esse diretório no armazenamento compartilhado para o caso de uso de armazenamento de rede ou no disco local ao testar com dados locais.
+
+. Execute o comando make `prebuild`, que cria e inicia o contentor docker para as tarefas de inferência necessárias.
++
+
+NOTE: Os seguintes comandos são todos executados a partir do contentor docker em execução:
+
++
+** Faça o download de modelos de IA pré-treinados para tarefas de inferência MLPerf: `make download_model`
+** Transfira conjuntos de dados adicionais que podem ser transferidos gratuitamente: `make download_data`
+** Pré-processar os dados: Make `preprocess_data`
+** Execução: `make build`.
+** Crie mecanismos de inferência otimizados para a GPU em servidores de computação: `make generate_engines`
+** Para executar cargas de trabalho de inferência, execute o seguinte (um comando):
+
+
+
+
+....
+make run_harness RUN_ARGS="--benchmarks=<BENCHMARKS> --scenarios=<SCENARIOS>"
+....
+
+
+== A inferência de IA é executada
+
+Três tipos de execuções foram executadas:
+
+* Inferência de AI de servidor único usando storage local
+* Inferência de AI de servidor único usando storage de rede
+* Inferência de AI de vários servidores usando storage de rede
+

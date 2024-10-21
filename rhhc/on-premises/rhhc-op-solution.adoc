@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: rhhc/on-premises/rhhc-op-solution.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Solução NetApp com workloads da plataforma de contêiner Red Hat OpenShift no VMware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Se os clientes precisarem executar suas aplicações modernas em contêineres na infraestrutura em seus data centers privados, eles poderão fazê-lo. Eles devem Planejar e implantar a plataforma de contêineres Red Hat OpenShift (OCP) para um ambiente pronto para produção bem-sucedido para implantar suas cargas de trabalho de contêiner. Seus clusters OCP podem ser implantados em VMware ou bare metal.
+
+O storage NetApp ONTAP oferece proteção de dados, confiabilidade e flexibilidade para implantações de contêiner. O Astra Trident é o provisionador dinâmico de storage que consome o storage persistente do ONTAP para aplicações com estado monitorado dos clientes. O Astra Control Center pode ser usado para orquestrar muitos requisitos de gerenciamento de dados de aplicações com estado monitorado, como proteção de dados, migração e continuidade dos negócios.
+
+Com o VMware vSphere, as ferramentas do NetApp ONTAP fornecem um plug-in do vCenter que pode ser usado para provisionar armazenamentos de dados. Aplique tags e use-as com OpenShift para armazenar a configuração e os dados do nó. O storage baseado em NVMe fornece latência baixa e alta performance.
+
+Essa solução fornece detalhes sobre proteção de dados e migração de workloads de contêiner com o Astra Control Center. Para essa solução, as cargas de trabalho de contêiner são implantadas nos clusters do Red Hat OpenShift no vSphere dentro do ambiente local. OBSERVAÇÃO: Forneceremos uma solução para cargas de trabalho de contêiner em clusters OpenShift em bare metal no futuro.
+
+
+
+== Solução de migração e proteção de dados para workloads de contêiner do OpenShift usando o Astra Control Center
+
+image:rhhc-on-premises.png[""]

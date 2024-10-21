@@ -1,0 +1,94 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP, hardening 
+permalink: cyber-vault/ontap-cyber-vault-sizing.html 
+summary: Orientação para ajudar a dimensionar um cofre cibernético do ONTAP 
+---
+= Dimensionamento do Cyber Vault com o ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O dimensionamento de um Cyber Vault requer o entendimento da quantidade de dados que precisam ser restaurados em um determinado objetivo de tempo de recuperação (rto). Muitos fatores jogam em projetar adequadamente uma solução de cofre cibernético de tamanho certo. Tanto o desempenho quanto a capacidade devem ser considerados ao dimensionar um cofre cibernético.
+
+
+
+== Considerações sobre o dimensionamento da performance
+
+. Quais são os modelos de plataforma de origem (FAS v AFF A-series v AFF C-series)?
+. Qual é a largura de banda e a latência entre a fonte e o Cyber Vault?
+. Quais são os tamanhos dos arquivos e quantos arquivos?
+. Qual é o seu objetivo de tempo de recuperação?
+. Quantos dados você precisa ser recuperado dentro do rto?
+. Quantos relacionamentos de fãs do SnapMirror o cofre cibernético vai estar ingerindo?
+. Haverá recuperações únicas ou múltiplas acontecendo ao mesmo tempo?
+. Essas recuperações múltiplas estarão acontecendo com o mesmo primário?
+. O SnapMirror estará replicando para o Vault durante uma recuperação de um Vault?
+
+
+
+
+=== Exemplos de dimensionamento
+
+Aqui estão exemplos de diferentes configurações de Cyber Vault.
+
+image:ontap-cyber-vault-sizing.png["Opções de configuração do Cyber Vault"]
+
+
+
+== Considerações sobre o dimensionamento da capacidade
+
+A quantidade de espaço em disco necessária para um volume de destino do ONTAP Cyber Vault depende de uma variedade de fatores, sendo o mais importante a taxa de alteração dos dados no volume de origem. A programação de backup e a programação Snapshot no volume de destino afetam o uso do disco no volume de destino, e a taxa de alteração no volume de origem provavelmente não será constante. É uma boa ideia fornecer um buffer de capacidade de armazenamento adicional acima da necessária para acomodar futuras alterações no comportamento do usuário final ou do aplicativo.
+
+O dimensionamento de uma relação para 1 mês de retenção no ONTAP requer o cálculo dos requisitos de storage com base em vários fatores, incluindo o tamanho do conjunto de dados principal, a taxa de alteração de dados (taxa de alteração diária) e a economia de deduplicação e compactação (se aplicável).
+
+Aqui está a abordagem passo a passo:
+
+O primeiro passo é saber o tamanho do(s) volume(s) de origem que você está protegendo com o Cyber Vault. Esta é a quantidade base de dados que inicialmente serão replicados para o destino do Cyber Vault. Em seguida, estime a taxa de alteração diária para o conjunto de dados. Essa é a porcentagem de dados que muda todos os dias. É crucial ter uma boa compreensão da dinâmica dos seus dados.
+
+Por exemplo:
+
+* Tamanho do conjunto de dados primário: 5TB
+* Taxa de variação diária de 5% (0,05)
+* Eficiência de deduplicação e compactação: 50% (0,50)
+
+
+Agora, vamos percorrer o cálculo:
+
+* Calcule a taxa de alteração de dados diária:
++
+`Changed data per day = 5000 * 5% = 250GB`
+
+* Calcule o total de dados alterados por 30 dias:
++
+`Total changed data in 30 days = 250 GB * 30 = 7.5TB`
+
+* Calcule o armazenamento total necessário:
++
+`TOTAL = 5TB + 7.5TB = 12.5TB`
+
+* Aplique economias de deduplicação e compactação:
++
+`EFFECTIVE = 12.5TB * 50% = 6.25TB`
+
+
+
+*Resumo das necessidades de armazenamento*
+
+* Sem eficiência: Seria necessário que *12,5TB* armazenasse 30 dias dos dados do Cyber Vault.
+* Com 50% de eficiência: Exigiria *6,25TB* de armazenamento após deduplicação e compactação.
+
+
+
+NOTE: As cópias snapshot podem ter sobrecarga adicional devido aos metadados, mas isso geralmente é menor.
+
+
+NOTE: Se vários backups forem feitos por dia, ajuste o cálculo pelo número de cópias Snapshot feitas por dia.
+
+
+NOTE: Considere o crescimento dos dados ao longo do tempo para garantir que o dimensionamento esteja pronto para o futuro.

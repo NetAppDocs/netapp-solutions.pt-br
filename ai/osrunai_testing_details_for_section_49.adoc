@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_testing_details_for_section_49.html 
+keywords:  
+summary:  
+---
+= Detalhes de teste para a Seção 4,9
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção contém detalhes de teste para a link:osrunai_basic_resource_allocation_fairness.html["Equidade na alocação básica de recursos"]seção .
+
+Envie trabalhos na seguinte ordem:
+
+|===
+| Projeto | N.o de GPUs | Total | Comentário 
+
+
+| equipa-d | 2 | 6/8 | A carga de trabalho Team-b/c pausa e passa para `pending`. 
+
+
+| equipa-d | 2 | 8/8 | Outras cargas de trabalho de equipe (b/c) pausam e migram para `pending`o . 
+|===
+Consulte a seguinte sequência de comandos executada:
+
+....
+$ runai submit d-2-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-d$ runai submit d-3-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-d
+....
+Neste ponto, você deve ter os seguintes estados:
+
+|===
+| Projeto | GPUs alocadas | Cargas de trabalho na fila 
+
+
+| equipa a | 4/4 | Nenhum 
+
+
+| equipa-b | 2/2 | Nenhum 
+
+
+| equipa-c | 2/2 | Nenhum 
+
+
+| equipa-d | 8/8 | Nenhum 
+|===
+Consulte a seção link:osrunai_basic_resource_allocation_fairness.html["Equidade na alocação básica de recursos"] para uma discussão sobre o cenário de teste.

@@ -1,0 +1,228 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-milvus-cluster-setup.html 
+keywords: vector database 
+summary: milvus cluster setup - solução de banco de dados vetorial para NetApp 
+---
+= Configuração de cluster do Milvus com Kubernetes no local
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção discute a configuração do cluster milvus para a solução de banco de dados vetorial para NetApp.
+
+
+
+== Configuração de cluster do Milvus com Kubernetes no local
+
+Desafios do cliente para fazer escalabilidade independente em storage e computação, gerenciamento eficaz da infraestrutura e gerenciamento de dados. Em conjunto, o Kubernetes e bancos de dados vetoriais formam uma solução avançada e dimensionável para gerenciar operações de grandes volumes de dados. O Kubernetes otimiza recursos e gerencia contêineres, enquanto os bancos de dados vetoriais processam com eficiência dados dimensionais e pesquisas de similaridade. Essa combinação permite o processamento rápido de consultas complexas em grandes conjuntos de dados e é dimensionada de forma otimizada com volumes de dados crescentes, tornando-a ideal para aplicações de Big Data e workloads de AI.
+
+. Nesta seção, detalhamos o processo de instalação de um cluster Milvus no Kubernetes, utilizando um controlador de storage NetApp para dados de cluster e dados de clientes.
+. Para instalar um cluster Milvus, volumes persistentes (PVS) são necessários para armazenar dados de vários componentes de cluster Milvus. Esses componentes incluem etcd (três instâncias), pulsar-bookie-journal (três instâncias), pulsar-bookie-ledgers (três instâncias) e pulsar-zookeeper-data (três instâncias).
++
+
+NOTE: No cluster milvus, podemos usar o pulsar ou o kafka para o mecanismo subjacente que suporta o armazenamento confiável do cluster Milvus e a publicação/assinatura de fluxos de mensagens. Para o Kafka com NFS, o NetApp fez melhorias no ONTAP 9.12,1 e posteriores, e esses aprimoramentos, juntamente com as alterações NFSv4,1 e Linux que estão incluídas no RHEL 8,7 ou 9,1 e superiores, resolvem o problema "silly Rename" que pode ocorrer ao executar o kafka em NFS. Se você estiver interessado em informações mais detalhadas sobre o tópico de execução do kafka com a solução NetApp NFS, verifique - link:../data-analytics/kafka-nfs-introduction.html["este link"].
+
+. Criamos um único volume NFS da NetApp ONTAP e estabelecemos 12 volumes persistentes, cada um com 250GB TB de storage. O tamanho do armazenamento pode variar dependendo do tamanho do cluster; por exemplo, temos outro cluster onde cada PV tem 50GB. Por favor, consulte abaixo um dos arquivos PV YAML para obter mais detalhes; nós tivemos 12 arquivos desse tipo no total. Em cada arquivo, o storageClassName é definido como 'falha', e o armazenamento e o caminho são exclusivos para cada PV.
++
+[source, yaml]
+----
+root@node2:~# cat sai_nfs_to_default_pv1.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: karthik-pv1
+spec:
+  capacity:
+    storage: 250Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: default
+  local:
+    path: /vectordbsc/milvus/milvus1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node2
+          - node3
+          - node4
+          - node5
+          - node6
+root@node2:~#
+----
+. Execute o comando 'kubectl apply' para cada arquivo PV YAML para criar os volumes persistentes e, em seguida, verifique sua criação usando 'kubectl get pv'
++
+[source, bash]
+----
+root@node2:~# for i in $( seq 1 12 ); do kubectl apply -f sai_nfs_to_default_pv$i.yaml; done
+persistentvolume/karthik-pv1 created
+persistentvolume/karthik-pv2 created
+persistentvolume/karthik-pv3 created
+persistentvolume/karthik-pv4 created
+persistentvolume/karthik-pv5 created
+persistentvolume/karthik-pv6 created
+persistentvolume/karthik-pv7 created
+persistentvolume/karthik-pv8 created
+persistentvolume/karthik-pv9 created
+persistentvolume/karthik-pv10 created
+persistentvolume/karthik-pv11 created
+persistentvolume/karthik-pv12 created
+root@node2:~#
+----
+. Para armazenar dados de clientes, o Milvus é compatível com soluções de storage de objetos, como MinIO, Azure Blob e S3. Neste guia, utilizamos o S3. As etapas a seguir se aplicam ao armazenamento de objetos ONTAP S3 e StorageGRID. Usamos o Helm para implantar o cluster Milvus. Faça o download do arquivo de configuração, values.yaml, no local de download do Milvus. Por favor, consulte o apêndice para o arquivo values.yaml que usamos neste documento.
+. Certifique-se de que a "classe de serviço" está definida para "falha" em cada secção, incluindo as para o registo, etcd, zookeeper e bookkeeper.
+. Na seção MinIO, desative o MinIO.
+. Crie um bucket nas a partir do storage de objetos ONTAP ou StorageGRID e os inclua em um S3 externo com credenciais de storage de objetos.
++
+[source, yaml]
+----
+###################################
+# External S3
+# - these configs are only used when `externalS3.enabled` is true
+###################################
+externalS3:
+  enabled: true
+  host: "192.168.150.167"
+  port: "80"
+  accessKey: "24G4C1316APP2BIPDE5S"
+  secretKey: "Zd28p43rgZaU44PX_ftT279z9nt4jBSro97j87Bx"
+  useSSL: false
+  bucketName: "milvusdbvol1"
+  rootPath: ""
+  useIAM: false
+  cloudProvider: "aws"
+  iamEndpoint: ""
+  region: ""
+  useVirtualHost: false
+
+----
+. Antes de criar o cluster Milvus, certifique-se de que o PersistentVolumeClaim (PVC) não tenha recursos pré-existentes.
++
+[source, bash]
+----
+root@node2:~# kubectl get pvc
+No resources found in default namespace.
+root@node2:~#
+----
+. Utilize o Helm e o arquivo de configuração values.yaml para instalar e iniciar o cluster Milvus.
++
+[source, bash]
+----
+root@node2:~# helm upgrade --install my-release milvus/milvus --set global.storageClass=default  -f values.yaml
+Release "my-release" does not exist. Installing it now.
+NAME: my-release
+LAST DEPLOYED: Thu Mar 14 15:00:07 2024
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+root@node2:~#
+----
+. Verifique o status do PersistentVolumeClaims (PVCs).
++
+[source, bash]
+----
+root@node2:~# kubectl get pvc
+NAME                                                             STATUS   VOLUME         CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+data-my-release-etcd-0                                           Bound    karthik-pv8    250Gi      RWO            default        3s
+data-my-release-etcd-1                                           Bound    karthik-pv5    250Gi      RWO            default        2s
+data-my-release-etcd-2                                           Bound    karthik-pv4    250Gi      RWO            default        3s
+my-release-pulsar-bookie-journal-my-release-pulsar-bookie-0      Bound    karthik-pv10   250Gi      RWO            default        3s
+my-release-pulsar-bookie-journal-my-release-pulsar-bookie-1      Bound    karthik-pv3    250Gi      RWO            default        3s
+my-release-pulsar-bookie-journal-my-release-pulsar-bookie-2      Bound    karthik-pv1    250Gi      RWO            default        3s
+my-release-pulsar-bookie-ledgers-my-release-pulsar-bookie-0      Bound    karthik-pv2    250Gi      RWO            default        3s
+my-release-pulsar-bookie-ledgers-my-release-pulsar-bookie-1      Bound    karthik-pv9    250Gi      RWO            default        3s
+my-release-pulsar-bookie-ledgers-my-release-pulsar-bookie-2      Bound    karthik-pv11   250Gi      RWO            default        3s
+my-release-pulsar-zookeeper-data-my-release-pulsar-zookeeper-0   Bound    karthik-pv7    250Gi      RWO            default        3s
+root@node2:~#
+----
+. Verifique o status dos pods.
++
+[source, bash]
+----
+root@node2:~# kubectl get pods -o wide
+NAME                                            READY   STATUS      RESTARTS        AGE    IP              NODE    NOMINATED NODE   READINESS GATES
+<content removed to save page space>
+----
++
+Certifique-se de que o status dos pods está "em execução" e funcionando conforme esperado
+
+. Teste a gravação e a leitura de dados no storage de objetos Milvus e NetApp.
++
+** Escreva dados usando o programa Python "Prepare_data_NetApp_new.py".
++
+[source, python]
+----
+root@node2:~# date;python3 prepare_data_netapp_new.py ;date
+Thu Apr  4 04:15:35 PM UTC 2024
+=== start connecting to Milvus     ===
+=== Milvus host: localhost         ===
+Does collection hello_milvus_ntapnew_update2_sc exist in Milvus: False
+=== Drop collection - hello_milvus_ntapnew_update2_sc ===
+=== Drop collection - hello_milvus_ntapnew_update2_sc2 ===
+=== Create collection `hello_milvus_ntapnew_update2_sc` ===
+=== Start inserting entities       ===
+Number of entities in hello_milvus_ntapnew_update2_sc: 3000
+Thu Apr  4 04:18:01 PM UTC 2024
+root@node2:~#
+----
+** Leia os dados usando o arquivo Python "Verify_data_NetApp.py".
++
+....
+root@node2:~# python3 verify_data_netapp.py
+=== start connecting to Milvus     ===
+=== Milvus host: localhost         ===
+
+Does collection hello_milvus_ntapnew_update2_sc exist in Milvus: True
+{'auto_id': False, 'description': 'hello_milvus_ntapnew_update2_sc', 'fields': [{'name': 'pk', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}, {'name': 'random', 'description': '', 'type': <DataType.DOUBLE: 11>}, {'name': 'var', 'description': '', 'type': <DataType.VARCHAR: 21>, 'params': {'max_length': 65535}}, {'name': 'embeddings', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 16}}]}
+Number of entities in Milvus: hello_milvus_ntapnew_update2_sc : 3000
+
+=== Start Creating index IVF_FLAT  ===
+
+=== Start loading                  ===
+
+=== Start searching based on vector similarity ===
+
+hit: id: 2998, distance: 0.0, entity: {'random': 0.9728033590489911}, random field: 0.9728033590489911
+hit: id: 2600, distance: 0.602496862411499, entity: {'random': 0.3098157043984633}, random field: 0.3098157043984633
+hit: id: 1831, distance: 0.6797959804534912, entity: {'random': 0.6331477114129169}, random field: 0.6331477114129169
+hit: id: 2999, distance: 0.0, entity: {'random': 0.02316334456872482}, random field: 0.02316334456872482
+hit: id: 2524, distance: 0.5918987989425659, entity: {'random': 0.285283165889066}, random field: 0.285283165889066
+hit: id: 264, distance: 0.7254047393798828, entity: {'random': 0.3329096143562196}, random field: 0.3329096143562196
+search latency = 0.4533s
+
+=== Start querying with `random > 0.5` ===
+
+query result:
+-{'random': 0.6378742006852851, 'embeddings': [0.20963514, 0.39746657, 0.12019053, 0.6947492, 0.9535575, 0.5454552, 0.82360446, 0.21096309, 0.52323616, 0.8035404, 0.77824664, 0.80369574, 0.4914803, 0.8265614, 0.6145269, 0.80234545], 'pk': 0}
+search latency = 0.4476s
+
+=== Start hybrid searching with `random > 0.5` ===
+
+hit: id: 2998, distance: 0.0, entity: {'random': 0.9728033590489911}, random field: 0.9728033590489911
+hit: id: 1831, distance: 0.6797959804534912, entity: {'random': 0.6331477114129169}, random field: 0.6331477114129169
+hit: id: 678, distance: 0.7351570129394531, entity: {'random': 0.5195484662306603}, random field: 0.5195484662306603
+hit: id: 2644, distance: 0.8620758056640625, entity: {'random': 0.9785952878381153}, random field: 0.9785952878381153
+hit: id: 1960, distance: 0.9083120226860046, entity: {'random': 0.6376039340439571}, random field: 0.6376039340439571
+hit: id: 106, distance: 0.9792704582214355, entity: {'random': 0.9679994241326673}, random field: 0.9679994241326673
+search latency = 0.1232s
+Does collection hello_milvus_ntapnew_update2_sc2 exist in Milvus: True
+{'auto_id': True, 'description': 'hello_milvus_ntapnew_update2_sc2', 'fields': [{'name': 'pk', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': True}, {'name': 'random', 'description': '', 'type': <DataType.DOUBLE: 11>}, {'name': 'var', 'description': '', 'type': <DataType.VARCHAR: 21>, 'params': {'max_length': 65535}}, {'name': 'embeddings', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 16}}]}
+....
++
+Com base na validação acima, a integração do Kubernetes com um banco de dados vetorial, conforme demonstrado pela implantação de um cluster Milvus no Kubernetes usando um controlador de storage NetApp, oferece aos clientes uma solução robusta, escalável e eficiente para gerenciar operações de dados em grande escala. Essa configuração oferece aos clientes a capacidade de lidar com dados de alta dimensão e executar consultas complexas de forma rápida e eficiente, tornando-a a solução ideal para aplicações de big data e workloads de IA. O uso de volumes persistentes (PVS) para vários componentes de cluster, juntamente com a criação de um único volume NFS da NetApp ONTAP, garante a utilização ideal dos recursos e o gerenciamento de dados. O processo de verificação do status de PersistentVolumeClaims (PVCs) e pods, bem como testes de gravação e leitura de dados, fornece aos clientes a garantia de operações de dados confiáveis e consistentes. O uso do storage de objetos ONTAP ou StorageGRID para dados do cliente aumenta ainda mais a acessibilidade e a segurança dos dados. Em geral, essa configuração capacita os clientes com uma solução de gerenciamento de dados resiliente e de alta performance que pode ser dimensionada de forma otimizada de acordo com as crescentes necessidades de dados.
+
+
+
+

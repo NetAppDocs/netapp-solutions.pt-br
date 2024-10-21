@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_conclusion.html 
+keywords: 'Azure NetApp Files, RAPIDS AI, click-though rate (CTR) prediction, Machine Learning, Retail, E-commerce, Azure, Jupyter Notebook, Cloud computing, Digital marketing, Kubernetes' 
+summary: O Azure NetApp Files, O RAPIDS e o Dask aceleram e simplificam a implantação do processamento e treinamento DE ML em grande escala, integrados a ferramentas de orquestração, como o Docker e o Kubernetes. Ao unificar o pipeline de dados completo, essa solução reduz a latência e a complexidade inerentes a muitos workloads de computação avançada, eliminando efetivamente a lacuna entre o desenvolvimento e as operações. 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O Azure NetApp Files, O RAPIDS e o Dask aceleram e simplificam a implantação do processamento e treinamento DE ML em grande escala, integrando-se a ferramentas de orquestração, como o Docker e o Kubernetes. Ao unificar o pipeline de dados completo, essa solução reduz a latência e a complexidade inerentes a muitos workloads de computação avançada, eliminando efetivamente a lacuna entre o desenvolvimento e as operações. Os cientistas de dados podem executar consultas em grandes conjuntos de dados e compartilhar com segurança dados e modelos algorítmicos com outros usuários durante a fase de treinamento.
+
+Ao criar seus próprios pipelines de IA/ML, configurar a integração, o gerenciamento, a segurança e a acessibilidade dos componentes em uma arquitetura é uma tarefa desafiadora. Dar aos desenvolvedores acesso e controle de seu ambiente apresenta outro conjunto de desafios.
+
+Ao criar um modelo de treinamento distribuído completo e um pipeline de dados na nuvem, demonstramos duas ordens de melhoria de magnitude no tempo total de conclusão do fluxo de trabalho em comparação com uma abordagem convencional de código aberto que não utilizou estruturas de computação e Data Processing aceleradas por GPU.
+
+A combinação de NetApp, Microsoft, estruturas de orquestração de código aberto e NVIDIA reúne as tecnologias mais recentes como serviços gerenciados com grande flexibilidade para acelerar a adoção de tecnologia e melhorar o time-to-market de novas aplicações de AI/ML. Esses serviços avançados são fornecidos em um ambiente nativo da nuvem que pode ser facilmente portado para arquiteturas de implantação no local e híbridas.

@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_conclusion.html 
+keywords:  
+summary:  
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A NetApp e a Run:AI fizeram uma parceria neste relatório técnico para demonstrar os recursos exclusivos da solução de AI da NetApp ONTAP em conjunto com a plataforma Run:AI para simplificar a orquestração de workloads de AI. As etapas anteriores fornecem uma arquitetura de referência para otimizar o processo de pipelines de dados e orquestração de workload para deep learning. Os clientes que desejam implementar essas soluções são encorajados a entrar em Contato com o NetApp e o Run:AI para obter mais informações.

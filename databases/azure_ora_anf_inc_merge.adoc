@@ -1,0 +1,1882 @@
+---
+sidebar: sidebar 
+permalink: databases/azure_ora_anf_inc_merge.html 
+keywords: Oracle, Azure, ANF, Database, Oracle 19c, NFS, dNFS, VLDB, RMAN, Incremental Merge 
+summary: A solução fornece visão geral e detalhes para a recuperação rápida do Oracle VLDB implantado na instância de computação VM do Azure com montagem NFS no pool de capacidade do Azure NetApp Files para criar uma cópia de banco de dados em espera que é mesclada constantemente por meio do RMAN. 
+---
+= TR-4990: Recuperação rápida do Oracle VLDB com Incremental Merge no ANF
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp
+
+[role="lead"]
+Essa solução fornece visão geral e detalhes para recuperação rápida do Oracle VLDB implantado na instância de computação VM do Azure com montagem NFS no pool de capacidade do Azure NetApp Files para criar uma cópia de banco de dados em espera que é mesclada constantemente por meio do RMAN.
+
+
+
+== Finalidade
+
+Recuperar um banco de dados muito grande (VLDB) no Oracle usando a ferramenta de backup do Oracle Recovery Manager (RMAN) pode ser uma tarefa altamente desafiadora. O processo de restauração de banco de dados a partir de Mídia de backup em caso de falha pode ser demorado, atrasando a recuperação do banco de dados e potencialmente impactando significativamente o SLA (Service Level Agreement). No entanto, a partir da versão 10g, a Oracle introduziu um recurso RMAN que permite aos usuários criar cópias de imagem em estágios dos arquivos de dados do banco de dados Oracle em armazenamento de disco adicional localizado no host do servidor de banco de dados DB. Essas cópias de imagem podem ser atualizadas de forma incremental usando o RMAN diariamente. Em caso de falha, o Administrador de Banco de dados (DBA) pode mudar rapidamente o banco de dados Oracle da Mídia com falha para a cópia de imagem, eliminando a necessidade de uma restauração completa de Mídia de banco de dados. O resultado é um SLA bastante aprimorado, embora com o custo de dobrar o storage necessário do banco de dados.
+
+Se você estiver interessado no SLA do seu VLDB e contemplando a migração do banco de dados Oracle para uma nuvem pública, como o Azure, poderá configurar uma estrutura de proteção de banco de dados semelhante usando recursos como o Microsoft Azure NetApp Files (ANF) para preparar sua cópia de imagem de reserva do banco de dados. Nesta documentação, demonstramos como provisionar e exportar um sistema de arquivos NFS do pool de capacidade do ANF para ser montado em um servidor de banco de dados Oracle para preparar uma cópia de banco de dados de reserva para recuperação rápida no caso de uma falha de storage primário.
+
+Esta solução aborda os seguintes casos de uso:
+
+* Uma mesclagem incremental de cópia de imagem Oracle VLDB por meio do RMAN no ponto de montagem NFS fora do storage do pool de capacidade do Microsoft ANF.
+* Recuperação rápida de um Oracle VLDB em caso de falha na mesma VM do servidor de banco de dados do Azure.
+* Recuperação rápida de um Oracle VLDB no caso de uma falha em uma VM do servidor de banco de dados Azure de reserva.
+
+
+
+
+== Público-alvo
+
+Esta solução destina-se às seguintes pessoas:
+
+* Um DBA que configura a mesclagem incremental de cópia de imagem Oracle VLDB via RMAN no Azure para uma recuperação mais rápida do banco de dados.
+* Um arquiteto de solução de banco de dados que testa cargas de trabalho Oracle na nuvem pública do Azure.
+* Um administrador de storage que gerencia bancos de dados Oracle implantados no storage de pool de capacidade do ANF.
+* Proprietário de um aplicativo que gostaria de configurar bancos de dados Oracle no ambiente de nuvem do Azure.
+
+
+
+
+== Ambiente de teste e validação de soluções
+
+O teste e a validação dessa solução foram realizados em um ambiente de pool de capacidade do Microsoft ANF e computação de VM do Azure que pode não ser correspondente ao ambiente de implantação final. Para obter mais informações, consulte a <<Fatores-chave para consideração da implantação>>seção .
+
+
+
+=== Arquitetura
+
+image:azure_ora_anf_vldb_architecture.png["Essa imagem fornece uma visão detalhada da implementação de mesclagem incremental do Oracle VLDB na nuvem pública do Azure com o ANF."]
+
+
+
+=== Componentes de hardware e software
+
+[cols="33%, 33%, 33%"]
+|===
+
+
+3+| *Hardware* 
+
+
+| Storage do ANF | Versão atual oferecida pela Microsoft | Pool de storage de capacidade de ANF 2 TIB com nível de serviço Premium 
+
+
+| VM do Azure para servidor de banco de dados | Standard_B4ms - 4 vCPUs, 16GiB | 2 VMs, uma como servidor de banco de dados principal e a outra como standby 
+
+
+3+| *Software* 
+
+
+| RedHat Linux | RHEL Linux 8,6 (LVM) - x64 Gen2 | Implantou a assinatura RedHat para testes 
+
+
+| Banco de dados Oracle | Versão 19,18 | Aplicado patch RU p34765931_190000_Linux-x86-64.zip 
+
+
+| Oracle OPatch | Versão 12.2.0.1.36 | Último patch p6880880_190000_Linux-x86-64.zip 
+
+
+| NFS | Versão 3,0 | Oracle DNFS habilitado 
+|===
+
+
+=== Fatores-chave para consideração da implantação
+
+* *Layout de armazenamento Oracle VLDB para mesclagem incremental RMAN.* Em nossos testes e validações, o volume NFS para o backup e a mesclagem incrementais Oracle é alocado a partir de um único pool de capacidade de ANF, que tem 100 TIB por volume e limite de capacidade total de 1000 TIB. Para implantação acima dos limites, vários volumes e pools de capacidade do ANF podem ser concatenados em paralelo com vários pontos de montagem NFS para fornecer maior capacidade.
+* *Recuperação Oracle usando a mesclagem incremental RMAN.* O backup incremental e a mesclagem RMAN geralmente são executados na frequência definida pelo usuário com base em seus objetivos de rto e RPO. Se houver perda total de armazenamento de dados primários e/ou logs arquivados, a perda de dados pode ocorrer. É possível recuperar o banco de dados Oracle até o último backup incremental disponível na cópia de imagem de backup do banco de dados do ANF. Para minimizar a perda de dados, a área de recuperação flash Oracle pode ser configurada no ponto de montagem de NFS do ANF e os logs arquivados são copiados para a montagem de NFS do ANF, juntamente com cópia de imagem do banco de dados.
+* *Executando o Oracle VLDB fora do sistema de arquivos NFS do ANF.* Diferentemente de outros storages em massa para backup de banco de dados, o Microsoft ANF é um storage de nível de produção habilitado para nuvem que oferece alto nível de performance e eficiência de storage. Quando o Oracle VLDB alterna do storage primário para a cópia de imagem no sistema de arquivos NFS do ANF, a performance do banco de dados pode ser mantida em alto nível e a falha do storage primário é resolvida. Você pode se sentir confortável em saber que a experiência da aplicação do usuário não sofre como resultado de uma falha no storage primário.
+* *Instâncias de computação do Azure.* Nesses testes e validações, usamos as VMs do Azure Standard_B4ms como servidores de banco de dados Oracle. Existem outras VMs do Azure que podem ser otimizadas e mais adequadas para a carga de trabalho de banco de dados. Você também precisa dimensionar a VM do Azure adequadamente para o número de vCPUs e a quantidade de RAM com base nos requisitos reais de carga de trabalho.
+* *Nível de serviço do pool de capacidade do ANF.* O pool de capacidade do ANF oferece três níveis de serviço: Standard, Premium, Ultra. Por padrão, uma QoS automática se aplica a um volume criado dentro de um pool de capacidade, o que restringe a taxa de transferência no volume. A taxa de transferência em um volume pode ser ajustada manualmente com base no tamanho do pool de capacidade e no nível de serviço.
+* *Configuração DNFS* o DNFS é incorporado ao kernel Oracle e é conhecido por aumentar drasticamente o desempenho do banco de dados Oracle quando o Oracle é implantado no armazenamento NFS. O DNFS é empacotado no binário Oracle, mas não é ativado por padrão. Ele deve ser ativado para qualquer implantação de banco de dados Oracle no NFS. Para a implantação de vários pools de capacidade do ANF para um VLDB, os caminhos diversos da DNFS para o storage de diferentes pools de capacidade do ANF devem ser configurados corretamente.
+
+
+
+
+== Implantação de solução
+
+Supõe-se que você já tenha seu Oracle VLDB implantado no ambiente de nuvem do Azure dentro de um VNet. Se você precisar de ajuda sobre a implantação do Oracle no Azure, consulte os seguintes relatórios técnicos para obter ajuda.
+
+* link:automation_ora_anf_nfs.html["Implantação Oracle simplificada e automatizada no Azure NetApp Files com NFS"^]
+* link:azure_ora_nfile_usecase.html#overview["Implantação e proteção de bancos de dados Oracle no Azure NetApp Files"^]
+
+
+Seu Oracle VLDB pode ser executado em um storage ANF ou em qualquer outra opção de storage no ecossistema de nuvem do Azure. A seção a seguir fornece procedimentos passo a passo de implantação para configurar a mesclagem incremental RMAN a uma cópia de imagem de um Oracle VLDB que está sendo instalada em uma montagem NFS fora do storage do ANF.
+
+
+
+=== Pré-requisitos para implantação
+
+[%collapsible]
+====
+A implantação requer os seguintes pré-requisitos.
+
+. Uma conta do Azure foi configurada e os segmentos de rede e VNet do Azure necessários foram criados na sua conta do Azure.
+. No console do portal do Azure, você deve implantar duas instâncias de VM do Azure, uma como o servidor de banco de dados principal do Oracle e um servidor de banco de dados de reserva opcional. Consulte o diagrama da arquitetura na seção anterior para obter mais detalhes sobre a configuração do ambiente. Consulte também o link:https://azure.microsoft.com/en-us/pricing/details/virtual-machines/series/["Série de máquinas virtuais do Azure"^] para obter mais informações.
+. No console do portal do Azure, implante o storage do ANF para hospedar os volumes NFS que armazenam a cópia de imagem em espera do banco de dados Oracle. Se você não estiver familiarizado com a implantação do ANF, consulte a documentação link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes?tabs=azure-portal["Início rápido: Configurar o Azure NetApp Files e criar um volume NFS"^] para obter instruções passo a passo.
+
+
+
+NOTE: Certifique-se de ter alocado pelo menos 128G GB no volume raiz da VM do Azure para ter espaço suficiente para colocar os arquivos de instalação da Oracle.
+
+====
+
+
+=== Provisione e exporte o volume NFS a ser montado no servidor Oracle VLDB primário
+
+[%collapsible]
+====
+Nesta seção, mostramos provisionamento de um volume NFS a partir de um pool de capacidade do ANF por meio do console do portal do Azure. Repita os procedimentos em outros pools de capacidade do ANF se mais de um pools de capacidade do ANF estiverem configurados para acomodar o tamanho do banco de dados.
+
+. Primeiro, no console do portal do Azure, navegando para o pool de capacidade do ANF que é usado para realizar a cópia de imagem do Oracle VLDB.
++
+image:azure_ora_anf_vldb_vol_01.png["Essa imagem fornece a tela de provisionamento de volume do ANF usando o console do portal do Azure"]
+
+. No pool de capacidade selecionado - `database`, clique `Volumes` em e, em seguida, `Add volume` para iniciar o fluxo de trabalho de volume adicional.
++
+image:azure_ora_anf_vldb_vol_02.png["Essa imagem fornece a tela de provisionamento de volume do ANF usando o console do portal do Azure"]
+
+. Preencha `Volume name` , `Quota`, `Virtual network` e `Delegated subnet` para mover para `Protocol` a página.
++
+image:azure_ora_anf_vldb_vol_03.png["Essa imagem fornece a tela de provisionamento de volume do ANF usando o console do portal do Azure"]
+
+. Anote o caminho do arquivo, insira o intervalo CIDR de clientes permitidos e ative `Root Access` o volume.
++
+image:azure_ora_anf_vldb_vol_04.png["Essa imagem fornece a tela de provisionamento de volume do ANF usando o console do portal do Azure"]
+
+. Adicione uma etiqueta de volume, se desejado.
++
+image:azure_ora_anf_vldb_vol_05.png["Essa imagem fornece a tela de provisionamento de volume do ANF usando o console do portal do Azure"]
+
+. Reveja e crie o volume.
++
+image:azure_ora_anf_vldb_vol_06.png["Essa imagem fornece a tela de provisionamento de volume do ANF usando o console do portal do Azure"]
+
+. Faça login no servidor Oracle VLDB primário como usuário com privilégio sudo e monte o volume NFS exportado do storage ANF. Altere o endereço IP do servidor ANF NFS e o caminho do arquivo conforme necessário. O endereço IP do servidor do ANF NFS pode ser recuperado da página do console de volume do ANF.
++
+[source, cli]
+----
+sudo mkdir /nfsanf
+----
++
+[source, cli]
+----
+sudo mount 172.30.136.68:/ora-01-u02-copy /nfsanf -o rw,bg,hard,vers=3,proto=tcp,timeo=600,rsize=262144,wsize=262144,nointr
+----
+. Altere a propriedade do ponto de montagem para oracle:oisntall, altere para o nome de usuário e grupo primário oracle, conforme necessário.
++
+[source, cli]
+----
+sudo chown oracle:oinstall /nfsanf
+----
+
+
+====
+
+
+=== Configurar Oracle RMAN Incremental merge para cópia de imagem no ANF
+
+[%collapsible]
+====
+Atualização da imagem dos arquivos de dados do banco de dados de teste cópia contínua em cada intervalo incremental de backup/mesclagem. A cópia de imagem da cópia de segurança da base de dados será tão atualizada quanto a frequência que executa a cópia de segurança/fusão incremental. Portanto, leve em consideração o desempenho do banco de dados, seus objetivos de rto e RPO ao decidir a frequência de backup e mesclagem incrementais do RMAN.
+
+. Faça login no servidor Oracle VLDB primário como usuário oracle.
+. Crie um diretório oracopy sob o ponto de montagem /nfsanf para armazenar cópias de imagem de arquivos de dados oracle e diretório archlog para área de recuperação flash Oracle.
++
+[source, cli]
+----
+mkdir /nfsanf/oracopy
+----
++
+[source, cli]
+----
+mkdir /nfsanf/archlog
+----
+. Faça login no banco de dados Oracle via sqlplus, habilite o controle de alterações de bloco para backup incremental mais rápido e altere a área de recuperação flash Oracle para montagem de NFS ANF, se estiver no storage primário. Isso permite que o backup automático e logs arquivados e arquivos de controle padrão do RMAN sejam feitos para recuperação na montagem do ANF NFS.
++
+[source, cli]
+----
+sqlplus / as sysdba
+----
++
+No prompt do sqlplus, execute o seguinte comando.
+
++
+[source, cli]
+----
+alter database enable block change tracking using file '/nfsanf/oracopy/bct_ntap1.ctf'
+----
++
+[source, cli]
+----
+alter system set db_recovery_file_dest='/nfsanf/archlog/' scope=both;
+----
++
+Saída esperada:
+
++
+....
+[oracle@ora-01 ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Wed Mar 20 16:44:21 2024
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.18.0.0.0
+
+SQL> alter database enable block change tracking using file '/nfsanf/oracopy/bct_ntap1.ctf';
+
+Database altered.
+
+SQL> alter system set db_recovery_file_dest='/nfsanf/archlog/' scope=both;
+
+System altered.
+
+SQL>
+
+....
+. Crie um script de backup e mesclagem incremental RMAN. O script aloca vários canais para backup e mesclagem RMAN paralelos. A primeira execução geraria a cópia inicial da imagem de linha de base completa. Em uma execução completa, ele primeiro limpa backups obsoletos que estão fora da janela de retenção para manter a área de teste limpa. Em seguida, ele alterna o arquivo de log atual antes de mesclar e fazer backup. O backup incremental segue a mesclagem de modo que a cópia de imagem do banco de dados esteja perdendo o estado atual do banco de dados por um ciclo de backup/mesclagem. A ordem de mesclagem e backup pode ser revertida para uma recuperação mais rápida de acordo com a preferência do usuário. O script RMAN pode ser integrado em um script shell simples para ser executado a partir do crontab no servidor de banco de dados primário. Certifique-se de que o backup automático do arquivo de controle esteja ativado na configuração RMAN.
++
+....
+vi /home/oracle/rman_bkup_merge.cmd
+
+Add following lines:
+
+RUN
+{
+  allocate channel c1 device type disk format '/nfsanf/oracopy/%U';
+  allocate channel c2 device type disk format '/nfsanf/oracopy/%U';
+  allocate channel c3 device type disk format '/nfsanf/oracopy/%U';
+  allocate channel c4 device type disk format '/nfsanf/oracopy/%U';
+  delete obsolete;
+  sql 'alter system archive log current';
+  recover copy of database with tag 'OraCopyBKUPonANF_level_0';
+  backup incremental level 1 copies=1 for recover of copy with tag 'OraCopyBKUPonANF_level_0' database;
+}
+
+
+....
+. No servidor Oracle VLDB primário, faça login no RMAN localmente como usuário oracle com ou sem catálogo RMAN. Nesta demonstração, não estamos nos conetando a um catálogo RMAN.
++
+....
+
+rman target / nocatalog;
+
+output:
+
+[oracle@ora-01 ~]$ rman target / nocatalog
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Wed Mar 20 16:54:24 2024
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: NTAP1 (DBID=2441823937)
+using target database control file instead of recovery catalog
+
+....
+. No prompt do RMAN, execute o script. A primeira execução cria uma cópia de imagem de base de dados e execuções subsequentes mesclam e atualizam a cópia de imagem de linha de base de dados de forma incremental. O seguinte é como executar o script e a saída típica. Defina o número de canais para corresponder aos núcleos da CPU no host.
++
+....
+
+RMAN> @/home/oracle/rman_bkup_merge.cmd
+
+RMAN> RUN
+2> {
+3>   allocate channel c1 device type disk format '/nfsanf/oracopy/%U';
+4>   allocate channel c2 device type disk format '/nfsanf/oracopy/%U';
+5>   allocate channel c3 device type disk format '/nfsanf/oracopy/%U';
+6>   allocate channel c4 device type disk format '/nfsanf/oracopy/%U';
+7>   delete obsolete;
+8>   sql 'alter system archive log current';
+9>   recover copy of database with tag 'OraCopyBKUPonANF_level_0';
+10>   backup incremental level 1 copies=1 for recover of copy with tag 'OraCopyBKUPonANF_level_0' database;
+11> }
+allocated channel: c1
+channel c1: SID=142 device type=DISK
+
+allocated channel: c2
+channel c2: SID=277 device type=DISK
+
+allocated channel: c3
+channel c3: SID=414 device type=DISK
+
+allocated channel: c4
+channel c4: SID=28 device type=DISK
+
+RMAN retention policy will be applied to the command
+RMAN retention policy is set to redundancy 1
+Deleting the following obsolete backups and copies:
+Type                 Key    Completion Time    Filename/Handle
+-------------------- ------ ------------------ --------------------
+Backup Set           1      18-MAR-24
+  Backup Piece       1      18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163958359__04h19dgr_.bkp
+Backup Set           2      18-MAR-24
+  Backup Piece       2      18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163961675__07l1m2lg_.bkp
+Backup Set           3      18-MAR-24
+  Backup Piece       3      18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163962888__08p6y7lx_.bkp
+Backup Set           4      18-MAR-24
+  Backup Piece       4      18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163963796__09k8g1m4_.bkp
+Backup Set           5      18-MAR-24
+  Backup Piece       5      18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163964697__0bd3tqg3_.bkp
+Backup Set           6      18-MAR-24
+  Backup Piece       6      18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163965895__0chx6mzt_.bkp
+Backup Set           7      18-MAR-24
+  Backup Piece       7      18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163966806__0dbyx344_.bkp
+Backup Set           8      18-MAR-24
+  Backup Piece       8      18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163968012__0fgvg805_.bkp
+Backup Set           9      18-MAR-24
+  Backup Piece       9      18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163968919__0g9x5t1v_.bkp
+Backup Set           10     18-MAR-24
+  Backup Piece       10     18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163969821__0h4rfdzj_.bkp
+Backup Set           11     18-MAR-24
+  Backup Piece       11     18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163971026__0j8o4wk8_.bkp
+Backup Set           12     18-MAR-24
+  Backup Piece       12     18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163971931__0k3pnn2o_.bkp
+Backup Set           13     18-MAR-24
+  Backup Piece       13     18-MAR-24          /u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163972835__0kyg92t1_.bkp
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163963796__09k8g1m4_.bkp RECID=4 STAMP=1163963804
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163962888__08p6y7lx_.bkp RECID=3 STAMP=1163962897
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163961675__07l1m2lg_.bkp RECID=2 STAMP=1163961683
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163958359__04h19dgr_.bkp RECID=1 STAMP=1163958361
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163964697__0bd3tqg3_.bkp RECID=5 STAMP=1163964705
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163965895__0chx6mzt_.bkp RECID=6 STAMP=1163965906
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163966806__0dbyx344_.bkp RECID=7 STAMP=1163966814
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163968012__0fgvg805_.bkp RECID=8 STAMP=1163968018
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163968919__0g9x5t1v_.bkp RECID=9 STAMP=1163968926
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163969821__0h4rfdzj_.bkp RECID=10 STAMP=1163969827
+Deleted 3 objects
+
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163971026__0j8o4wk8_.bkp RECID=11 STAMP=1163971032
+Deleted 3 objects
+
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163971931__0k3pnn2o_.bkp RECID=12 STAMP=1163971938
+Deleted 3 objects
+
+deleted backup piece
+backup piece handle=/u03/orareco/NTAP1/autobackup/2024_03_18/o1_mf_s_1163972835__0kyg92t1_.bkp RECID=13 STAMP=1163972837
+Deleted 4 objects
+
+
+sql statement: alter system archive log current
+
+Starting recover at 20-MAR-24
+no copy of datafile 1 found to recover
+no copy of datafile 3 found to recover
+no copy of datafile 4 found to recover
+.
+.
+no copy of datafile 31 found to recover
+no copy of datafile 32 found to recover
+Finished recover at 20-MAR-24
+
+Starting backup at 20-MAR-24
+no parent backup or copy of datafile 1 found
+no parent backup or copy of datafile 3 found
+no parent backup or copy of datafile 4 found
+.
+.
+no parent backup or copy of datafile 19 found
+no parent backup or copy of datafile 20 found
+channel c1: starting datafile copy
+input datafile file number=00021 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_01.dbf
+channel c2: starting datafile copy
+input datafile file number=00022 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_02.dbf
+channel c3: starting datafile copy
+input datafile file number=00023 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_03.dbf
+channel c4: starting datafile copy
+input datafile file number=00024 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_04.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-22_0g2m6brl tag=ORACOPYBKUPONANF_LEVEL_0 RECID=4 STAMP=1164132108
+channel c2: datafile copy complete, elapsed time: 01:06:39
+channel c2: starting datafile copy
+input datafile file number=00025 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_05.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-24_0i2m6brl tag=ORACOPYBKUPONANF_LEVEL_0 RECID=5 STAMP=1164132121
+channel c4: datafile copy complete, elapsed time: 01:06:45
+channel c4: starting datafile copy
+input datafile file number=00026 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_06.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-23_0h2m6brl tag=ORACOPYBKUPONANF_LEVEL_0 RECID=6 STAMP=1164132198
+channel c3: datafile copy complete, elapsed time: 01:08:05
+channel c3: starting datafile copy
+input datafile file number=00027 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_07.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-21_0f2m6brl tag=ORACOPYBKUPONANF_LEVEL_0 RECID=7 STAMP=1164132248
+channel c1: datafile copy complete, elapsed time: 01:08:57
+channel c1: starting datafile copy
+input datafile file number=00028 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_08.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-25_0j2m6fol tag=ORACOPYBKUPONANF_LEVEL_0 RECID=9 STAMP=1164136123
+channel c2: datafile copy complete, elapsed time: 01:06:46
+channel c2: starting datafile copy
+input datafile file number=00029 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_09.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-26_0k2m6fot tag=ORACOPYBKUPONANF_LEVEL_0 RECID=8 STAMP=1164136113
+channel c4: datafile copy complete, elapsed time: 01:06:36
+channel c4: starting datafile copy
+input datafile file number=00030 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_10.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-27_0l2m6frc tag=ORACOPYBKUPONANF_LEVEL_0 RECID=10 STAMP=1164136293
+channel c3: datafile copy complete, elapsed time: 01:08:10
+channel c3: starting datafile copy
+input datafile file number=00031 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_11.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-28_0m2m6fsu tag=ORACOPYBKUPONANF_LEVEL_0 RECID=11 STAMP=1164136333
+channel c1: datafile copy complete, elapsed time: 01:07:52
+channel c1: starting datafile copy
+input datafile file number=00032 name=/u02/oradata/NTAP1/NTAP1_pdb1/soe_12.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-29_0n2m6jlr tag=ORACOPYBKUPONANF_LEVEL_0 RECID=12 STAMP=1164140082
+channel c2: datafile copy complete, elapsed time: 01:06:01
+channel c2: starting datafile copy
+input datafile file number=00001 name=/u02/oradata/NTAP1/system01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-30_0o2m6jlr tag=ORACOPYBKUPONANF_LEVEL_0 RECID=13 STAMP=1164140190
+channel c4: datafile copy complete, elapsed time: 01:07:49
+channel c4: starting datafile copy
+input datafile file number=00003 name=/u02/oradata/NTAP1/sysaux01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-1_0r2m6nhk tag=ORACOPYBKUPONANF_LEVEL_0 RECID=14 STAMP=1164140240
+channel c2: datafile copy complete, elapsed time: 00:02:38
+channel c2: starting datafile copy
+input datafile file number=00004 name=/u02/oradata/NTAP1/undotbs01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-4_0t2m6nml tag=ORACOPYBKUPONANF_LEVEL_0 RECID=15 STAMP=1164140372
+channel c2: datafile copy complete, elapsed time: 00:02:15
+channel c2: starting datafile copy
+input datafile file number=00011 name=/u02/oradata/NTAP1/NTAP1_pdb1/undotbs01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-3_0s2m6nl1 tag=ORACOPYBKUPONANF_LEVEL_0 RECID=16 STAMP=1164140377
+channel c4: datafile copy complete, elapsed time: 00:03:01
+channel c4: starting datafile copy
+input datafile file number=00010 name=/u02/oradata/NTAP1/NTAP1_pdb1/sysaux01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-32_0q2m6jsi tag=ORACOPYBKUPONANF_LEVEL_0 RECID=17 STAMP=1164140385
+channel c1: datafile copy complete, elapsed time: 01:07:29
+channel c1: starting datafile copy
+input datafile file number=00014 name=/u02/oradata/NTAP1/NTAP1_pdb2/sysaux01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-31_0p2m6jrb tag=ORACOPYBKUPONANF_LEVEL_0 RECID=18 STAMP=1164140406
+channel c3: datafile copy complete, elapsed time: 01:08:31
+channel c3: starting datafile copy
+input datafile file number=00018 name=/u02/oradata/NTAP1/NTAP1_pdb3/sysaux01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-10_0v2m6nqs tag=ORACOPYBKUPONANF_LEVEL_0 RECID=19 STAMP=1164140459
+channel c4: datafile copy complete, elapsed time: 00:01:26
+channel c4: starting datafile copy
+input datafile file number=00006 name=/u02/oradata/NTAP1/pdbseed/sysaux01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-14_102m6nr3 tag=ORACOPYBKUPONANF_LEVEL_0 RECID=20 STAMP=1164140468
+channel c1: datafile copy complete, elapsed time: 00:01:22
+channel c1: starting datafile copy
+input datafile file number=00009 name=/u02/oradata/NTAP1/NTAP1_pdb1/system01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-11_0u2m6nqs tag=ORACOPYBKUPONANF_LEVEL_0 RECID=21 STAMP=1164140471
+channel c2: datafile copy complete, elapsed time: 00:01:33
+channel c2: starting datafile copy
+input datafile file number=00013 name=/u02/oradata/NTAP1/NTAP1_pdb2/system01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-18_112m6nrt tag=ORACOPYBKUPONANF_LEVEL_0 RECID=22 STAMP=1164140476
+channel c3: datafile copy complete, elapsed time: 00:00:57
+channel c3: starting datafile copy
+input datafile file number=00017 name=/u02/oradata/NTAP1/NTAP1_pdb3/system01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-6_122m6nti tag=ORACOPYBKUPONANF_LEVEL_0 RECID=23 STAMP=1164140488
+channel c4: datafile copy complete, elapsed time: 00:00:25
+channel c4: starting datafile copy
+input datafile file number=00005 name=/u02/oradata/NTAP1/pdbseed/system01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-13_142m6ntp tag=ORACOPYBKUPONANF_LEVEL_0 RECID=24 STAMP=1164140532
+channel c2: datafile copy complete, elapsed time: 00:01:06
+channel c2: starting datafile copy
+input datafile file number=00008 name=/u02/oradata/NTAP1/pdbseed/undotbs01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-17_152m6nts tag=ORACOPYBKUPONANF_LEVEL_0 RECID=25 STAMP=1164140539
+channel c3: datafile copy complete, elapsed time: 00:01:03
+channel c3: starting datafile copy
+input datafile file number=00015 name=/u02/oradata/NTAP1/NTAP1_pdb2/undotbs01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-9_132m6ntm tag=ORACOPYBKUPONANF_LEVEL_0 RECID=26 STAMP=1164140541
+channel c1: datafile copy complete, elapsed time: 00:01:13
+channel c1: starting datafile copy
+input datafile file number=00019 name=/u02/oradata/NTAP1/NTAP1_pdb3/undotbs01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-5_162m6nuc tag=ORACOPYBKUPONANF_LEVEL_0 RECID=27 STAMP=1164140541
+channel c4: datafile copy complete, elapsed time: 00:00:41
+channel c4: starting datafile copy
+input datafile file number=00007 name=/u02/oradata/NTAP1/users01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-8_172m6nvr tag=ORACOPYBKUPONANF_LEVEL_0 RECID=28 STAMP=1164140552
+channel c2: datafile copy complete, elapsed time: 00:00:16
+channel c2: starting datafile copy
+input datafile file number=00012 name=/u02/oradata/NTAP1/NTAP1_pdb1/users01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-15_182m6nvs tag=ORACOPYBKUPONANF_LEVEL_0 RECID=30 STAMP=1164140561
+channel c3: datafile copy complete, elapsed time: 00:00:24
+channel c3: starting datafile copy
+input datafile file number=00016 name=/u02/oradata/NTAP1/NTAP1_pdb2/users01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-7_1a2m6o01 tag=ORACOPYBKUPONANF_LEVEL_0 RECID=29 STAMP=1164140560
+channel c4: datafile copy complete, elapsed time: 00:00:16
+channel c4: starting datafile copy
+input datafile file number=00020 name=/u02/oradata/NTAP1/NTAP1_pdb3/users01.dbf
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-19_192m6nvv tag=ORACOPYBKUPONANF_LEVEL_0 RECID=31 STAMP=1164140564
+channel c1: datafile copy complete, elapsed time: 00:00:21
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-12_1b2m6o0e tag=ORACOPYBKUPONANF_LEVEL_0 RECID=32 STAMP=1164140564
+channel c2: datafile copy complete, elapsed time: 00:00:02
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-16_1c2m6o0k tag=ORACOPYBKUPONANF_LEVEL_0 RECID=34 STAMP=1164140565
+channel c3: datafile copy complete, elapsed time: 00:00:01
+output file name=/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-20_1d2m6o0k tag=ORACOPYBKUPONANF_LEVEL_0 RECID=33 STAMP=1164140565
+channel c4: datafile copy complete, elapsed time: 00:00:01
+Finished backup at 20-MAR-24
+
+Starting Control File and SPFILE Autobackup at 20-MAR-24
+piece handle=/nfsanf/archlog/NTAP1/autobackup/2024_03_20/o1_mf_s_1164140565__5g56ypks_.bkp comment=NONE
+Finished Control File and SPFILE Autobackup at 20-MAR-24
+released channel: c1
+released channel: c2
+released channel: c3
+released channel: c4
+
+RMAN> **end-of-file**
+
+RMAN>
+
+
+....
+. Listar cópia de imagem do banco de dados após o backup para observar que uma cópia de imagem do banco de dados foi criada no ponto de montagem de NFS do ANF.
++
+....
+RMAN> list copy of database tag 'OraCopyBKUPonANF_level_0';
+
+List of Datafile Copies
+=======================
+
+Key     File S Completion Time Ckp SCN    Ckp Time        Sparse
+------- ---- - --------------- ---------- --------------- ------
+14      1    A 20-MAR-24       4161498    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-1_0r2m6nhk
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+
+16      3    A 20-MAR-24       4161568    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-3_0s2m6nl1
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+
+15      4    A 20-MAR-24       4161589    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-4_0t2m6nml
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+
+27      5    A 20-MAR-24       2379694    18-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-5_162m6nuc
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 2, PDB Name: PDB$SEED
+
+23      6    A 20-MAR-24       2379694    18-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-6_122m6nti
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 2, PDB Name: PDB$SEED
+
+29      7    A 20-MAR-24       4161872    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-7_1a2m6o01
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+
+28      8    A 20-MAR-24       2379694    18-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-8_172m6nvr
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 2, PDB Name: PDB$SEED
+
+26      9    A 20-MAR-24       4161835    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-9_132m6ntm
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+19      10   A 20-MAR-24       4161784    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-10_0v2m6nqs
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+21      11   A 20-MAR-24       4161780    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-11_0u2m6nqs
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+32      12   A 20-MAR-24       4161880    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-12_1b2m6o0e
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+24      13   A 20-MAR-24       4161838    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-13_142m6ntp
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 4, PDB Name: NTAP1_PDB2
+
+20      14   A 20-MAR-24       4161785    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-14_102m6nr3
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 4, PDB Name: NTAP1_PDB2
+
+30      15   A 20-MAR-24       4161863    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-15_182m6nvs
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 4, PDB Name: NTAP1_PDB2
+
+34      16   A 20-MAR-24       4161884    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-16_1c2m6o0k
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 4, PDB Name: NTAP1_PDB2
+
+25      17   A 20-MAR-24       4161841    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-17_152m6nts
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 5, PDB Name: NTAP1_PDB3
+
+22      18   A 20-MAR-24       4161810    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-18_112m6nrt
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 5, PDB Name: NTAP1_PDB3
+
+31      19   A 20-MAR-24       4161869    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-19_192m6nvv
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 5, PDB Name: NTAP1_PDB3
+
+33      20   A 20-MAR-24       4161887    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-20_1d2m6o0k
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 5, PDB Name: NTAP1_PDB3
+
+7       21   A 20-MAR-24       4152514    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-21_0f2m6brl
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+4       22   A 20-MAR-24       4152518    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-22_0g2m6brl
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+6       23   A 20-MAR-24       4152522    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-23_0h2m6brl
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+5       24   A 20-MAR-24       4152529    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-24_0i2m6brl
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+9       25   A 20-MAR-24       4156120    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-25_0j2m6fol
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+8       26   A 20-MAR-24       4156130    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-26_0k2m6fot
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+10      27   A 20-MAR-24       4156159    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-27_0l2m6frc
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+11      28   A 20-MAR-24       4156183    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-28_0m2m6fsu
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+12      29   A 20-MAR-24       4158795    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-29_0n2m6jlr
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+13      30   A 20-MAR-24       4158803    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-30_0o2m6jlr
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+18      31   A 20-MAR-24       4158871    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-31_0p2m6jrb
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+17      32   A 20-MAR-24       4158886    20-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-32_0q2m6jsi
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+....
+. Esquema de relatório do prompt de comando Oracle RMAN para observar que os arquivos de dados VLDB atuais estão no armazenamento primário.
++
+....
+
+RMAN> report schema;
+
+Report of database schema for database with db_unique_name NTAP1
+
+List of Permanent Datafiles
+===========================
+File Size(MB) Tablespace           RB segs Datafile Name
+---- -------- -------------------- ------- ------------------------
+1    1060     SYSTEM               YES     /u02/oradata/NTAP1/system01.dbf
+3    1000     SYSAUX               NO      /u02/oradata/NTAP1/sysaux01.dbf
+4    695      UNDOTBS1             YES     /u02/oradata/NTAP1/undotbs01.dbf
+5    400      PDB$SEED:SYSTEM      NO      /u02/oradata/NTAP1/pdbseed/system01.dbf
+6    440      PDB$SEED:SYSAUX      NO      /u02/oradata/NTAP1/pdbseed/sysaux01.dbf
+7    5        USERS                NO      /u02/oradata/NTAP1/users01.dbf
+8    235      PDB$SEED:UNDOTBS1    NO      /u02/oradata/NTAP1/pdbseed/undotbs01.dbf
+9    410      NTAP1_PDB1:SYSTEM    YES     /u02/oradata/NTAP1/NTAP1_pdb1/system01.dbf
+10   520      NTAP1_PDB1:SYSAUX    NO      /u02/oradata/NTAP1/NTAP1_pdb1/sysaux01.dbf
+11   580      NTAP1_PDB1:UNDOTBS1  YES     /u02/oradata/NTAP1/NTAP1_pdb1/undotbs01.dbf
+12   5        NTAP1_PDB1:USERS     NO      /u02/oradata/NTAP1/NTAP1_pdb1/users01.dbf
+13   410      NTAP1_PDB2:SYSTEM    YES     /u02/oradata/NTAP1/NTAP1_pdb2/system01.dbf
+14   500      NTAP1_PDB2:SYSAUX    NO      /u02/oradata/NTAP1/NTAP1_pdb2/sysaux01.dbf
+15   235      NTAP1_PDB2:UNDOTBS1  YES     /u02/oradata/NTAP1/NTAP1_pdb2/undotbs01.dbf
+16   5        NTAP1_PDB2:USERS     NO      /u02/oradata/NTAP1/NTAP1_pdb2/users01.dbf
+17   410      NTAP1_PDB3:SYSTEM    YES     /u02/oradata/NTAP1/NTAP1_pdb3/system01.dbf
+18   500      NTAP1_PDB3:SYSAUX    NO      /u02/oradata/NTAP1/NTAP1_pdb3/sysaux01.dbf
+19   235      NTAP1_PDB3:UNDOTBS1  YES     /u02/oradata/NTAP1/NTAP1_pdb3/undotbs01.dbf
+20   5        NTAP1_PDB3:USERS     NO      /u02/oradata/NTAP1/NTAP1_pdb3/users01.dbf
+21   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_01.dbf
+22   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_02.dbf
+23   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_03.dbf
+24   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_04.dbf
+25   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_05.dbf
+26   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_06.dbf
+27   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_07.dbf
+28   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_08.dbf
+29   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_09.dbf
+30   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_10.dbf
+31   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_11.dbf
+32   31744    NTAP1_PDB1:SOE       NO      /u02/oradata/NTAP1/NTAP1_pdb1/soe_12.dbf
+
+List of Temporary Files
+=======================
+File Size(MB) Tablespace           Maxsize(MB) Tempfile Name
+---- -------- -------------------- ----------- --------------------
+1    123      TEMP                 32767       /u02/oradata/NTAP1/temp01.dbf
+2    123      PDB$SEED:TEMP        32767       /u02/oradata/NTAP1/pdbseed/temp012024-03-18_16-07-32-463-PM.dbf
+3    31744    NTAP1_PDB1:TEMP      32767       /u02/oradata/NTAP1/NTAP1_pdb1/temp01.dbf
+4    123      NTAP1_PDB2:TEMP      32767       /u02/oradata/NTAP1/NTAP1_pdb2/temp01.dbf
+5    123      NTAP1_PDB3:TEMP      32767       /u02/oradata/NTAP1/NTAP1_pdb3/temp01.dbf
+6    31744    NTAP1_PDB1:TEMP      31744       /u02/oradata/NTAP1/NTAP1_pdb1/temp02.dbf
+
+RMAN>
+
+
+....
+. Valide a cópia de imagem do banco de dados do ponto de montagem NFS do os.
++
+....
+[oracle@ora-01 ~]$ ls -l /nfsanf/oracopy
+total 399482176
+-rw-r----- 1 oracle oinstall    11600384 Mar 20 21:44 bct_ntap1.ctf
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 18:03 data_D-NTAP1_I-2441823937_TS-SOE_FNO-21_0f2m6brl
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 18:01 data_D-NTAP1_I-2441823937_TS-SOE_FNO-22_0g2m6brl
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 18:03 data_D-NTAP1_I-2441823937_TS-SOE_FNO-23_0h2m6brl
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 18:02 data_D-NTAP1_I-2441823937_TS-SOE_FNO-24_0i2m6brl
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 19:08 data_D-NTAP1_I-2441823937_TS-SOE_FNO-25_0j2m6fol
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 19:08 data_D-NTAP1_I-2441823937_TS-SOE_FNO-26_0k2m6fot
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 19:11 data_D-NTAP1_I-2441823937_TS-SOE_FNO-27_0l2m6frc
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 19:12 data_D-NTAP1_I-2441823937_TS-SOE_FNO-28_0m2m6fsu
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 20:14 data_D-NTAP1_I-2441823937_TS-SOE_FNO-29_0n2m6jlr
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 20:16 data_D-NTAP1_I-2441823937_TS-SOE_FNO-30_0o2m6jlr
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 20:20 data_D-NTAP1_I-2441823937_TS-SOE_FNO-31_0p2m6jrb
+-rw-r----- 1 oracle oinstall 33286004736 Mar 20 20:19 data_D-NTAP1_I-2441823937_TS-SOE_FNO-32_0q2m6jsi
+-rw-r----- 1 oracle oinstall   545267712 Mar 20 20:20 data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-10_0v2m6nqs
+-rw-r----- 1 oracle oinstall   524296192 Mar 20 20:21 data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-14_102m6nr3
+-rw-r----- 1 oracle oinstall   524296192 Mar 20 20:21 data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-18_112m6nrt
+-rw-r----- 1 oracle oinstall  1048584192 Mar 20 20:19 data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-3_0s2m6nl1
+-rw-r----- 1 oracle oinstall   461381632 Mar 20 20:21 data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-6_122m6nti
+-rw-r----- 1 oracle oinstall  1111498752 Mar 20 20:17 data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-1_0r2m6nhk
+-rw-r----- 1 oracle oinstall   429924352 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-13_142m6ntp
+-rw-r----- 1 oracle oinstall   429924352 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-17_152m6nts
+-rw-r----- 1 oracle oinstall   419438592 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-5_162m6nuc
+-rw-r----- 1 oracle oinstall   429924352 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-9_132m6ntm
+-rw-r----- 1 oracle oinstall   608182272 Mar 20 20:21 data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-11_0u2m6nqs
+-rw-r----- 1 oracle oinstall   246423552 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-15_182m6nvs
+-rw-r----- 1 oracle oinstall   246423552 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-19_192m6nvv
+-rw-r----- 1 oracle oinstall   728768512 Mar 20 20:19 data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-4_0t2m6nml
+-rw-r----- 1 oracle oinstall   246423552 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-8_172m6nvr
+-rw-r----- 1 oracle oinstall     5251072 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-USERS_FNO-12_1b2m6o0e
+-rw-r----- 1 oracle oinstall     5251072 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-USERS_FNO-16_1c2m6o0k
+-rw-r----- 1 oracle oinstall     5251072 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-USERS_FNO-20_1d2m6o0k
+-rw-r----- 1 oracle oinstall     5251072 Mar 20 20:22 data_D-NTAP1_I-2441823937_TS-USERS_FNO-7_1a2m6o01
+[oracle@ora-01 ~]$
+
+....
+
+
+Isso conclui a configuração de um backup e mesclagem de cópia de imagem em espera do Oracle VLDB.
+
+====
+
+
+=== Mude o Oracle VLDB para a cópia de imagem para recuperação rápida
+
+[%collapsible]
+====
+No caso de uma falha devido a problemas de storage primário, como perda de dados ou corrupção, o banco de dados pode ser rapidamente comutado para cópia de imagem na montagem de ANF NFS e recuperado para o estado atual sem restauração de banco de dados. A eliminação da restauração de Mídia acelera tremendamente a recuperação do banco de dados para um VLDB. Este caso de uso pressupõe que o servidor Oracle VLDB DB está intacto e o arquivo de controle de banco de dados, os logs arquivados e atuais estão todos disponíveis para recuperação.
+
+. Faça login no host do servidor VLDB primário do Azure como usuário oracle e crie uma tabela de teste antes de alternar.
++
+....
+[oracle@ora-01 ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Thu Mar 21 15:13:52 2024
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.18.0.0.0
+
+SQL> show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 NTAP1_PDB1                     READ WRITE NO
+         4 NTAP1_PDB2                     READ WRITE NO
+         5 NTAP1_PDB3                     READ WRITE NO
+SQL> alter session set container=ntap1_pdb1;
+
+Session altered.
+
+SQL> create table test (id integer, dt timestamp, event varchar(100));
+
+Table created.
+
+SQL> insert into test values(1, sysdate, 'test oracle incremental merge switch to copy');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from test;
+
+        ID
+----------
+DT
+---------------------------------------------------------------------------
+EVENT
+--------------------------------------------------------------------------------
+         1
+21-MAR-24 03.15.03.000000 PM
+test oracle incremental merge switch to copy
+
+
+
+....
+. Simule uma falha desligando o banco de dados de cancelamento e, em seguida, inicie o oracle no estágio de montagem.
++
+....
+
+SQL> shutdown abort;
+ORACLE instance shut down.
+SQL> startup mount;
+ORACLE instance started.
+
+Total System Global Area 6442449688 bytes
+Fixed Size                  9177880 bytes
+Variable Size            1325400064 bytes
+Database Buffers         5100273664 bytes
+Redo Buffers                7598080 bytes
+Database mounted.
+SQL> exit
+
+....
+. Como usuário oracle, conete-se ao banco de dados Oracle via RMAN para alternar banco de dados para copiar.
++
+....
+
+[oracle@ora-01 ~]$ rman target / nocatalog
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Thu Mar 21 15:20:58 2024
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: NTAP1 (DBID=2441823937, not open)
+using target database control file instead of recovery catalog
+
+RMAN> switch database to copy;
+
+datafile 1 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-1_0r2m6nhk"
+datafile 3 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-3_0s2m6nl1"
+datafile 4 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-4_0t2m6nml"
+datafile 5 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-5_162m6nuc"
+datafile 6 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-6_122m6nti"
+datafile 7 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-7_1a2m6o01"
+datafile 8 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-8_172m6nvr"
+datafile 9 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-9_132m6ntm"
+datafile 10 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-10_0v2m6nqs"
+datafile 11 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-11_0u2m6nqs"
+datafile 12 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-12_1b2m6o0e"
+datafile 13 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-13_142m6ntp"
+datafile 14 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-14_102m6nr3"
+datafile 15 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-15_182m6nvs"
+datafile 16 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-16_1c2m6o0k"
+datafile 17 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-17_152m6nts"
+datafile 18 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-18_112m6nrt"
+datafile 19 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-19_192m6nvv"
+datafile 20 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-20_1d2m6o0k"
+datafile 21 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-21_0f2m6brl"
+datafile 22 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-22_0g2m6brl"
+datafile 23 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-23_0h2m6brl"
+datafile 24 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-24_0i2m6brl"
+datafile 25 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-25_0j2m6fol"
+datafile 26 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-26_0k2m6fot"
+datafile 27 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-27_0l2m6frc"
+datafile 28 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-28_0m2m6fsu"
+datafile 29 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-29_0n2m6jlr"
+datafile 30 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-30_0o2m6jlr"
+datafile 31 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-31_0p2m6jrb"
+datafile 32 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-32_0q2m6jsi"
+
+....
+. Recupere e abra o banco de dados para atualizá-lo do último backup incremental.
++
+....
+RMAN> recover database;
+
+Starting recover at 21-MAR-24
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=392 device type=DISK
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: specifying datafile(s) to restore from backup set
+destination for restore of datafile 00009: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-9_0q1sd7cm
+destination for restore of datafile 00023: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-23_041sd6s5
+destination for restore of datafile 00027: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-27_081sd70i
+destination for restore of datafile 00031: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-31_0c1sd74u
+destination for restore of datafile 00034: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-34_0f1sd788
+channel ORA_DISK_1: reading from backup piece /nfsanf/oracopy/321sfous_98_1_1
+channel ORA_DISK_1: piece handle=/nfsanf/oracopy/321sfous_98_1_1 tag=ORACOPYBKUPONANF_LEVEL_0
+channel ORA_DISK_1: restored backup piece 1
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:01
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: specifying datafile(s) to restore from backup set
+destination for restore of datafile 00010: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-10_0k1sd7bb
+destination for restore of datafile 00021: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-21_021sd6pv
+destination for restore of datafile 00025: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-25_061sd6uc
+.
+.
+.
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: specifying datafile(s) to restore from backup set
+destination for restore of datafile 00016: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-16_121sd7dn
+channel ORA_DISK_1: reading from backup piece /nfsanf/oracopy/3i1sfov0_114_1_1
+channel ORA_DISK_1: piece handle=/nfsanf/oracopy/3i1sfov0_114_1_1 tag=ORACOPYBKUPONANF_LEVEL_0
+channel ORA_DISK_1: restored backup piece 1
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:01
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: specifying datafile(s) to restore from backup set
+destination for restore of datafile 00020: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-20_131sd7do
+channel ORA_DISK_1: reading from backup piece /nfsanf/oracopy/3j1sfov0_115_1_1
+channel ORA_DISK_1: piece handle=/nfsanf/oracopy/3j1sfov0_115_1_1 tag=ORACOPYBKUPONANF_LEVEL_0
+channel ORA_DISK_1: restored backup piece 1
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:01
+
+starting media recovery
+media recovery complete, elapsed time: 00:00:01
+
+Finished recover at 21-MAR-24
+
+RMAN> alter database open;
+
+Statement processed
+
+RMAN>
+
+....
+. Verifique a estrutura do banco de dados do sqlplus após a recuperação para observar que todos os arquivos de dados do VLDB, com exceção dos arquivos de controle, temp e log atuais, agora são comutados para copiar no sistema de arquivos NFS do ANF.
++
+....
+
+SQL> select name from v$datafile
+  2  union
+  3  select name from v$tempfile
+  4  union
+  5  select name from v$controlfile
+  6  union
+  7* select member from v$logfile
+SQL> /
+
+NAME
+--------------------------------------------------------------------------------
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-21_0f2m6brl
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-22_0g2m6brl
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-23_0h2m6brl
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-24_0i2m6brl
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-25_0j2m6fol
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-26_0k2m6fot
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-27_0l2m6frc
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-28_0m2m6fsu
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-29_0n2m6jlr
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-30_0o2m6jlr
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-31_0p2m6jrb
+
+NAME
+--------------------------------------------------------------------------------
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-32_0q2m6jsi
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-10_0v2m6nqs
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-14_102m6nr3
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-18_112m6nrt
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-3_0s2m6nl1
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-6_122m6nti
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-13_142m6ntp
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-17_152m6nts
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-1_0r2m6nhk
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-5_162m6nuc
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-9_132m6ntm
+
+NAME
+--------------------------------------------------------------------------------
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-11_0u2m6nqs
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-15_182m6nvs
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-19_192m6nvv
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-4_0t2m6nml
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-8_172m6nvr
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-12_1b2m6o0e
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-16_1c2m6o0k
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-20_1d2m6o0k
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-7_1a2m6o01
+/u02/oradata/NTAP1/NTAP1_pdb1/temp01.dbf
+/u02/oradata/NTAP1/NTAP1_pdb1/temp02.dbf
+
+NAME
+--------------------------------------------------------------------------------
+/u02/oradata/NTAP1/NTAP1_pdb2/temp01.dbf
+/u02/oradata/NTAP1/NTAP1_pdb3/temp01.dbf
+/u02/oradata/NTAP1/control01.ctl
+/u02/oradata/NTAP1/pdbseed/temp012024-03-18_16-07-32-463-PM.dbf
+/u02/oradata/NTAP1/temp01.dbf
+/u03/orareco/NTAP1/control02.ctl
+/u03/orareco/NTAP1/onlinelog/redo01.log
+/u03/orareco/NTAP1/onlinelog/redo02.log
+/u03/orareco/NTAP1/onlinelog/redo03.log
+
+42 rows selected.
+
+....
+. A partir do SQL Plus, verifique o conteúdo da tabela de teste que inserimos antes da mudança para copiar.
++
+....
+
+SQL> alter session set container=ntap1_pdb1;
+
+Session altered.
+
+SQL> select * from test;
+
+        ID
+----------
+DT
+---------------------------------------------------------------------------
+EVENT
+--------------------------------------------------------------------------------
+         1
+21-MAR-24 03.15.03.000000 PM
+test oracle incremental merge switch to copy
+
+
+SQL>
+
+
+....
+. Você pode executar o Oracle VLDB no suporte do ANF NFS por um período prolongado de tempo, mantendo o nível de performance esperado. Quando o problema de armazenamento principal é corrigido, você pode reverter para ele invertendo os processos de mesclagem de backup incremental com tempo de inatividade mínimo.
+
+
+====
+
+
+=== Recuperação do Oracle VLDB de cópia de imagem para um servidor de banco de dados de reserva
+
+[%collapsible]
+====
+No caso de uma falha em que o armazenamento primário e o host do servidor de banco de dados primário sejam perdidos, a recuperação não pode ser executada a partir do servidor original. No entanto, sua cópia de imagem de backup do banco de dados Oracle disponível no sistema de arquivos ANF NFS é útil. Você pode recuperar rapidamente o banco de dados principal para um servidor de banco de dados de reserva, se estiver disponível, usando a cópia de imagem de backup. Nesta seção, demonstraremos os procedimentos passo a passo para tal recuperação.
+
+. Insira uma linha para a tabela de teste que criamos anteriormente para a restauração do Oracle VLDB para validação de host alternativo.
++
+....
+
+SQL> insert into test values(2, sysdate, 'test recovery on a new Azure VM host with image copy on ANF');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from test;
+
+        ID
+----------
+DT
+---------------------------------------------------------------------------
+EVENT
+--------------------------------------------------------------------------------
+         1
+21-MAR-24 03.15.03.000000 PM
+test oracle incremental merge switch to copy
+
+         2
+22-MAR-24 02.22.06.000000 PM
+test recovery on a new Azure VM host with image copy on ANF
+
+        ID
+----------
+DT
+---------------------------------------------------------------------------
+EVENT
+--------------------------------------------------------------------------------
+
+
+SQL>
+
+....
+. Como usuário oracle, execute o backup incremental RMAN e o merge para liberar a transação para o conjunto de backup na montagem de NFS do ANF.
++
+....
+[oracle@ip-172-30-15-99 ~]$ rman target / nocatalog
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Tue May 30 17:26:03 2023
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: NTAP1 (DBID=2441823937)
+using target database control file instead of recovery catalog
+
+RMAN> @rman_bkup_merge.cmd
+
+....
+. Encerre o host de servidor VLDB primário para simular uma falha total do armazenamento e do host de servidor de banco de dados.
+. No servidor de banco de dados de reserva ora-02 com o mesmo SO e versão, os kernal deve ser corrigido como host de servidor VLDB primário. Além disso, a mesma versão e patches do Oracle foi instalada e configurada no servidor de banco de dados de reserva com opção somente de software.
+. Configurar o ambiente oracle de forma semelhante ao servidor VLDB primário ora_01, como oratab, oracle user .bash_profile etc. é uma boa prática fazer backup desses arquivos para o ponto de montagem do ANF NFS.
+. A cópia de imagem de backup do banco de dados Oracle no sistema de arquivos NFS do ANF é então montada no servidor de banco de dados de reserva para recuperação. Os procedimentos a seguir demonstram os detalhes do processo.
++
+Como azueruser, crie o ponto de montagem.
+
++
+[source, cli]
+----
+sudo mkdir /nfsanf
+----
++
+Como azureuser, monte o volume NFS que armazenou a cópia de imagem de backup do Oracle VLDB.
+
++
+[source, cli]
+----
+sudo mount 172.30.136.68:/ora-01-u02-copy /nfsanf -o rw,bg,hard,vers=3,proto=tcp,timeo=600,rsize=262144,wsize=262144,nointr
+----
+. Valide a cópia de imagem de backup do banco de dados Oracle no ponto de montagem do ANF NFS.
++
+....
+
+[oracle@ora-02 ~]$ ls -ltr /nfsanf/oracopy/
+total 400452728
+-rw-r-----. 1 oracle oinstall   461381632 Mar 21 23:47 data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-6_242m9oan
+-rw-r-----. 1 oracle oinstall   419438592 Mar 21 23:49 data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-5_282m9oem
+-rw-r-----. 1 oracle oinstall   246423552 Mar 21 23:49 data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-8_292m9oem
+-rw-r-----. 1 oracle oinstall    21438464 Mar 22 14:35 2h2mbccv_81_1_1
+-rw-r-----. 1 oracle oinstall    17956864 Mar 22 14:35 2i2mbcd0_82_1_1
+-rw-r-----. 1 oracle oinstall    17956864 Mar 22 14:35 2j2mbcd1_83_1_1
+-rw-r-----. 1 oracle oinstall    15245312 Mar 22 14:35 2k2mbcd3_84_1_1
+-rw-r-----. 1 oracle oinstall     1638400 Mar 22 14:35 2m2mbcdn_86_1_1
+-rw-r-----. 1 oracle oinstall    40042496 Mar 22 14:35 2l2mbcdn_85_1_1
+-rw-r-----. 1 oracle oinstall    21856256 Mar 22 14:35 2n2mbcdo_87_1_1
+-rw-r-----. 1 oracle oinstall     3710976 Mar 22 14:35 2o2mbcdv_88_1_1
+-rw-r-----. 1 oracle oinstall     3416064 Mar 22 14:35 2p2mbcdv_89_1_1
+-rw-r-----. 1 oracle oinstall     2596864 Mar 22 14:35 2r2mbce0_91_1_1
+-rw-r-----. 1 oracle oinstall     2531328 Mar 22 14:35 2s2mbce1_92_1_1
+-rw-r-----. 1 oracle oinstall     4718592 Mar 22 14:35 2v2mbce2_95_1_1
+-rw-r-----. 1 oracle oinstall     4243456 Mar 22 14:35 302mbce2_96_1_1
+-rw-r-----. 1 oracle oinstall       57344 Mar 22 14:35 312mbce3_97_1_1
+-rw-r-----. 1 oracle oinstall       57344 Mar 22 14:35 322mbce3_98_1_1
+-rw-r-----. 1 oracle oinstall       57344 Mar 22 14:35 332mbce3_99_1_1
+-rw-r-----. 1 oracle oinstall   608182272 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-11_202m9o22
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-30_1q2m9k7a
+-rw-r-----. 1 oracle oinstall   555753472 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-10_212m9o52
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-26_1m2m9g9j
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-27_1n2m9gcg
+-rw-r-----. 1 oracle oinstall   429924352 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-9_252m9oc5
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-22_1i2m9cap
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-23_1j2m9cap
+-rw-r-----. 1 oracle oinstall     5251072 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-USERS_FNO-12_2d2m9ofs
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-28_1o2m9gd4
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-31_1r2m9kfk
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-29_1p2m9ju6
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-32_1s2m9kgg
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-25_1l2m9g3u
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-24_1k2m9cap
+-rw-r-----. 1 oracle oinstall 33286004736 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SOE_FNO-21_1h2m9cap
+-rw-r-----. 1 oracle oinstall  1121984512 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-1_1t2m9nij
+-rw-r-----. 1 oracle oinstall  1142956032 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-3_1u2m9nog
+-rw-r-----. 1 oracle oinstall   728768512 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-4_1v2m9nu6
+-rw-r-----. 1 oracle oinstall   534781952 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-14_222m9o53
+-rw-r-----. 1 oracle oinstall   534781952 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-18_232m9oa8
+-rw-r-----. 1 oracle oinstall   429924352 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-13_262m9oca
+-rw-r-----. 1 oracle oinstall   246423552 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-15_2a2m9of6
+-rw-r-----. 1 oracle oinstall   429924352 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-17_272m9oel
+-rw-r-----. 1 oracle oinstall     5251072 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-USERS_FNO-7_2c2m9ofn
+-rw-r-----. 1 oracle oinstall     5251072 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-USERS_FNO-16_2e2m9og8
+-rw-r-----. 1 oracle oinstall   246423552 Mar 22 15:31 data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-19_2b2m9ofn
+-rw-r-----. 1 oracle oinstall     5251072 Mar 22 15:32 data_D-NTAP1_I-2441823937_TS-USERS_FNO-20_2f2m9og8
+-rw-r-----. 1 oracle oinstall    76546048 Mar 22 15:37 362mbft5_102_1_1
+-rw-r-----. 1 oracle oinstall    14671872 Mar 22 15:37 392mbg1i_105_1_1
+-rw-r-----. 1 oracle oinstall    79462400 Mar 22 15:37 372mbftb_103_1_1
+-rw-r-----. 1 oracle oinstall      917504 Mar 22 15:37 3a2mbg23_106_1_1
+-rw-r-----. 1 oracle oinstall   428498944 Mar 22 15:37 352mbfst_101_1_1
+-rw-r-----. 1 oracle oinstall    88702976 Mar 22 15:37 382mbftm_104_1_1
+-rw-r-----. 1 oracle oinstall     5021696 Mar 22 15:37 3b2mbg2b_107_1_1
+-rw-r-----. 1 oracle oinstall      278528 Mar 22 15:38 3c2mbg2f_108_1_1
+-rw-r-----. 1 oracle oinstall      278528 Mar 22 15:38 3d2mbg2i_109_1_1
+-rw-r-----. 1 oracle oinstall      425984 Mar 22 15:38 3f2mbg2m_111_1_1
+-rw-r-----. 1 oracle oinstall      442368 Mar 22 15:38 3g2mbg2q_112_1_1
+-rw-r-----. 1 oracle oinstall      278528 Mar 22 15:38 3j2mbg37_115_1_1
+-rw-r-----. 1 oracle oinstall      270336 Mar 22 15:38 3k2mbg3a_116_1_1
+-rw-r-----. 1 oracle oinstall       57344 Mar 22 15:38 3l2mbg3f_117_1_1
+-rw-r-----. 1 oracle oinstall       57344 Mar 22 15:38 3n2mbg3k_119_1_1
+-rw-r-----. 1 oracle oinstall       57344 Mar 22 15:38 3m2mbg3g_118_1_1
+-rw-r-----. 1 oracle oinstall    11600384 Mar 22 15:52 bct_ntap1.ctf
+[oracle@ora-02 ~]$
+
+....
+. Verifique os logs arquivados Oracle disponíveis na montagem do ANF NFS para recuperação e observe o último número de sequência de log de arquivo de log. Neste caso, é 10. Nosso ponto de recuperação é até o número de sequência de Registro 11.
++
+....
+[oracle@ora-02 ~]$ ls -ltr /nfsanf/archlog/NTAP1/archivelog/2024_03_22
+total 1429548
+-r--r-----. 1 oracle oinstall 176650752 Mar 22 12:00 o1_mf_1_2__9m198x6t_.arc
+-r--r-----. 1 oracle oinstall  17674752 Mar 22 14:34 o1_mf_1_3__9vn701r5_.arc
+-r--r-----. 1 oracle oinstall 188782080 Mar 22 15:20 o1_mf_1_4__9y6gn5co_.arc
+-r--r-----. 1 oracle oinstall 183638016 Mar 22 15:21 o1_mf_1_5__9y7p68s6_.arc
+-r--r-----. 1 oracle oinstall 193106944 Mar 22 15:21 o1_mf_1_6__9y8ygtss_.arc
+-r--r-----. 1 oracle oinstall 179439104 Mar 22 15:22 o1_mf_1_7__9ybjdp55_.arc
+-r--r-----. 1 oracle oinstall 198815232 Mar 22 15:23 o1_mf_1_8__9yctxjgy_.arc
+-r--r-----. 1 oracle oinstall 185494528 Mar 22 15:24 o1_mf_1_9__9yfrj0b1_.arc
+-r--r-----. 1 oracle oinstall 134470144 Mar 22 15:29 o1_mf_1_10__9yomybbc_.arc
+[oracle@ora-02 ~]$
+
+....
+. Como usuário oracle, defina a variável Oracle_HOME para a instalação atual do Oracle no servidor DB de reserva ora-02, ORACLE_SID para SID de instância primária do Oracle. Neste caso, é NTAP1.
++
+....
+
+[oracle@ora-02 ~]$ export ORACLE_HOME=/u01/app/oracle/product/19.0.0/NTAP2
+[oracle@ora-02 ~]$ export ORACLE_SID=NTAP1
+[oracle@ora-02 ~]$ export PATH=$PATH:$ORACLE_HOME/bin
+
+....
+. Como usuário oracle, crie um arquivo init genérico do Oracle no diretório Oracle_Home/dbs com diretórios de administração adequados configurados. O mais importante é que a Oracle `flash recovery area` aponte para o caminho de montagem de NFS do ANF, conforme definido no servidor Oracle VLDB primário.  `flash recovery area` a configuração é demonstrada na `Setup Oracle RMAN incremental merge to image copy on ANF`secção . Defina o arquivo de controle Oracle para o sistema de arquivos ANF NFS.
++
+[source, cli]
+----
+vi $ORACLE_HOME/dbs/initNTAP1.ora
+----
++
+Com as seguintes entradas de exemplo:
+
++
+....
+
+*.audit_file_dest='/u01/app/oracle/admin/NTAP1/adump'
+*.audit_trail='db'
+*.compatible='19.0.0'
+*.control_files=('/nfsanf/oracopy/NTAP1.ctl')
+*.db_block_size=8192
+*.db_create_file_dest='/nfsanf/oracopy/'
+*.db_domain='solutions.netapp.com'
+*.db_name='NTAP1'
+*.db_recovery_file_dest_size=85899345920
+*.db_recovery_file_dest='/nfsanf/archlog/'
+*.diagnostic_dest='/u01/app/oracle'
+*.dispatchers='(PROTOCOL=TCP) (SERVICE=NTAP1XDB)'
+*.enable_pluggable_database=true
+*.local_listener='LISTENER'
+*.nls_language='AMERICAN'
+*.nls_territory='AMERICA'
+*.open_cursors=300
+*.pga_aggregate_target=1024m
+*.processes=320
+*.remote_login_passwordfile='EXCLUSIVE'
+*.sga_target=10240m
+*.undo_tablespace='UNDOTBS1'
+
+....
++
+O arquivo init acima deve ser substituído pelo arquivo init de backup restaurado do servidor Oracle VLDB primário no caso de discrepância.
+
+. Como usuário oracle, inicie o RMAN para executar a recuperação Oracle no host de servidor de banco de dados de reserva. Primeiro, inicie a instância Oracle no `nomount` estado.
++
+....
+
+[oracle@ora-02 ~]$ rman target / nocatalog
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Fri Mar 22 16:02:55 2024
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database (not started)
+
+RMAN> startup nomount;
+
+Oracle instance started
+
+Total System Global Area   10737418000 bytes
+
+Fixed Size                     9174800 bytes
+Variable Size               1577058304 bytes
+Database Buffers            9126805504 bytes
+Redo Buffers                  24379392 bytes
+
+....
+. Definir ID da base de dados. O ID do banco de dados pode ser recuperado do nome do arquivo Oracle da cópia de imagem no ponto de montagem do ANF NFS.
++
+....
+
+RMAN> set dbid = 2441823937;
+
+executing command: SET DBID
+
+....
+. Restaure o arquivo de controle a partir do backup automático. Se o Oracle controlfile e o spfile autobackup estiverem ativados, eles serão copiados em cada ciclo incremental de backup e mesclagem. O backup mais recente será restaurado se houver várias cópias disponíveis.
++
+....
+
+RMAN> restore controlfile from autobackup;
+
+Starting restore at 22-MAR-24
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=2 device type=DISK
+
+recovery area destination: /nfsanf/archlog/
+database name (or database unique name) used for search: NTAP1
+channel ORA_DISK_1: AUTOBACKUP /nfsanf/archlog/NTAP1/autobackup/2024_03_22/o1_mf_s_1164296325__9z77zyxb_.bkp found in the recovery area
+channel ORA_DISK_1: looking for AUTOBACKUP on day: 20240322
+channel ORA_DISK_1: restoring control file from AUTOBACKUP /nfsanf/archlog/NTAP1/autobackup/2024_03_22/o1_mf_s_1164296325__9z77zyxb_.bkp
+channel ORA_DISK_1: control file restore from AUTOBACKUP complete
+output file name=/nfsanf/oracopy/NTAP1.ctl
+Finished restore at 22-MAR-24
+
+....
+. Restaure o arquivo init do spfile para uma pasta /tmp para atualizar o arquivo de parâmetro mais tarde para corresponder ao VLDB primário.
++
+....
+
+RMAN> restore spfile to pfile '/tmp/archive/initNTAP1.ora' from autobackup;
+
+Starting restore at 22-MAR-24
+using channel ORA_DISK_1
+
+recovery area destination: /nfsanf/archlog/
+database name (or database unique name) used for search: NTAP1
+channel ORA_DISK_1: AUTOBACKUP /nfsanf/archlog/NTAP1/autobackup/2024_03_22/o1_mf_s_1164296325__9z77zyxb_.bkp found in the recovery area
+channel ORA_DISK_1: looking for AUTOBACKUP on day: 20240322
+channel ORA_DISK_1: restoring spfile from AUTOBACKUP /nfsanf/archlog/NTAP1/autobackup/2024_03_22/o1_mf_s_1164296325__9z77zyxb_.bkp
+channel ORA_DISK_1: SPFILE restore from AUTOBACKUP complete
+Finished restore at 22-MAR-24
+
+....
+. Monte o arquivo de controle e valide a cópia de imagem de backup do banco de dados.
++
+....
+
+RMAN> alter database mount;
+
+released channel: ORA_DISK_1
+Statement processed
+
+RMAN> list copy of database tag 'ORACOPYBKUPONANF_LEVEL_0';
+
+List of Datafile Copies
+=======================
+
+Key     File S Completion Time Ckp SCN    Ckp Time        Sparse
+------- ---- - --------------- ---------- --------------- ------
+82      1    A 22-MAR-24       4598427    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-1_1t2m9nij
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+
+83      3    A 22-MAR-24       4598423    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-3_1u2m9nog
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+
+84      4    A 22-MAR-24       4598431    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-4_1v2m9nu6
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+
+58      5    A 21-MAR-24       2379694    18-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-5_282m9oem
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 2, PDB Name: PDB$SEED
+
+52      6    A 21-MAR-24       2379694    18-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-6_242m9oan
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 2, PDB Name: PDB$SEED
+
+90      7    A 22-MAR-24       4598462    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-7_2c2m9ofn
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+
+59      8    A 21-MAR-24       2379694    18-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-8_292m9oem
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 2, PDB Name: PDB$SEED
+
+71      9    A 22-MAR-24       4598313    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-9_252m9oc5
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+68      10   A 22-MAR-24       4598308    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-10_212m9o52
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+66      11   A 22-MAR-24       4598304    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-11_202m9o22
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+74      12   A 22-MAR-24       4598318    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-12_2d2m9ofs
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+86      13   A 22-MAR-24       4598445    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-13_262m9oca
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 4, PDB Name: NTAP1_PDB2
+
+85      14   A 22-MAR-24       4598437    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-14_222m9o53
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 4, PDB Name: NTAP1_PDB2
+
+87      15   A 22-MAR-24       4598454    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-15_2a2m9of6
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 4, PDB Name: NTAP1_PDB2
+
+89      16   A 22-MAR-24       4598466    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-16_2e2m9og8
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 4, PDB Name: NTAP1_PDB2
+
+91      17   A 22-MAR-24       4598450    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-17_272m9oel
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 5, PDB Name: NTAP1_PDB3
+
+88      18   A 22-MAR-24       4598441    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-18_232m9oa8
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 5, PDB Name: NTAP1_PDB3
+
+92      19   A 22-MAR-24       4598458    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-19_2b2m9ofn
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 5, PDB Name: NTAP1_PDB3
+
+93      20   A 22-MAR-24       4598470    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-20_2f2m9og8
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 5, PDB Name: NTAP1_PDB3
+
+81      21   A 22-MAR-24       4598318    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-21_1h2m9cap
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+72      22   A 22-MAR-24       4598304    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-22_1i2m9cap
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+73      23   A 22-MAR-24       4598308    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-23_1j2m9cap
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+80      24   A 22-MAR-24       4598313    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-24_1k2m9cap
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+79      25   A 22-MAR-24       4598318    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-25_1l2m9g3u
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+69      26   A 22-MAR-24       4598304    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-26_1m2m9g9j
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+70      27   A 22-MAR-24       4598308    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-27_1n2m9gcg
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+75      28   A 22-MAR-24       4598313    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-28_1o2m9gd4
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+77      29   A 22-MAR-24       4598318    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-29_1p2m9ju6
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+67      30   A 22-MAR-24       4598304    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-30_1q2m9k7a
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+76      31   A 22-MAR-24       4598308    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-31_1r2m9kfk
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+78      32   A 22-MAR-24       4598313    22-MAR-24       NO
+        Name: /nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-32_1s2m9kgg
+        Tag: ORACOPYBKUPONANF_LEVEL_0
+        Container ID: 3, PDB Name: NTAP1_PDB1
+
+
+....
+. Mude o banco de dados para copiar para executar a recuperação sem restauração do banco de dados.
++
+....
+
+RMAN> switch database to copy;
+
+Starting implicit crosscheck backup at 22-MAR-24
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=12 device type=DISK
+Crosschecked 33 objects
+Finished implicit crosscheck backup at 22-MAR-24
+
+Starting implicit crosscheck copy at 22-MAR-24
+using channel ORA_DISK_1
+Crosschecked 31 objects
+Finished implicit crosscheck copy at 22-MAR-24
+
+searching for all files in the recovery area
+cataloging files...
+cataloging done
+
+List of Cataloged Files
+=======================
+File Name: /nfsanf/archlog/NTAP1/autobackup/2024_03_20/o1_mf_s_1164140565__5g56ypks_.bkp
+File Name: /nfsanf/archlog/NTAP1/autobackup/2024_03_22/o1_mf_s_1164296325__9z77zyxb_.bkp
+
+datafile 1 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-1_1t2m9nij"
+datafile 3 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-3_1u2m9nog"
+datafile 4 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-4_1v2m9nu6"
+datafile 5 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-5_282m9oem"
+datafile 6 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-6_242m9oan"
+datafile 7 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-7_2c2m9ofn"
+datafile 8 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-8_292m9oem"
+datafile 9 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-9_252m9oc5"
+datafile 10 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-10_212m9o52"
+datafile 11 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-11_202m9o22"
+datafile 12 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-12_2d2m9ofs"
+datafile 13 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-13_262m9oca"
+datafile 14 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-14_222m9o53"
+datafile 15 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-15_2a2m9of6"
+datafile 16 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-16_2e2m9og8"
+datafile 17 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-17_272m9oel"
+datafile 18 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-18_232m9oa8"
+datafile 19 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-19_2b2m9ofn"
+datafile 20 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-20_2f2m9og8"
+datafile 21 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-21_1h2m9cap"
+datafile 22 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-22_1i2m9cap"
+datafile 23 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-23_1j2m9cap"
+datafile 24 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-24_1k2m9cap"
+datafile 25 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-25_1l2m9g3u"
+datafile 26 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-26_1m2m9g9j"
+datafile 27 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-27_1n2m9gcg"
+datafile 28 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-28_1o2m9gd4"
+datafile 29 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-29_1p2m9ju6"
+datafile 30 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-30_1q2m9k7a"
+datafile 31 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-31_1r2m9kfk"
+datafile 32 switched to datafile copy "/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-32_1s2m9kgg"
+
+....
+. Execute a recuperação Oracle até o último log de arquivamento disponível na área de recuperação flash.
++
+....
+
+RMAN> run {
+2> set until sequence=11;
+3> recover database;
+4> }
+
+executing command: SET until clause
+
+Starting recover at 22-MAR-24
+using channel ORA_DISK_1
+
+starting media recovery
+
+archived log for thread 1 with sequence 4 is already on disk as file /nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_4__9y6gn5co_.arc
+archived log for thread 1 with sequence 5 is already on disk as file /nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_5__9y7p68s6_.arc
+archived log for thread 1 with sequence 6 is already on disk as file /nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_6__9y8ygtss_.arc
+archived log for thread 1 with sequence 7 is already on disk as file /nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_7__9ybjdp55_.arc
+archived log for thread 1 with sequence 8 is already on disk as file /nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_8__9yctxjgy_.arc
+archived log for thread 1 with sequence 9 is already on disk as file /nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_9__9yfrj0b1_.arc
+archived log for thread 1 with sequence 10 is already on disk as file /nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_10__9yomybbc_.arc
+archived log file name=/nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_4__9y6gn5co_.arc thread=1 sequence=4
+archived log file name=/nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_5__9y7p68s6_.arc thread=1 sequence=5
+archived log file name=/nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_6__9y8ygtss_.arc thread=1 sequence=6
+archived log file name=/nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_7__9ybjdp55_.arc thread=1 sequence=7
+archived log file name=/nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_8__9yctxjgy_.arc thread=1 sequence=8
+archived log file name=/nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_9__9yfrj0b1_.arc thread=1 sequence=9
+archived log file name=/nfsanf/archlog/NTAP1/archivelog/2024_03_22/o1_mf_1_10__9yomybbc_.arc thread=1 sequence=10
+media recovery complete, elapsed time: 00:01:17
+Finished recover at 22-MAR-24
+
+RMAN> exit
+
+
+Recovery Manager complete.
+
+....
++
+
+NOTE: Para uma recuperação mais rápida, habilite sessões paralelas com o parâmetro recovery_paralelism ou especifique o grau de paralelo no comando recovery para recuperação de banco de dados: `RECOVER DATABASE PARALLEL (DEGREE d INSTANCES DEFAULT);`. Em geral, graus de paralelismo devem ser iguais ao número de núcleos de CPU no host.
+
+. Saia do RMAN, faça login no Oracle como usuário oracle via sqlplus para abrir banco de dados e redefinir log após uma recuperação incompleta.
++
+....
+
+SQL> select name, open_mode from v$database;
+
+NAME      OPEN_MODE
+--------- --------------------
+NTAP1     MOUNTED
+
+SQL> select instance_name, host_name from v$instance;
+
+INSTANCE_NAME
+----------------
+HOST_NAME
+----------------------------------------------------------------
+NTAP1
+ora-02
+
+
+SQL>
+
+
+SQL> select member from v$logfile;
+
+MEMBER
+--------------------------------------------------------------------------------
+/u03/orareco/NTAP1/onlinelog/redo03.log
+/u03/orareco/NTAP1/onlinelog/redo02.log
+/u03/orareco/NTAP1/onlinelog/redo01.log
+
+SQL> alter database rename file '/u03/orareco/NTAP1/onlinelog/redo01.log' to '/nfsanf/oracopy/redo01.log';
+
+Database altered.
+
+SQL> alter database rename file '/u03/orareco/NTAP1/onlinelog/redo02.log' to '/nfsanf/oracopy/redo02.log';
+
+Database altered.
+
+SQL> alter database rename file '/u03/orareco/NTAP1/onlinelog/redo03.log' to '/nfsanf/oracopy/redo03.log';
+
+Database altered.
+
+SQL> alter database open resetlogs;
+
+Database altered.
+
+SQL> show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 NTAP1_PDB1                     READ WRITE NO
+         4 NTAP1_PDB2                     READ WRITE NO
+         5 NTAP1_PDB3                     READ WRITE NO
+
+....
+. Valide a estrutura do banco de dados restaurada para o novo host, bem como a linha de teste que inserimos antes da falha primária do VLDB.
++
+....
+
+SQL> select name from v$datafile;
+
+NAME
+--------------------------------------------------------------------------------
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-1_1t2m9nij
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-3_1u2m9nog
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-4_1v2m9nu6
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-5_282m9oem
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-6_242m9oan
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-7_2c2m9ofn
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-8_292m9oem
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-9_252m9oc5
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-10_212m9o52
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-11_202m9o22
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-12_2d2m9ofs
+
+NAME
+--------------------------------------------------------------------------------
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-13_262m9oca
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-14_222m9o53
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-15_2a2m9of6
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-16_2e2m9og8
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSTEM_FNO-17_272m9oel
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SYSAUX_FNO-18_232m9oa8
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-UNDOTBS1_FNO-19_2b2m9ofn
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-USERS_FNO-20_2f2m9og8
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-21_1h2m9cap
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-22_1i2m9cap
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-23_1j2m9cap
+
+NAME
+--------------------------------------------------------------------------------
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-24_1k2m9cap
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-25_1l2m9g3u
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-26_1m2m9g9j
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-27_1n2m9gcg
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-28_1o2m9gd4
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-29_1p2m9ju6
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-30_1q2m9k7a
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-31_1r2m9kfk
+/nfsanf/oracopy/data_D-NTAP1_I-2441823937_TS-SOE_FNO-32_1s2m9kgg
+
+31 rows selected.
+
+SQL> select member from v$logfile;
+
+MEMBER
+--------------------------------------------------------------------------------
+/nfsanf/oracopy/redo03.log
+/nfsanf/oracopy/redo02.log
+/nfsanf/oracopy/redo01.log
+
+SQL> select name from v$controlfile;
+
+NAME
+--------------------------------------------------------------------------------
+/nfsanf/oracopy/NTAP1.ctl
+
+SQL> alter session set container=ntap1_pdb1;
+
+Session altered.
+
+SQL> select * from test;
+
+        ID
+----------
+DT
+---------------------------------------------------------------------------
+EVENT
+--------------------------------------------------------------------------------
+         1
+21-MAR-24 03.15.03.000000 PM
+test oracle incremental merge switch to copy
+
+         2
+22-MAR-24 02.22.06.000000 PM
+test recovery on a new Azure VM host with image copy on ANF
+
+
+....
+. Solte tempfiles inválidos e adicione novos tempfiles a temp tablespaces.
++
+....
+
+SQL> select name from v$tempfile;
+
+NAME
+--------------------------------------------------------------------------------
+/u02/oradata/NTAP1/NTAP1_pdb1/temp01.dbf
+/u02/oradata/NTAP1/NTAP1_pdb1/temp02.dbf
+
+SQL> alter tablespace temp add tempfile '/nfsanf/oracopy/ntap1_pdb1_temp01.dbf' size 100M;
+
+Tablespace altered.
+
+SQL> select name from v$tempfile;
+
+NAME
+--------------------------------------------------------------------------------
+/u02/oradata/NTAP1/NTAP1_pdb1/temp01.dbf
+/u02/oradata/NTAP1/NTAP1_pdb1/temp02.dbf
+/nfsanf/oracopy/ntap1_pdb1_temp01.dbf
+
+SQL> alter database tempfile '/u02/oradata/NTAP1/NTAP1_pdb1/temp01.dbf' offline;
+
+Database altered.
+
+SQL> alter database tempfile '/u02/oradata/NTAP1/NTAP1_pdb1/temp01.dbf' drop;
+
+Database altered.
+
+SQL> alter database tempfile '/u02/oradata/NTAP1/NTAP1_pdb1/temp02.dbf' offline;
+
+Database altered.
+
+SQL> alter database tempfile '/u02/oradata/NTAP1/NTAP1_pdb1/temp02.dbf' drop;
+
+Database altered.
+
+SQL> select name from v$tempfile;
+
+NAME
+--------------------------------------------------------------------------------
+/nfsanf/oracopy/ntap1_pdb1_temp01.dbf
+
+SQL>
+
+....
+. Outras tarefas pós-recuperação
++
+....
+
+- Add ANF NFS mount to fstab so that the NFS file system will be mounted when DB server host rebooted.
+
+        As azureuser, sudo vi /etc/fstab and add following entry:
+
+        172.30.136.68:/ora-01-u02-copy       /nfsanf        nfs     rw,bg,hard,vers=3,proto=tcp,timeo=600,rsize=262144,wsize=262144,nointr  0       0
+
+- Update the Oracle init file from primary databse init file backup that is restored to /tmp/archive and create spfile as needed.
+
+....
+
+
+Isso conclui a recuperação de banco de dados Oracle VLDB da cópia de imagem de backup no sistema de arquivos NFS do ANF para um host de servidor de banco de dados em espera.
+
+====
+
+
+== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* RMAN: Estratégias de backup incrementais mescladas (Doc ID 745798,1)
++
+link:https://support.oracle.com/knowledge/Oracle%20Database%20Products/745798_1.html["https://support.oracle.com/knowledge/Oracle%20Database%20Products/745798_1.html"^]
+
+* RMAN Backup and Recovery Guia do Usuário
++
+link:https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/getting-started-rman.html["https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/getting-started-rman.html"^]
+
+* Azure NetApp Files
++
+link:https://azure.microsoft.com/en-us/products/netapp["https://azure.microsoft.com/en-us/products/netapp"^]
+
+

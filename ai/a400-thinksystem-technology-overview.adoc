@@ -1,0 +1,150 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-technology-overview.html 
+keywords: AFF, A400, tech overview, flexgroup, thinksystem, mlperf 
+summary: Esta seção apresenta os principais componentes desta solução com mais detalhes. 
+---
+= Visão geral da tecnologia
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção apresenta os principais componentes desta solução com mais detalhes.
+
+
+
+== Sistemas NetApp AFF
+
+Os sistemas de storage NetApp AFF permitem que as empresas atendam aos requisitos de storage empresarial com performance líder do setor, flexibilidade superior, integração com a nuvem e o melhor gerenciamento de dados da categoria. Especialmente desenvolvido para flash, os sistemas AFF ajudam a acelerar, gerenciar e proteger os dados essenciais aos negócios.
+
+image:a400-thinksystem-image3.png["Este gráfico mostra a parte frontal do controlador de armazenamento NetApp AFF A400."]
+
+image:a400-thinksystem-image4.png["Este gráfico mostra a parte posterior do controlador de armazenamento NetApp AFF A400."]
+
+O NetApp AFF A400 é um sistema de storage flash NVMe de médio porte que inclui os seguintes recursos:
+
+* Capacidade efetiva máxima: Cerca de 20PB TB
+* Escalabilidade horizontal máxima: 2-24 nós (12 pares de HA)
+* Suporte a host FC de 25GbE GB e 16GB GB
+* Conectividade de 100GbE RDMA em Ethernet convergente (RoCE) com compartimentos de storage de expansão NVMe
+* As portas RoCE de 100GbE GB podem ser usadas para conexão de rede de host se as gavetas NVMe não estiverem conetadas
+* Gavetas de storage de expansão de conectividade SAS de 12Gbps GB completas
+* Disponível em duas configurações:
++
+** Ethernet: 4x 25GB portas Ethernet (SFP28)
+** Fibre Channel: 4x 16GB portas FC (SFP)
+
+
+* 100% 8KB leitura aleatória a .4 ms 400k IOPS
+
+
+Os recursos do NetApp AFF A250 para implantações de AI/ML de nível de entrada incluem o seguinte:
+
+* Capacidade efetiva máxima: 35PB
+* Escalabilidade horizontal máxima: 2-24 nós (12 pares de HA)
+* Leituras aleatórias de 440k IOPS a 1msK.
+* Desenvolvido com base na versão mais recente do NetApp ONTAP ONTAP 9.8 ou posterior
+* Duas portas Ethernet de 25GB GB para interconexão de cluster e HA
+
+
+O NetApp também oferece outros sistemas de storage, como o AFF A800 e o AFF A700, que fornecem maior performance e escalabilidade para implantações de AI/ML de maior escala.
+
+
+
+== NetApp ONTAP
+
+O ONTAP 9, a última geração de software de gerenciamento de storage da NetApp, permite que as empresas modernizem a infraestrutura e façam a transição para um data center pronto para a nuvem. Com recursos de gerenciamento de dados líderes do setor, o ONTAP possibilita o gerenciamento e a proteção de dados com um único conjunto de ferramentas, independentemente de onde esses dados estejam. Os dados também podem ser movidos livremente para onde forem necessários: A borda, o centro ou a nuvem. O ONTAP 9 inclui vários recursos que simplificam o gerenciamento de dados, aceleram e protegem dados essenciais e preparam a infraestrutura para o futuro em arquiteturas de nuvem híbrida.
+
+
+
+=== Simplificar o gerenciamento de dados
+
+O gerenciamento de dados é crucial para as operações DE TI empresarial, para que os recursos apropriados sejam usados para aplicações e conjuntos de dados. O ONTAP inclui os seguintes recursos para otimizar e simplificar as operações e reduzir o custo total de operação:
+
+* *Compactação de dados em linha e deduplicação expandida.* A compactação de dados reduz o espaço desperdiçado dentro de blocos de storage e a deduplicação aumenta significativamente a capacidade efetiva. Isso se aplica aos dados armazenados localmente e aos dados dispostos em camadas na nuvem.
+* *Qualidade de serviço (QoS) mínima, máxima e adaptável.* Controles granulares de QoS ajudam a manter os níveis de desempenho de aplicações críticas em ambientes altamente compartilhados.
+* *ONTAP FabricPool.* Esse recurso categoriza automaticamente dados inativos em opções de storage de nuvem pública e privada, incluindo Amazon Web Services (AWS), Azure e storage de objetos NetApp StorageGRID.
+
+
+
+
+=== Acelere e proteja os dados
+
+O ONTAP oferece níveis superiores de performance e proteção de dados, além de ampliar esses recursos das seguintes maneiras:
+
+* *Desempenho e menor latência.* O ONTAP oferece a maior taxa de transferência possível com a menor latência possível.
+* *Proteção de dados.* O ONTAP fornece recursos de proteção de dados incorporados com gerenciamento comum em todas as plataformas.
+* *Criptografia de volume NetApp.* O ONTAP oferece criptografia nativa em nível de volume com suporte ao gerenciamento de chaves externo e integrado.
+
+
+
+
+=== Infraestrutura pronta para o futuro
+
+A ONTAP 9 ajuda a atender às necessidades empresariais exigentes e em constante mudança:
+
+* *Dimensionamento otimizado e operações ininterruptas.* O ONTAP dá suporte à adição sem interrupções de capacidade às controladoras atuais e aos clusters de escalabilidade horizontal. Os clientes podem fazer upgrade para as tecnologias mais recentes, como NVMe e FC de 32GB GB, sem interrupções ou migrações de dados caras.
+* *Conexão com a nuvem.* O ONTAP é o software de gerenciamento de storage conectado à nuvem, com opções para storage definido por software (ONTAP Select) e instâncias nativas da nuvem (NetApp Cloud Volumes Service) em todas as nuvens públicas.
+* *Integração com aplicações emergentes.* O ONTAP oferece serviços de dados de nível empresarial para plataformas e aplicações de última geração, como OpenStack, Hadoop e MongoDB, usando a mesma infraestrutura compatível com aplicações empresariais existentes.
+
+
+
+
+== Volumes NetApp FlexGroup
+
+Os conjuntos de dados de treinamento geralmente são uma coleção de potencialmente bilhões de arquivos. Os arquivos podem incluir texto, áudio, vídeo e outras formas de dados não estruturados que devem ser armazenados e processados para serem lidos em paralelo. O sistema de armazenamento deve armazenar muitos arquivos pequenos e deve ler esses arquivos em paralelo para e/S sequencial e aleatória
+
+Um volume FlexGroup (a figura a seguir) é um namespace único composto por vários volumes membros constituintes que é gerenciado e atua como um NetApp FlexVol volume para administradores de storage. Os arquivos em um volume FlexGroup são alocados a volumes de membros individuais e não são distribuídos por volumes ou nós. Eles habilitam os seguintes recursos:
+
+* Até 20 petabytes de capacidade e baixa latência previsível para workloads de metadados altos
+* Até 400 bilhões de arquivos no mesmo namespace
+* Operações paralelizadas em workloads nas entre CPUs, nós, agregados e volumes FlexVol constituintes
+
+
+image:a400-thinksystem-image5.png["Essa imagem mostra um par de controladores de storage de HA que contém muitos volumes com arquivos principais em um FlexGroup."]
+
+
+
+== Portfólio Lenovo ThinkSystem
+
+Os servidores Lenovo ThinkSystem apresentam hardware, software e serviços inovadores que resolvem os desafios dos clientes hoje em dia e fornecem uma abordagem de design modular evolutiva, adequada para fins específicos para enfrentar os desafios do futuro. Esses servidores aproveitam as melhores tecnologias do setor e as inovações diferenciadas da Lenovo para fornecer a maior flexibilidade possível em servidores x86.
+
+As principais vantagens da implantação de servidores Lenovo ThinkSystem incluem o seguinte:
+
+* Designs modulares altamente escaláveis que crescem com o seu negócio
+* Resiliência líder do setor para economizar horas de inatividade dispendiosa não programada
+* Tecnologias flash rápidas para latências mais baixas, tempos de resposta mais rápidos e gerenciamento de dados mais inteligente em tempo real
+
+
+Na área de IA, a Lenovo está adotando uma abordagem prática para ajudar as empresas a entender e adotar os benefícios de ML e IA para suas cargas de trabalho. Os clientes da Lenovo podem explorar e avaliar as ofertas de IA da Lenovo nos Centros de Inovação AI da Lenovo para entender completamente o valor de seu caso de uso específico. Para aprimorar o retorno do investimento, essa abordagem centrada no cliente oferece aos clientes provas de conceito para plataformas de desenvolvimento de soluções prontas para uso e otimizadas para IA.
+
+
+
+=== Lenovo SR670 V2
+
+O servidor de rack Lenovo ThinkSystem SR670 V2 oferece desempenho ideal para IA acelerada e computação de alto desempenho (HPC). Com suporte para até oito GPUs, o SR670 V2 é adequado para os requisitos de workload com uso computacionalmente intenso de ML, DL e inferência.
+
+image:a400-thinksystem-image6.png["Esta imagem representa três configurações SR670D. A primeira mostra quatro GPUs SXM com oito unidades HS de 2,5 polegadas e 2 slots de e/S PCIe. O segundo mostra quatro slots de GPU de largura dupla ou oito de largura única e dois slots de e/S PCIe com oito unidades HS de 2,5 polegadas ou quatro de 3,5 polegadas. O terceiro mostra oito slots de GPU de largura dupla com seis unidades EDSFF HS e dois slots de e/S PCIe."]
+
+Com as mais recentes CPUs Intel Xeon escaláveis que suportam GPUs avançadas (incluindo a GPU NVIDIA A100 80GB PCIe 8x), o ThinkSystem SR670 V2 oferece desempenho otimizado e acelerado para cargas de trabalho de IA e HPC.
+
+Como mais cargas de trabalho usam o desempenho dos aceleradores, a demanda por densidade de GPU aumentou. Setores como varejo, serviços financeiros, energia e saúde estão usando GPUs para extrair maiores insights e impulsionar a inovação com técnicas DE ML, DL e inferência.
+
+O ThinkSystem SR670 V2 é uma solução otimizada de nível empresarial para implantar workloads de HPC e IA acelerados em produção, maximizando o desempenho do sistema e mantendo a densidade do data center para clusters de supercomputação com plataformas de última geração.
+
+Outros recursos incluem:
+
+* Suporte para e/S RDMA direta por GPU, em que os adaptadores de rede de alta velocidade são conetados diretamente às GPUs para maximizar o desempenho de e/S.
+* Suporte para armazenamento direto de GPU no qual as unidades NVMe são conectadas diretamente às GPUs para maximizar a performance de storage.
+
+
+
+
+== MLPerf
+
+MLPerf é o conjunto de referência líder do setor para avaliar o desempenho de IA. Nesta validação, usamos seu benchmark de classificação de imagens com o MXNet, um dos mais populares frameworks de IA. O script de treinamento MXNet_benchmarks foi usado para impulsionar o treinamento de IA. O script contém implementações de vários modelos convencionais populares e é projetado para ser o mais rápido possível. Ele pode ser executado em uma única máquina ou executado em modo distribuído em vários hosts.

@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-solution-overview.html 
+keywords: storagegrid, splunk enterprise, smartstore, object storage, machine data 
+summary: Esta página descreve os componentes usados para concluir essa solução, incluindo o NetApp StorageGRID, o Splunk Enterprise e o Splunk SmartStore. 
+---
+= Visão geral da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta página descreve os componentes usados para concluir essa solução, incluindo o NetApp StorageGRID, o Splunk Enterprise e o Splunk SmartStore.
+
+
+
+== NetApp StorageGRID
+
+O NetApp StorageGRID é uma plataforma de storage de objetos econômica e de alto desempenho. Ele oferece gerenciamento de dados global inteligente e voltado a políticas usando uma arquitetura de grade distribuída, baseada em nós. Ele simplifica o gerenciamento de petabytes de dados não estruturados e bilhões de objetos por meio de um namespace de objeto global abrangente, combinado com recursos sofisticados de gerenciamento de dados. O acesso a objeto de chamada única se estende por vários locais e simplifica arquiteturas de alta disponibilidade, ao mesmo tempo em que garante acesso contínuo a objetos, independentemente de interrupções no local ou na infraestrutura.
+
+A alocação a vários clientes permite que várias aplicações de dados não estruturados empresariais e de nuvem sejam atendidas com segurança na mesma grade, aumentando o ROI e os casos de uso do StorageGRID. É possível criar vários níveis de serviço com políticas de ciclo de vida de objetos orientadas por metadados, otimizando a durabilidade, proteção, performance e localidade em várias regiões geográficas. Os usuários podem ajustar políticas e realinhar o cenário de dados sem interrupções, à medida que seus requisitos mudam.
+
+O SmartStore utiliza o StorageGRID como camada de armazenamento remoto e permite que os clientes implantem vários locais distribuídos geograficamente para uma disponibilidade e durabilidade robustas, apresentadas como um namespace de objeto único. Isso permite que o Splunk SmartStore aproveite a alta performance, a capacidade densa e a capacidade do StorageGRID de escalar para centenas de nós em vários locais físicos, usando um único URL para interagir com os objetos. Esse URL único também permite que a expansão, atualizações e reparos do storage não causem interrupções, mesmo que estejam em um único local. O mecanismo de política de gerenciamento de dados exclusivo da StorageGRID oferece níveis otimizados de desempenho e durabilidade, além de atender aos requisitos de localidade de dados.
+
+
+
+== Splunk Enterprise
+
+O Splunk, líder em coleta e análise de dados gerados por máquina, ajuda a simplificar e modernizar A TI por meio de suas funcionalidades de análise operacional. Ele também se expande para análise de negócios, segurança e casos de uso de IoT. O storage é um facilitador essencial para uma implantação bem-sucedida do software Splunk.
+
+Os dados gerados por máquina são o tipo de Big Data que mais cresce. O formato é imprevisível e vem de muitas fontes diferentes, muitas vezes a altas taxas e em grandes volumes. Essas caraterísticas de carga de trabalho são muitas vezes referidas como exaustão digital. O Splunk SmartStore ajuda a entender esses dados e fornece categorização inteligente de dados para o posicionamento otimizado de dados ativos e ativos na camada de storage mais econômica.
+
+
+
+== Splunk SmartStore
+
+O Splunk SmartStore é uma funcionalidade indexadora que usa storage de objetos (também conhecida como storage remoto ou camadas de storage remoto), como o StorageGRID, para armazenar dados ativos usando o protocolo S3.
+
+À medida que o volume de dados de uma implantação aumenta, a demanda por storage normalmente supera a demanda por recursos de computador. O SmartStore permite gerenciar os recursos de computação e storage do indexador de maneira econômica, dimensionando a computação e o storage separadamente.
+
+O SmartStore apresenta uma camada de storage remoto, usando o protocolo S3 e um gerenciador de cache. Esses recursos permitem que os dados residam localmente em indexadores ou em armazenamento remoto. O Gerenciador de cache, que reside no indexador, gerencia a movimentação de dados entre o indexador e a camada de storage remoto. Os dados são armazenados em buckets (quentes e quentes), juntamente com os metadados do bucket.
+
+Com o SmartStore, você pode reduzir o espaço físico do storage do indexador ao mínimo e escolher recursos de computação otimizados para e/S porque a maioria dos dados reside na camada de storage remoto. O indexador mantém um cache local, representando a quantidade mínima de dados necessária para retornar os resultados solicitados e previstos. O cache local contém buckets ativos, cópias de buckets ativos que participam de pesquisas ativas ou recentes e metadados do bucket.
+
+O Splunk SmartStore com StorageGRID permite que os clientes escalem o ambiente de maneira incremental com storage remoto econômico e de alto desempenho, além de fornecer um alto nível de elasticidade à solução geral. Isso permite que os clientes adicionem todos os componentes (storage quente e/ou armazenamento S3K quente) em qualquer quantidade, a qualquer momento, independentemente de precisarem de mais indexadores, alterarem a retenção de dados ou aumentarem a taxa de ingestão sem interrupções.

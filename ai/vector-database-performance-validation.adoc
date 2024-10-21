@@ -1,0 +1,190 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-performance-validation.html 
+keywords: vector database 
+summary: Validação de desempenho de banco de dados vetorial - solução de banco de dados vetorial para NetApp 
+---
+= Validação de desempenho de banco de dados vetorial
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção destaca a validação de desempenho que foi realizada no banco de dados vetorial.
+
+
+
+== Validação de desempenho
+
+A validação de desempenho desempenha um papel fundamental em bancos de dados vetoriais e sistemas de storage, servindo como um fator chave para garantir a operação ideal e a utilização eficiente de recursos. Bancos de dados vetoriais, conhecidos por lidar com dados de alta dimensão e executar pesquisas de similaridade, precisam manter altos níveis de desempenho para processar consultas complexas com rapidez e precisão. A validação de desempenho ajuda a identificar gargalos, ajustar configurações e garantir que o sistema possa lidar com as cargas esperadas sem degradação no serviço. Da mesma forma, nos sistemas de storage, a validação de performance é essencial para garantir que os dados sejam armazenados e recuperados com eficiência, sem problemas de latência ou gargalos que possam afetar a performance geral do sistema. Isso também ajuda a tomar decisões informadas sobre atualizações ou alterações necessárias na infraestrutura de storage. Portanto, a validação de desempenho é um aspeto crucial do gerenciamento do sistema, contribuindo significativamente para a manutenção de alta qualidade do serviço, eficiência operacional e confiabilidade geral do sistema.
+
+Nesta seção, nosso objetivo é aprofundar a validação de desempenho de bancos de dados vetoriais, como Milvus e pgvecto.rs, com foco em suas caraterísticas de desempenho de storage, como perfil de e/S e comportamento do controlador de storage NetApp em suporte a cargas de trabalho RAG e inferência dentro do ciclo de vida LLM. Avaliaremos e identificaremos quaisquer diferenciais de desempenho quando esses bancos de dados forem combinados com a solução de storage da ONTAP. Nossa análise será baseada em indicadores-chave de desempenho, como o número de consultas processadas por segundo (QPS).
+
+Por favor, verifique a metodologia usada para milvus e progresso abaixo.
+
+|===
+
+
+| Detalhes | Milvus (autónomo e Cluster) | Postgres(pgvecto.rs) n.o 
+
+
+| versão | 2.3.2 | 0.2.0 
+
+
+| Sistema de ficheiros | XFS em iSCSI LUNs |  
+
+
+| Gerador de workload | link:https://github.com/zilliztech/VectorDBBench["Banco Vetores"] – v0,0.5 |  
+
+
+| Conjuntos de dados | LAION Dataset * 10Million incorporações * 768 dimensões * 300GB tamanho do conjunto de dados |  
+
+
+| Controlador de storage | AFF 800 * versão – 9.14.1 * 4 x 100GbE – para milvus e 2x 100GbE para postgres * iscsi |  
+|===
+
+
+=== VectorDB-Bench com cluster autônomo Milvus
+
+Fizemos a seguinte validação de desempenho no cluster autônomo milvus com vectorDB-Bench. A conetividade de rede e servidor do cluster autônomo milvus está abaixo.
+
+image:perf_mivus_standalone.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Nesta seção, compartilhamos nossas observações e resultados de testar o banco de dados autônomo do Milvus. . Nós selecionamos DiskANN como o tipo de índice para esses testes. . A ingestão, otimização e criação de índices para um conjunto de dados de aproximadamente 100GB TB levou cerca de 5 horas. Durante a maior parte desta duração, o servidor Milvus, equipado com 20 núcleos (o que equivale a 40 vcpus quando o Hyper-Threading está ativado), estava operando em sua capacidade máxima de CPU de 100%. Descobrimos que o DiskANN é particularmente importante para grandes conjuntos de dados que excedem o tamanho da memória do sistema. . Na fase de consulta, observou-se uma taxa de consultas por segundo (QPS) de 10,93 com um recall de 0,9987. A latência do percentil 99th para as consultas foi medida em 708,2 milissegundos.
+
+Da perspetiva do storage, o banco de dados emitiu cerca de 1.000 operações/s durante as fases de ingestão, otimização pós-inserção e criação de índice. Na fase de consulta, exigiu 32.000 OPS/seg.
+
+A seção a seguir apresenta as métricas de desempenho de storage.
+
+|===
+| Fase da carga de trabalho | Métrica | Valor 
+
+
+| Ingestão de dados e otimização pós-inserção | IOPS | 1.000 
+
+
+|  | Latência | menos de 400 usecs 
+
+
+|  | Workload | Mistura de leitura/escrita, principalmente escreve 
+
+
+|  | Tamanho da IO | 64 KB 
+
+
+| Consulta | IOPS | Pico a 32.000m. 
+
+
+|  | Latência | menos de 400 usecs 
+
+
+|  | Workload | 100% de leitura em cache 
+
+
+|  | Tamanho da IO | Principalmente 8KB 
+|===
+O resultado vectorDB-bench está abaixo.
+
+image:vector_db_result_standalone.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A partir da validação de desempenho da instância autônoma do Milvus, é evidente que a configuração atual é insuficiente para suportar um conjunto de dados de 5 milhões de vetores com uma dimensionalidade de 1536. Determinamos que o armazenamento possui recursos adequados e não constitui um gargalo no sistema.
+
+
+
+=== Banco VectorDB com cluster milvus
+
+Nesta seção, discutimos a implantação de um cluster Milvus em um ambiente Kubernetes. Essa configuração do Kubernetes foi construída sobre uma implantação do VMware vSphere, que hospedava os nós mestres e trabalhadores do Kubernetes.
+
+Os detalhes das implantações do VMware vSphere e do Kubernetes são apresentados nas seções a seguir.
+
+image:milvus_vmware_perf.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"] image:milvus_cluster_perf.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Nesta secção, apresentamos as nossas observações e resultados a partir do teste da base de dados Milvus. * O tipo de índice utilizado foi DiskANN. * A tabela abaixo fornece uma comparação entre as implantações independentes e de cluster ao trabalhar com 5 milhões de vetores em uma dimensionalidade de 1536. Observou-se que o tempo de ingestão e otimização pós-inserção dos dados foi menor na implantação do cluster. A latência do percentil 99th para consultas foi reduzida em seis vezes na implantação do cluster em comparação com a configuração autônoma. * Embora a taxa de consultas por segundo (QPS) fosse maior na implantação do cluster, não estava no nível desejado.
+
+image:milvus_standalone_cluster_perf.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+As imagens abaixo fornecem uma visualização de várias métricas de armazenamento, incluindo latência do cluster de armazenamento e IOPS total (IOPS de entrada/saída por segundo).
+
+image:storagecluster_latency_iops_milcus.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A seção a seguir apresenta as principais métricas de desempenho de storage.
+
+|===
+| Fase da carga de trabalho | Métrica | Valor 
+
+
+| Ingestão de dados e otimização pós-inserção | IOPS | 1.000 
+
+
+|  | Latência | menos de 400 usecs 
+
+
+|  | Workload | Mistura de leitura/escrita, principalmente escreve 
+
+
+|  | Tamanho da IO | 64 KB 
+
+
+| Consulta | IOPS | Pico a 147.000m. 
+
+
+|  | Latência | menos de 400 usecs 
+
+
+|  | Workload | 100% de leitura em cache 
+
+
+|  | Tamanho da IO | Principalmente 8KB 
+|===
+Com base na validação de desempenho tanto do Milvus autônomo quanto do cluster Milvus, apresentamos os detalhes do perfil de e/S de armazenamento. * Observamos que o perfil de e/S permanece consistente em implantações autônomas e de cluster. * A diferença observada no pico de IOPS pode ser atribuída ao maior número de clientes na implantação do cluster.
+
+
+
+=== VectorDB-Bench com Postgres (pgvecto.rs)
+
+Realizamos as seguintes ações no PostgreSQL (pgvecto.rs) usando VectorDB-Bench: Os detalhes sobre a conetividade de rede e servidor do PostgreSQL (especificamente, pgvecto.rs) são os seguintes:
+
+image:pgvecto_perf_network_connectivity.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Nesta seção, compartilhamos nossas observações e resultados do teste do banco de dados PostgreSQL, especificamente usando pgvecto.rs. * Nós selecionamos HNSW como o tipo de índice para esses testes porque no momento do teste, DiskANN não estava disponível para pgvecto.rs. * Durante a fase de ingestão de dados, carregamos o conjunto de dados cohere, que consiste em 10 milhões de vetores em uma dimensionalidade de 768. Este processo levou aproximadamente 4,5 horas. * Na fase de consulta, observou-se uma taxa de consultas por segundo (QPS) de 1.068 com um recall de 0,6344. A latência do percentil 99th para as consultas foi medida em 20 milissegundos. Durante a maior parte do tempo de execução, a CPU cliente estava operando a 100% de capacidade.
+
+As imagens abaixo fornecem uma visualização de várias métricas de armazenamento, incluindo IOPS totais da latência do cluster de armazenamento (IOPS de entrada/saída por segundo).
+
+image:pgvecto_storage_iops_latency.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+ The following section presents the key storage performance metrics.
+image:pgvecto_storage_perf_metrics.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== Comparação de desempenho entre milvus e postgres no banco de banco de dados do vetor
+
+image:perf_comp_milvus_postgres.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Com base em nossa validação de desempenho do Milvus e PostgreSQL usando o VectorDBBench, observamos o seguinte:
+
+* Tipo de índice: HNSW
+* Conjunto de dados: Cohere com 10 milhões de vetores em 768 dimensões
+
+
+Descobrimos que o pgvecto.rs alcançou uma taxa de consultas por segundo (QPS) de 1.068 com uma recordação de 0,6344, enquanto Milvus alcançou uma taxa de QPS de 106 com um recall de 0,9842.
+
+Se a alta precisão em suas consultas for uma prioridade, o Milvus supera o pgvecto.rs, pois recupera uma proporção maior de itens relevantes por consulta. No entanto, se o número de consultas por segundo for um fator mais crucial, pgvecto.rs excede Milvus. É importante notar, no entanto, que a qualidade dos dados recuperados via pgvecto.rs é menor, com cerca de 37% dos resultados da pesquisa sendo itens irrelevantes.
+
+
+
+=== Observação baseada em nossas validações de desempenho:
+
+Com base em nossas validações de desempenho, fizemos as seguintes observações:
+
+No Milvus, o perfil de e/S se assemelha muito a uma carga de trabalho OLTP, como a vista com o Oracle SLOB. O benchmark consiste em três fases: Ingestão de dados, Pós-Otimização e consulta. Os estágios iniciais são caraterizados principalmente por 64KB operações de escrita, enquanto a fase de consulta envolve predominantemente 8KB leituras. Esperamos que o ONTAP lide com a carga de e/S do Milvus com proficiência.
+
+O perfil de e/S do PostgreSQL não apresenta uma carga de trabalho de armazenamento desafiadora. Dada a implementação in-memory atualmente em andamento, não observamos nenhuma e/S de disco durante a fase de consulta.
+
+A DiskANN surge como uma tecnologia crucial para a diferenciação de armazenamento. Ele permite o escalonamento eficiente da pesquisa de banco de dados de vetor além do limite de memória do sistema. No entanto, é improvável estabelecer diferenciação de desempenho de armazenamento com índices de banco de dados vetoriais in-memory, como HNSW.
+
+Também vale a pena notar que o armazenamento não desempenha um papel crítico durante a fase de consulta quando o tipo de índice é HSNW, que é a fase operacional mais importante para bancos de dados vetoriais que suportam aplicações RAG. A implicação aqui é que a performance de storage não afeta significativamente o desempenho geral dessas aplicações.

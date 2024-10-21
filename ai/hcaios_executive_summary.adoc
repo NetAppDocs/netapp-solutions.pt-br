@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_executive_summary.html 
+keywords: hybrid cloud, NetApp, AI 
+summary:  
+---
+= TR-4841: Sistema operacional AI na nuvem híbrida com armazenamento em cache de dados
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp, Yochay Ettun, cnvrg.io
+
+[role="lead"]
+O crescimento explosivo dos dados e o crescimento exponencial DE ML e AI convergiram para criar uma economia zettabyte com desafios únicos de desenvolvimento e implementação.
+
+Embora seja amplamente conhecido que os MODELOS DE ML têm fome de dados e exigem armazenamento de dados de alto desempenho proximal aos recursos de computação, na prática, não é tão direto implementar esse modelo, especialmente com instâncias de computação elástica e de nuvem híbrida. Grandes quantidades de dados geralmente são armazenadas em data Lakes de baixo custo, onde recursos de computação de AI de alta performance, como GPUs, não podem acessá-los com eficiência. Esse problema é agravado em uma infraestrutura de nuvem híbrida onde algumas cargas de trabalho operam na nuvem e algumas estão localizadas no local ou em um ambiente HPC diferente inteiramente.
+
+Neste documento, apresentamos uma nova solução que permite que profissionais DE TI e engenheiros de dados criem uma plataforma de IA em nuvem verdadeiramente híbrida com um hub de dados com reconhecimento de topologia que permite que os cientistas de dados criem, de forma instantânea e automática, um cache de seus conjuntos de dados na proximidade de seus recursos de computação, onde quer que estejam localizados. Como resultado, não só o treinamento em modelos de alta performance pode ser realizado, mas também são criados benefícios adicionais, incluindo a colaboração de vários profissionais de IA, que têm acesso imediato a caches de conjuntos de dados, versões e linhagens dentro de um hub de versão de conjuntos de dados.

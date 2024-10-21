@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-resources.html 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, ACC, Astra Control Center, Advanced Cluster Management, ACM, Hub Cluster 
+summary:  
+---
+= Documentação adicional
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Aqui estão algumas documentações adicionais para referência:
+
+. link:https://docs.vmware.com/en/VMware-vSphere/index.html["VMware vSphere"]
+. link:https://access.redhat.com/documentation/en-us/openshift_container_platform/4.12["Documentação do produto da plataforma de contentores OpenShift"]
+. link:https://docs.openshift.com/container-platform/4.17/installing/overview/index.html["Instalação de clusters de plataforma de contentor OpenShift"]
+. link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.4["Documentação avançada do produto de gerenciamento de clusters"]
+. link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.4/html/clusters/managing-your-clusters#creating-a-cluster["Criando um cluster usando o ACM"]
+. link:https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_on_openshift/index["Implantação do Red Hat Quay no OpenShift"]
+. link:https://docs.netapp.com/us-en/trident/["Trident"]
+. link:https://docs.netapp.com/us-en/astra-control-center/index.html["Astra Control Center"]
+. link:https://docs.netapp.com/us-en/astra-control-service/index.html["Astra Control Service"]
+. link:https://docs.netapp.com/us-en/ontap/["ONTAP 9"]
+. link:https://github.com/NetApp/Verda["NetApp Verda"] - Verda (open source) tem uma coleção de ganchos de execução de referência para aplicativos populares de dados nativos da nuvem intensivos
+. link:https://docs.netapp.com/us-en/cloud-manager-family/["NetApp BlueXP"]
+. link:https://docs.openshift.com/rosa/welcome/index.html["Red Hat OpenShift Service na AWS"]
+. link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/["Amazon FSX ONTAP"]
+. link:https://docs.openshift.com/container-platform/4.13/installing/installing_gcp/preparing-to-install-on-gcp.html["Instalação dos clusters OpenShift no GCP"]
+. link:https://docs.openshift.com/container-platform/4.13/installing/installing_azure/preparing-to-install-on-azure.html["Instalando clusters OpenShift no Azure"]
+

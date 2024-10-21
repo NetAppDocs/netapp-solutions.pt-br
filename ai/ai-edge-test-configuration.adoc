@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-test-configuration.html 
+keywords: test, configuration, network infrastructure, storage provisioning, SE350 server 
+summary: Esta seção descreve as configurações testadas, a infraestrutura de rede, o servidor SE350 e os detalhes do provisionamento de armazenamento. 
+---
+= Teste a configuração
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A figura a seguir mostra a configuração do teste. Usamos o sistema de armazenamento NetApp AFF C190 e dois servidores Lenovo ThinkSystem SE350 (cada um com um acelerador NVIDIA T4). Esses componentes são conetados por meio de um switch de rede 10GbE. O storage de rede contém conjuntos de dados de validação/teste e modelos pré-treinados. Os servidores fornecem funcionalidade computacional, e o storage é acessado pelo protocolo NFS.
+
+Esta seção descreve as configurações testadas, a infraestrutura de rede, o servidor SE350 e os detalhes do provisionamento de armazenamento. A tabela a seguir lista os componentes básicos da arquitetura da solução.
+
+|===
+| Componentes da solução | Detalhes 
+
+
+| Servidores Lenovo ThinkSystem  a| 
+* 2x SE350 servidores cada um com uma placa de GPU NVIDIA T4
+
+
+
+
+|   a| 
+* Cada servidor contém uma CPU Intel Xeon D-2123IT com quatro núcleos físicos executados a 2,20GHz GB e 128GB GB de RAM
+
+
+
+
+| Sistema de storage NetApp AFF de nível básico (par de HA)  a| 
+* Software NetApp ONTAP 9
+* SSDs de 24x 960GB TB
+* Protocolo NFS
+* Um grupo de interface por controlador, com quatro endereços IP lógicos para pontos de montagem
+
+
+|===
+image:ai-edge-image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A tabela a seguir lista a configuração de armazenamento: AFF C190 com 2RU slots de unidade 24.
+
+|===
+| Controlador | Agregado | Volume FlexGroup | Aggregatesize | Volumesize | Ponto de montagem do sistema operacional 
+
+
+| Controller1 | Aggr1 | /Netapplenovo_AI_fg | 8.42TiB | 15 TB | /NetApp_lenovo_fg 
+
+
+| Controller2 | Aggr2 |  | 8.42TiB |  |  
+|===
+A pasta /netappLenovo_AI_fg contém os conjuntos de dados usados para a validação do modelo.
+
+A figura abaixo mostra a configuração do teste. Usamos o sistema de armazenamento NetApp EF280 e dois servidores Lenovo ThinkSystem SE350 (cada um com um acelerador NVIDIA T4). Esses componentes são conetados por meio de um switch de rede 10GbE. O storage de rede contém conjuntos de dados de validação/teste e modelos pré-treinados. Os servidores fornecem funcionalidade computacional, e o storage é acessado pelo protocolo NFS.
+
+A tabela a seguir lista a configuração de armazenamento para EF280.
+
+|===
+| Controlador | Grupo de volume | Volume | Volumesize | DDPsize | Método de ligação 
+
+
+| Controller1 | DDP1 | Volume 1 | 8.42TiB | 16 TB | SE350-1 para iSCSI LUN 0 
+
+
+| Controller2 |  | Volume 2 | 8.42TiB |  | SE350-2 para iSCSI LUN 1 
+|===
+image:ai-edge-image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

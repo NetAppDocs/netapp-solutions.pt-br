@@ -1,0 +1,71 @@
+---
+section: rhhc
+title: Multiclouds híbridas da NetApp com o Red Hat OpenShift
+url: "/rhhc/index.html"
+entries:
+- title: Visão geral
+  entries:
+  - title: Visão geral
+    url: "/rhhc/rhhc-overview.html"
+  - title: Proposições de valor
+    url: "/rhhc/rhhc-value-prop.html"
+  - title: Soluções validadas
+    url: "/rhhc/rhhc-solutions.html"
+  - title: Versões validadas
+    url: "/rhhc/rhhc-versions.html"
+  - title: Opções de armazenamento suportadas
+    url: "/rhhc/rhhc-storage-options.html"
+- title: On-premises
+  entries:
+  - title: Visão geral
+    url: "/rhhc/rhhc-overview.html"
+  - title: Visão geral da solução
+    url: "/rhhc/rhhc-op-solution.html"
+  - title: Configure workloads de contêiner do Red Hat OpenShift no VMware
+    url: "/rhhc/rhhc-op-setup.html"
+  - title: Proteja workloads de contêineres no VMware
+    url: "/rhhc/rhhc-op-data-protection.html"
+  - title: Migre workloads de contêiner no VMware
+    url: "/rhhc/rhhc-op-data-migration.html"
+- title: Nuvem híbrida com componentes autogeridos (on-premises/AWS/GCP/Azure)
+  entries:
+  - title: Visão geral
+    url: "/rhhc/rhhc-overview.html"
+  - title: Visão geral da solução
+    url: "/rhhc/rhhc-sm-solution.html"
+  - title: Configure workloads de contêiner do Red Hat OpenShift na AWS
+    url: "/rhhc/rhhc-sm-setup.html"
+  - title: Configurar workloads de contêiner do Red Hat OpenShift no GCP
+    url: "/rhhc/rhhc-sm-gcp-setup.html"
+  - title: Configure as cargas de trabalho de contêiner do Red Hat OpenShift no Azure
+    url: "/rhhc/rhhc-sm-azure-setup.html"
+  - title: Proteja workloads de contêiner na AWS/GCP/Azure
+    url: "/rhhc/rhhc-sm-data-protection.html"
+  - title: Migre workloads de contêiner para a AWS/GCP/Azure
+    url: "/rhhc/rhhc-sm-data-migration.html"
+- title: Nuvem híbrida com componentes gerenciados por fornecedor
+  entries:
+  - title: Visão geral
+    url: "/rhhc/rhhc-overview.html"
+  - title: Visão geral da solução
+    url: "/rhhc/rhhc-pm-solution.html"
+  - title: Configure workloads de contêiner do Red Hat OpenShift na AWS
+    url: "/rhhc/rhhc-pm-setup.html"
+  - title: Proteja workloads de contêiner na AWS
+    url: "/rhhc/rhhc-pm-data-protection.html"
+  - title: Migrar workloads de contêiner na AWS
+    url: "/rhhc/rhhc-pm-data-migration.html"
+- title: Proteção de dados de aplicativos de contêiner usando ferramentas de terceiros
+  entries:
+  - title: Visão geral
+    url: "/rhhc/rhhc-dp-velero-solution.html"
+  - title: Instalação do OADP
+    url: "/rhhc/rhhc-dp-velero-installation.html"
+  - title: Cópia de segurança das aplicações de contentor utilizando o Velero
+    url: "/rhhc/rhhc-dp-velero-backup.html"
+  - title: Migrar aplicações
+    url: "/rhhc/rhhc-dp-velero-migrate.html"
+  - title: Restaurar a partir da cópia de segurança utilizando o Velero
+    url: "/rhhc/rhhc-dp-velero-restore.html"
+  - title: Excluir backups e restaurações
+    url: "/rhhc/rhhc-dp-velero-delete.html"

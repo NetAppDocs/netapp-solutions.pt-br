@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_technology_overview.html 
+keywords: NetApp Technology Overview ONTAP AI 
+summary:  
+---
+= Visão geral da tecnologia
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+este artigo fornece uma visão geral do pipeline de solução para MLRun usando o NetApp ONTAP AI, o plano de controle de IA do NetApp, o software NetApp volumes e a Plataforma de Ciência de dados do Iguazio.
+
+
+
+== Visão geral do NetApp
+
+A NetApp é a autoridade em dados para a nuvem híbrida. A NetApp fornece uma grande variedade de serviços de dados de nuvem híbrida que simplifica o gerenciamento das aplicações e dos dados em ambientes na nuvem e no local, acelerando a transformação digital. Juntamente com nossos parceiros, a NetApp capacita organizações globais a aproveitar todo o potencial dos dados para expandir os pontos de Contato com os clientes, impulsionar grandes inovações e otimizar as operações.
+
+
+
+== NetApp ONTAP AI
+
+O NetApp ONTAP AI, baseado nos sistemas DGX da NVIDIA e no storage all-flash conectado à nuvem da NetApp, otimiza o fluxo de dados de forma confiável e acelera as análises, o treinamento e a inferência em seu Data Fabric que abrange borda, centro e nuvem. Ele oferece às ORGANIZAÇÕES DE TI uma arquitetura que oferece os seguintes benefícios:
+
+* Elimina complexidades de design
+* Permite o dimensionamento independente da computação e do storage
+* Permite que os clientes comecem aos poucos e escalem de forma otimizada
+* O NetApp AI oferece diversas opções de storage para diversos pontos de performance e custo. O NetApp ONTAP AI oferece stacks de infraestrutura convergentes que incorporam o NVIDIA DGX-1, um sistema de AI em escala petaflop e switches Ethernet de alta performance NVIDIA Mellanox para unificar workloads de AI, simplificar a implantação e acelerar o ROI. Utilizamos o ONTAP AI com um DGX-1 e o sistema de storage da NetApp AFF A800 para este relatório técnico. A imagem a seguir mostra a topologia do ONTAP AI com o sistema DGX-1 usado nessa validação.
+
+
+image:mlrun_image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Plano de controle do NetApp AI
+
+O plano de controle de AI da NetApp permite que você aproveite a AI e ML com uma solução que oferece escalabilidade extrema, implantação otimizada e disponibilidade ininterrupta de dados. A solução AI Control Plane integra o Kubernetes e Kubeflow com um Data Fabric da NetApp. O Kubernetes, a plataforma de orquestração de contêineres padrão do setor para implantações nativas da nuvem, oferece escalabilidade e portabilidade do workload. O Kubeflow é uma plataforma de aprendizado de máquina de código aberto que simplifica o gerenciamento e a implantação, permitindo que os desenvolvedores façam mais ciência de dados em menos tempo. Um Data Fabric habilitado pela NetApp oferece disponibilidade e portabilidade de dados sem compromissos para garantir que seus dados estejam acessíveis no pipeline, da borda ao centro e à nuvem. Este relatório técnico usa o plano de controle de IA do NetApp em um pipeline do MLRun. A imagem a seguir mostra a página de gerenciamento de clusters do Kubernetes onde você pode ter pontos de extremidade diferentes para cada cluster. Conectamos os volumes persistentes do NFS ao cluster do Kubernetes, e as imagens a seguir mostram um volume persistente conectado ao cluster, onde https://www.netapp.com/pdf.html?item=/media/7040-ds-netapp-project-trident.pdf["NetApp Trident"^] oferece suporte ao storage persistente e recursos de gerenciamento de dados.
+
+image:mlrun_image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:mlrun_image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:mlrun_image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Iguazio Visão geral
+
+A Iguazio Data Science Platform é uma plataforma de ciência de dados como serviço (PaaS) totalmente integrada e segura que simplifica o desenvolvimento, acelera o desempenho, facilita a colaboração e aborda os desafios operacionais. Esta plataforma incorpora os seguintes componentes, e a Plataforma Iguazio Data Science é apresentada na seguinte imagem:
+
+* Uma bancada de ciência de dados que inclui notebooks Jupyter, mecanismos de análise integrados e pacotes Python
+* Gerenciamento de modelos com monitoramento de experimentos e recursos de pipeline automatizados
+* Serviços DE ML e DADOS gerenciados em um cluster dimensionável do Kubernetes
+* Nuclio, uma estrutura de funções sem servidor em tempo real
+* Uma camada de dados extremamente rápida e segura que suporta SQL, NoSQL, bancos de dados de séries temporais, arquivos (objetos simples) e streaming
+* Integração com fontes de dados de terceiros, como NetApp, Amazon S3, HDFS, bancos de dados SQL e protocolos de streaming ou mensagens
+* Painéis em tempo real baseados no Grafana
+
+
+image:mlrun_image7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

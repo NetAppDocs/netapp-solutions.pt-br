@@ -1,0 +1,193 @@
+---
+sidebar: sidebar 
+permalink: automation/getting-started.html 
+summary: A automação de soluções da NetApp permite que o cliente automatize a implantação, a configuração e a execução de muitas tarefas comuns de infraestrutura e aplicações. 
+keywords: netapp, awx, tower, ansible tower, solutions, automation, ansible, getting, started 
+---
+= Primeiros passos com a automação da solução NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A automação da solução NetApp fornece simplicidade e repetibilidade para muitas das tarefas comuns utilizadas pelas soluções NetApp.
+
+Antes de executar qualquer automação de solução, o ambiente deve ser configurado para como a automação será executada. Existem opções para executar a automação a partir da linha de comando ou através de uma ferramenta como AWX ou torre.
+
+As seções a seguir descreverão as etapas necessárias para configurar o ambiente para cada um dos ambientes especificados.
+
+.Configurar o nó de controle Ansible para implantações de CLI no RHEL/CentOS
+[%collapsible]
+====
+. Requisitos para o nó de controle do Ansible:
++
+.. Uma máquina RHEL/CentOS com os seguintes pacotes instalados:
++
+... Python3
+... Pip3
+... Ansible (versão maior que 2.10.0)
+... Git
+
+
+
+
+
+
+Se você tiver uma nova máquina RHEL/CentOS sem os requisitos acima instalados, siga as etapas abaixo para configurar essa máquina como nó de controle do Ansible:
+
+. Habilite o repositório Ansible para RHEL-8/RHEL-7
++
+.. Para RHEL-8 (execute o comando abaixo como root)
++
+[source, cli]
+----
+subscription-manager repos --enable ansible-2.9-for-rhel-8-x86_64-rpms
+----
+.. Para RHEL-7 (execute o comando abaixo como root)
++
+[source, cli]
+----
+subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
+----
+
+
+. Cole o conteúdo abaixo no Terminal
++
+[source, cli]
+----
+sudo yum -y install python3 >> install.log
+sudo yum -y install python3-pip >> install.log
+python3 -W ignore -m pip --disable-pip-version-check install ansible >> install.log
+sudo yum -y install git >> install.log
+----
+
+
+====
+.Configure o Ansible Control Node para implantações CLI no Ubuntu / Debian
+[%collapsible]
+====
+. Requisitos para o nó de controle do Ansible:
++
+.. Uma máquina Ubuntu/Debian com os seguintes pacotes instalados:
++
+... Python3
+... Pip3
+... Ansible (versão maior que 2.10.0)
+... Git
+
+
+
+
+
+
+Se você tiver uma nova máquina Ubuntu/Debian sem os requisitos acima instalados, siga as etapas abaixo para configurar essa máquina como o nó de controle Ansible:
+
+. Cole o conteúdo abaixo no terminal
++
+[source, cli]
+----
+sudo apt-get -y install python3 >> outputlog.txt
+sudo apt-get -y install python3-pip >> outputlog.txt
+python3 -W ignore -m pip --disable-pip-version-check install ansible >> outputlog.txt
+sudo apt-get -y install git >> outputlog.txt
+----
+
+
+====
+.Configure o Ansible Tower ou AWX para implantações em torre/AWX
+[%collapsible]
+====
+Esta seção descreve as etapas necessárias para configurar os parâmetros na torre AWX/Ansible que preparam o ambiente para o consumo de soluções automatizadas da NetApp.
+
+. Configure o inventário.
++
+.. Navegue até recursos → inventários → Adicionar e clique em Adicionar inventário.
+.. Forneça detalhes do nome e da organização e clique em Salvar.
+.. Na página inventários, clique nos recursos de inventário que você acabou de criar.
+.. Se houver variáveis de inventário, cole-as no campo variáveis.
+.. Vá para o submenu grupos e clique em Adicionar.
+.. Forneça o nome do grupo, copie as variáveis do grupo (se necessário) e clique em Salvar.
+.. Clique no grupo criado, vá para o submenu hosts e clique em Adicionar novo host.
+.. Forneça o nome do host e o endereço IP do host, cole as variáveis do host (se necessário) e clique em Salvar.
+
+
+. Criar tipos de credenciais. Para soluções que envolvam ONTAP, Element, VMware ou qualquer outra conexão de transporte baseada em HTTPS, você deve configurar o tipo de credencial para corresponder às entradas de nome de usuário e senha.
++
+.. Navegue até Administration → Credential Types e clique em Add (Adicionar).
+.. Forneça o nome e a descrição.
+.. Cole o seguinte conteúdo na Configuração de Entrada:
+
+
+
+
+[listing]
+----
+fields:
+- id: username
+type: string
+label: Username
+- id: password
+type: string
+label: Password
+secret: true
+- id: vsadmin_password
+type: string
+label: vsadmin_password
+secret: true
+----
+. Cole o seguinte conteúdo na Configuração do injetor:
+
+
+[listing]
+----
+extra_vars:
+password: '{{ password }}'
+username: '{{ username }}'
+vsadmin_password: '{{ vsadmin_password }}'
+----
+. Configurar credenciais.
++
+.. Navegue até recursos → credenciais e clique em Adicionar.
+.. Introduza o nome e os detalhes da organização.
+.. Selecione o tipo de credencial correto; se pretender utilizar o início de sessão SSH padrão, selecione o tipo Máquina ou, em alternativa, selecione o tipo de credencial personalizado que criou.
+.. Introduza os outros detalhes correspondentes e clique em Guardar.
+
+
+. Configure o projeto.
++
+.. Navegue até recursos → Projetos e clique em Adicionar.
+.. Introduza o nome e os detalhes da organização.
+.. Selecione Git para o tipo de credencial de Controle de origem.
+.. Cole o URL de controle de origem (ou git clone URL) correspondente à solução específica.
+.. Opcionalmente, se o URL Git for controlado pelo acesso, crie e anexe a credencial correspondente na credencial de controle de código-fonte.
+.. Clique em Guardar.
+
+
+. Configure o modelo de trabalho.
++
+.. Navegue até recursos → modelos → Adicionar e clique em Adicionar modelo de tarefa.
+.. Introduza o nome e a descrição.
+.. Selecione o tipo de tarefa; Executar configura o sistema com base em um manual de estratégia e verificar executa uma execução seca do manual de estratégia sem realmente configurar o sistema.
+.. Selecione o inventário, o projeto e as credenciais correspondentes para o manual de estratégia.
+.. Selecione o manual de estratégia que pretende executar como parte do modelo de tarefa.
+.. Normalmente, as variáveis são coladas durante o tempo de execução. Portanto, para obter o prompt para preencher as variáveis durante o tempo de execução, certifique-se de marcar o prompt da caixa de seleção ao iniciar correspondente ao campo variável.
+.. Forneça quaisquer outros detalhes conforme necessário e clique em Salvar.
+
+
+. Inicie o modelo de trabalho.
++
+.. Navegue até recursos → modelos.
+.. Clique no modelo desejado e, em seguida, clique em Iniciar.
+.. Preencha quaisquer variáveis se solicitado no lançamento e clique em Iniciar novamente.
+
+
+
+
+====
+Para obter mais informações, visite link:https://netapp.io/2018/10/08/getting-started-with-netapp-and-ansible-install-ansible/["Primeiros passos com a automação da solução NetApp e o Ansible"]
+
+Para solicitar automação, preencha o link:https://github.com/NetAppDocs/netapp-solutions/issues/new?body=%5BRequest%20Automation%5D%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20["formulário de solicitação de automação"].

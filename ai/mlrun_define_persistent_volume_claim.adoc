@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_define_persistent_volume_claim.html 
+keywords: NetApp Trident Volume Jupyter Notebook 
+summary:  
+---
+= Definir reclamação de volume persistente
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+este artigo demonstra como definir uma reivindicação de volume persistente em um notebook Jupyter.
+
+. Salve o seguinte YAML em um arquivo para criar um PVC do tipo Basic.
++
+....
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: basic
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: netapp-file
+....
+. Aplique o arquivo YAML ao cluster do Iguazio Kubernetes.
+
+
+....
+Kubectl -n default-tenant apply -f <your yaml file>
+....
+
+
+== Anexe o volume do NetApp ao notebook Jupyter
+
+A Iguazio oferece vários serviços gerenciados para fornecer aos cientistas de dados uma pilha completa de ponta a ponta para o desenvolvimento e implantação de aplicativos de IA/ML. Pode ler mais sobre estes componentes no https://www.iguazio.com/docs/intro/latest-release/ecosystem/app-services/["Iguazio Visão geral de Serviços e Ferramentas de aplicativos"^].
+
+Um dos serviços gerenciados é o Jupyter notebook. Cada desenvolvedor obtém sua própria implantação de um contentor de notebook com os recursos necessários para o desenvolvimento. Para dar a eles acesso ao volume de nuvem do NetApp, você pode atribuir o volume ao volume de alocação de recursos e contentores, as configurações de variáveis de usuário em execução e ambiente para declarações de volume persistentes são apresentadas na imagem a seguir.
+
+Para uma configuração no local, na configuração Trident para habilitar os recursos de gerenciamento de dados do NetApp ONTAP, como fazer cópias Snapshot de seus dados ou modelo para controle de versão. Adicione a seguinte linha no arquivo de configuração back-end do Trident para tornar visíveis os diretórios instantâneos:
+
+....
+{
+    …
+    "defaults": {
+        "snapshotDir": "true"
+    }
+}
+....
+Você deve criar um arquivo de configuração de back-end do Trident no formato JSON e executar o seguinte https://netapp-trident.readthedocs.io/en/stable-v18.07/kubernetes/operations/tasks/backends.html["Comando Trident"^] para referenciá-lo:
+
+....
+tridentctl create backend -f <backend-file>
+....
+image:mlrun_image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

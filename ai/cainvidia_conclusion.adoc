@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_conclusion.html 
+keywords: Conclusion 
+summary:  
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Um verdadeiro sistema de IA conversacional envolve um diálogo humano, compreende o contexto e fornece respostas inteligentes. Tais modelos de IA são muitas vezes enormes e altamente complexos. Com GPUs NVIDIA e storage NetApp, modelos de linguagem impressionantes e de última geração podem ser treinados e otimizados para executar a inferência rapidamente. Este é um passo importante para acabar com o trade-off entre um modelo de IA que é rápido contra um que é grande e complexo. Os modelos de compreensão de linguagem otimizados por GPU podem ser integrados em aplicativos de IA para setores como serviços de saúde, varejo e financeiros, capacitando assistentes de voz digitais avançados em alto-falantes inteligentes e linhas de atendimento ao cliente. Esses sistemas de AI conversacionais de alta qualidade permitem que empresas de vários setores forneçam serviços personalizados antes inatingíveis ao interagir com os clientes.
+
+O Jarvis permite a implantação de casos de uso como assistentes virtuais, avatares digitais, Fusion de sensor multimodal (CV fundido com ASR/NLP/TTS) ou qualquer caso de uso autônomo ASR/NLP/TTS/CV, como a transcrição. Construímos um assistente virtual de varejo que pode responder a perguntas sobre tempo, pontos de interesse e preços de inventário. Também demonstramos como melhorar as capacidades de compreensão de linguagem natural do sistema de IA conversacional, arquivando o histórico de conversas usando cópia e sincronização do BlueXP  e treinando modelos Nemo sobre novos dados.

@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_acknowledgments.html 
+keywords: Acknowledgments 
+summary:  
+---
+= Agradecimentos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Os autores reconhecem com gratidão as contribuições que foram feitas para este white paper por nossos estimados colegas de NVIDIA: Davide Onofrio, Alex Qi, Sicong Ji, Marty Jain e Robert Sohigian. Os autores também gostariam de reconhecer as contribuições dos principais membros da equipe da NetApp: Santosh Rao, David Arnette, Michael Oglesby, Brent
+
+Nosso sincero apreço e agradecimento vão a todos esses indivíduos, que forneceram insight e expertise que ajudaram muito na criação deste artigo.

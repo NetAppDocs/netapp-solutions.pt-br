@@ -1,0 +1,115 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_trident_ontap_iscsi.html 
+summary: Para habilitar a integração com o Trident ao sistema de storage NetApp ONTAP, você precisa criar um back-end que permita a comunicação com o sistema de storage. 
+keywords: Trident, Trident, ONTAP, AFF, FAS, iSCSI 
+---
+= Configuração iSCSI NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para habilitar a integração com o Trident ao sistema de storage NetApp ONTAP, você precisa criar um back-end que permita a comunicação com o sistema de storage.
+
+. Há arquivos de back-end de exemplo disponíveis no arquivo de instalação baixado `sample-input` na hierarquia de pastas. Para sistemas NetApp ONTAP que servem iSCSI, copie o `backend-ontap-san.json` ficheiro para o diretório de trabalho e edite o ficheiro.
++
+[listing]
+----
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ cp sample-input/backends-samples/ontap-san/backend-ontap-san.json ./
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ vi backend-ontap-san.json
+----
+. Edite os valores de gerenciamento de LIF, dataLIF, svm, nome de usuário e senha neste arquivo.
++
+[listing]
+----
+{
+  "version": 1,
+  "storageDriverName": "ontap-san",
+  "managementLIF": "172.21.224.201",
+  "dataLIF": "10.61.181.240",
+  "svm": "trident_svm",
+  "username": "admin",
+  "password": "password"
+}
+----
+. Com esse arquivo de back-end instalado, execute o seguinte comando para criar seu primeiro backend.
++
+[listing]
+----
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ ./tridentctl -n trident create backend -f backend-ontap-san.json
++------------------------+----------------+--------------------------------------+--------+---------+
+|          NAME          | STORAGE DRIVER |                 UUID                 | STATE  | VOLUMES |
++------------------------+----------------+--------------------------------------+--------+---------+
+| ontapsan_10.61.181.241 | ontap-san      | 6788533c-7fea-4a35-b797-fb9bb3322b91 | online |       0 |
++------------------------+----------------+--------------------------------------+--------+---------+
+----
+. Com o back-end criado, você deve criar uma classe de storage. Assim como no back-end, há um arquivo de classe de armazenamento de amostra que pode ser editado para o ambiente disponível na pasta Sample-inputs. Copie-o para o diretório de trabalho e faça as edições necessárias para refletir o backend criado.
++
+[listing]
+----
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ cp sample-input/storage-class-samples/storage-class-csi.yaml.templ ./storage-class-basic.yaml
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ vi storage-class-basic.yaml
+----
+. A única edição que deve ser feita para este arquivo é definir o `backendType` valor para o nome do driver de armazenamento a partir do back-end recém-criado. Observe também o valor name-field, que deve ser referenciado em uma etapa posterior.
++
+[listing]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: basic-csi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"
+----
++
+
+NOTE: Há um campo opcional chamado `fsType` que é definido neste arquivo. Nos backends iSCSI, esse valor pode ser definido para um tipo específico de sistema de arquivos Linux (XFS, ext4, etc.), ou pode ser excluído para permitir que o SO do nó de trabalho decida qual sistema de arquivos usar.
+
+. Execute o `kubectl` comando para criar a classe de armazenamento.
++
+[listing]
+----
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ kubectl create -f storage-class-basic.yaml
+storageclass.storage.k8s.io/basic-csi created
+----
+. Com a classe de storage criada, é necessário criar a primeira reivindicação de volume persistente (PVC). Há um arquivo de exemplo `pvc-basic.yaml` que pode ser usado para executar esta ação localizado em Sample-inputs também.
++
+[listing]
+----
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ cp sample-input/pvc-samples/pvc-basic.yaml ./
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ vi pvc-basic.yaml
+----
+. A única edição que deve ser feita para este arquivo é garantir que o `storageClassName` campo corresponda ao que acabou de criar. A definição de PVC pode ser ainda mais personalizada, conforme exigido pela carga de trabalho a ser provisionada.
++
+[listing]
+----
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: basic
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: basic-csi
+----
+. Crie o PVC emitindo o `kubectl` comando. A criação pode demorar algum tempo dependendo do tamanho do volume de apoio que está sendo criado, para que você possa assistir ao processo à medida que ele for concluído.
++
+[listing]
+----
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ kubectl create -f pvc-basic.yaml
+persistentvolumeclaim/basic created
+
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ kubectl get pvc
+NAME    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+basic   Bound    pvc-7ceac1ba-0189-43c7-8f98-094719f7956c   1Gi        RWO            basic-csi      3s
+----
+

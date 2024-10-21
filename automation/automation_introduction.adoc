@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: automation/automation_introduction.html 
+summary: A automação de soluções NetApp permite que o cliente automatize a implantação, configuração e execução de muitas tarefas comuns de infraestrutura e aplicativos. 
+keywords: netapp, solutions, automation, ansible, terraform 
+---
+= Automação de soluções da NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A automação de soluções NetApp permite que o cliente automatize a implantação, configuração e execução de muitas tarefas comuns de infraestrutura e aplicativos.
+
+
+
+== Introdução
+
+Ao fornecer soluções para atender aos desafios de negócios atuais, a NetApp oferece soluções com os seguintes objetivos:
+
+* Fornecendo etapas validadas de implantação e configuração,
+* Fornecendo soluções que são facilmente consumíveis,
+* Fornecer uma implantação de solução com um resultado previsível, é facilmente repetido e dimensionável em toda a empresa do cliente.
+
+
+Para alcançar esses objetivos, é fundamental que a implantação e configuração da infraestrutura e/ou aplicativos fornecidos por meio de nossas soluções sejam simplificadas por meio da automação. A NetApp tem o compromisso de simplificar o consumo de soluções por meio da automação.
+
+Com a utilização de ferramentas de automação de código aberto, como o Red Hat Ansible, HashiCorp Terraform ou Microsoft PowerShell, as soluções da NetApp podem automatizar a implantação de aplicações, o provisionamento em nuvem, o gerenciamento de configurações e muitas outras tarefas comuns DE TI. As soluções da NetApp tiram proveito de artefatos de automação disponíveis publicamente - além de fornecer automação de autoria da NetApp - para simplificar a implantação geral de uma solução.
+
+Quando os recursos de automação estiverem disponíveis, o material de apoio da solução guiará o usuário pelo processo de automação da solução ou das etapas da solução por meio da(s) ferramenta(s) de automação específica(s).

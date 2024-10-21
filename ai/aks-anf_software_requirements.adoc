@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_software_requirements.html 
+keywords: software, requirements, aks, azure, kubernetes, service, rapids, trident, helm 
+summary: Esta página lista os requisitos de software necessários para esta solução. 
+---
+= Requisitos de software
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A tabela a seguir lista os requisitos de software necessários para essa solução.
+
+|===
+| Software | Versão 
+
+
+| Serviço Kubernetes do Azure | 1.18.14 
+
+
+| RAPIDS e Dask imagem de contentor | Repositório: "Rapidsai/rapidsai" Tag: 0,17-cuda11,0-runtime-ubuntu18,04 
+
+
+| NetApp Trident | 20.01.1 
+
+
+| Leme | 3.0.0 
+|===

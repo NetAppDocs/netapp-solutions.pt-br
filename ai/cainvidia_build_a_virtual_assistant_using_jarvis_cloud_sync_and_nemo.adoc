@@ -1,0 +1,16 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_build_a_virtual_assistant_using_jarvis_cloud_sync_and_nemo.html 
+keywords: NetApp Virtual Assistant Jarvis NeMo 
+summary:  
+---
+= Crie um assistente virtual usando Jarvis, cópia e sincronização do BlueXP  e Nemo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:cainvidia_build_a_virtual_assistant_using_jarvis_cloud_sync_and_nemo_overview.html["Próximo: Construa um assistente virtual usando Jarvis, cópia e sincronização do BlueXP  e visão geral do Nemo"]

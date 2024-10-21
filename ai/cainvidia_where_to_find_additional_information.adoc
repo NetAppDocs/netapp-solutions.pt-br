@@ -1,0 +1,53 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_where_to_find_additional_information.html 
+keywords: Additional Information, NVIDIA 
+summary:  
+---
+= Onde encontrar informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes recursos:
+
+* Estação DGX da NVIDIA, GPU V100, nuvem de GPU
++
+** Estação DGX de NVIDIA https://www.nvidia.com/en-us/data-center/dgx-station/["https://www.nvidia.com/en-us/data-center/dgx-station/"^]
+** GPU NVIDIA V100 https://www.nvidia.com/en-us/data-center/tesla-v100/["https://www.nvidia.com/en-us/data-center/tesla-v100/"^]
+** NVIDIA NGC https://www.nvidia.com/en-us/gpu-cloud/["https://www.nvidia.com/en-us/gpu-cloud/"^]
+
+
+* Estrutura multimodal NVIDIA Jarvis
++
+** NVIDIA Jarvis https://developer.nvidia.com/nvidia-jarvis["https://developer.nvidia.com/nvidia-jarvis"^]
+** NVIDIA Jarvis Acesso antecipado https://developer.nvidia.com/nvidia-jarvis-early-access["https://developer.nvidia.com/nvidia-jarvis-early-access"^]
+
+
+* NVIDIA Nemo
++
+** NVIDIA Nemo https://developer.nvidia.com/nvidia-nemo["https://developer.nvidia.com/nvidia-nemo"^]
+** Guia do desenvolvedor https://nvidia.github.io/NeMo/["https://nvidia.github.io/NeMo/"^]
+
+
+* Sistemas NetApp AFF
++
+** Vantagem do flash da NetApp para FAS all-flash https://www.netapp.com/us/media/ds-3733.pdf["https://www.netapp.com/pdf.html?item=/media/19894-ds-3733.pdf"^]
+** Biblioteca de informações do ONTAP 9 http://mysupport.netapp.com/documentation/productlibrary/index.html?productID=62286["http://mysupport.netapp.com/documentation/productlibrary/index.html?productID=62286"^]
+** Relatório técnico do NetApp ONTAP FlexGroup volumes https://www.netapp.com/us/media/tr-4557.pdf["https://www.netapp.com/pdf.html?item=/media/7337-tr4557pdf.pdf"^]
+
+
+* NetApp ONTAP AI
++
+** ONTAP AI com DGX-1 e Guia de design de rede da Cisco https://www.netapp.com/us/media/nva-1121-design.pdf["https://www.netapp.com/us/media/nva-1121-design.pdf"^]
+** ONTAP AI com DGX-1 e Guia de implantação de redes Cisco https://www.netapp.com/pdf.html?item=/media/7677-nva1121designpdf.pdf["https://www.netapp.com/pdf.html?item=/media/7674-nva-1121-deploypdf.pdf"^]
+** ONTAP AI com DGX-1 e Guia de design de rede Mellanox http://www.netapp.com/us/media/nva-1138-design.pdf["https://www.netapp.com/pdf.html?item=/media/17122-nva1138designpdf.pdf"^]
+** ONTAP AI com o Guia de Design do DGX-2 https://www.netapp.com/pdf.html?item=/media/7675-nva1135designpdf.pdf["https://www.netapp.com/us/media/nva-1135-design.pdf"^]
+
+
+

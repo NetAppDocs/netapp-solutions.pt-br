@@ -1,0 +1,230 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_execute_a_synchronous_distributed_ai_workload.html 
+keywords: NetApp Distributed AI Workload 
+summary: MLOps de código aberto com NetApp - execute um workload de AI distribuído e síncrono 
+---
+= Execute um workload de AI distribuído e síncrono
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para executar um trabalho de AI e ML com vários nós síncronos no cluster do Kubernetes, execute as seguintes tarefas no host de salto de implantação. Esse processo permite que você aproveite os dados armazenados em um volume NetApp e use mais GPUs do que um único nó de trabalho pode fornecer. Veja a figura a seguir para uma representação de um trabalho de IA distribuído síncrono.
+
+
+NOTE: Os trabalhos distribuídos síncronos podem ajudar a aumentar a precisão do desempenho e do treinamento em comparação com os trabalhos distribuídos assíncronos. Uma discussão sobre os prós e contras de trabalhos síncronos versus trabalhos assíncronos está fora do escopo deste documento.
+
+image:aicp_image56.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Os comandos de exemplo a seguir mostram a criação de um worker que participa da execução síncrona distribuída da mesma tarefa de benchmark do TensorFlow que foi executada em um único nó no exemplo da link:aicp_execute_a_single-node_ai_workload.html["Execute um workload de AI de nó único"]seção . Neste exemplo específico, apenas um único trabalhador é implantado porque o trabalho é executado em dois nós de trabalho.
++
+Esse exemplo de implantação de trabalho solicita oito GPUs e, portanto, pode ser executado em um único nó de trabalho de GPU que apresenta oito ou mais GPUs. Se os nós de trabalho da GPU apresentarem mais de oito GPUs, para maximizar o desempenho, talvez você queira aumentar esse número para ser igual ao número de GPUs que seus nós de trabalho apresentam. Para obter mais informações sobre as implantações do Kubernetes, consulte o https://kubernetes.io/docs/concepts/workloads/controllers/deployment/["documentação oficial do Kubernetes"^].
+
++
+Uma implantação do Kubernetes é criada neste exemplo porque esse trabalhador em contêineres específico nunca seria concluído por conta própria. Portanto, não faz sentido implantá-la usando a construção de trabalho do Kubernetes. Se seu trabalhador for projetado ou escrito para ser concluído por conta própria, então pode fazer sentido usar a construção de trabalho para implantar seu trabalhador.
+
++
+O pod especificado neste exemplo de especificação de implantação recebe um `hostNetwork` valor de `true`. Esse valor significa que o pod usa a pilha de rede do nó de trabalho do host em vez da pilha de rede virtual que o Kubernetes geralmente cria para cada pod. Esta anotação é usada neste caso porque a carga de trabalho específica depende de MPI aberto, NCCL e Horovod para executar a carga de trabalho de forma distribuída síncrona. Portanto, ele requer acesso à pilha de rede host. Uma discussão sobre Open MPI, NCCL e Horovod está fora do escopo deste documento. Se essa anotação é necessária ou não `hostNetwork: true` depende dos requisitos da carga de trabalho específica que você está executando. Para obter mais informações sobre o `hostNetwork` campo, consulte https://kubernetes.io/docs/concepts/policy/pod-security-policy/["documentação oficial do Kubernetes"^].
+
++
+....
+$ cat << EOF > ./netapp-tensorflow-multi-imagenet-worker.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netapp-tensorflow-multi-imagenet-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netapp-tensorflow-multi-imagenet-worker
+  template:
+    metadata:
+      labels:
+        app: netapp-tensorflow-multi-imagenet-worker
+    spec:
+      hostNetwork: true
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+      - name: testdata-iface1
+        persistentVolumeClaim:
+          claimName: pb-fg-all-iface1
+      - name: testdata-iface2
+        persistentVolumeClaim:
+          claimName: pb-fg-all-iface2
+      - name: results
+        persistentVolumeClaim:
+          claimName: tensorflow-results
+      containers:
+      - name: netapp-tensorflow-py2
+        image: netapp/tensorflow-py2:19.03.0
+        command: ["bash", "/netapp/scripts/start-slave-multi.sh", "22122"]
+        resources:
+          limits:
+            nvidia.com/gpu: 8
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+        - mountPath: /mnt/mount_0
+          name: testdata-iface1
+        - mountPath: /mnt/mount_1
+          name: testdata-iface2
+        - mountPath: /tmp
+          name: results
+        securityContext:
+          privileged: true
+EOF
+$ kubectl create -f ./netapp-tensorflow-multi-imagenet-worker.yaml
+deployment.apps/netapp-tensorflow-multi-imagenet-worker created
+$ kubectl get deployments
+NAME                                      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+netapp-tensorflow-multi-imagenet-worker   1         1         1            1           4s
+....
+. Confirme se a implantação do worker que você criou na etapa 1 foi iniciada com sucesso. Os comandos de exemplo a seguir confirmam que um único pod de trabalho foi criado para a implantação, conforme indicado na definição de implantação, e que esse pod está sendo executado atualmente em um dos nós de trabalho da GPU.
++
+....
+$ kubectl get pods -o wide
+NAME                                                       READY   STATUS    RESTARTS   AGE
+IP              NODE            NOMINATED NODE
+netapp-tensorflow-multi-imagenet-worker-654fc7f486-v6725   1/1     Running   0          60s   10.61.218.154   10.61.218.154   <none>
+$ kubectl logs netapp-tensorflow-multi-imagenet-worker-654fc7f486-v6725
+22122
+....
+. Crie um trabalho do Kubernetes para um mestre que comece, participe e acompanhe a execução do trabalho síncrono multinode. Os comandos de exemplo a seguir criam um mestre que inicia, participa e rastreia a execução distribuída síncrona da mesma tarefa de benchmark do TensorFlow que foi executada em um único nó no exemplo da link:aicp_execute_a_single-node_ai_workload.html["Execute um workload de AI de nó único"]seção .
++
+Este exemplo de tarefa mestre solicita oito GPUs e, portanto, pode ser executado em um único nó de trabalho de GPU que apresenta oito ou mais GPUs. Se os nós de trabalho da GPU apresentarem mais de oito GPUs, para maximizar o desempenho, talvez você queira aumentar esse número para ser igual ao número de GPUs que seus nós de trabalho apresentam.
+
++
+O pod principal especificado neste exemplo de definição de tarefa recebe um `hostNetwork` valor de `true`, assim como o pod de trabalho recebeu `hostNetwork` um valor de `true` na etapa 1. Consulte a etapa 1 para obter detalhes sobre por que esse valor é necessário.
+
++
+....
+$ cat << EOF > ./netapp-tensorflow-multi-imagenet-master.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: netapp-tensorflow-multi-imagenet-master
+spec:
+  backoffLimit: 5
+  template:
+    spec:
+      hostNetwork: true
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+      - name: testdata-iface1
+        persistentVolumeClaim:
+          claimName: pb-fg-all-iface1
+      - name: testdata-iface2
+        persistentVolumeClaim:
+          claimName: pb-fg-all-iface2
+      - name: results
+        persistentVolumeClaim:
+          claimName: tensorflow-results
+      containers:
+      - name: netapp-tensorflow-py2
+        image: netapp/tensorflow-py2:19.03.0
+        command: ["python", "/netapp/scripts/run.py", "--dataset_dir=/mnt/mount_0/dataset/imagenet", "--port=22122", "--num_devices=16", "--dgx_version=dgx1", "--nodes=10.61.218.152,10.61.218.154"]
+        resources:
+          limits:
+            nvidia.com/gpu: 8
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+        - mountPath: /mnt/mount_0
+          name: testdata-iface1
+        - mountPath: /mnt/mount_1
+          name: testdata-iface2
+        - mountPath: /tmp
+          name: results
+        securityContext:
+          privileged: true
+      restartPolicy: Never
+EOF
+$ kubectl create -f ./netapp-tensorflow-multi-imagenet-master.yaml
+job.batch/netapp-tensorflow-multi-imagenet-master created
+$ kubectl get jobs
+NAME                                      COMPLETIONS   DURATION   AGE
+netapp-tensorflow-multi-imagenet-master   0/1           25s        25s
+....
+. Confirme se a tarefa principal criada no passo 3 está a ser executada corretamente. O comando de exemplo a seguir confirma que um único pod mestre foi criado para a tarefa, como indicado na definição da tarefa, e que esse pod está sendo executado atualmente em um dos nós de trabalho da GPU. Você também deve ver que o pod de trabalho que você viu originalmente na etapa 1 ainda está em execução e que os pods mestre e trabalhador estão em execução em nós diferentes.
++
+....
+$ kubectl get pods -o wide
+NAME                                                       READY   STATUS    RESTARTS   AGE
+IP              NODE            NOMINATED NODE
+netapp-tensorflow-multi-imagenet-master-ppwwj              1/1     Running   0          45s   10.61.218.152   10.61.218.152   <none>
+netapp-tensorflow-multi-imagenet-worker-654fc7f486-v6725   1/1     Running   0          26m   10.61.218.154   10.61.218.154   <none>
+....
+. Confirme se a tarefa principal criada na etapa 3 foi concluída com êxito. Os comandos de exemplo a seguir confirmam que o trabalho foi concluído com êxito.
++
+....
+$ kubectl get jobs
+NAME                                      COMPLETIONS   DURATION   AGE
+netapp-tensorflow-multi-imagenet-master   1/1           5m50s      9m18s
+$ kubectl get pods
+NAME                                                       READY   STATUS      RESTARTS   AGE
+netapp-tensorflow-multi-imagenet-master-ppwwj              0/1     Completed   0          9m38s
+netapp-tensorflow-multi-imagenet-worker-654fc7f486-v6725   1/1     Running     0          35m
+$ kubectl logs netapp-tensorflow-multi-imagenet-master-ppwwj
+[10.61.218.152:00008] WARNING: local probe returned unhandled shell:unknown assuming bash
+rm: cannot remove '/lib': Is a directory
+[10.61.218.154:00033] PMIX ERROR: NO-PERMISSIONS in file gds_dstore.c at line 702
+[10.61.218.154:00033] PMIX ERROR: NO-PERMISSIONS in file gds_dstore.c at line 711
+[10.61.218.152:00008] PMIX ERROR: NO-PERMISSIONS in file gds_dstore.c at line 702
+[10.61.218.152:00008] PMIX ERROR: NO-PERMISSIONS in file gds_dstore.c at line 711
+Total images/sec = 12881.33875
+================ Clean Cache !!! ==================
+mpirun -allow-run-as-root -np 2 -H 10.61.218.152:1,10.61.218.154:1 -mca pml ob1 -mca btl ^openib -mca btl_tcp_if_include enp1s0f0 -mca plm_rsh_agent ssh -mca plm_rsh_args "-p 22122" bash -c 'sync; echo 1 > /proc/sys/vm/drop_caches'
+=========================================
+mpirun -allow-run-as-root -np 16 -H 10.61.218.152:8,10.61.218.154:8 -bind-to none -map-by slot -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x PATH -mca pml ob1 -mca btl ^openib -mca btl_tcp_if_include enp1s0f0 -x NCCL_IB_HCA=mlx5 -x NCCL_NET_GDR_READ=1 -x NCCL_IB_SL=3 -x NCCL_IB_GID_INDEX=3 -x NCCL_SOCKET_IFNAME=enp5s0.3091,enp12s0.3092,enp132s0.3093,enp139s0.3094 -x NCCL_IB_CUDA_SUPPORT=1 -mca orte_base_help_aggregate 0 -mca plm_rsh_agent ssh -mca plm_rsh_args "-p 22122" python /netapp/tensorflow/benchmarks_190205/scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py --model=resnet50 --batch_size=256 --device=gpu --force_gpu_compatible=True --num_intra_threads=1 --num_inter_threads=48 --variable_update=horovod --batch_group_size=20 --num_batches=500 --nodistortions --num_gpus=1 --data_format=NCHW --use_fp16=True --use_tf_layers=False --data_name=imagenet --use_datasets=True --data_dir=/mnt/mount_0/dataset/imagenet --datasets_parallel_interleave_cycle_length=10 --datasets_sloppy_parallel_interleave=False --num_mounts=2 --mount_prefix=/mnt/mount_%d --datasets_prefetch_buffer_size=2000 -- datasets_use_prefetch=True --datasets_num_private_threads=4 --horovod_device=gpu > /tmp/20190814_161609_tensorflow_horovod_rdma_resnet50_gpu_16_256_b500_imagenet_nodistort_fp16_r10_m2_nockpt.txt 2>&1
+....
+. Exclua a implantação do worker quando você não precisar mais dela. Os comandos de exemplo a seguir mostram a exclusão do objeto de implantação de trabalho que foi criado na etapa 1.
++
+Quando você exclui o objeto de implantação do trabalhador, o Kubernetes exclui automaticamente todos os pods de trabalho associados.
+
++
+....
+$ kubectl get deployments
+NAME                                      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+netapp-tensorflow-multi-imagenet-worker   1         1         1            1           43m
+$ kubectl get pods
+NAME                                                       READY   STATUS      RESTARTS   AGE
+netapp-tensorflow-multi-imagenet-master-ppwwj              0/1     Completed   0          17m
+netapp-tensorflow-multi-imagenet-worker-654fc7f486-v6725   1/1     Running     0          43m
+$ kubectl delete deployment netapp-tensorflow-multi-imagenet-worker
+deployment.extensions "netapp-tensorflow-multi-imagenet-worker" deleted
+$ kubectl get deployments
+No resources found.
+$ kubectl get pods
+NAME                                            READY   STATUS      RESTARTS   AGE
+netapp-tensorflow-multi-imagenet-master-ppwwj   0/1     Completed   0          18m
+....
+. *Opcional:* limpe os artefatos do trabalho mestre. Os comandos de exemplo a seguir mostram a exclusão do objeto de tarefa mestre que foi criado na etapa 3.
++
+Quando você exclui o objeto da tarefa mestre, o Kubernetes exclui automaticamente todos os pods mestres associados.
+
++
+....
+$ kubectl get jobs
+NAME                                      COMPLETIONS   DURATION   AGE
+netapp-tensorflow-multi-imagenet-master   1/1           5m50s      19m
+$ kubectl get pods
+NAME                                            READY   STATUS      RESTARTS   AGE
+netapp-tensorflow-multi-imagenet-master-ppwwj   0/1     Completed   0          19m
+$ kubectl delete job netapp-tensorflow-multi-imagenet-master
+job.batch "netapp-tensorflow-multi-imagenet-master" deleted
+$ kubectl get jobs
+No resources found.
+$ kubectl get pods
+No resources found.
+....
+

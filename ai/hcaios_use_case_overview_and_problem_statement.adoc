@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_use_case_overview_and_problem_statement.html 
+keywords: NetApp, Case, Overview, Problem, Statement 
+summary:  
+---
+= Visão geral do caso de uso e Declaração de problema
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+As versões dos conjuntos de dados e dos conjuntos de dados costumam estar localizados em um data Lake, como o storage baseado em objeto NetApp StorageGRID, que oferece custos reduzidos e outras vantagens operacionais. Os cientistas de dados extraem esses conjuntos de dados e os projetam em várias etapas para prepará-los para o treinamento com um modelo específico, geralmente criando várias versões ao longo do caminho. Como a próxima etapa, o cientista de dados deve escolher recursos de computação otimizados (GPUs, instâncias de CPU high-end, um cluster no local etc.) para executar o modelo. A figura a seguir mostra a falta de proximidade do conjunto de dados em um ambiente de COMPUTAÇÃO EM ML.
+
+image:hcaios_image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+No entanto, vários experimentos de treinamento devem ser executados em paralelo em diferentes ambientes de computação, cada um dos quais requer o download do conjunto de dados do data Lake, o que é um processo caro e demorado. A proximidade do conjunto de dados com o ambiente de computação (especialmente para uma nuvem híbrida) não é garantida. Além disso, outros membros da equipe que executam suas próprias experiências com o mesmo conjunto de dados devem passar pelo mesmo processo árduo. Além do óbvio acesso lento aos dados, os desafios incluem dificuldades para rastrear versões de conjuntos de dados, compartilhamento de conjuntos de dados, colaboração e reprodutibilidade.
+
+
+
+== Requisitos do cliente
+
+Os requisitos do cliente podem variar para obter um ML de alto desempenho e usar recursos de forma eficiente; por exemplo, os clientes podem exigir o seguinte:
+
+* Acesso rápido a conjuntos de dados de cada instância de computação executando o modelo de treinamento sem incorrer em downloads caros e complexidades de acesso a dados
+* Use qualquer instância de computação (GPU ou CPU) na nuvem ou no local, sem preocupação quanto à localização dos conjuntos de dados
+* Maior eficiência e produtividade ao executar vários experimentos de treinamento em paralelo com diferentes recursos de computação no mesmo conjunto de dados, sem atrasos desnecessários e latência dos dados
+* Custos de instância de computação minimizados
+* Maior reprodutibilidade com ferramentas para manter Registros dos conjuntos de dados, sua linhagem, versões e outros detalhes de metadados
+* Compartilhamento e colaboração aprimorados para que qualquer membro autorizado da equipe possa acessar os conjuntos de dados e executar experimentos
+
+
+Para implementar o armazenamento em cache de dados com o software de gerenciamento de dados NetApp ONTAP, os clientes devem executar as seguintes tarefas:
+
+* Configure e defina o storage NFS mais próximo dos recursos de computação.
+* Determine qual conjunto de dados e versão a armazenar em cache.
+* Monitore a memória total comprometida com conjuntos de dados em cache e a quantidade de armazenamento NFS disponível para commits de cache adicionais (por exemplo, gerenciamento de cache).
+* Envelhecer dos conjuntos de dados no cache se eles não tiverem sido usados em determinado tempo. O padrão é um dia; outras opções de configuração estão disponíveis.
+

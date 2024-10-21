@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_ontap_ai_deployment.html 
+keywords: ONTAP AI, Deployment, networking, compute, storage 
+summary:  
+---
+= Implantação do ONTAP AI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A implantação do ONTAP AI requer a instalação e a configuração de hardware de rede, computação e storage. Instruções específicas para implantação da infraestrutura de IA da ONTAP estão além do escopo deste documento. Para obter informações detalhadas sobre a implantação, https://www.netapp.com/pdf.html?item=/media/7674-nva-1121-deploypdf.pdf["NVA-1121-DEPLOY: NetApp ONTAP AI, com tecnologia NVIDIA"^]consulte .
+
+Para validação dessa solução, um único volume foi criado e montado no sistema DGX-1. Esse ponto de montagem foi então montado nos contentores para tornar os dados acessíveis para treinamento. Para implantações de grande escala, o NetApp Trident automatiza a criação e a montagem de volumes para eliminar a sobrecarga administrativa e permitir o gerenciamento de recursos do usuário final.

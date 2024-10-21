@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_hardware_and_software_requirements.html 
+keywords: Hardware, Software, Requirements, NVIDIA, Kubernetes, cnvrg.io, ONTAP 
+summary:  
+---
+= Requisitos de hardware e software
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção aborda os requisitos de tecnologia da solução de AI da ONTAP.
+
+
+
+== Requisitos de hardware
+
+Embora os requisitos de hardware dependam de workloads específicos do cliente, o ONTAP AI pode ser implantado em qualquer escala para engenharia de dados, treinamento de modelo e inferência de produção de uma única GPU até configurações em escala de rack para OPERAÇÕES DE ml/DL em grande escala. Para obter mais informações sobre o ONTAP AI, consulte https://www.netapp.com/us/products/ontap-ai.aspx["Site da ONTAP AI"^].
+
+Essa solução foi validada usando um sistema DGX-1 para computação, um sistema de storage da NetApp AFF A800 e o Cisco Nexus 3232C para conectividade de rede. O AFF A800 usado nessa validação pode oferecer suporte a até 10 sistemas DGX-1 para a maioria dos WORKLOADS DE ml/DL. A figura a seguir mostra a topologia do ONTAP AI usada para treinamento de modelos nessa validação.
+
+image:hcaios_image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Para estender essa solução para uma nuvem pública, o Cloud Volumes ONTAP pode ser implantado juntamente com os recursos de computação de GPU na nuvem e integrado a um Data Fabric de nuvem híbrida que permite que os clientes usem todos os recursos apropriados para qualquer workload.
+
+
+
+== Requisitos de software
+
+A tabela a seguir mostra as versões de software específicas usadas nesta validação da solução.
+
+|===
+| Componente | Versão 
+
+
+| Ubuntu | 18.04.4 LTS 
+
+
+| NVIDIA DGX os | 4.4.0 
+
+
+| NVIDIA DeepOps | 20.02.1 
+
+
+| Kubernetes | 1,15 
+
+
+| Leme | 3.1.0 
+
+
+| cnvrg.io | 3.0.0 
+
+
+| NetApp ONTAP | 9.6P4 
+|===
+Para validação dessa solução, o Kubernetes foi implantado como um cluster de nó único no sistema DGX-1. Para implantações de grande escala, nós mestres independentes do Kubernetes devem ser implantados para fornecer alta disponibilidade de serviços de gerenciamento e reservar recursos DGX valiosos para WORKLOADS DE ML e DL.

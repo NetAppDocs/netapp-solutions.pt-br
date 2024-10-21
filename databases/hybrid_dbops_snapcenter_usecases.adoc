@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_usecases.html 
+summary: Essa solução fornece ao campo NetApp e aos clientes instruções e orientações para configuração, operação e migração de bancos de dados para um ambiente de nuvem híbrida usando a ferramenta baseada em GUI do NetApp SnapCenter e o CVO do serviço de storage do NetApp em nuvens públicas. 
+keywords: tr-4908, tr4908, 4908, hybrid cloud, database, snapcenter, gui 
+---
+= TR-4908: Soluções de bancos de dados em nuvem híbrida com SnapCenter Visão geral
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Alan Cao, Felix Melligan, NetApp
+
+[role="lead"]
+Essa solução fornece ao campo NetApp e aos clientes instruções e orientações para configurar, operar e migrar bancos de dados para um ambiente de nuvem híbrida usando a ferramenta baseada em GUI do NetApp SnapCenter e o CVO do serviço de storage NetApp em nuvens públicas para os seguintes casos de uso:
+
+* Operações de desenvolvimento/teste de banco de dados na nuvem híbrida
+* Recuperação de desastres de banco de dados na nuvem híbrida
+
+
+Atualmente, muitos bancos de dados empresariais ainda residem em data centers privados corporativos por motivos de performance, segurança e/ou outros. Essa solução de banco de dados de nuvem híbrida permite que as empresas operem seus bancos de dados primários no local enquanto usam uma nuvem pública para operações de banco de dados de desenvolvimento/teste, bem como para recuperação de desastres, a fim de reduzir os custos operacionais e de licenciamento.
+
+Muitos bancos de dados empresariais, como Oracle, SQL Server, SAP HANA, etc., carregam altos custos operacionais e de licenciamento. Muitos clientes pagam uma taxa de licença única, bem como custos anuais de suporte com base no número de núcleos de computação em seu ambiente de banco de dados, independentemente de os núcleos serem usados para desenvolvimento, teste, produção ou recuperação de desastres. Muitos desses ambientes podem não ser totalmente utilizados durante todo o ciclo de vida do aplicativo.
+
+As soluções oferecem uma opção para que os clientes reduzam potencialmente a contagem de núcleos licenciáveis movendo seus ambientes de banco de dados dedicados ao desenvolvimento, teste ou recuperação de desastres para a nuvem. Ao usar escala de nuvem pública, redundância, alta disponibilidade e um modelo de faturamento baseado em consumo, a economia de custos para licenciamento e operação pode ser substancial, sem sacrificar a usabilidade ou disponibilidade de aplicativos.
+
+Além de possíveis economias de custo de licença de banco de dados, o modelo de licença CVO baseado em capacidade da NetApp permite que os clientes economizem custos de armazenamento por GB, ao mesmo tempo em que os capacita com alto nível de capacidade de gerenciamento de banco de dados que não está disponível nos serviços de armazenamento da concorrência. O gráfico a seguir mostra uma comparação de custo de storage dos serviços de storage populares disponíveis na nuvem pública.
+
+image:cvo_cloud_cost_comparision.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Essa solução demonstra que, usando a ferramenta de software baseada em GUI da SnapCenter e a tecnologia NetApp SnapMirror, as operações de banco de dados em nuvem híbrida podem ser facilmente configuradas, implementadas e operadas.
+
+Os vídeos a seguir demonstram o SnapCenter em ação:
+
+* https://www.youtube.com/watch?v=-8GPzwjX9CM&list=PLdXI3bZJEw7nofM6lN44eOe4aOSoryckg&index=35["Backup de um banco de dados Oracle em uma nuvem híbrida usando o SnapCenter"^]
+* https://www.youtube.com/watch?v=v3udynwJlpI["SnapCenter- Clone DESENVOLVIMENTO/TESTE para o AWS Cloud para um banco de dados Oracle"^]
+
+
+Notavelmente, embora as ilustrações deste documento mostrem o CVO como uma instância de armazenamento de destino na nuvem pública, a solução também é totalmente validada para a nova versão do mecanismo de armazenamento FSX ONTAP para AWS.
+
+Para testar a solução e os casos de uso para você mesmo, um NetApp Lab-on-demand SL10680 pode ser solicitado no seguinte link: https://labondemand.NetApp.com/lod3/labtest/request?nodeid:68761&destination:lod3/testlabs[TL_AWS_004 HCoD: AWS - NW,SnapCenter(OnPrem).

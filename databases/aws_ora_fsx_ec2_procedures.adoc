@@ -1,0 +1,496 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_ora_fsx_ec2_procedures.html 
+summary: Esta seção descreve os procedimentos de implantação de banco de dados personalizado do Oracle RDS com o armazenamento FSX. 
+keywords: AWS, Oracle, RDS, HA, DR, database 
+---
+= Procedimentos de implantação passo a passo da Oracle no AWS EC2 e FSX
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção descreve os procedimentos de implantação de banco de dados personalizado do Oracle RDS com o armazenamento FSX.
+
+
+
+== Implante uma instância do EC2 Linux para Oracle via console EC2
+
+Se você é novo na AWS, primeiro precisa configurar um ambiente da AWS. A guia documentação na página inicial do site da AWS fornece EC2 links de instruções sobre como implantar uma instância do Linux EC2 que pode ser usada para hospedar seu banco de dados Oracle por meio do console AWS EC2. A seção a seguir é um resumo dessas etapas. Para obter detalhes, consulte a documentação específica do AWS EC2 vinculada.
+
+
+
+=== Configurando seu ambiente AWS EC2
+
+Você precisa criar uma conta da AWS para provisionar os recursos necessários para executar seu ambiente Oracle no serviço EC2 e FSX. A seguinte documentação da AWS fornece os detalhes necessários:
+
+* link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html["Configure para usar o Amazon EC2"^]
+
+
+Tópicos principais:
+
+* Inscreva-se na AWS.
+* Crie um par de chaves.
+* Crie um grupo de segurança.
+
+
+
+
+=== Habilitando várias zonas de disponibilidade nos atributos de conta da AWS
+
+Para uma configuração de alta disponibilidade Oracle, conforme demonstrado no diagrama da arquitetura, é necessário habilitar pelo menos quatro zonas de disponibilidade em uma região. As várias zonas de disponibilidade também podem estar localizadas em diferentes regiões para atender às distâncias necessárias para a recuperação de desastres.
+
+image:aws_ora_fsx_ec2_inst_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== Criando e conetando-se a uma instância EC2 para hospedagem de banco de dados Oracle
+
+Consulte o tutorial link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html["Comece a usar instâncias do Amazon EC2 Linux"^] para obter os procedimentos de implantação passo a passo e as melhores práticas.
+
+Tópicos principais:
+
+* Visão geral.
+* Pré-requisitos.
+* Passo 1: Inicie uma instância.
+* Passo 2: Conete-se à sua instância.
+* Passo 3: Limpe sua instância.
+
+
+As capturas de tela a seguir demonstram a implantação de uma instância Linux do tipo M5 com o console EC2 para executar o Oracle.
+
+. No painel do EC2, clique no botão amarelo Iniciar instância para iniciar o fluxo de trabalho de implantação da instância do EC2.
++
+image:aws_ora_fsx_ec2_inst_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na etapa 1, selecione "Red Hat Enterprise Linux 8 (HVM), tipo de volume SSD - ami-0b0af3577fe5e3532 (64-bit x86) / ami-01fc429821bf1f4b4 (64-bit ARM)."
++
+image:aws_ora_fsx_ec2_inst_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na Etapa 2, selecione um tipo de instância M5 com a alocação apropriada de CPU e memória com base na carga de trabalho do banco de dados Oracle. Clique em "Avançar: Configurar Detalhes da instância."
++
+image:aws_ora_fsx_ec2_inst_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na Etapa 3, escolha a VPC e a sub-rede onde a instância deve ser colocada e habilite a atribuição de IP público. Clique em "Next: Add Storage" (seguinte: Adicionar armazenamento).
++
+image:aws_ora_fsx_ec2_inst_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na Etapa 4, atribua espaço suficiente para o disco raiz. Você pode precisar do espaço para adicionar uma troca. Por padrão, a instância EC2 atribui espaço de troca zero, o que não é ideal para executar o Oracle.
++
+image:aws_ora_fsx_ec2_inst_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na Etapa 5, adicione uma tag para identificação de instância, se necessário.
++
+image:aws_ora_fsx_ec2_inst_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na Etapa 6, selecione um grupo de segurança existente ou crie um novo com a política de entrada e saída desejada para a instância.
++
+image:aws_ora_fsx_ec2_inst_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na Etapa 7, revise o resumo de configuração da instância e clique em Iniciar para iniciar a implantação da instância. Você será solicitado a criar um par de chaves ou selecionar um par de chaves para acesso à instância.
++
+image:aws_ora_fsx_ec2_inst_09.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"] image:aws_ora_fsx_ec2_inst_09_1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Faça login na instância EC2 usando um par de chaves SSH. Faça alterações no nome da chave e no endereço IP da instância, conforme apropriado.
++
+[source, cli]
+----
+ssh -i ora-db1v2.pem ec2-user@54.80.114.77
+----
+
+
+Você precisa criar duas instâncias EC2 como servidores Oracle primários e de reserva em sua zona de disponibilidade designada, conforme demonstrado no diagrama da arquitetura.
+
+
+
+== Provisione os sistemas de arquivos FSX ONTAP para armazenamento de banco de dados Oracle
+
+A implantação de instâncias do EC2 aloca um volume raiz do EBS para o SO. Os sistemas de arquivos do FSX ONTAP fornecem volumes de armazenamento de banco de dados Oracle, incluindo os volumes binários, dados e log da Oracle. Os volumes NFS de armazenamento do FSX podem ser provisionados a partir do console AWS FSX ou da instalação da Oracle, e automação de configuração que aloca os volumes conforme o usuário configura em um arquivo de parâmetro de automação.
+
+
+
+=== Criando sistemas de arquivos FSX ONTAP
+
+Referimos a esta https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-file-systems.html["Gerenciamento de sistemas de arquivos FSX ONTAP"^] documentação para criar sistemas de arquivos FSX ONTAP.
+
+Principais considerações:
+
+* Capacidade de armazenamento SSD. Mínimo 1024 GiB, máximo 192 TIB.
+* IOPS SSD provisionadas. Com base nos requisitos de workload, no máximo 80.000 IOPS SSD por sistema de arquivos.
+* Capacidade de taxa de transferência.
+* Defina a senha do administrador fsxadmin/vsadmin. Necessário para automação de configuração do FSX.
+* Backup e manutenção. Desative backups diários automáticos; o backup de armazenamento de banco de dados é executado por meio do agendamento do SnapCenter.
+* Recupere o endereço IP de gerenciamento do SVM, bem como os endereços de acesso específicos de protocolo na página de detalhes do SVM. Necessário para automação de configuração do FSX.
++
+image:aws_rds_custom_deploy_fsx_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+Consulte os seguintes procedimentos passo a passo para configurar um cluster HA FSX primário ou de espera.
+
+. No console FSX, clique em criar sistema de arquivos para iniciar o fluxo de trabalho de provisão do FSX.
++
+image:aws_ora_fsx_ec2_stor_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione Amazon FSX ONTAP. Em seguida, clique em seguinte.
++
+image:aws_ora_fsx_ec2_stor_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione Standard Create (criar padrão) e, em File System Details (Detalhes do sistema de ficheiros), Multi-AZ HA. Com base no workload do banco de dados, escolha IOPS automático ou provisionado pelo usuário até 80.000 IOPS SSD. O armazenamento no FSX vem com armazenamento em cache NVMe de até 2TiB TB no back-end, que oferece IOPS ainda maiores.
++
+image:aws_ora_fsx_ec2_stor_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na seção rede e segurança, selecione a VPC, o grupo de segurança e as sub-redes. Eles devem ser criados antes da implantação do FSX. Com base na função do cluster FSX (primário ou standby), coloque os nós de armazenamento FSX nas zonas apropriadas.
++
+image:aws_ora_fsx_ec2_stor_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na secção Segurança e encriptação, aceite a predefinição e introduza a palavra-passe fsxadmin.
++
+image:aws_ora_fsx_ec2_stor_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Insira o nome do SVM e a senha do vsadmin.
++
+image:aws_ora_fsx_ec2_stor_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Deixe a configuração do volume em branco; você não precisa criar um volume neste momento.
++
+image:aws_ora_fsx_ec2_stor_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Revise a página Resumo e clique em criar sistema de arquivos para concluir a provisão do sistema de arquivos FSX.
++
+image:aws_ora_fsx_ec2_stor_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== Provisionamento de volumes de banco de dados para banco de dados Oracle
+
+link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html["Gerenciando volumes do FSX ONTAP - criando um volume"^]Consulte para obter detalhes.
+
+Principais considerações:
+
+* Dimensionar os volumes do banco de dados adequadamente.
+* Desativação da política de disposição em camadas do pool de capacidade para configuração de performance.
+* Habilitando o Oracle DNFS para volumes de storage NFS.
+* Configurar o multipath para volumes de armazenamento iSCSI.
+
+
+
+
+==== Crie volume de banco de dados a partir do console FSX
+
+No console do AWS FSX, você pode criar três volumes para o armazenamento de arquivos de banco de dados Oracle: Um para o binário Oracle, um para os dados Oracle e um para o log Oracle. Certifique-se de que a nomenclatura de volume corresponda ao nome do host Oracle (definido no arquivo hosts no kit de ferramentas de automação) para identificação adequada. Neste exemplo, usamos db1 como o nome de host EC2 Oracle em vez de um nome de host típico baseado em endereço IP para uma instância EC2.
+
+image:aws_ora_fsx_ec2_stor_09.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"] image:aws_ora_fsx_ec2_stor_10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"] image:aws_ora_fsx_ec2_stor_11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+NOTE: A criação de iSCSI LUNs não é atualmente suportada pela consola FSX. Para a implantação de LUNs iSCSI para Oracle, os volumes e LUNs podem ser criados usando a automação para ONTAP com o Kit de Ferramentas de Automação NetApp.
+
+
+
+== Instale e configure o Oracle em uma instância do EC2 com volumes de banco de dados FSX
+
+A equipe de automação do NetApp fornece um kit de automação para executar a instalação e configuração do Oracle em instâncias do EC2 de acordo com as práticas recomendadas. A versão atual do kit de automação oferece suporte ao Oracle 19Ci em NFS com o patch RU padrão 19,8. O kit de automação pode ser facilmente adaptado para outros patches RU, se necessário.
+
+
+
+=== Preparar uma controladora Ansible para executar a automação
+
+Siga as instruções na seção<<Criando e conetando-se a uma instância EC2 para hospedagem de banco de dados Oracle>>" " " para provisionar uma pequena instância do EC2 Linux para executar o controlador Ansible. Em vez de usar o RedHat, o Amazon linux T2.Large com 2vCPUGB e 8GGB de RAM deve ser suficiente.
+
+
+
+=== Recuperar o kit de ferramentas de automação de implantação do NetApp Oracle
+
+Faça login na instância do controlador Ansible EC2 provisionada da etapa 1 como EC2 usuário e do diretório inicial de EC2 usuários, execute o `git clone` comando para clonar uma cópia do código de automação.
+
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_oracle19c_deploy.git
+----
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_rds_fsx_oranfs_config.git
+----
+
+
+=== Execute a implantação automatizada do Oracle 19C usando o kit de ferramentas de automação
+
+Veja estas instruções detalhadas link:cli_automation.html["Implementação CLI Banco de dados Oracle 19Ci"^]para implantar o Oracle 19Ci com automação CLI. Há uma pequena alteração na sintaxe de comando para execução de playbook porque você está usando um par de chaves SSH em vez de uma senha para autenticação de acesso ao host. A lista a seguir é um resumo de alto nível:
+
+. Por padrão, uma instância EC2 usa um par de chaves SSH para autenticação de acesso. Nos diretórios raiz de automação da controladora Ansible `/home/ec2-user/na_oracle19c_deploy` , e `/home/ec2-user/na_rds_fsx_oranfs_config`, faça uma cópia da chave SSH `accesststkey.pem` para o host Oracle implantado na etapa "<<Criando e conetando-se a uma instância EC2 para hospedagem de banco de dados Oracle>>."
+. Faça login no host de banco de dados da instância EC2 como EC2-user e instale a biblioteca python3.
++
+[source, cli]
+----
+sudo yum install python3
+----
+. Crie um espaço de troca 16GD a partir da unidade de disco raiz. Por padrão, uma instância EC2 cria espaço de troca zero. Siga esta documentação da AWS: link:https://aws.amazon.com/premiumsupport/knowledge-center/ec2-memory-swap-file/["Como alocar memória para funcionar como espaço de troca em uma instância do Amazon EC2 usando um arquivo de swap?"^].
+. Retorne à controladora Ansible (`cd /home/ec2-user/na_rds_fsx_oranfs_config`) e execute o manual de estratégia de pré-clone com os requisitos e as tags apropriados `linux_config`.
++
+[source, cli]
+----
+ansible-playbook -i hosts rds_preclone_config.yml -u ec2-user --private-key accesststkey.pem -e @vars/fsx_vars.yml -t requirements_config
+----
++
+[source, cli]
+----
+ansible-playbook -i hosts rds_preclone_config.yml -u ec2-user --private-key accesststkey.pem -e @vars/fsx_vars.yml -t linux_config
+----
+. Mude para `/home/ec2-user/na_oracle19c_deploy-master` o diretório, leia o arquivo README e preencha o arquivo global `vars.yml` com os parâmetros globais relevantes.
+. Preencha o `host_name.yml` arquivo com os parâmetros relevantes no `host_vars` diretório.
+. Execute o manual de estratégia para Linux e pressione Enter quando solicitado para a senha do vsadmin.
++
+[source, cli]
+----
+ansible-playbook -i hosts all_playbook.yml -u ec2-user --private-key accesststkey.pem -t linux_config -e @vars/vars.yml
+----
+. Execute o manual de estratégia para Oracle e pressione ENTER quando solicitado a senha do vsadmin.
++
+[source, cli]
+----
+ansible-playbook -i hosts all_playbook.yml -u ec2-user --private-key accesststkey.pem -t oracle_config -e @vars/vars.yml
+----
+
+
+Altere o bit de permissão no arquivo de chave SSH para 400, se necessário. Altere o host Oracle (`ansible_host`no `host_vars` arquivo) endereço IP para o endereço público da instância EC2.
+
+
+
+== Configurando o SnapMirror entre o cluster do FSX HA primário e de espera
+
+Para alta disponibilidade e recuperação de desastres, você pode configurar a replicação do SnapMirror entre o cluster de armazenamento principal e de reserva do FSX. Ao contrário de outros serviços de armazenamento em nuvem, o FSX permite que um usuário controle e gerencie a replicação de armazenamento em uma frequência desejada e taxa de transferência de replicação. Ele também permite que os usuários testem HA/DR sem qualquer efeito na disponibilidade.
+
+As etapas a seguir mostram como configurar a replicação entre um cluster de armazenamento primário e de espera do FSX.
+
+. Configurar peering de cluster primário e de espera. Faça login no cluster principal como usuário fsxadmin e execute o seguinte comando. Esse processo de criação recíproca executa o comando create no cluster primário e no cluster de espera. Substitua `standby_cluster_name` pelo nome apropriado para o seu ambiente.
++
+[source, cli]
+----
+cluster peer create -peer-addrs standby_cluster_name,inter_cluster_ip_address -username fsxadmin -initial-allowed-vserver-peers *
+----
+. Configure o peering de SVM entre o cluster primário e o de espera. Faça login no cluster principal como usuário vsadmin e execute o seguinte comando. Substitua `primary_vserver_name`, `standby_vserver_name`, `standby_cluster_name` pelos nomes apropriados para o seu ambiente.
++
+[source, cli]
+----
+vserver peer create -vserver primary_vserver_name -peer-vserver standby_vserver_name -peer-cluster standby_cluster_name -applications snapmirror
+----
+. Verifique se os peerings do cluster e do vserver estão configurados corretamente.
++
+image:aws_ora_fsx_ec2_stor_14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Crie volumes NFS de destino no cluster FSX de reserva para cada volume de origem no cluster FSX primário. Substitua o nome do volume conforme apropriado para o seu ambiente.
++
+[source, cli]
+----
+vol create -volume dr_db1_bin -aggregate aggr1 -size 50G -state online -policy default -type DP
+----
++
+[source, cli]
+----
+vol create -volume dr_db1_data -aggregate aggr1 -size 500G -state online -policy default -type DP
+----
++
+[source, cli]
+----
+vol create -volume dr_db1_log -aggregate aggr1 -size 250G -state online -policy default -type DP
+----
+. Você também pode criar volumes iSCSI e LUNs para o binário Oracle, dados Oracle e log Oracle se o protocolo iSCSI for empregado para acesso aos dados. Deixe aproximadamente 10% de espaço livre nos volumes para instantâneos.
++
+[source, cli]
+----
+vol create -volume dr_db1_bin -aggregate aggr1 -size 50G -state online -policy default -unix-permissions ---rwxr-xr-x -type RW
+----
++
+[source, cli]
+----
+lun create -path /vol/dr_db1_bin/dr_db1_bin_01 -size 45G -ostype linux
+----
++
+[source, cli]
+----
+vol create -volume dr_db1_data -aggregate aggr1 -size 500G -state online -policy default -unix-permissions ---rwxr-xr-x -type RW
+----
++
+[source, cli]
+----
+lun create -path /vol/dr_db1_data/dr_db1_data_01 -size 100G -ostype linux
+----
++
+[source, cli]
+----
+lun create -path /vol/dr_db1_data/dr_db1_data_02 -size 100G -ostype linux
+----
++
+[source, cli]
+----
+lun create -path /vol/dr_db1_data/dr_db1_data_03 -size 100G -ostype linux
+----
++
+[source, cli]
+----
+lun create -path /vol/dr_db1_data/dr_db1_data_04 -size 100G -ostype linux
+----
++
+Vol create -volume DR_db1_log -Aggregate aggr1 -size 250g -State online -policy default -unix-permissions ---rwxr-xr-x -type RW
+
++
+[source, cli]
+----
+lun create -path /vol/dr_db1_log/dr_db1_log_01 -size 45G -ostype linux
+----
++
+[source, cli]
+----
+lun create -path /vol/dr_db1_log/dr_db1_log_02 -size 45G -ostype linux
+----
++
+[source, cli]
+----
+lun create -path /vol/dr_db1_log/dr_db1_log_03 -size 45G -ostype linux
+----
++
+[source, cli]
+----
+lun create -path /vol/dr_db1_log/dr_db1_log_04 -size 45G -ostype linux
+----
+. Para iSCSI LUNs, crie um mapeamento para o iniciador de host Oracle para cada LUN, usando o LUN binário como exemplo. Substitua o grupo por um nome apropriado para o seu ambiente e aumente o lun-id para cada LUN adicional.
++
+[source, cli]
+----
+lun mapping create -path /vol/dr_db1_bin/dr_db1_bin_01 -igroup ip-10-0-1-136 -lun-id 0
+----
++
+[source, cli]
+----
+lun mapping create -path /vol/dr_db1_data/dr_db1_data_01 -igroup ip-10-0-1-136 -lun-id 1
+----
+. Crie uma relação SnapMirror entre os volumes de banco de dados principal e de espera. Substitua o nome apropriado da SVM para seu ambiente.s
++
+[source, cli]
+----
+snapmirror create -source-path svm_FSxOraSource:db1_bin -destination-path svm_FSxOraTarget:dr_db1_bin -vserver svm_FSxOraTarget -throttle unlimited -identity-preserve false -policy MirrorAllSnapshots -type DP
+----
++
+[source, cli]
+----
+snapmirror create -source-path svm_FSxOraSource:db1_data -destination-path svm_FSxOraTarget:dr_db1_data -vserver svm_FSxOraTarget -throttle unlimited -identity-preserve false -policy MirrorAllSnapshots -type DP
+----
++
+[source, cli]
+----
+snapmirror create -source-path svm_FSxOraSource:db1_log -destination-path svm_FSxOraTarget:dr_db1_log -vserver svm_FSxOraTarget -throttle unlimited -identity-preserve false -policy MirrorAllSnapshots -type DP
+----
+
+
+Essa configuração do SnapMirror pode ser automatizada com um kit de ferramentas de automação da NetApp para volumes de banco de dados NFS. O kit de ferramentas está disponível para download no site público do NetApp GitHub.
+
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_ora_hadr_failover_resync.git
+----
+Leia atentamente as instruções do README antes de tentar configurar e testar o failover.
+
+
+NOTE: Replicar o binário Oracle do primário para um cluster de espera pode ter implicações de licença Oracle. Entre em Contato com seu representante de licença Oracle para obter esclarecimentos. A alternativa é ter o Oracle instalado e configurado no momento da recuperação e failover.
+
+
+
+== Implantação do SnapCenter
+
+
+
+=== Instalação do SnapCenter
+
+Siga link:https://docs.netapp.com/ocsc-41/index.jsp?topic=%2Fcom.netapp.doc.ocsc-isg%2FGUID-D3F2FBA8-8EE7-4820-A445-BC1E5C0AF374.html["Instalar o servidor SnapCenter"^] para instalar o servidor SnapCenter. Esta documentação aborda como instalar um servidor SnapCenter autônomo. Uma versão SaaS do SnapCenter está em revisão beta e pode estar disponível em breve. Consulte o seu representante da NetApp para saber a disponibilidade, se necessário.
+
+
+
+=== Configure o plugin SnapCenter para EC2 host Oracle
+
+. Após a instalação automatizada do SnapCenter, faça login no SnapCenter como um usuário administrativo para o host de janelas no qual o servidor SnapCenter está instalado.
++
+image:aws_rds_custom_deploy_snp_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. No menu do lado esquerdo, clique em Configurações e, em seguida, credencial e novo para adicionar credenciais de usuário EC2 para a instalação do plugin SnapCenter.
++
+image:aws_rds_custom_deploy_snp_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Redefina a senha de EC2 usuários e habilite a autenticação SSH por senha editando o `/etc/ssh/sshd_config` arquivo no host da instância EC2.
+. Verifique se a caixa de verificação "Use sudo Privileges" está selecionada. Você acabou de redefinir a senha de EC2 usuários no passo anterior.
++
+image:aws_rds_custom_deploy_snp_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Adicione o nome do servidor SnapCenter e o endereço IP ao arquivo de host de instância EC2 para resolução de nome.
++
+[listing]
+----
+[ec2-user@ip-10-0-0-151 ~]$ sudo vi /etc/hosts
+[ec2-user@ip-10-0-0-151 ~]$ cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+10.0.1.233  rdscustomvalsc.rdscustomval.com rdscustomvalsc
+----
+. No servidor SnapCenter host Windows, adicione o endereço IP do host de instância EC2 ao arquivo host do Windows `C:\Windows\System32\drivers\etc\hosts` .
++
+[listing]
+----
+10.0.0.151		ip-10-0-0-151.ec2.internal
+----
+. No menu do lado esquerdo, selecione hosts > Managed hosts e clique em Add para adicionar o host de instância EC2 ao SnapCenter.
++
+image:aws_rds_custom_deploy_snp_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+Verifique o banco de dados Oracle e, antes de enviar, clique em mais opções.
+
++
+image:aws_rds_custom_deploy_snp_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+Verifique as verificações de pré-instalação de Ignorar. Confirme ignorar verificações de pré-instalação e, em seguida, clique em Enviar após Guardar.
+
++
+image:aws_rds_custom_deploy_snp_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+Você será solicitado com confirmar impressão digital e, em seguida, clique em confirmar e enviar.
+
++
+image:aws_rds_custom_deploy_snp_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+Após a configuração bem-sucedida do plugin, o status geral do host gerenciado é exibido como sendo executado.
+
++
+image:aws_rds_custom_deploy_snp_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== Configurar política de backup para banco de dados Oracle
+
+Consulte esta seção link:hybrid_dbops_snapcenter_getting_started_onprem.html#7-setup-database-backup-policy-in-snapcenter["Configurar política de backup de banco de dados no SnapCenter"^] para obter detalhes sobre como configurar a política de backup de banco de dados Oracle.
+
+Geralmente, você precisa criar uma política para o backup completo do banco de dados Oracle e uma política para o backup instantâneo somente de arquivamento do Oracle.
+
+
+NOTE: Você pode ativar a eliminação de log de arquivamento Oracle na política de backup para controlar o espaço de arquivo de log. Marque "Atualizar SnapMirror depois de criar uma cópia Snapshot local" em "Selecionar opção de replicação secundária", pois você precisa replicar para um local de espera para HA ou DR.
+
+
+
+=== Configurar o backup e agendamento do banco de dados Oracle
+
+O backup de banco de dados no SnapCenter é configurável pelo usuário e pode ser configurado individualmente ou como um grupo em um grupo de recursos. O intervalo de backup depende dos objetivos de rto e RPO. A NetApp recomenda que você execute um backup completo do banco de dados a cada poucas horas e arquive o backup de log em uma frequência mais alta, como 10-15 minutos para recuperação rápida.
+
+Consulte a seção Oracle do link:hybrid_dbops_snapcenter_getting_started_onprem.html#8-implement-backup-policy-to-protect-database["Implementar política de backup para proteger o banco de dados"^] para obter um processo detalhado passo a passo para implementar a política de backup criada na <<Configurar política de backup para banco de dados Oracle>>seção e para o agendamento de tarefas de backup.
+
+A imagem a seguir fornece um exemplo dos grupos de recursos configurados para fazer backup de um banco de dados Oracle.
+
+image:aws_rds_custom_deploy_snp_09.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

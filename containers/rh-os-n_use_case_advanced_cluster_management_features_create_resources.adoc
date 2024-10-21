@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_advanced_cluster_management_features_create_resources.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
+summary: Gerenciamento avançado de clusters para Kubernetes no Red Hat OpenShift com NetApp 
+---
+= Crie recursos em vários clusters
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O gerenciamento avançado de clusters para Kubernetes permite que os usuários criem recursos em um ou mais clusters gerenciados simultaneamente a partir do console. Como exemplo, se você tiver clusters OpenShift em diferentes sites com diferentes clusters do NetApp ONTAP e quiser provisionar PVC em ambos os sites, clique no sinal na barra superior. Em seguida, selecione os clusters nos quais você deseja criar o PVC, cole o recurso YAML e clique em criar.
+
+image:redhat_openshift_image86.jpg["Criar recursos"]

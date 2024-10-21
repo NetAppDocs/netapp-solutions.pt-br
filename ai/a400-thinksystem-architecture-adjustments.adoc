@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-architecture-adjustments.html 
+keywords: adjustments 
+summary: A configuração utilizada para a validação pode ser ajustada para se ajustar a outros casos de uso. 
+---
+= Ajustes de arquitetura
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A configuração utilizada para esta validação pode ser ajustada para se adaptar a outros casos de utilização.
+
+
+
+== Ajustes da CPU
+
+Usamos um processador Skylake Intel Xeon Platinum 8360Y para essa validação, como recomendado pela Lenovo. Esperamos que a CPU equivalente Cascade Lake, um processador Intel Xeon Gold 6330, ofereça desempenho semelhante, porque essa carga de trabalho não está vinculada à CPU.
+
+
+
+== Aumento da capacidade de storage
+
+Com base em suas necessidades de capacidade de storage, você pode aumentar o compartilhamento de storage (volume NFS) sob demanda, desde que tenha gavetas de disco adicionais e modelos de controladora. Isso pode ser feito pela CLI ou pela interface da Web do NetApp do controlador de storage como usuário administrativo.

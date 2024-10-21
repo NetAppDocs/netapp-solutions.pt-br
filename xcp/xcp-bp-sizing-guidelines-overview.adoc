@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-sizing-guidelines-overview.html 
+keywords: test, time estimate, copy, sync, rename, append, delete 
+summary: Esta seção fornece o tempo aproximado para executar as operações de cópia XCP e sincronização XCP com um tamanho de arquivo diferente de um milhão de arquivos para NFS. 
+---
+= Diretrizes de dimensionamento
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção fornece o tempo aproximado para executar as operações de cópia XCP e sincronização XCP com um tamanho de arquivo diferente de um milhão de arquivos para NFS.
+
+
+
+== Estimativa de tempo com base em testes
+
+Os testes para as operações de cópia e sincronização do XCP usaram o mesmo leito de teste que foi usado para implantação. Um milhão de arquivos de três conjuntos de arquivos 8K, 16K e 1MB foram criados e as alterações foram realizadas em tempo real. A função de sincronização XCP executou as atualizações incrementais diferenciais da origem para o destino no nível do arquivo. A operação de atualização incremental é uma ou mais dessas quatro operações: Renomear arquivos e pastas existentes, anexar dados a arquivos existentes, excluir arquivos e pastas e incluir links adicionais. Para fins de teste, focamos nas operações de renomeação, anexação, exclusão e links. Em outras palavras, as operações de modificação como renomear, anexar e excluir foram realizadas a uma taxa de mudança de 10% para 90% em um milhão de arquivos.
+
+A figura a seguir mostra os resultados da operação de cópia XCP.
+
+image:xcp-bp_image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A figura a seguir mostra os resultados das operações de renomeação e link do XCP Sync.
+
+image:xcp-bp_image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O tamanho do arquivo não é proposicional para o `xcp sync` tempo de conclusão para transferir os arquivos de origem renomeados; os gráficos são lineares.
+
+Os tipos de link são links de software, links rígidos e multi-links. Os soft links são considerados arquivos normais. O tamanho dos arquivos não é relevante para o momento de concluir a operação de sincronização do XCP.
+
+As figuras a seguir mostram os resultados das operações de adição e exclusão de sincronização do XCP.
+
+image:xcp-bp_image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Para as operações de append e delete, tamanhos de arquivo grandes levam mais tempo em comparação com tamanhos de arquivo pequenos. O tempo para concluir a operação é linear para a porcentagem de alterações de append e delete.
+
+
+
+== Comparando XCP 1.6.1 com XCP 1,5
+
+Em comparação com as versões anteriores, o XCP 1.6.3 e o 1,7 proporcionam um desempenho melhorado. A seção a seguir mostra uma comparação de desempenho de sincronização entre XCP 1.6.3 e 1,7 para tamanhos 8K, 16K e 1MB de um milhão de arquivos.
+
+Os números a seguir mostram os resultados do desempenho de sincronização XCP para XCP 1.6.3 versus 1,7 (com um tamanho de 8K de um milhão de arquivos).
+
+image:xcp-bp_image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A figura a seguir mostra os resultados do desempenho de sincronização XCP para XCP 1.6.1 versus 1,5 (com um tamanho de 16K de um milhão de arquivos).
+
+image:xcp-bp_image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A figura a seguir mostra os resultados do desempenho de sincronização XCP para XCP 1.6.1 versus 1,5 com um tamanho de 1MB de um milhão de arquivos.
+
+image:xcp-bp_image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Em média, o desempenho do XCP 1,7 melhorou em ou foi semelhante ao XCP 1.6.3 para as `xcp sync` operações de atualização incremental diferencial - renomear, anexar, vincular e excluir com um tamanho de 1MB de um milhão de arquivos.
+
+Com base nessa validação de desempenho, a NetApp recomenda o uso do XCP 1,7 para a migração de dados no local e na nuvem.

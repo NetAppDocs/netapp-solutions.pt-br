@@ -1,0 +1,62 @@
+= 
+:allow-uri-read: 
+
+
+[role="tabbed-block"]
+====
+.AWS/VMC
+--
+Esta seção descreve como configurar e gerenciar o VMware Cloud no AWS SDDC e usá-lo em combinação com as opções disponíveis para conetar o armazenamento NetApp.
+
+
+NOTE: O storage in-Guest é o único método com suporte para conetar o Cloud Volumes ONTAP ao AWS VMC.
+
+O processo de configuração pode ser dividido nas seguintes etapas:
+
+* Implante e configure o VMware Cloud para AWS
+* Conete o VMware Cloud ao FSX ONTAP
+
+
+Veja o detalhado link:aws-setup.html["Etapas de configuração para VMC"].
+
+Veja o detalhado link:aws-setup.html["Etapas de configuração para VMC"].
+
+--
+.Azure/AVS
+--
+Esta seção descreve como configurar e gerenciar a solução VMware Azure e usá-la em combinação com as opções disponíveis para conexão do storage NetApp.
+
+
+NOTE: O storage in-Guest é o único método com suporte para conetar o Cloud Volumes ONTAP à solução Azure VMware.
+
+O processo de configuração pode ser dividido nas seguintes etapas:
+
+* Registre o provedor de recursos e crie uma nuvem privada
+* Conete-se a um gateway de rede virtual ExpressRoute novo ou existente
+* Valide a conetividade de rede e acesse a nuvem privada
+
+
+Veja o detalhado link:azure-setup.html["Etapas de configuração para AVS"].
+
+Veja o detalhado link:azure-setup.html["Etapas de configuração para AVS"].
+
+--
+.GCP / GCVE
+--
+Esta seção descreve como configurar e gerenciar o GCVE e usá-lo em combinação com as opções disponíveis para conetar o armazenamento do NetApp.
+
+
+NOTE: O storage in-Guest é o único método com suporte para conetar o Cloud Volumes ONTAP e o Cloud volumes Services ao GCVE.
+
+O processo de configuração pode ser dividido nas seguintes etapas:
+
+* Implantar e configurar o GCVE
+* Ative o acesso privado ao GCVE
+
+
+Veja o detalhado link:gcp-setup.html["Etapas de configuração para o GCVE"].
+
+Veja o detalhado link:gcp-setup.html["Etapas de configuração para o GCVE"].
+
+--
+====

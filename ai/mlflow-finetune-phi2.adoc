@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: ai/mlflow-finetune-phi2.html 
+keywords: Jupyter Notebook, MLFlow, NetApp DataOps Toolkit, LLM, 
+summary: Ajuste um modelo de linguagem grande com MLFlow no Jupyter Hub 
+---
+= Pré-requisitos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção descreve as etapas envolvidas no ajuste fino de um modelo de linguagem Grande (LLM) com MLFlow usando Jupyter Hub. Isso serve como exemplo para mostrar um trabalho de treinamento que incorpora o armazenamento NetApp e a infraestrutura de dados inteligente NetApp para casos de uso do cliente, como geração aumentada de recuperação (RAG).
+
+
+
+== Pré-requisitos
+
+Esta seção descreve os pré-requisitos para ajustar um modelo de linguagem usando o hub jupyter. Para isso, supõe-se que você já instalou as bibliotecas e pacotes relevantes necessários para treinar ou ajustar o modelo. Algumas das bibliotecas usadas neste exemplo incluem, mas não estão limitadas a: - Transformers - peft (Parameter Efficient Fine Tuning) - Accelerate estas são bibliotecas pertencentes ao HuggingFace. Bibliotecas adicionais incluem matplotlib, SciPy, Einops entre outros.
+
+Também é assumido que você tem acesso ao modelo base e seus pesos através de HuggingFace. Pode encontrar uma lista de modelos disponíveis no https://huggingface.co/models["HuggingFace"].
+
+Por fim, você também precisará acessar uma conta do Jupyter Hub com armazenamento apropriado. É aconselhável ter acesso a um servidor de GPU (para maiores requisitos de computação).
+
+Este exemplo de ajuste fino é inspirado em uma coleção de guias de notebook e exemplos desenvolvidos pela https://github.com/brevdev/notebooks["equipe brevdev"].
+
+
+
+== Carregamento de dados e Configuração da experiência
+
+Armazene todos os dados (documentos e texto) na mesma pasta compartilhada que o notebook para facilitar a recuperação. Converta os documentos em formato .json para Data Processing e treinamento.
+
+Depois que os dados forem processados, verifique se a(s) GPU(s) tem RAM suficiente para poder carregar o modelo junto com os dados. Neste exemplo, usamos uma GPU NVIDIA TESLA T4 com 16GB GB de RAM para ajustar os parâmetros de tamanho de 2,7 bilhões de Microsoft https://huggingface.co/microsoft/phi-2["phi-2"]. Dependendo do modelo usado e da quantidade de dados, talvez você precise de uma quantidade maior de RAM/GPUs adicionais caso queira criar uma configuração de treinamento distribuída.
+
+image:tesla-t4.png["Especificações de GPU usadas neste exemplo"]
+
+Neste exemplo, https://huggingface.co/docs/diffusers/main/en/training/lora["Lora"] é alavancado para garantir que o modelo adere às restrições de recursos. Se a computação não for uma restrição, o ajuste fino completo pode ser realizado.
+
+
+
+== Resultados e trabalho futuro
+
+A tabela a seguir mostra a perda de treinamento e a perda de validação correspondente para phi-2 treinados no conjunto de dados de soluções da NetApp (blogs/artigos internos de engenharia de soluções). Como observado, a perda de validação diminui juntamente com a perda de treinamento à medida que o número de épocas aumenta.
+
+image:phi2-results.png["Perda de treinamento e perda de validação para Phi-2"]
+
+Alguns exemplos de prompts usados para avaliar o modelo de linguagem ajustado são os seguintes - *1. Descreva as vantagens de usar o NetApp FlexGroup volumes para conjuntos de dados de treinamento de AI.*
+
+A resposta a esse prompt é a seguinte: "Os volumes NetApp FlexGroup oferecem vários benefícios quando usados para conjuntos de dados de treinamento de AI, incluindo: - *Escalabilidade*: Os volumes FlexGroup podem ser dimensionados horizontalmente para acomodar grandes quantidades de dados e recursos de computação necessários para o treinamento de AI. Isso permite que as organizações treinem modelos em conjuntos de dados maiores sem se preocupar com as limitações dos recursos. - *Consistência de dados*: Os volumes FlexGroup garantem a consistência de dados em vários nós em um cluster, fornecendo um namespace único para todos os dados. Isso garante que os dados estejam sempre disponíveis e consistentes em diferentes nós, o que é essencial para aplicações de AI que exigem acesso a dados de várias fontes. - *Desempenho*: Os volumes FlexGroup são otimizados para armazenamento de alto desempenho, tornando-os ideais para armazenar grandes conjuntos de dados necessários para treinamento em IA. As caraterísticas de desempenho do volume incluem baixa latência, alta taxa de transferência e alta disponibilidade, garantindo que os dados sejam acessados de forma rápida e confiável durante o treinamento. - *Segurança*: O FlexGroup volumes fornece recursos de segurança integrados, como criptografia, controle de acesso e proteção de dados, garantindo que os dados confidenciais sejam protegidos durante todo o seu ciclo de vida. Isso é particularmente importante para aplicações de AI que lidam com dados confidenciais, como informações pessoais ou dados financeiros. Em geral, o NetApp FlexGroup volumes oferece uma solução dimensionável, segura e de alta performance para armazenar e gerenciar conjuntos de dados de treinamento de IA."
+
+*2. Quais vantagens e recursos o ONTAP 9 oferece? Dê exemplos específicos deles.*
+
+A resposta a este prompt é a seguinte - "o ONTAP 9 fornece as seguintes vantagens e recursos: - *Alto desempenho*, com uma taxa de transferência de até 1 TB/s por nó para transferência de dados entre nós e volumes de armazenamento. - *Alta disponibilidade*, com 99,999% de tempo de atividade e alta disponibilidade em vários nós. - *Escalabilidade*, com a capacidade de escalar horizontalmente adicionando mais nós ou aumentando o número de discos em cada nó. - *Flexibilidade*, com a capacidade de usar diferentes tipos de volumes de storage, como SSDs, HDDs ou unidades NVMe, dependendo dos requisitos de workload. - *Segurança*, com a capacidade de implementar várias políticas de segurança, como criptografia, controle de acesso e auditoria, para proteger os dados e recursos do cluster. - Suporte para recursos avançados, como *desduplicação de dados, compactação e replicação*, para otimizar o desempenho e reduzir o custo de armazenamento e transferência de grandes quantidades de dados."
+
+As respostas demonstram que o modelo ajustado tem um contexto mais rico do conjunto de dados em que foi treinado em comparação com o modelo base e gera uma saída mais relevante.
+
+Este exemplo foi destinado a mostrar que o treinamento de um modelo de linguagem em dados personalizados/proprietários com uma pequena quantidade de recursos de computador ainda é possível. O trabalho futuro inclui o treinamento de um modelo de linguagem maior (ordem de >10B parâmetro) sobre dados em toda a organização, aproveitando uma configuração de GPU muito maior (rede distribuída de GPUs do sistema).

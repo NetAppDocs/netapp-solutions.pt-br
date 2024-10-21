@@ -1,0 +1,87 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-gpfs-to-netapp-ontap-nfs.html 
+keywords: GPFS, nfs, nsd, admin node, quorum node, manager node, nsd server, protocol node 
+summary: 'Nesta validação, usamos quatro servidores como servidores de disco compartilhado de rede (NSD) para fornecer discos físicos para GPFS. OS GPFS são criados em cima dos discos NSD para exportá-los como exportações NFS para que os clientes NFS possam acessá-los, como mostrado na figura abaixo. Usamos o XCP para copiar os dados do NFS exportado para um volume NetApp NFS.' 
+---
+= GPFS para NetApp ONTAP NFS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesta validação, usamos quatro servidores como servidores de disco compartilhado de rede (NSD) para fornecer discos físicos para GPFS. OS GPFS são criados em cima dos discos NSD para exportá-los como exportações NFS para que os clientes NFS possam acessá-los, como mostrado na figura abaixo. Usamos o XCP para copiar os dados do NFS exportado para um volume NetApp NFS.
+
+image:bda-ai-image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== GPFS essenciais
+
+Os seguintes tipos de nó são usados em GPFS:
+
+* *Nó Admin.* Especifica um campo opcional contendo um nome de nó usado pelos comandos de administração para se comunicar entre nós. Por exemplo, o nó de administrador `mastr-51.netapp.com` pode passar uma verificação de rede para todos os outros nós no cluster.
+* *Nó do Quorum.* Determina se um nó está incluído no pool de nós a partir do qual o quorum é derivado. Você precisa de pelo menos um nó como nó de quorum.
+* *Nó do gerente.* Indica se um nó faz parte do pool de nós do qual os gerenciadores de sistema de arquivos e os gerenciadores de token podem ser selecionados. É uma boa ideia definir mais de um nó como um nó de gerente. Quantos nós você designar como gerente depende da carga de trabalho e do número de licenças de servidor GPFS que você tem. Se você estiver executando grandes trabalhos paralelos, talvez precise de mais nós de gerente do que em um cluster de quatro nós que suporte um aplicativo da Web.
+* *Servidor NSD.* O servidor que prepara cada disco físico para uso com GPFS.
+* *Nó de protocolo.* O nó que compartilha dados GPFS diretamente por meio de qualquer protocolo Secure Shell (SSH) com o NFS. Este nó requer uma licença de servidor GPFS.
+
+
+
+
+== Lista de operações para GPFS, NFS e XCP
+
+Esta seção fornece a lista de operações que criam GPFS, exportam GPFS como uma exportação NFS e transferem os dados usando XCP.
+
+
+
+=== Criar GPFS
+
+Para criar GPFS, execute as seguintes etapas:
+
+. Baixe e instale o acesso a dados em escala de espetro para a versão Linux em um dos servidores.
+. Instale o pacote pré-requisito (chef, por exemplo) em todos os nós e desative o Security-Enhanced Linux (SELinux) em todos os nós.
+. Configure o nó de instalação e adicione o nó admin e o nó GPFS ao arquivo de definição de cluster.
+. Adicione o nó de gerente, o nó de quorum, os servidores NSD e o nó GPFS.
+. Adicione os nós GUI, admin e GPFS e adicione um servidor GUI adicional, se necessário.
+. Adicione outro nó GPFS e verifique a lista de todos os nós.
+. Especifique um nome de cluster, perfil, binário de shell remoto, binário de cópia de arquivo remoto e intervalo de portas a serem definidos em todos os nós GPFS no arquivo de definição de cluster.
+. Exiba as configurações GPFS e adicione um nó de administrador adicional.
+. Desative a coleta de dados e carregue o pacote de dados para o IBM Support Center.
+. Ative o NTP e verifique as configurações antes da instalação.
+. Configure, crie e verifique os discos NSD.
+. Crie o GPFS.
+. Monte os GPFS.
+. Verifique e forneça as permissões necessárias para os GPFS.
+. Verifique os GPFS de leitura e gravação executando o `dd` comando.
+
+
+
+
+=== EXPORTAR GPFS para NFS
+
+Para exportar os GPFS para o NFS, execute as seguintes etapas:
+
+. Exporte GPFS como NFS através do `/etc/exports` arquivo.
+. Instale os pacotes de servidor NFS necessários.
+. Inicie o serviço NFS.
+. Liste os arquivos nos GPFS para validar o cliente NFS.
+
+
+
+
+=== Configurar cliente NFS
+
+Para configurar o cliente NFS, execute as seguintes etapas:
+
+. Exporte os GPFS como NFS através do `/etc/exports` arquivo.
+. Inicie os serviços do cliente NFS.
+. Montar os GPFS por meio do protocolo NFS no cliente NFS.
+. Valide a lista de ARQUIVOS GPFS na pasta montada em NFS.
+. Mova os dados de NFS exportado para o NetApp NFS usando o XCP.
+. Valide os ARQUIVOS GPFS no cliente NFS.
+

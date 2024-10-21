@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: rhhc/self-managed/solution.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Solução NetApp com workloads da plataforma de contêiner Red Hat OpenShift na nuvem híbrida
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Os clientes podem estar em um ponto na jornada de modernização quando estiverem prontos para migrar alguns workloads selecionados ou todos os workloads de seus data centers para a nuvem. Eles podem optar por usar contêineres OpenShift autogerenciados e storage NetApp autogerenciado na nuvem por vários motivos. Eles devem Planejar e implantar a plataforma de contêineres Red Hat OpenShift (OCP) na nuvem para um ambiente pronto para produção bem-sucedido para migrar suas cargas de trabalho de contêiner de seus data centers. Os clusters de OCP podem ser implantados no VMware ou bare metal em seus data centers e na AWS, Azure ou Google Cloud no ambiente de nuvem.
+
+O NetApp Cloud Volumes ONTAP Storage oferece proteção de dados, confiabilidade e flexibilidade para implantações de contêiner na AWS, Azure e Google Cloud. O Astra Trident é o provisionador dinâmico de storage que consome o storage persistente do Cloud Volumes ONTAP para aplicações com estado monitorado dos clientes. O Astra Control Center pode ser usado para orquestrar muitos requisitos de gerenciamento de dados de aplicações com estado monitorado, como proteção de dados, migração e continuidade dos negócios.
+
+
+
+== Solução de migração e proteção de dados para workloads de contêiner do OpenShift em uma nuvem híbrida usando o Astra Control Center
+
+image:rhhc-self-managed-aws.png[""]

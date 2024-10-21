@@ -1,0 +1,335 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-other-nas-infrastructure-service-dependencies.html 
+keywords: kerberos keytab rotation, ldap, network ports, bind, asymmetric name mapping, antivirus 
+summary: Ao usar o Cloud Volumes Service para compartilhamentos nas, pode haver dependências externas necessárias para a funcionalidade adequada. Essas dependências estão em jogo sob circunstâncias específicas. 
+---
+= Outras dependências de serviço de infraestrutura nas (KDC, LDAP e DNS)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ao usar o Cloud Volumes Service para compartilhamentos nas, pode haver dependências externas necessárias para a funcionalidade adequada. Essas dependências estão em jogo sob circunstâncias específicas. A tabela a seguir mostra várias opções de configuração e quais, se houver, dependências são necessárias.
+
+|===
+| Configuração | Dependências necessárias 
+
+
+| Apenas NFSv3 | Nenhum 
+
+
+| NFSv3 apenas Kerberos | Ative Directory do Windows: * KDC * DNS * LDAP 
+
+
+| Apenas NFSv4,1 | Configuração de mapeamento de ID do cliente (/etc/idmap.conf) 
+
+
+| NFSv4,1 apenas Kerberos  a| 
+* Configuração de mapeamento de ID do cliente (/etc/idmap.conf)
+* Ative Directory do Windows: KDC DNS LDAP
+
+
+
+
+| Apenas SMB | Ative Directory: * KDC * DNS 
+
+
+| Nas multiprotocolo (NFS e SMB)  a| 
+* Configuração de mapeamento de ID do cliente (apenas NFSv4,1; /etc/idmap.conf)
+* Ative Directory do Windows: KDC DNS LDAP
+
+
+|===
+
+
+== A rotação/redefinição de senha do keytab Kerberos para objetos de conta de máquina
+
+Com contas de máquina SMB, o Cloud Volumes Service agenda redefinições periódicas de palavra-passe para a conta de máquina SMB. Essas redefinições de senha ocorrem usando criptografia Kerberos e operam em um horário de cada quarto domingo em um horário aleatório entre 11pm e 1am. Essas redefinições de senha alteram as versões de chaves Kerberos, rodam as guias de teclas armazenadas no sistema Cloud Volumes Service e ajudam a manter um nível maior de segurança para servidores SMB em execução no Cloud Volumes Service. As senhas da conta de máquina são randomizadas e não são conhecidas pelos administradores.
+
+Para contas de máquinas NFS Kerberos, as redefinições de palavra-passe ocorrem apenas quando uma nova keytab é criada/trocada com o KDC. Atualmente, isso não é possível fazer no Cloud Volumes Service.
+
+
+
+== Portas de rede para uso com LDAP e Kerberos
+
+Ao usar LDAP e Kerberos, você deve determinar as portas de rede em uso por esses serviços. Você pode encontrar uma lista completa de portas em uso pelo Cloud Volumes Service no https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["Documentação do Cloud Volumes Service sobre considerações de segurança"^].
+
+
+
+== LDAP
+
+O Cloud Volumes Service atua como um cliente LDAP e usa consultas de pesquisa padrão LDAP para pesquisas de usuários e grupos para identidades UNIX. O LDAP é necessário se você pretende usar usuários e grupos fora dos usuários padrão fornecidos pelo Cloud Volumes Service. O LDAP também é necessário se você planeja usar o NFS Kerberos com princípios de usuário (como user1@domain.com). Atualmente, apenas o LDAP que utiliza o Microsoft ative Directory é suportado.
+
+Para usar o ative Directory como um servidor LDAP UNIX, você deve preencher os atributos UNIX necessários em usuários e grupos que pretende usar para identidades UNIX. O Cloud Volumes Service usa um modelo de esquema LDAP padrão que consulta atributos com base https://tools.ietf.org/id/draft-howard-rfc2307bis-01.txt["RFC-2307-bis"^] no . Como resultado, a tabela a seguir mostra os atributos mínimos necessários do ative Directory para serem preenchidos para usuários e grupos e para que cada atributo é usado.
+
+Para obter mais informações sobre a configuração de atributos LDAP no ative Directory, consulte https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["Gerenciamento do acesso a dois protocolos."^]
+
+|===
+| Atributo | O que faz 
+
+
+| uid* | Especifica o nome de usuário UNIX 
+
+
+| UidNumber* | Especifica o ID numérico do usuário UNIX 
+
+
+| GidNumber* | Especifica o ID numérico do grupo primário do usuário UNIX 
+
+
+| ObjectClass* | Especifica que tipo de objeto está sendo usado; o Cloud Volumes Service requer que "usuário" seja incluído na lista de classes de objeto (é incluído na maioria das implantações do ative Directory por padrão). 
+
+
+| nome | Informações gerais sobre a conta (nome real, número de telefone e assim por diante - também conhecido como gecos) 
+
+
+| UnixUserPassword | Não há necessidade de definir isso; não é usado em pesquisas de identidade UNIX para autenticação nas. Definir isso coloca o valor unixUserPassword configurado em texto simples. 
+
+
+| UnixHomeDirectory | Define o caminho para os diretórios home do UNIX quando um usuário se autentica contra o LDAP de um cliente Linux. Defina isto se pretender utilizar a funcionalidade LDAP para o diretório base UNIX. 
+
+
+| LoginShell | Define o caminho para o shell bash/profile para clientes Linux quando um usuário se autentica contra LDAP. 
+|===
+* Denota atributo é necessário para a funcionalidade adequada com Cloud Volumes Service. Os atributos restantes são apenas para uso no lado do cliente.
+
+|===
+| Atributo | O que faz 
+
+
+| cn* | Especifica o nome do grupo UNIX. Ao usar o ative Directory para LDAP, isso é definido quando o objeto é criado pela primeira vez, mas pode ser alterado posteriormente. Este nome não pode ser o mesmo que outros objetos. Por exemplo, se o usuário UNIX chamado user1 pertence a um grupo chamado user1 em seu cliente Linux, o Windows não permite dois objetos com o mesmo atributo cn. Para contornar isso, renomeie o usuário do Windows para um nome exclusivo (como user1-UNIX); o LDAP no Cloud Volumes Service usa o atributo uid para nomes de usuário UNIX. 
+
+
+| GidNumber* | Especifica o ID numérico do grupo UNIX. 
+
+
+| ObjectClass* | Especifica que tipo de objeto está sendo usado; o Cloud Volumes Service requer que o grupo seja incluído na lista de classes de objetos (esse atributo é incluído na maioria das implantações do ative Directory por padrão). 
+
+
+| Membro Uid | Especifica quais usuários UNIX são membros do grupo UNIX. Com o LDAP do ative Directory no Cloud Volumes Service, este campo não é necessário. O esquema LDAP do Cloud Volumes Service usa o campo Membro para associações a grupos. 
+
+
+| Membro* | Necessário para associações a grupos/grupos UNIX secundários. Esse campo é preenchido adicionando usuários do Windows aos grupos do Windows. No entanto, se os grupos do Windows não tiverem atributos UNIX preenchidos, eles não serão incluídos nas listas de membros do grupo do usuário UNIX. Todos os grupos que precisam estar disponíveis no NFS devem preencher os atributos de grupo UNIX necessários listados nesta tabela. 
+|===
+* Denota atributo é necessário para a funcionalidade adequada com Cloud Volumes Service. Os atributos restantes são apenas para uso no lado do cliente.
+
+
+
+=== Informações de vinculação LDAP
+
+Para consultar usuários no LDAP, o Cloud Volumes Service deve vincular (login) ao serviço LDAP. Este login tem permissões somente leitura e é usado para consultar atributos LDAP UNIX para pesquisas de diretório. Atualmente, as ligações LDAP são possíveis apenas utilizando uma conta de máquina SMB.
+
+Você só pode ativar o LDAP para `CVS-Performance` instâncias e usá-lo para volumes NFSv3, NFSv4,1 ou de protocolo duplo. Uma conexão do ative Directory deve ser estabelecida na mesma região que o volume Cloud Volumes Service para a implantação bem-sucedida do volume habilitado para LDAP.
+
+Quando o LDAP está ativado, o seguinte ocorre em cenários específicos.
+
+* Se apenas NFSv3 ou NFSv4,1 for usado para o projeto Cloud Volumes Service, uma nova conta de máquina será criada no controlador de domínio do ative Directory e o cliente LDAP no Cloud Volumes Service se vinculará ao ative Directory usando as credenciais da conta de máquina. Não são criados compartilhamentos SMB para o volume NFS e compartilhamentos administrativos ocultos padrão (consulte a seção link:ncvs-gc-smb.html#default-hidden-shares[""Compartilhamentos ocultos padrão""]) removeram ACLs de compartilhamento.
+* Se volumes de protocolo duplo forem usados para o projeto Cloud Volumes Service, somente a conta de máquina única criada para o acesso SMB será usada para vincular o cliente LDAP no Cloud Volumes Service ao ative Directory. Nenhuma conta de máquina adicional é criada.
+* Se volumes SMB dedicados forem criados separadamente (antes ou depois que os volumes NFS com LDAP estiverem ativados), a conta de máquina para ligações LDAP será compartilhada com a conta de máquina SMB.
+* Se o NFS Kerberos também estiver habilitado, duas contas de máquina serão criadas: Uma para compartilhamentos SMB e/ou vinculação LDAP e outra para autenticação NFS Kerberos.
+
+
+
+
+=== Consultas LDAP
+
+Embora as ligações LDAP sejam criptografadas, as consultas LDAP são passadas sobre o fio em texto simples usando a porta LDAP comum 389. Esta porta bem conhecida não pode ser alterada atualmente no Cloud Volumes Service. Como resultado, alguém com acesso ao sniffing de pacotes na rede pode ver nomes de usuários e grupos, IDs numéricos e associações a grupos.
+
+No entanto, as VMs do Google Cloud não conseguem detetar o tráfego unicast de outra VM. Apenas as VMs que participam ativamente no tráfego LDAP (ou seja, que podem vincular) podem ver o tráfego do servidor LDAP. Para obter mais informações sobre o sniffing de pacotes no Cloud Volumes Service, consulte a seção link:ncvs-gc-cloud-volumes-service-architecture.html#packet-sniffing[""Considerações de sniffing/trace de pacotes.""]
+
+
+
+=== Padrões de configuração do cliente LDAP
+
+Quando o LDAP está habilitado em uma instância do Cloud Volumes Service, uma configuração de cliente LDAP é criada com detalhes de configuração específicos por padrão. Em alguns casos, as opções não se aplicam ao Cloud Volumes Service (não suportado) ou não são configuráveis.
+
+|===
+| Opção de cliente LDAP | O que faz | Valor padrão | Pode mudar? 
+
+
+| Lista de servidores LDAP | Define nomes de servidor LDAP ou endereços IP a serem usados para consultas. Isto não é utilizado para o Cloud Volumes Service. Em vez disso, o domínio ative Directory é usado para definir servidores LDAP. | Não definido | Não 
+
+
+| Domínio do ative Directory | Define o domínio do ative Directory a ser usado para consultas LDAP. O Cloud Volumes Service utiliza Registros SRV para LDAP no DNS para localizar servidores LDAP no domínio. | Defina para o domínio do ative Directory especificado na conexão do ative Directory. | Não 
+
+
+| Servidores ative Directory preferenciais | Define os servidores preferenciais do ative Directory a serem usados para LDAP. Não suportado pelo Cloud Volumes Service. Em vez disso, use sites do ative Directory para controlar a seleção do servidor LDAP. | Não definido. | Não 
+
+
+| Vincular usando credenciais do servidor SMB | Vincula-se ao LDAP usando a conta de máquina SMB. Atualmente, o único método de vinculação LDAP suportado no Cloud Volumes Service. | Verdadeiro | Não 
+
+
+| Modelo Esquema | O modelo de esquema usado para consultas LDAP. | MS-AD-BIS | Não 
+
+
+| Porta do servidor LDAP | O número da porta usado para consultas LDAP. O Cloud Volumes Service usa atualmente apenas a porta LDAP padrão 389. LDAPS/porta 636 não é suportada atualmente. | 389 | Não 
+
+
+| O LDAPS está ativado | Controla se o LDAP sobre SSL (Secure Sockets Layer) é usado para consultas e ligações. Atualmente não suportado pelo Cloud Volumes Service. | Falso | Não 
+
+
+| Tempo limite consulta (seg.) | Tempo limite para consultas. Se as consultas demorarem mais do que o valor especificado, as consultas falharão. | 3 | Não 
+
+
+| Nível mínimo de autenticação de vinculação | O nível mínimo de vinculação suportado. Como o Cloud Volumes Service usa contas de máquina para ligações LDAP e o ative Directory não suporta ligações anônimas por padrão, essa opção não entra em jogo para segurança. | Anônimo | Não 
+
+
+| Vincular DN | O nome de usuário/nome distinto (DN) usado para ligações quando o vínculo simples é usado. O Cloud Volumes Service usa contas de máquina para vinculações LDAP e atualmente não oferece suporte à autenticação de vinculação simples. | Não definido | Não 
+
+
+| DN base | O DN base usado para pesquisas LDAP. | O domínio do Windows é usado para a conexão do ative Directory, em formato DN (ou seja, DC-domain, DC-local). | Não 
+
+
+| Escopo de pesquisa base | O escopo de pesquisa para pesquisas DN base. Os valores podem incluir base, onelevel ou subtree. O Cloud Volumes Service suporta apenas pesquisas em subárvore. | Subárvore | Não 
+
+
+| DN de utilizador | Define o DN no qual as pesquisas do usuário começam para consultas LDAP. Atualmente não é suportado para Cloud Volumes Service, portanto todas as pesquisas de usuário começam no DN base. | Não definido | Não 
+
+
+| Escopo de pesquisa do usuário | O escopo de pesquisa para pesquisas DN do usuário. Os valores podem incluir base, onelevel ou subtree. O Cloud Volumes Service não suporta a configuração do escopo de pesquisa do usuário. | Subárvore | Não 
+
+
+| DN do grupo | Define o DN onde as pesquisas de grupo começam para consultas LDAP. Atualmente não é compatível com Cloud Volumes Service, portanto todas as pesquisas de grupo começam no DN base. | Não definido | Não 
+
+
+| Escopo de pesquisa de grupo | O escopo de pesquisa para pesquisas DN do grupo. Os valores podem incluir base, onelevel ou subtree. O Cloud Volumes Service não suporta a configuração do escopo de pesquisa de grupo. | Subárvore | Não 
+
+
+| DN do netgroup | Define o DN no qual as pesquisas de netgroup iniciam para consultas LDAP. Atualmente não é compatível com Cloud Volumes Service, portanto todas as pesquisas de netgroup começam no DN base. | Não definido | Não 
+
+
+| Escopo de pesquisa do netgroup | O escopo de pesquisa para pesquisas DN de netgroup. Os valores podem incluir base, onelevel ou subtree. O Cloud Volumes Service não suporta a configuração do escopo de pesquisa do netgroup. | Subárvore | Não 
+
+
+| Use start_tls em LDAP | Otimiza o TLS Iniciar para conexões LDAP baseadas em certificado pela porta 389. Atualmente não suportado pelo Cloud Volumes Service. | Falso | Não 
+
+
+| Ative a pesquisa netgroup-by-host | Permite pesquisas netgroup por nome de host em vez de expandir netgroups para listar todos os membros. Atualmente não suportado pelo Cloud Volumes Service. | Falso | Não 
+
+
+| DN netgroup-by-host | Define o DN onde as pesquisas netgroup-by-host começam para consultas LDAP. Netgroup-by-host atualmente não é suportado para Cloud Volumes Service. | Não definido | Não 
+
+
+| Escopo de pesquisa netgroup-by-host | O escopo de pesquisa para pesquisas DN netgroup-by-host. Os valores podem incluir base, onelevel ou subtree. Netgroup-by-host atualmente não é suportado para Cloud Volumes Service. | Subárvore | Não 
+
+
+| Segurança da sessão do cliente | Define que nível de segurança de sessão é usado pelo LDAP (sinal, selo ou nenhum). A assinatura LDAP é suportada pelo CVS-Performance, se solicitado pelo ative Directory. CVS-SW não suporta assinatura LDAP. Para ambos os tipos de serviço, a vedação atualmente não é suportada. | Nenhum | Não 
+
+
+| Perseguição por referência LDAP | Ao usar vários servidores LDAP, a busca de referências permite que o cliente se refira a outros servidores LDAP na lista quando uma entrada não é encontrada no primeiro servidor. No momento, isso não é suportado pelo Cloud Volumes Service. | Falso | Não 
+
+
+| Filtro de associação de grupo | Fornece um filtro de pesquisa LDAP personalizado a ser usado ao procurar associação de grupo a partir de um servidor LDAP. Atualmente não é suportado com Cloud Volumes Service. | Não definido | Não 
+|===
+
+
+=== Usando LDAP para mapeamento de nomes assimétricos
+
+O Cloud Volumes Service, por padrão, mapeia usuários do Windows e usuários UNIX com nomes de usuário idênticos bidirecionalmente sem configuração especial. Contanto que o Cloud Volumes Service possa encontrar um usuário UNIX válido (com LDAP), então o mapeamento de nomes 1:1 ocorre. Por exemplo, se o usuário do Windows `johnsmith` for usado, então, se o Cloud Volumes Service puder encontrar um usuário UNIX nomeado `johnsmith` no LDAP, o mapeamento de nomes será bem-sucedido para esse usuário, todos os arquivos/pastas criados pelo `johnsmith` mostram a propriedade correta do usuário e todas as ACLs que afetam `johnsmith` são honradas independentemente do protocolo nas em uso. Isso é conhecido como mapeamento de nomes simétricos.
+
+O mapeamento assimétrico de nomes é quando o usuário do Windows e a identidade do usuário UNIX não coincidem. Por exemplo, se o usuário do Windows `johnsmith` tiver uma identidade UNIX do `jsmith`, o Cloud Volumes Service precisa de uma maneira de ser informado sobre a variação. Como o Cloud Volumes Service atualmente não suporta a criação de regras de mapeamento de nomes estáticos, o LDAP deve ser usado para procurar a identidade dos usuários para identidades Windows e UNIX para garantir a propriedade adequada de arquivos e pastas e permissões esperadas.
+
+Por padrão, o Cloud Volumes Service inclui `LDAP` no ns-switch da instância para o banco de dados de mapa de nomes, de modo que para fornecer a funcionalidade de mapeamento de nomes usando LDAP para nomes assimétricos, você só precisa modificar alguns dos atributos de usuário/grupo para refletir o que o Cloud Volumes Service procura.
+
+A tabela a seguir mostra quais atributos devem ser preenchidos no LDAP para a funcionalidade de mapeamento de nomes assimétricos. Na maioria dos casos, o ative Directory já está configurado para fazer isso.
+
+|===
+| Atributo Cloud Volumes Service | O que faz | Valor usado pelo Cloud Volumes Service para mapeamento de nomes 
+
+
+| Windows para UNIX objectClass | Especifica o tipo de objeto que está sendo usado. (Ou seja, usuário, grupo, posixAccount e assim por diante) | Deve incluir usuário (pode conter vários outros valores, se desejado.) 
+
+
+| Atributo Windows para UNIX | Isso define o nome de usuário do Windows na criação. O Cloud Volumes Service usa isso para pesquisas do Windows para UNIX. | Nenhuma alteração é necessária aqui; sAMAccountName é o mesmo que o nome de login do Windows. 
+
+
+| UID | Define o nome de usuário UNIX. | Nome de usuário UNIX desejado. 
+|===
+O Cloud Volumes Service atualmente não usa prefixos de domínio em pesquisas LDAP, portanto, vários ambientes LDAP de domínio não funcionam corretamente com pesquisas de namemap LDAP.
+
+O exemplo a seguir mostra um usuário com o nome do Windows `asymmetric` , o nome do UNIX `unix-user` e o comportamento que ele segue ao gravar arquivos de SMB e NFS.
+
+A figura a seguir mostra como os atributos LDAP são exibidos no servidor Windows.
+
+image:ncvs-gc-image20.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Em um cliente NFS, você pode consultar o nome UNIX, mas não o nome do Windows:
+
+....
+# id unix-user
+uid=1207(unix-user) gid=1220(sharedgroup) groups=1220(sharedgroup)
+# id asymmetric
+id: asymmetric: no such user
+....
+Quando um arquivo é gravado a partir de NFS como `unix-user`, o seguinte é o resultado do cliente NFS:
+
+....
+sh-4.2$ pwd
+/mnt/home/ntfssh-4.2$ touch unix-user-file
+sh-4.2$ ls -la | grep unix-user
+-rwx------  1 unix-user sharedgroup     0 Feb 28 12:37 unix-user-nfs
+sh-4.2$ id
+uid=1207(unix-user) gid=1220(sharedgroup) groups=1220(sharedgroup)
+....
+Em um cliente Windows, você pode ver que o proprietário do arquivo está definido para o usuário apropriado do Windows:
+
+....
+PS C:\ > Get-Acl \\demo\home\ntfs\unix-user-nfs | select Owner
+Owner
+-----
+NTAP\asymmetric
+....
+Por outro lado, os arquivos criados pelo usuário do Windows `asymmetric` a partir de um cliente SMB mostram o proprietário do UNIX adequado, como mostrado no texto a seguir.
+
+SMB:
+
+....
+PS Z:\ntfs> echo TEXT > asymmetric-user-smb.txt
+....
+NFS:
+
+....
+sh-4.2$ ls -la | grep asymmetric-user-smb.txt
+-rwx------  1 unix-user         sharedgroup   14 Feb 28 12:43 asymmetric-user-smb.txt
+sh-4.2$ cat asymmetric-user-smb.txt
+TEXT
+....
+
+
+=== Vinculação de canal LDAP
+
+Devido a uma vulnerabilidade com controladores de domínio do ative Directory do Windows, https://msrc.microsoft.com/update-guide/vulnerability/ADV190023["Comunicado de Segurança da Microsoft ADV190023"^] altera a forma como os DCs permitem ligações LDAP.
+
+O impactos para o Cloud Volumes Service é o mesmo que para qualquer cliente LDAP. No momento, o Cloud Volumes Service não oferece suporte à vinculação de canais. Como o Cloud Volumes Service suporta a assinatura LDAP por padrão por meio de negociação, a vinculação de canal LDAP não deve ser um problema. Se você tiver problemas de vinculação ao LDAP com a vinculação de canais ativada, siga as etapas de correção em ADV190023 para permitir que as ligações LDAP do Cloud Volumes Service sejam bem-sucedidas.
+
+
+
+== DNS
+
+O ative Directory e o Kerberos têm dependências no DNS para nome de host para IP/IP para resolução de nome de host. O DNS requer que a porta 53 esteja aberta. O Cloud Volumes Service não faz nenhuma modificação nos Registros DNS, nem suporta atualmente o uso de https://support.google.com/domains/answer/6147083?hl=en["DNS dinâmico"^] em interfaces de rede.
+
+Você pode configurar o DNS do ative Directory para restringir quais servidores podem atualizar Registros DNS. Para obter mais informações, https://docs.microsoft.com/en-us/learn/modules/secure-windows-server-domain-name-system/["DNS seguro do Windows"^]consulte .
+
+Observe que os recursos de um projeto do Google usam o DNS do Google Cloud, que não está conetado ao DNS do ative Directory. Os clientes que usam o Cloud DNS não podem resolver caminhos UNC retornados pelo Cloud Volumes Service. Os clientes do Windows associados ao domínio do ative Directory estão configurados para usar o DNS do ative Directory e podem resolver esses caminhos UNC.
+
+Para ingressar em um cliente no ative Directory, você deve configurar sua configuração DNS para usar o DNS do ative Directory. Opcionalmente, você pode configurar o Cloud DNS para encaminhar solicitações para o ative Directory DNS. Consulte https://cloud.google.com/architecture/partners/netapp-cloud-volumes/faqs-netapp["Por que meu cliente não consegue resolver o nome NetBIOS SMB?"^]para obter mais informações.
+
+
+NOTE: Atualmente, o Cloud Volumes Service não suporta DNSSEC e as consultas DNS são executadas em texto simples.
+
+
+
+== Auditoria de acesso a arquivos
+
+Atualmente não suportado para Cloud Volumes Service.
+
+
+
+== Proteção antivírus
+
+Você deve executar a verificação de antivírus no Cloud Volumes Service no cliente para um compartilhamento nas. Atualmente, não há integração antivírus nativa com o Cloud Volumes Service.

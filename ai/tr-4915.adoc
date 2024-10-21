@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: ai/tr-4915.html 
+keywords:  
+summary:  
+---
+= TR-4915: Movimentação de dados com o e-Series e BeeGFS para workflows de AI e análise
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Cody Harryman e Ryan Rodine, NetApp
+
+[role="lead"]
+TR-4915 descreve como mover dados de qualquer repositório de dados para um sistema de arquivos BeeGFS com o respaldo do storage SAN NetApp e-Series. Para aplicações de inteligência artificial (AI) e aprendizado de máquina (ML), os clientes geralmente precisam migrar grandes conjuntos de dados que excedem muitos petabytes de dados para os clusters BeeGFS para desenvolvimento de modelos. Este documento explora como fazer isso usando as ferramentas de cópia e sincronização do NetApp XCP e NetApp BlueXP .
+
+link:https://www.netapp.com/pdf.html?item=/media/65882-tr-4915.pdf["TR-4915: Movimentação de dados com o e-Series e BeeGFS para workflows de AI e análise"^]

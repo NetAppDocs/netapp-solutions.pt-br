@@ -1,0 +1,99 @@
+---
+sidebar: sidebar 
+permalink: blogs.html 
+summary: Série de blogs discutindo recursos de solução em todos os conteúdos de soluções da NetApp 
+keywords: netapp, solutions, blogs 
+---
+= Soluções NetApp: Blogs
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Visão geral dos blogs destacando caraterísticas específicas das muitas soluções da NetApp.
+
+
+
+== Inteligência artificial
+
+* link:++https://www.netapp.com/blog/#t=Blogs&sort=%40publish_date_mktg%20descending&layout=card&f:@facet_language_mktg=["Inglês"][Ai, Analytics, inteligência artificial] ou blogs de IA no NetApp.com]
+* link:https://netapp.io/category/ai-ml/["Ai blogs no thePub"]
+
+
+
+
+== Banco de dados empresarial
+
+* link:https://aws.amazon.com/blogs/storage/using-netapp-snapcenter-with-amazon-fsx-for-netapp-ontap-to-protect-your-sql-server-workloads/["Proteja suas cargas de trabalho do SQL Server usando o NetApp SnapCenter com o Amazon FSX ONTAP"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Modernize-your-Oracle-database-operation-in-hybrid-cloud-with-Amazon-FSx-storage/ba-p/437554["Modernize sua operação de banco de dados Oracle na nuvem híbrida com o armazenamento Amazon FSX"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Hybrid-cloud-database-solutions-with-SnapCenter/ba-p/171061#M5["Soluções de banco de dados de nuvem híbrida com o SnapCenter"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Automate-Your-Oracle-Database-Infrastructure-in-the-Hybrid-Cloud/ba-p/167046["Automatize sua infraestrutura de banco de dados Oracle na nuvem híbrida"]
+
+
+
+
+== Multicloud híbrida com VMware
+
+* link:https://bluexp.netapp.com/blog/aws-fsxn-blg-migrate-vmware-to-amazon-ec2-iscsi-based-fsx-for-ontap["Migre as VMs VMware para a AWS usando o protocolo iSCSI do Amazon EC2 e do Amazon FSX ONTAP"]
+* link:https://cloud.netapp.com/blog/azure-blg-optimize-storage-for-cloud-based-vmware-deployments["Otimize o storage para implantações VMware baseadas na nuvem"]
+* link:https://cloud.netapp.com/blog/azure-blg-netapp-cloud-offerings-with-azure-vmware-solution["Comece a usar a solução VMware Azure usando as ofertas de nuvem baseadas na NetApp"]
+* link:https://cloud.netapp.com/blog/aws-fsxo-blg-configure-hybrid-cloud-with-fsx-for-netapp-ontap-and-vmware-cloud-on-aws-sddc-using-vmware-hcx["Configure a nuvem híbrida com o FSX ONTAP e o VMware Cloud no AWS SDDC usando o VMware HCX"]
+* link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Suporte ao armazenamento de dados do NetApp Cloud Volumes Service para o NetApp (Google Cloud VMware Engine)"]
+* link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Como usar o NetApp CVS como datastores para o Google Cloud"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-Backup-and/ba-p/446180["Proteção de dados 3-2-1 para VMware com plug-in SnapCenter e backup e recuperação BlueXP  para VMs"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Observability-for-the-Modern-Datacenter-with-NetApp-Cloud-Insights/ba-p/447495["Observabilidade do data center moderno com o NetApp Cloud Insights"]
+
+
+
+
+== Virtualização
+
+* NetApp e VMware Cloud Foundation (VCF)
++
+** link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-getting-started["Parte 1: Primeiros passos"]
+** link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-ontap-principal-storage["Parte 2: Storage principal do VCF e do ONTAP"]
+** link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-element-principal-storage["Parte 3: Storage principal do VCF e do Element"]
+** link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-supplemental-storage["Parte 4: Ferramentas ONTAP para VMware e armazenamento suplementar"]
+
+
+* link:https://cloud.netapp.com/blog/azure-blg-optimize-storage-for-cloud-based-vmware-deployments["Otimize o storage para implantações VMware baseadas na nuvem"]
+* link:https://cloud.netapp.com/blog/azure-blg-netapp-cloud-offerings-with-azure-vmware-solution["Comece a usar a solução VMware Azure usando as ofertas de nuvem baseadas na NetApp"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-and-VMware-Better-than-ever/ba-p/445780["NetApp e VMware – melhor do que nunca"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-Backup-and/ba-p/446180["Proteção de dados 3-2-1 para VMware com plug-in SnapCenter e backup e recuperação BlueXP  para VMs"]
+
+
+
+
+== Contêineres
+
+[[containers-osv]]
+* Virtualização OpenShift:
++
+** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/A-Backup-and-Restore-option-for-VM-data-protection-in-OpenShift-Virtualization/ba-p/452279["Uma opção de backup e restauração para proteção de dados de VM no OpenShift Virtualization"]
+** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/ONTAP-for-OpenShift-Virtualization-VMs-non-disruptive-volume-move-operation-is/ba-p/451941["ONTAP para VMs de virtualização OpenShift: A operação de movimentação de volume sem interrupções é sua"]
+
+
+* Casos de uso do Astra DevOps:
++
+** link:https://cloud.netapp.com/blog/astra-blg-easily-integrate-protection-into-your-kubernetes-ci/cd-pipeline-with-netapp-astra-control["Integre facilmente a proteção ao seu pipeline de CI/CD do Kubernetes com o NetApp Astra Control"]
+** link:https://cloud.netapp.com/blog/astra-blg-restore-business-operations-quicker-with-devops-and-astra["DevOps com NetApp: Use o Astra Control para realizar análises post-mortem e restaurar sua aplicação"]
+
+
+* link:https://cloud.netapp.com/blog/astra-blg-astra-control-center-the-easy-button-for-application-data-management["NetApp Astra Control Center: O botão fácil para o gerenciamento de dados da sua aplicação"]
+* link:https://netapp.io/2021/05/21/docker-rate-limit-issue/["Instalando o NetApp Trident no Red Hat OpenShift – como resolver o problema 'toomanyrequests' do Docker!"]
+* link:https://blog.netapp.com/accelerate-your-k8s-journey["Usando o VMware Tanzu com o ONTAP para acelerar sua jornada de Kubernetes"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Kubernetes-on-vSphere-Part-1/ba-p/445634["Kubernetes no vSphere (parte 1)"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Kubernetes-on-vSphere-Part-2/ba-p/445848["Kubernetes no vSphere (parte 2)"]
+
+
+
+
+== Multicloud híbrida da NetApp com workloads de contêiner do Red Hat OpenShift
+
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-ONTAP-doubles-up-as-storage-for-logs-in-Red-Hat-OpenShift-Container/ba-p/449280["O NetApp ONTAP funciona como armazenamento para logs na plataforma de contêiner do Red Hat OpenShift"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Using-Astra-Control-Service-for-data-management-of-apps-on-ROSA-clusters-with/ba-p/450903["Usando o Astra Control Service para gerenciamento de dados de aplicativos em clusters ROSA com o armazenamento do Amazon FSX"]
+

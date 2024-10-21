@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_solution_overview.html 
+keywords: NetApp, Solution, Overview, ML 
+summary:  
+---
+= Visão geral da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção analisa um pipeline convencional de ciência de dados e suas desvantagens. Ele também apresenta a arquitetura da solução de armazenamento em cache de conjuntos de dados proposta.
+
+
+
+== Pipeline e desvantagens convencionais da ciência de dados
+
+Uma sequência típica de desenvolvimento e implantação do modelo ML envolve etapas iterativas que incluem o seguinte:
+
+* Ingerindo dados
+* Pré-processamento de dados (criando várias versões dos conjuntos de dados)
+* Execução de experimentos múltiplos envolvendo otimização de hiperparâmetros, modelos diferentes e assim por diante
+* Implantação
+* O Monitoringcnvrg.io desenvolveu uma plataforma abrangente para automatizar todas as tarefas, desde a pesquisa até a implantação. Uma pequena amostra de capturas de tela do painel referentes ao pipeline é mostrada na figura a seguir.
+
+
+image:hcaios_image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+É muito comum ter vários conjuntos de dados em jogo de repositórios públicos e dados privados. Além disso, é provável que cada conjunto de dados tenha várias versões resultantes da limpeza do conjunto de dados ou engenharia de recursos. É necessário um dashboard que forneça um hub de conjunto de dados e um hub de versão para garantir que as ferramentas de colaboração e consistência estejam disponíveis para a equipe, como pode ser visto na figura a seguir.
+
+image:hcaios_image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A próxima etapa no pipeline é o treinamento, que requer várias instâncias paralelas de modelos de treinamento, cada uma associada a um conjunto de dados e uma determinada instância de computação. A vinculação de um conjunto de dados a um determinado experimento com uma determinada instância de computação é um desafio porque é possível que alguns experimentos sejam realizados por instâncias de GPU da Amazon Web Services (AWS), enquanto outros experimentos são realizados por instâncias DGX-1 ou DGX-2 no local. Outros experimentos podem ser executados em servidores de CPU no GCP, enquanto o local do conjunto de dados não está em proximidade razoável com os recursos de computação que estão realizando o treinamento. Uma proximidade razoável teria conectividade total de 10GbE GB ou mais de baixa latência, do storage do conjunto de dados para a instância de computação.
+
+É uma prática comum que os cientistas de dados baixem o conjunto de dados para a instância de computação que está realizando o treinamento e executem o experimento. No entanto, existem vários problemas potenciais com esta abordagem:
+
+* Quando o cientista de dados faz o download do conjunto de dados para uma instância de computação, não há garantias de que o storage integrado de computação seja de alta performance (um exemplo de sistema de alta performance seria a solução NVMe da ONTAP AFF A800).
+* Quando o conjunto de dados baixado reside em um nó de computação, o storage pode se tornar um gargalo quando os modelos distribuídos são executados em vários nós (ao contrário do storage distribuído de alta performance da NetApp ONTAP).
+* A próxima iteração do experimento de treinamento pode ser realizada em uma instância de computação diferente devido a conflitos ou prioridades de fila, criando novamente uma distância significativa da rede do conjunto de dados ao local de computação.
+* Outros membros da equipe que executam experimentos de treinamento no mesmo cluster de computação não podem compartilhar esse conjunto de dados; cada um realiza o download (caro) do conjunto de dados de um local arbitrário.
+* Se outros conjuntos de dados ou versões do mesmo conjunto de dados forem necessários para as tarefas de treinamento subsequentes, os cientistas de dados devem fazer novamente o download (caro) do conjunto de dados para a instância de computação que está realizando o treinamento. O NetApp e o cnvrg.io criaram uma nova solução de armazenamento em cache de dados que elimina esses obstáculos. A solução cria a execução acelerada do pipeline DE ML com o armazenamento em cache de conjuntos de dados ativos no sistema de storage de alta performance da ONTAP. Com o ONTAP NFS, os conjuntos de dados são armazenados em cache uma vez (e apenas uma vez) em um Data Fabric com tecnologia NetApp (como AFF A800), que é colocalizado com a computação. Como o storage de alta velocidade NetApp ONTAP NFS pode atender a vários nós de computação DE ML, a performance dos modelos de treinamento é otimizada, trazendo economia de custos, produtividade e eficiência operacional para a organização.
+
+
+
+
+== Arquitetura de soluções
+
+Esta solução do NetApp e cnvrg.io fornece armazenamento em cache de conjuntos de dados, como mostrado na figura a seguir. O armazenamento em cache do conjunto de dados permite que os cientistas de dados escolham uma versão do conjunto de dados ou do conjunto de dados desejado e a movam para o cache NFS do ONTAP, que se encontra próximo ao cluster de computação DE ML. O cientista de dados agora pode executar vários experimentos sem incorrer em atrasos ou downloads. Além disso, todos os engenheiros colaboradores podem usar o mesmo conjunto de dados com o cluster de computação anexado (com a liberdade de escolher qualquer nó) sem downloads adicionais do data Lake. Oferece aos cientistas de dados um dashboard que controla e monitora todos os conjuntos de dados e versões, além de fornecer uma visualização de quais conjuntos de dados foram armazenados em cache.
+
+A plataforma cnvrg.io deteta automaticamente conjuntos de dados antigos que não foram usados por um determinado tempo e os expulsa do cache, o que mantém espaço livre de cache NFS para conjuntos de dados usados com mais frequência. É importante observar que o armazenamento em cache do conjunto de dados com o ONTAP funciona na nuvem e no local, fornecendo o máximo de flexibilidade.
+
+image:hcaios_image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

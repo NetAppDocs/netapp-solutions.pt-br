@@ -1,0 +1,55 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_overview_trident.html 
+keywords: Trident, Trident, Helm, Operator, iSCSI, NFS 
+summary: O Trident é um orquestrador de storage de código aberto totalmente compatível para distribuições de contêineres e Kubernetes, incluindo Anthos. 
+---
+= Visão geral do Trident
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O Trident é um orquestrador de storage de código aberto totalmente compatível para distribuições de contêineres e Kubernetes, incluindo Anthos. O Trident funciona com todo o portfólio de storage do NetApp, incluindo o NetApp ONTAP, e também oferece suporte a conexões NFS e iSCSI. O Trident acelera o fluxo de trabalho do DevOps, permitindo que os usuários finais provisionem e gerenciem o storage de seus sistemas de storage NetApp sem a intervenção de um administrador de storage.
+
+Um administrador pode configurar vários back-ends de storage com base nas necessidades do projeto e modelos de sistema de storage que permitem recursos avançados de storage, incluindo compactação, tipos de disco específicos e níveis de QoS que garantem um certo nível de desempenho. Depois que eles são definidos, esses back-ends podem ser usados por desenvolvedores em seus projetos para criar declarações de volume persistentes (PVCs) e anexar storage persistente a contêineres sob demanda.
+
+image:a-w-n_astra_trident.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O Trident tem um ciclo de desenvolvimento rápido e, como o Kubernetes, é lançado quatro vezes por ano.
+
+A documentação para a versão mais recente do Trident pode ser encontrada https://docs.netapp.com/us-en/trident/index.html["aqui"]. Uma matriz de suporte para qual versão do Trident foi testada com qual distribuição do Kubernetes pode ser encontrada https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["aqui"].
+
+A partir da versão 20,04, a configuração Trident é executada pelo operador Trident. O operador facilita as implantações em grande escala e fornece suporte adicional, incluindo recuperação automática de pods implantados como parte da instalação do Trident.
+
+Com a versão 22,04, um gráfico de Helm foi disponibilizado para facilitar a instalação do Operador Trident.
+
+Para obter detalhes sobre a instalação do Trident, https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["aqui"] consulte .
+
+
+
+== Criar um back-end de sistema de storage
+
+Depois de concluir a instalação do Operador Trident, você deve configurar o back-end para a plataforma de armazenamento NetApp específica que você está usando. Siga o link abaixo para continuar a configuração e configuração do Trident. link:https://docs.netapp.com/us-en/trident/trident-use/backends.html["Crie um backend."]
+
+
+
+== Crie uma classe de armazenamento
+
+Depois de criar o back-end, você precisa criar uma classe de storage que os usuários do Kubernetes especificarão quando quiserem um volume. Os usuários do Kubernetes provisionam volumes usando declarações de volume persistentes (PVCs) que especificam uma classe de storage por nome. Siga o link abaixo para criar uma classe de armazenamento. link:https://docs.netapp.com/us-en/trident/trident-use/create-stor-class.html["Crie uma classe de armazenamento"]
+
+
+
+== Provisione um volume dinamicamente
+
+É necessário criar um objeto de PVC (reivindicação de volume persistente) do Kubernetes usando a classe de storage para provisionar dinamicamente um volume. Siga o link abaixo para criar um objeto PVC. link:https://docs.netapp.com/us-en/trident/trident-use/vol-provision.html["Crie um PVC"]
+
+
+
+== Utilize o volume
+
+O volume provisionado na etapa acima pode ser usado por um aplicativo montando o volume no pod. O link abaixo mostra um exemplo. link:https://docs.netapp.com/us-en/trident/trident-use/vol-provision.html#sample-manifests["Monte o volume num pod"]

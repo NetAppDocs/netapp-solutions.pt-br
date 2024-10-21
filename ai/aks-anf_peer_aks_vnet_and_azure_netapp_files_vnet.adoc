@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_peer_aks_vnet_and_azure_netapp_files_vnet.html 
+keywords: aks, vnet, anf, peer 
+summary: Esta seção descreve como fazer um par entre o VNet do AKS e o VNet do Azure NetApp Files. 
+---
+= Par AKS VNet e Azure NetApp Files VNet
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para fazer o par do AKS VNet para o Azure NetApp Files VNet, execute as seguintes etapas:
+
+. Introduza redes virtuais no campo de pesquisa.
+. Selecione `vnet aks-vnet-name.` clique nele e digite Peerings no campo de pesquisa.
+. Clique em Adicionar.
+. Introduza os seguintes descritores:
++
+.. O nome do link de peering é `aks-vnet-name_to_anf`.
+.. SubscriçãoID e Azure NetApp Files VNet como parceiro de peering VNet.
+.. Deixe todas as seções sem asterisco com os valores padrão.
+
+
+. Clique em Adicionar.
+
+
+Para obter mais informações, https://docs.microsoft.com/azure/virtual-network/virtual-network-manage-peering["Criar, alterar ou excluir um peering de rede virtual"^]consulte .

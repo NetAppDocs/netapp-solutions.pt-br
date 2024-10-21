@@ -1,0 +1,274 @@
+---
+section: containers
+title: Contêineres
+url: "/containers/index.html"
+entries:
+- title: Anthos com NetApp
+  pdf-filename: Anthos com NetApp
+  entries:
+  - title: Visão geral da solução
+    url: "/containers/a-w-n_solution_overview.html"
+  - title: Anthos Visão geral
+    entries:
+    - title: Visão geral
+      url: "/containers/a-w-n_overview_anthos.html"
+    - title: Anthos clusters no VMware
+      url: "/containers/a-w-n_anthos_VMW.html"
+    - title: Anthos em bare metal
+      url: "/containers/a-w-n_anthos_BM.html"
+  - title: Visão geral dos sistemas de storage da NetApp
+    entries:
+    - title: Visão geral
+      url: "/containers/a-w-n_overview_netapp.html"
+    - title: NetApp ONTAP
+      url: "/containers/a-w-n_netapp_ontap.html"
+  - title: Visão geral das integrações de storage do NetApp
+    entries:
+    - title: Visão geral
+      url: "/containers/a-w-n_overview_storint.html"
+    - title: Visão geral do NetApp Trident
+      url: "/containers/a-w-n_overview_trident.html"
+  - title: Opções de configuração avançada
+    entries:
+    - title: Visão geral
+      url: "/containers/a-w-n_overview_advanced.html"
+    - title: Explorando as opções do Load Balancer
+      entries:
+      - title: Visão geral
+        url: "/containers/a-w-n_load_balancers.html"
+      - title: Instalar F5 balanceadores de carga BIG-IP
+        url: "/containers/a-w-n_LB_F5BigIP.html"
+      - title: Instalar balanceadores de carga MetalLB
+        url: "/containers/a-w-n_LB_MetalLB.html"
+      - title: Instalação de balanceadores de carga de gangorra
+        url: "/containers/a-w-n_LB_SeeSaw.html"
+  - title: Validação da solução e casos de uso
+    url: "/containers/a-w-n_use_cases.html"
+  - title: Vídeos / demonstrações
+    url: "/containers/a-w-n_videos_and_demos.html"
+  - title: Informações adicionais
+    url: "/containers/a-w-n_additional_information.html"
+- title: Red Hat OpenShift com NetApp
+  pdf-filename: Red Hat OpenShift com NetApp
+  entries:
+  - title: Visão geral da solução
+    url: "/containers/rh-os-n_solution_overview.html"
+  - title: Visão geral do Red Hat OpenShift
+    entries:
+    - title: Visão geral
+      url: "/containers/rh-os-n_overview_openshift.html"
+    - title: OpenShift em bare metal
+      url: "/containers/rh-os-n_openshift_BM.html"
+    - title: OpenShift na Red Hat OpenStack Platform
+      url: "/containers/rh-os-n_openshift_OSP.html"
+    - title: OpenShift no Red Hat Virtualization
+      url: "/containers/rh-os-n_openshift_RHV.html"
+    - title: OpenShift no VMware vSphere
+      url: "/containers/rh-os-n_openshift_VMW.html"
+  - title: Visão geral dos sistemas de storage da NetApp
+    entries:
+    - title: Visão geral
+      url: "/containers/rh-os-n_overview_netapp.html"
+    - title: NetApp ONTAP
+      url: "/containers/rh-os-n_netapp_ontap.html"
+    - title: NetApp Element
+      url: "/containers/rh-os-n_netapp_element.html"
+  - title: Visão geral das integrações de storage do NetApp
+    entries:
+    - title: Visão geral
+      url: "/containers/rh-os-n_overview_storint.html"
+    - title: Visão geral do NetApp Astra Control Center
+      entries:
+      - title: Visão geral
+        url: "/containers/rh-os-n_overview_astra.html"
+      - title: Registre seus clusters Red Hat OpenShift
+        url: "/containers/rh-os-n_astra_register.html"
+      - title: Escolha as aplicações a proteger
+        url: "/containers/rh-os-n_astra_applications.html"
+      - title: Proteja suas aplicações
+        url: "/containers/rh-os-n_astra_protect.html"
+    - title: Visão geral do NetApp Trident
+      entries:
+      - title: Visão geral
+        url: "/containers/rh-os-n_overview_trident.html"
+      - title: NetApp ONTAP NFS
+        url: "/containers/rh-os-n_trident_ontap_nfs.html"
+      - title: NetApp ONTAP iSCSI
+        url: "/containers/rh-os-n_trident_ontap_iscsi.html"
+      - title: NetApp Element iSCSI
+        url: "/containers/rh-os-n_trident_element_iscsi.html"
+  - title: Opções de configuração avançada
+    entries:
+    - title: Explorando as opções do Load Balancer
+      entries:
+      - title: Visão geral
+        url: "/containers/rh-os-n_load_balancers.html"
+      - title: MetalLB
+        url: "/containers/rh-os-n_LB_MetalLB.html"
+      - title: F5 BIG-IP
+        url: "/containers/rh-os-n_LB_F5BigIP.html"
+    - title: Criando Registros privados de imagem
+      url: "/containers/rh-os-n_private_registry.html"
+  - title: Validação da solução e casos de uso
+    entries:
+    - title: Visão geral
+      url: "/containers/rh-os-n_use_cases.html"
+    - title: Implante um pipeline de CI/CD Jenkins com armazenamento persistente
+      url: "/containers/rh-os-n_use_case_pipeline.html"
+    - title: Configure a alocação a vários clientes no Red Hat OpenShift com NetApp
+        ONTAP
+      entries:
+      - title: Visão geral
+        url: "/containers/rh-os-n_use_case_multitenancy_overview.html"
+      - title: Arquitetura
+        url: "/containers/rh-os-n_use_case_multitenancy_architecture.html"
+      - title: Visão geral da configuração
+        url: "/containers/rh-os-n_use_case_multitenancy_configuration.html"
+      - title: Pré-requisitos de configuração
+        url: "/containers/rh-os-n_use_case_multitenancy_configuration_prerequisites.html"
+      - title: Tarefas do administrador de cluster
+        url: "/containers/rh-os-n_use_case_multitenancy_cluster_admin_tasks.html"
+      - title: Tarefas de administrador de armazenamento
+        url: "/containers/rh-os-n_use_case_multitenancy_storage_admin_tasks.html"
+      - title: Validação
+        url: "/containers/rh-os-n_use_case_multitenancy_validation.html"
+      - title: Dimensionamento
+        url: "/containers/rh-os-n_use_case_multitenancy_scaling.html"
+  - title: Gerenciamento avançado de clusters para Kubernetes no Red Hat OpenShift
+      com NetApp
+    entries:
+    - title: Visão geral
+      url: "/containers/rh-os-n_use_case_advanced_cluster_management_overview.html"
+    - title: Implantação
+      entries:
+      - title: Pré-requisitos
+        url: "/containers/rh-os-n_use_case_advanced_cluster_management_deployment_prerequisites.html"
+      - title: Implante através do operador
+        url: "/containers/rh-os-n_use_case_advanced_cluster_management_deployment.html"
+      - title: Gerenciamento de ciclo de vida do cluster
+        url: "/containers/rh-os-n_use_case_advanced_cluster_management_features_cluster_lcm.html"
+      - title: Gerenciamento de ciclo de vida da aplicação
+        url: "/containers/rh-os-n_use_case_advanced_cluster_management_features_application_lcm.html"
+      - title: Governança e risco
+        url: "/containers/rh-os-n_use_case_advanced_cluster_management_features_governance_risk.html"
+      - title: Observabilidade
+        url: "/containers/rh-os-n_use_case_advanced_cluster_management_features_observability.html"
+      - title: Criação de recursos
+        url: "/containers/rh-os-n_use_case_advanced_cluster_management_features_create_resources.html"
+  - title: Proteção de dados usando ferramentas de terceiros
+    url: "/containers/rh-os-n_velero.html"
+  - title: Vídeos / demonstrações
+    url: "/containers/rh-os-n_videos_and_demos.html"
+  - title: Informações adicionais
+    url: "/containers/rh-os-n_additional_information.html"
+- title: Virtualização OpenShift da Red Hat com NetApp ONTAP
+  pdf-filename: Virtualização OpenShift da Red Hat com NetApp ONTAP
+  entries:
+  - title: Visão geral
+    url: "/containers/rh-os-n_use_case_openshift_virtualization_overview.html"
+  - title: Implantação para virtualização OpenShift
+    entries:
+    - title: Pré-requisitos
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment_prerequisites.html"
+    - title: Implante através do operador
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment.html"
+    - title: Fluxos de trabalho
+      entries:
+      - title: Criar VM
+        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_create_vm.html"
+      - title: Migração do VM Live
+        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_live_migration.html"
+      - title: Clonagem da VM
+        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html"
+      - title: Criar VM a partir de um Snapshot
+        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html"
+      - title: Migre uma VM do VMware para a virtualização OpenShift
+        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html"
+  - title: Proteção de dados de VMs usando ferramentas de terceiros
+    entries:
+    - title: Visão geral
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_overview.html"
+    - title: Instalação do OADP
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_installation.html"
+    - title: Backup
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_backup.html"
+    - title: Restaurar
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_restore.html"
+    - title: Excluir backups e restaurações
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_delete.html"
+  - title: Monitoramento usando Cloud Insights
+    entries:
+    - title: Visão geral
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_ci_overview.html"
+    - title: Integração com o Cloud Insights
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_ci_integration.html"
+    - title: Capacidades de monitorização de amostras
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_ci_samples.html"
+    - title: Guia de práticas recomendadas
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_bpg.html"
+- title: VMware Tanzu com NetApp
+  pdf-filename: VMware Tanzu com NetApp
+  entries:
+  - title: Visão geral da solução
+    url: "/containers/vtwn_solution_overview.html"
+  - title: Visão geral do VMware Tanzu
+    entries:
+    - title: Visão geral
+      url: "/containers/vtwn_overview_vmware_tanzu.html"
+    - title: Visão geral do VMware TKG (Tanzu Kubernetes Grid)
+      url: "/containers/vtwn_overview_tkg.html"
+    - title: Visão geral do VMware TKGS (Tanzu Kubernetes Grid Service)
+      url: "/containers/vtwn_overview_tkgs.html"
+    - title: Visão geral do VMware TKGI (Tanzu Kubernetes Grid Integrated Edition)
+      url: "/containers/vtwn_overview_tkgi.html"
+  - title: Visão geral dos sistemas de storage da NetApp
+    entries:
+    - title: Visão geral
+      url: "/containers/vtwn_overview_netapp.html"
+    - title: NetApp ONTAP
+      url: "/containers/vtwn_netapp_ontap.html"
+  - title: Visão geral das integrações de storage do NetApp
+    entries:
+    - title: Visão geral
+      url: "/containers/vtwn_overview_storint.html"
+    - title: Visão geral do NetApp Astra Control Center
+      entries:
+      - title: Visão geral
+        url: "/containers/vtwn_overview_astra.html"
+      - title: Registre seus clusters de Kubernetes do Tanzu
+        url: "/containers/vtwn_astra_register.html"
+      - title: Escolha as aplicações a proteger
+        url: "/containers/vtwn_astra_applications.html"
+      - title: Proteja suas aplicações
+        url: "/containers/vtwn_astra_protect.html"
+    - title: Visão geral do NetApp Trident
+      entries:
+      - title: Visão geral
+        url: "/containers/vtwn_overview_trident.html"
+      - title: NetApp ONTAP NFS
+        url: "/containers/vtwn_trident_ontap_nfs.html"
+      - title: NetApp ONTAP iSCSI
+        url: "/containers/vtwn_trident_ontap_iscsi.html"
+  - title: Vídeos / demonstrações
+    url: "/containers/vtwn_videos_and_demos.html"
+  - title: Informações adicionais
+    url: "/containers/vtwn_additional_information.html"
+- title: Soluções arquivadas
+  entries:
+  - title: Anthos em bare metal
+    pdf-filename: Anthos em bare metal
+    entries:
+    - title: Introdução
+      url: "/containers/baremetal-anthos/bmanthos_introduction.html"
+    - title: Visão geral da solução
+      url: "/containers/baremetal-anthos/bmanthos_solution_overview.html"
+    - title: Requisitos da solução
+      url: "/containers/baremetal-anthos/bmanthos_solution_requirements.html"
+    - title: Resumo da implantação
+      url: "/containers/baremetal-anthos/bmanthos_deployment_summary.html"
+    - title: Validação da solução
+      url: "/containers/baremetal-anthos/bmanthos_solution_validation.html"
+    - title: Conclusão
+      url: "/containers/baremetal-anthos/bmanthos_conclusion.html"
+    - title: Onde encontrar informações adicionais
+      url: "/containers/baremetal-anthos/bmanthos_where_to_find_additional_information.html"

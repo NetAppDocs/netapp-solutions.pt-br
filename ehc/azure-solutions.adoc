@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure-solutions.html 
+keywords: NetApp Solutions, microsoft azure, avs, vmware managed cloud, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Soluções da NetApp para a solução VMware Azure (AVS)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba mais sobre as soluções que o NetApp traz para o Azure.
+
+A VMware define os workloads de nuvem em uma de três categorias:
+
+* Proteger (incluindo recuperação de desastres e backup / restauração)
+* Migrar
+* Estender
+
+
+Navegue pelas soluções disponíveis nas seções a seguir.
+
+[role="tabbed-block"]
+====
+.Proteger
+--
+* link:azure-native-dr-jetstream.html["Recuperação de desastres com ANF e JetStream (armazenamento de dados NFS complementar)"]
+* link:azure-guest-dr-cvo.html["Recuperação de desastres com ANF e CVO (storage conectado aos hóspedes)"]
+* link:azure-dro-overview.html["Recuperação de desastres (DRO) com ANF e AVS"]
+* link:veeam-anf-dr-to-avs.html["Usando o Veeam Replication e o Azure NetApp Files datastore para recuperação de desastres na solução VMware Azure"]
+
+
+--
+.Migrar
+--
+* link:azure-migrate-vmware-hcx.html["Migre workloads para o armazenamento de dados do Azure NetApp Files usando o VMware HCX"]
+
+
+--
+.Estender
+--
+EM BREVE!
+
+--
+====

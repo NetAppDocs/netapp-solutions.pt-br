@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: ai/runai-ld_executive_summary.html 
+keywords: azure, lane, detection, training, solution, design 
+summary: Desde maio de 2019, a Microsoft oferece um serviço de portal primário nativo do Azure para serviços empresariais de arquivos NFS e SMB baseados na tecnologia NetApp ONTAP. 
+---
+= TR-4896: Treinamento distribuído no Azure: Deteção de faixas - Projeto de solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp Ronen dar, RUN:AI
+
+[role="lead"]
+Desde maio de 2019, a Microsoft oferece um serviço de portal primário nativo do Azure para serviços empresariais de arquivos NFS e SMB baseados na tecnologia NetApp ONTAP. Esse desenvolvimento é impulsionado por uma parceria estratégica entre a Microsoft e a NetApp e estende ainda mais o alcance dos serviços de dados ONTAP de classe mundial para o Azure.
+
+A NetApp, um provedor líder de serviços de dados em nuvem, se uniu ao RUN: Ai, uma empresa que virtualiza a infraestrutura de IA, para permitir experimentação mais rápida de IA com utilização total de GPU. A parceria permite que as equipes acelerem a IA executando muitos experimentos em paralelo, com acesso rápido aos dados e aproveitando recursos de computação ilimitados. Execução: A AI permite a utilização total da GPU automatizando a alocação de recursos. A arquitetura comprovada do Azure NetApp Files permite que cada experimento seja executado em velocidade máxima, eliminando obstruções no pipeline de dados.
+
+NetApp e RUN: A AI uniu forças para oferecer aos clientes uma plataforma pronta para o futuro para sua jornada rumo à AI no Azure. Desde análises e computação de alto desempenho (HPC) a decisões autônomas (onde os clientes podem otimizar seus investimentos EM TI pagando apenas pelo que precisam, quando precisam), a aliança entre o NetApp e O RUN: A IA oferece uma experiência unificada na nuvem Azure.

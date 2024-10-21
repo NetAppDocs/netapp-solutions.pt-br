@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-abstract.html 
+keywords:  
+summary:  
+---
+= Resumo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NetApp oferece uma solução simples e dimensionável para Splunk SmartStore que maximiza o desempenho e a resiliência, além de fornecer um TCO atraente.

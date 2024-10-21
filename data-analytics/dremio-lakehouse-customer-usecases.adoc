@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/dremio-lakehouse-customer-usecases.html 
+keywords: customer use case details 
+summary: Esta seção aborda os detalhes do caso de uso do cliente do Dremio com armazenamento de objetos NetApp . 
+---
+= Casos de uso do cliente
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+
+
+== Caso de uso do NetApp ActiveIQ
+
+image:activeIQold.png["Arquitetura antiga do ActiveIQ"]
+
+*Desafio*: A própria solução Active IQ interna da NetApp, inicialmente projetada para suportar vários casos de uso, evoluiu para uma oferta abrangente para usuários internos e clientes. No entanto, a infraestrutura de back-end subjacente baseada em Hadoop/MAPR apresentou desafios em relação ao custo e ao desempenho, devido ao rápido crescimento dos dados e à necessidade de um acesso eficiente aos dados. O dimensionamento do storage significava adicionar recursos de computação desnecessários, resultando em custos maiores.
+
+Além disso, o gerenciamento do cluster Hadoop era demorado e exigia experiência especializada. Problemas de desempenho e gerenciamento de dados complicaram ainda mais a situação, com consultas demorando em média 45 minutos e falta de recursos devido a configurações incorretas. Para lidar com esses desafios, a NetApp procurou uma alternativa ao ambiente existente do Hadoop e determinou que uma nova solução moderna baseada no Dremio reduziria custos, desacoplaria o armazenamento e a computação, melhoraria o desempenho, simplificaria o gerenciamento de dados, ofereceria controles detalhados e ofereceria recursos de recuperação de desastres.
+
+*Solução*: image:activeIQnew.png["Nova arquitetura ActiveIQ com dremio"] O Dremio permitiu à NetApp modernizar sua infraestrutura de dados baseada em Hadoop em uma abordagem faseada, fornecendo um roteiro para análises unificadas. Diferentemente de outros fornecedores que exigiram mudanças significativas no Data Processing, o Dremio se integrou perfeitamente aos pipelines existentes, economizando tempo e despesas durante a migração. Ao fazer a transição para um ambiente totalmente em contêiner, o NetApp reduziu a sobrecarga de gerenciamento, a segurança aprimorada e a resiliência aprimorada. A adoção de ecossistemas abertos como Apache Iceberg e Arrow por parte de Dremio garantiu proteção ao futuro, transparência e extensibilidade.
+
+Como um substituto para a infraestrutura Hadoop/Hive, Dremio ofereceu funcionalidade para casos de uso secundários através da camada semântica. Enquanto os mecanismos existentes de ETL e ingestão de dados baseados em Spark permaneceram, Dremio forneceu uma camada de acesso unificada para facilitar a descoberta e exploração de dados sem duplicação. Essa abordagem reduziu significativamente os fatores de replicação de dados e o storage e a computação desacoplados.
+
+*Benefícios*: Com o Dremio, a NetApp obteve reduções significativas de custos, minimizando o consumo de computação e os requisitos de espaço em disco em seus ambientes de dados. O novo data Lake do Active IQ é composto por 8.900 tabelas com 3 petabytes de dados, em comparação com a infraestrutura anterior, com mais de 7 petabytes. A migração para o Dremio também envolveu a transição de 33 mini-clusters e 4.000 núcleos para 16 nós executores em clusters do Kubernetes. Mesmo com reduções significativas nos recursos de computação, a NetApp experimentou melhorias notáveis no desempenho. Ao acessar dados diretamente através do Dremio, o tempo de execução de consultas diminuiu de 45 minutos para 2 minutos, resultando em tempo 95% mais rápido para insights para manutenção e otimização preditivas. A migração também gerou uma redução de mais de 60% nos custos de computação, consultas mais de 20 vezes mais rápidas e economia de mais de 30% no custo total de propriedade (TCO).
+
+
+
+== Caso de uso do cliente de vendas de autopeças.
+
+*Desafios*: Dentro desta empresa global de vendas de autopeças, os grupos de Planejamento financeiro executivo e corporativo e de análise não conseguiram obter uma visão consolidada dos relatórios de vendas e foram forçados a ler a linha individual de relatórios de métricas de vendas de negócios e a tentar consolidá-los. Isso resultou em que os clientes tomam decisões com dados que tinham pelo menos um dia de idade. Os prazos de entrega para obter novos insights de análise normalmente levariam mais de quatro semanas. A solução de problemas de pipelines de dados exigiria ainda mais tempo, adicionando mais três dias ou mais à linha do tempo já longa. O lento processo de desenvolvimento de relatórios, bem como o desempenho de relatórios, forçaram a comunidade de analistas a esperar continuamente para que os dados sejam processados ou carregados, em vez de permitir que eles encontrem novos insights de negócios e conduzam novos comportamentos de negócios. Esses ambientes conturbados foram compostos por inúmeros bancos de dados diferentes para diferentes linhas de negócios, resultando em inúmeros silos de dados. O ambiente lento e fragmentado complicou a governança de dados, pois havia muitas maneiras de os analistas criarem sua própria versão da verdade versus uma única fonte da verdade. A abordagem custou mais de $1,9 milhões de dólares em plataforma de dados e custos de pessoas. A manutenção da plataforma legada e o preenchimento de solicitações de dados exigiram sete engenheiros técnicos de campo (FTEs) por ano. Com o aumento das solicitações de dados, a equipe de inteligência de dados não pôde escalar o ambiente herdado para atender às necessidades futuras
+
+*Solução*: Armazene e gerencie grandes tabelas Iceberg de forma econômica na Loja de objetos NetApp. Crie domínios de dados usando a camada semântica de Dremio, permitindo que os usuários de negócios criem, pesquisem e compartilhem produtos de dados facilmente.
+
+*Benefícios para o cliente*: • Arquitetura de dados existente melhorada e otimizada e tempo reduzido para insights de quatro semanas para apenas horas • tempo reduzido de solução de problemas de três dias para apenas horas • redução dos custos de plataforma de dados e gerenciamento em mais de $380.000 • (2) FTEs de esforço de inteligência de dados economizados por ano

@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_creating_projects_for_data_science_teams_and_allocating_gpus.html 
+keywords:  
+summary:  
+---
+= Criação de projetos para equipes de Ciência de dados e alocação de GPUs
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Os pesquisadores podem enviar cargas de trabalho por meio de processos semelhantes, como CLI Run:AI, Kubeflow ou outros. Para simplificar a alocação de recursos e criar priorização, Run:AI apresenta o conceito de projetos. Os projetos são entidades de cota que associam um nome de projeto à alocação e preferências de GPU. É uma maneira simples e conveniente de gerenciar várias equipes de ciência de dados.
+
+Um pesquisador que envia uma carga de trabalho deve associar um projeto a uma solicitação de carga de trabalho. O agendador Run:AI compara a solicitação com as alocações atuais e o projeto e determina se a carga de trabalho pode ser alocada recursos ou se ela deve permanecer em um estado pendente.
+
+Como administrador de sistema, você pode definir os seguintes parâmetros na guia Executar:Projetos AI:
+
+* *Projetos modelo.* Defina um projeto por usuário, defina um projeto por equipe de usuários e defina um projeto por um projeto organizacional real.
+* *Cotas do projeto.* Cada projeto está associado a uma cota de GPUs que podem ser alocadas para esse projeto ao mesmo tempo. Essa é uma cota garantida no sentido de que os pesquisadores que usam esse projeto têm a garantia de obter esse número de GPUs, independentemente do status no cluster. Como regra geral, a soma da alocação do projeto deve ser igual ao número de GPUs no cluster. Além disso, um usuário deste projeto pode receber uma cota excessiva. Desde que as GPUs não sejam usadas, um pesquisador que usa esse projeto pode obter mais GPUs. Demonstramos cenários de teste de excesso de cota e considerações de equidade em link:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["Alcançar a alta utilização de cluster com alocação de GPU de cota excessiva"], link:osrunai_basic_resource_allocation_fairness.html["Equidade na alocação básica de recursos"], e link:osrunai_over-quota_fairness.html["Equidade de excesso de quota"].
+* Crie um novo projeto, atualize um projeto existente e exclua um projeto existente.
+* *Limitar trabalhos a serem executados em grupos de nós específicos*. Você pode atribuir projetos específicos para serem executados apenas em nós específicos. Isso é útil quando a equipe do projeto precisa de hardware especializado, por exemplo, com memória suficiente. Como alternativa, uma equipe de projeto pode ser proprietária de hardware específico adquirido com um orçamento especializado, ou quando você pode precisar direcionar workloads interativos ou de compilação para trabalhar com hardware mais fraco e direcionar o treinamento mais longo ou cargas de trabalho sem supervisão para nós mais rápidos. Para obter comandos para agrupar nós e definir afinidade para um projeto específico, consulte  https://docs.run.ai/Administrator/Admin-User-Interface-Setup/Working-with-Projects/["Executar: Documentação de IA"^].
+* *Limite a duração dos trabalhos interativos*. Os pesquisadores frequentemente esquecem de fechar trabalhos interativos. Isso pode levar a um desperdício de recursos. Algumas organizações preferem limitar a duração dos trabalhos interativos e fechá-los automaticamente.
+
+
+A figura a seguir mostra a visualização de projetos com quatro equipes criadas. Cada equipe recebe um número diferente de GPUs para atender a diferentes workloads, com o número total de GPUs igual ao total de GPUs disponíveis em um cluster que consiste em duas DGX-1s.
+
+image:osrunai_image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

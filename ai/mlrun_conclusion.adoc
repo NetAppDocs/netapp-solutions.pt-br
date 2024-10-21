@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_conclusion.html 
+keywords: NetaApp, AI, ML, pipelines 
+summary:  
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ao criar seus próprios pipelines de IA/ML, configurar a integração, o gerenciamento, a segurança e a acessibilidade dos componentes em uma arquitetura é uma tarefa desafiadora. Dar aos desenvolvedores acesso e controle de seu ambiente apresenta outro conjunto de desafios.
+
+A combinação do NetApp e do Iguazio reúne essas tecnologias como serviços gerenciados para acelerar a adoção de tecnologia e melhorar o time-to-market de novos aplicativos de IA/ML.

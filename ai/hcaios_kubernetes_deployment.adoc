@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_kubernetes_deployment.html 
+keywords: Kubernetes, Deployment, NVIDIA, DeepOps 
+summary:  
+---
+= Implantação do Kubernetes
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para implantar e configurar seu cluster Kubernetes com o NVIDIA DeepOps, execute as seguintes tarefas a partir de um host de salto de implantação:
+
+. Faça o download do NVIDIA DeepOps seguindo as instruções no https://github.com/NVIDIA/deepops/blob/master/docs/getting-started.md["Página de introdução"^] site do NVIDIA DeepOps GitHub.
+. Implante o Kubernetes no seu cluster seguindo as instruções no https://github.com/NVIDIA/deepops/blob/master/docs/kubernetes-cluster.md["Guia de implantação do Kubernetes"^] site do NVIDIA DeepOps GitHub.
+
+
+
+NOTE: Para que a implantação do DeepOps Kubernetes funcione, o mesmo usuário deve existir em todos os nós de trabalho e mestre do Kubernetes.
+
+Se a implantação falhar, altere o valor de `kubectl_localhost` para FALSE in `deepops/config/group_vars/k8s-cluster.yml` e repita a etapa 2.  `Copy kubectl binary to ansible host`A tarefa, que é executada somente quando o valor de `kubectl_localhost` é verdadeiro, depende do módulo fetch Ansible, que tem problemas conhecidos de uso da memória. Esses problemas de uso de memória às vezes podem fazer com que a tarefa falhe. Se a tarefa falhar devido a um problema de memória, o restante da operação de implantação não será concluído com êxito.
+
+Se a implantação for concluída com êxito depois de alterar o valor de `kubectl_localhost` para `false`, você deverá copiar manualmente o `kubectl binary` de um nó mestre do Kubernetes para o host de salto de implantação. Você pode encontrar o local do `kubectl binary` em um nó mestre específico executando o `which kubectl` comando diretamente nesse nó.

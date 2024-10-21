@@ -1,0 +1,15 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-native.html 
+keywords: NetApp Solutions, google cloud, gcp, gcve, enterprise, hybrid, cloud, native datastore, cvo, cvs 
+summary:  
+---
+= Opções suplementares do armazenamento de dados NFS do NetApp para o GCP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+

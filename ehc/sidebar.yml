@@ -1,0 +1,140 @@
+---
+section: ehc
+title: Multiclouds híbridas do NetApp com VMware
+url: "/ehc/index.html"
+entries:
+- title: VMware para nuvem pública
+  pdf-filename: VMware para nuvem pública no NetApp
+  entries:
+  - title: Visão geral
+    url: "/ehc/ehc-overview.html"
+  - title: VMware Cloud em nuvens de Hyperscaler
+    url: "/ehc/ehc-hyperscalers.html"
+  - title: Configurações suportadas
+    url: "/ehc/ehc-support-configs.html"
+  - title: VMware na configuração de Hyperscalers
+    entries:
+    - title: Introdução
+      url: "/ehc/ehc-config-vmware-intro.html"
+    - title: Configure o VMC para AWS
+      url: "/ehc/aws-setup.html"
+    - title: Configurar AVS para Azure
+      url: "/ehc/azure-setup.html"
+    - title: Configure o GCVE para o GCP
+      url: "/ehc/gcp-setup.html"
+  - title: Storage NetApp em nuvens de hiperescala
+    entries:
+    - title: Introdução
+      url: "/ehc/ehc-datastore-intro.html"
+    - title: Armazenamento de dados NFS suplementar para VMC
+      url: "/ehc/aws-native-overview.html"
+    - title: Armazenamento de convidado conetado para VMC
+      url: "/ehc/aws-guest.html"
+    - title: Armazenamento de dados NFS suplementar para AVS
+      url: "/ehc/azure-native-overview.html"
+    - title: Armazenamento de convidado conetado para AVS
+      url: "/ehc/azure-guest.html"
+    - title: Armazenamento de dados NFS suplementar para GCVE
+      url: "/ehc/gcp-ncvs-datastore.html"
+    - title: Armazenamento convidado ligado para GCVE
+      url: "/ehc/gcp-guest.html"
+    - title: Suporte de região para datastores NFS
+      url: "/ehc/ehc-regions.html"
+  - title: Resumo e conclusão
+    url: "/ehc/ehc-summary.html"
+- title: Casos de uso de nuvem híbrida da VMware
+  pdf-filename: Casos de uso de nuvem híbrida da VMware
+  entries:
+  - title: Visão geral do caso de uso
+    url: "/ehc/ehc-use-cases.html"
+  - title: Soluções para AWS/VMC
+    url: "/ehc/aws-solutions.html"
+  - title: Soluções para Azure / AVS
+    url: "/ehc/azure-solutions.html"
+  - title: Soluções para GCP / GCVE
+    url: "/ehc/gcp-solutions.html"
+- title: NetApp para AWS / VMC
+  pdf-filename: NetApp para Amazon VMware Cloud
+  entries:
+  - title: Visão geral
+    url: "/ehc/aws-vmc.html"
+  - title: Proteção de workloads na AWS/VMC
+    entries:
+    - title: Recuperação de desastres com VMC na AWS (Guest Connected)
+      url: "/ehc/aws-guest-dr-solution-overview.html"
+    - title: Faça o backup e restauração do Veeam no VMware Cloud, com o AWS FSX ONTAP
+      url: "/ehc/aws-vmc-veeam-fsx-solution.html"
+    - title: Recuperação de desastres (DRO) com o FSX ONTAP e VMC
+      url: "/ehc/aws-dro-overview.html"
+    - title: Usando o Veeam Replication e o FSX ONTAP para recuperação de desastres
+        no VMware Cloud na AWS
+      url: "/ehc/veeam-fsxn-dr-to-vmc.html"
+  - title: Migração de workloads na AWS/VMC
+    entries:
+    - title: Migração de cargas de trabalho para o armazenamento de dados do FSX ONTAP
+        usando VMware HCX
+      url: "/ehc/aws-migrate-vmware-hcx.html"
+  - title: Suporte de região para datastores NFS
+    url: "/ehc/aws-regions.html"
+- title: NetApp para Azure / AVS
+  pdf-filename: Serviço de virtualização NetApp para Azure
+  entries:
+  - title: Visão geral
+    url: "/ehc/azure-avs.html"
+  - title: Proteção de cargas de trabalho no Azure/AVS
+    entries:
+    - title: Recuperação de desastres com ANF e JetStream (armazenamento de dados
+        NFS complementar)
+      url: "/ehc/azure-native-dr-jetstream.html"
+    - title: Recuperação de desastres com ANF e CVO (storage conectado aos hóspedes)
+      url: "/ehc/azure-guest-dr-cvo.html"
+    - title: Recuperação de desastres (DRO) com Azure NetApp Files e AVS
+      url: "/ehc/azure-dro-overview.html"
+    - title: Usando o Veeam Replication e o Azure NetApp Files datastore para recuperação
+        de desastres na solução VMware Azure
+      url: "/ehc/veeam-anf-dr-to-avs.html"
+  - title: Migração de cargas de trabalho no Azure/AVS
+    entries:
+    - title: Migre workloads para o armazenamento de dados do ANF usando o VMware
+        HCX
+      url: "/ehc/azure-migrate-vmware-hcx.html"
+  - title: Suporte de região para datastores NFS
+    url: "/ehc/azure-regions.html"
+- title: NetApp para GCP / GCVE
+  pdf-filename: NetApp para o mecanismo de virtualização de nuvem do Google
+  entries:
+  - title: Visão geral
+    url: "/ehc/gcp-gcve.html"
+  - title: Protegendo cargas de trabalho no GCP / GCVE
+    entries:
+    - title: Recuperação de desastres com Veeam (armazenamento de dados NFS suplementar)
+      url: "/ehc/gcp-app-dr-sc-cvs-veeam.html"
+    - title: Recuperação de desastres com a Veeam (storage conectado aos hóspedes)
+      url: "/ehc/gcp-app-dr-sc-cvo-veeam.html"
+    - title: Usando o Veeam Replication e o Google Cloud NetApp volumes datastore
+        para recuperação de desastres no GCVE
+      url: "/ehc/veeam-gcnv-dr-to-gcve.html"
+  - title: Migração de cargas de trabalho no GCP / GCVE
+    entries:
+    - title: Migre workloads para o armazenamento de dados NFS do Cloud volume Service
+        usando o VMware HCX
+      url: "/ehc/gcp-migrate-vmware-hcx.html"
+    - title: Migre workloads de VM para o armazenamento de dados NFS do NetApp Cloud
+        volume Service usando o Veeam Replication
+      url: "/ehc/gcp-migrate-veeam.html"
+  - title: Suporte de região para armazenamentos de dados NFS do NetApp CVS
+    url: "/ehc/gcp-regions.html"
+- title: Recuperação de desastres do BlueXP 
+  entries:
+  - title: Proteção de dados 3-2-1 para VMware com plug-in SnapCenter e backup e recuperação
+      de BlueXP  para VMs
+    url: "/ehc/bxp-scv-hybrid-solution.html"
+  - title: DR usando BlueXP  DRaas
+    pdf-filename: Recuperação de desastres usando BlueXP  DRaaS
+    entries:
+    - title: Visão geral
+      url: "/ehc/dr-draas-overview.html"
+    - title: DR para armazenamentos de dados NFS
+      url: "/ehc/dr-draas-nfs.html"
+    - title: DR para datastores VMFS
+      url: "/ehc/dr-draas-vmfs.html"

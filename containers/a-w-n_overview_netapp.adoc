@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_overview_netapp.html 
+keywords: NetApp, ONTAP, Element, Storage 
+summary: O NetApp tem várias plataformas de storage qualificadas com o nosso orquestrador de storage Trident para provisionar storage para aplicativos implantados no Anthos. 
+---
+= Visão geral do storage do NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NetApp tem várias plataformas de storage qualificadas com o nosso orquestrador de storage Trident para provisionar storage para aplicativos implantados como contêineres.
+
+image:a-w-n_netapp_overview.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+* Os sistemas AFF e FAS executam o NetApp ONTAP e fornecem storage para casos de uso baseados em arquivo (NFS) e baseados em bloco (iSCSI).
+* O Cloud Volumes ONTAP e o ONTAP Select oferecem os mesmos benefícios na nuvem e no espaço virtual, respetivamente.
+* O NetApp Cloud Volumes Service (GCP) e o Azure NetApp Files fornecem storage baseado em arquivos na nuvem.
+* O Amazon FSX ONTAP é um serviço totalmente gerenciado na AWS que fornece armazenamento para casos de uso baseados em arquivos.
+
+
+
+NOTE: Cada sistema de storage do portfólio do NetApp facilita o gerenciamento e a movimentação de dados entre locais e a nuvem, garantindo que seus dados estejam onde suas aplicações.

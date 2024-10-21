@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-performance-best-practice-guidelines.html 
+keywords: best practices, get size, s3 buckets, ethernet links, mtu 
+summary: Esta página descreve as melhores práticas para melhorar o desempenho nesta solução. 
+---
+= Diretrizes de práticas recomendadas de desempenho
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta página descreve as melhores práticas para melhorar o desempenho nesta solução.
+
+* Para ONTAP, quando possível, use um tamanho GET > 1MB.
+* O aumento `num.network.threads` e `num.io.threads` inclusão `server.properties` nos nós de corretores permite que você empurre maior atividade de disposição em categorias para a categoria S3. Estes resultados são com `num.network.threads` e `num.io.threads` definidos como 32.
+* Os baldes S3 devem atingir oito constituintes por agregado de membro.
+* Os links Ethernet que geram tráfego S3 devem usar um MTU de 9k quando possível no armazenamento e no cliente.
+

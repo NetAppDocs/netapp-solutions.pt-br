@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: databases/sql-srv-anf_conclusion.html 
+keywords: takeaways, hybrid-cloud 
+summary: Seja para uma nuvem híbrida ou totalmente em nuvem com bancos de dados Stretch, o Azure NetApp Files oferece excelentes opções para implantar e gerenciar as cargas de trabalho do banco de dados, reduzindo o TCO, tornando os requisitos de dados aprimorados na camada de aplicativo. 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Seja para uma nuvem híbrida ou totalmente em nuvem com bancos de dados Stretch, o Azure NetApp Files oferece excelentes opções para implantar e gerenciar as cargas de trabalho do banco de dados, reduzindo o TCO, tornando os requisitos de dados aprimorados na camada de aplicativo.
+
+Este documento aborda recomendações para Planejamento, projeto, otimização e dimensionamento de implantações do Microsoft SQL Server com o Azure NetApp Files, que podem variar muito entre implementações. A solução certa depende tanto dos detalhes técnicos da implementação quanto dos requisitos empresariais que conduzem o projeto.
+
+
+
+== Pontos de interesse
+
+Os pontos-chave deste documento incluem:
+
+* Agora você pode usar o Azure NetApp Files para hospedar o banco de dados e o testemunho de compartilhamento de arquivos para cluster do SQL Server.
+* Você pode aprimorar os tempos de resposta da aplicação e oferecer 99,99,9999% de disponibilidade para fornecer acesso aos dados do SQL Server quando e onde for necessário.
+* Você pode simplificar a complexidade geral da implantação do SQL Server e do gerenciamento contínuo, como a distribuição raid, com redimensionamento simples e instantâneo.
+* Você pode confiar em recursos de operações inteligentes para ajudar a implantar bancos de dados do SQL Server em minutos e acelerar os ciclos de desenvolvimento.
+* Se o Azure Cloud for o destino, o Azure NetApp Files é a solução de storage certa para uma implantação otimizada.
+

@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_testing_details_for_section_410.html 
+keywords:  
+summary:  
+---
+= Detalhes de teste para a Seção 4,10
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção contém detalhes de teste para a link:osrunai_over-quota_fairness.html["Equidade de excesso de quota"]seção .
+
+Envie trabalhos na seguinte ordem para `team-a`, `team-b` e `team-c`:
+
+|===
+| Projeto | N.o de GPUs | Total | Comentário 
+
+
+| equipa a | 2 | 4/4 | 1 carga de trabalho em fila 
+
+
+| equipa a | 2 | 4/4 | 2 workloads na fila 
+
+
+| equipa-b | 2 | 2/2 | 2 workloads na fila 
+
+
+| equipa-c | 2 | 2/2 | 2 workloads na fila 
+|===
+Consulte a seguinte sequência de comandos executada:
+
+....
+$ runai submit a-3-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-a$ runai submit a-4-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-a$ runai submit b-5-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-b$ runai submit c-6-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-c
+....
+Neste ponto, você deve ter os seguintes estados:
+
+|===
+| Projeto | GPUs alocadas | Cargas de trabalho na fila 
+
+
+| equipa a | 4/4 | Duas cargas de trabalho pedindo GPUs duas cada 
+
+
+| equipa-b | 2/2 | Duas cargas de trabalho pedindo duas GPUs cada 
+
+
+| equipa-c | 2/2 | Duas cargas de trabalho pedindo duas GPUs cada 
+
+
+| equipa-d | 8/8 | Nenhum 
+|===
+Em seguida, exclua todas as cargas de trabalho para `team-d`:
+
+....
+$ runai delete -p team-d d-1-gggg d-2-gg d-3-gg
+....
+Consulte a seção link:osrunai_over-quota_fairness.html["Equidade de excesso de quota"], para obter discussões sobre o cenário de teste.

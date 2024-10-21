@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: ai/tr-4811.html 
+keywords:  
+summary:  
+---
+= TR-4811: Arquitetura de referência NetApp ONTAP AI para cuidados de saúde: Diagnóstico por imagem - Projeto de solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp, NVIDIA, Sathish Thyagarajan, Sathish Thyagarajan
+
+[role="lead"]
+Essa arquitetura de referência oferece diretrizes para clientes que estão criando uma infraestrutura de inteligência artificial (AI) usando sistemas NVIDIA DGX-2 e storage NetApp AFF para casos de uso do setor de saúde. Ele inclui informações sobre os fluxos de trabalho de alto nível usados no desenvolvimento de modelos de deep learning (DL) para imagens de diagnóstico médico, casos de teste validados e resultados. Ele também inclui recomendações de dimensionamento para implantações de clientes.
+
+link:https://www.netapp.com/pdf.html?item=/media/7395-tr4811.pdf["TR-4811: Arquitetura de referência NetApp ONTAP AI para cuidados de saúde: Diagnóstico por imagem - Projeto de solução"^]

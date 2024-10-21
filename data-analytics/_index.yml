@@ -1,0 +1,37 @@
+---
+indexpage:
+  title: Soluções modernas de análise de dados da NetApp
+  summary: As soluções modernas de análise de dados da NetApp são um conjunto de recursos
+    estratégicos e tecnológicos que demonstram as funcionalidades do storage da NetApp
+    em todo o espaço de AI.
+  lead: As soluções modernas de análise de dados da NetApp são um conjunto de recursos
+    estratégicos e tecnológicos que demonstram as funcionalidades do storage da NetApp
+    em todo o espaço de AI.
+  tiles:
+  - title: Como começar
+    links:
+    - title: Trabalhe com o Apache Spark com a solução de storage NetApp
+      url: https://www.netapp.com/pdf.html?item=/media/26877-nva-1157-deploy.pdf
+    - title: Resumo da solução de Data Analytics moderno
+      url: https://www.netapp.com/pdf.html?item=/media/58015-sb-4154.pdf
+  - title: Práticas recomendadas
+    links:
+    - title: Melhores práticas para Kafka confluente
+      url: confluent-kafka-introduction.html
+    - title: NetApp e-Series E5700 e Splunk Enterprise
+      url: https://www.netapp.com/pdf.html?item=/media/16851-tr-4623pdf.pdf
+    - title: NetApp EF600 com Splunk Enterprise
+      url: https://www.netapp.com/pdf.html?item=/media/72003-tr-4930.pdf
+  - title: Casos de uso
+    links:
+    - title: 'Soluções de nuvem híbrida: Casos de uso do Spark e do Hadoop'
+      url: hdcs-sh-solution-overview.html
+  - title: Recursos adicionais
+    links:
+    - title: 'Blog: O Apache Spark atua no campo de jogos de análise de dados da NetApp'
+      url: https://www.netapp.com/blog/apache-spark-data-analytics/
+    - title: 'Blog: Use o XCP para migração de dados de um data Lake e HPC para ONTAP
+        NFS'
+      url: https://www.netapp.com/blog/data-migration-xcp/
+    - title: 'NetApp TV: Lista de reprodução de análise de Big Data'
+      url: https://youtube.com/playlist?list=PLdXI3bZJEw7l8oFkYC_umsBaBX3hqK3Oq

@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-design-considerations.html 
+keywords: network, compute, design, storage, riva, best practices, 
+summary: Esta seção descreve as considerações de design para os diferentes componentes desta solução. 
+---
+= Considerações de design
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção descreve as considerações de design para os diferentes componentes desta solução.
+
+
+
+== Design de rede e computação
+
+Dependendo das restrições à segurança dos dados, todos os dados devem permanecer na infraestrutura do cliente ou em um ambiente seguro.
+
+image:ai-sent-image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Design de armazenamento
+
+O Toolkit DataOps do NetApp serve como o principal serviço de gerenciamento de sistemas de storage. O DataOps Toolkit é uma biblioteca Python que simplifica para desenvolvedores, cientistas de dados, engenheiros de DevOps e engenheiros de dados várias tarefas de gerenciamento de dados, como provisionamento quase instantâneo de um novo volume de dados ou espaço de trabalho do JupyterLab, clonagem quase instantânea de um volume de dados ou espaço de trabalho do JupyterLab e captura instantânea de um volume de dados ou espaço de trabalho do JupyterLab para rastreabilidade ou Baselining. Esta biblioteca Python pode funcionar como um utilitário de linha de comando ou uma biblioteca de funções que podem ser importadas para qualquer programa Python ou Jupyter notebook.
+
+
+
+== Práticas recomendadas da RIVA
+
+O NVIDIA fornece vários gerais https://docs.nvidia.com/deeplearning/riva/user-guide/docs/best-practices.html["práticas recomendadas de dados"^] para a utilização DO RIVA:
+
+* *Use formatos de áudio sem perdas, se possível.* O uso de codecs com perdas, como MP3, pode reduzir a qualidade.
+* *Aumente os dados de treinamento.* Adicionar ruído de fundo aos dados de treinamento de áudio pode inicialmente diminuir a precisão e ainda aumentar a robustez.
+* *Limite o tamanho do vocabulário se estiver usando texto raspado.* Muitas fontes on-line contêm erros tipográficos ou pronomes auxiliares e palavras incomuns. A remoção destes pode melhorar o modelo de linguagem.
+* *Use uma taxa de amostragem mínima de 16kHz, se possível.* No entanto, tente não resampla, porque isso diminui a qualidade de áudio.
+
+
+Além dessas práticas recomendadas, os clientes devem priorizar a coleta de um conjunto de dados de amostra representativo com rótulos precisos para cada etapa do pipeline. Em outras palavras, o conjunto de dados da amostra deve refletir proporcionalmente as caraterísticas especificadas exemplificadas em um conjunto de dados alvo. Da mesma forma, os anotadores do conjunto de dados têm a responsabilidade de equilibrar a precisão e a velocidade da rotulagem para que a qualidade e a quantidade dos dados sejam maximizadas. Por exemplo, essa solução central de suporte requer arquivos de áudio, texto rotulado e rótulos de sentimento. A natureza sequencial dessa solução significa que os erros desde o início do pipeline são propagados até o fim Se os arquivos de áudio forem de baixa qualidade, as transcrições de texto e os rótulos de sentimento também serão.
+
+Essa propagação de erro também se aplica aos modelos treinados sobre esses dados. Se as previsões de sentimento forem 100% precisas, mas o modelo de fala para texto apresentar um desempenho ruim, então o pipeline final é limitado pelas transcrições iniciais de áudio para texto. É essencial que os desenvolvedores considerem o desempenho de cada modelo individualmente e como um componente de um pipeline maior. Neste caso particular, o objetivo final é desenvolver um pipeline que possa prever com precisão o sentimento. Portanto, a métrica geral sobre a qual avaliar o pipeline é a precisão dos sentimentos, que a transcrição fala-texto afeta diretamente.
+
+image:ai-sent-image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O kit de ferramentas de DataOps da NetApp complementa o pipeline de verificação da qualidade dos dados por meio do uso de sua tecnologia de clonagem de dados quase instantânea. Cada arquivo rotulado deve ser avaliado e comparado com os arquivos rotulados existentes. Distribuir essas verificações de qualidade em vários sistemas de armazenamento de dados garante que essas verificações sejam executadas de forma rápida e eficiente.

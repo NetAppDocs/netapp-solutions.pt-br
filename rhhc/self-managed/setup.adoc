@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: rhhc/self-managed/setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Implante e configure a plataforma de contentor Red Hat OpenShift na AWS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Esta seção descreve um fluxo de trabalho de alto nível de como configurar e gerenciar clusters OpenShift na AWS e implantar aplicativos com estado neles. Isso mostra o uso do storage NetApp Cloud Volumes ONTAP com a ajuda do Astra Trident para fornecer volumes persistentes. Fornecemos detalhes sobre o uso do Astra Control Center para realizar atividades de proteção e migração de dados para as aplicações com estado monitorado.
+
+
+NOTE: Há várias maneiras de implantar clusters de plataforma de contêiner do Red Hat OpenShift na AWS. Esta descrição de alto nível da configuração fornece links de documentação para o método específico que foi usado. Pode consultar os outros métodos nos links relevantes fornecidos no link:../rhhc-resources.html["seção recursos"].
+
+Aqui está um diagrama que mostra os clusters implantados na AWS e conetados ao data center usando uma VPN.
+
+image:rhhc-self-managed-aws.png[""]
+
+O processo de configuração pode ser dividido nas seguintes etapas:
+
+.Instale um cluster OCP na AWS a partir do Advanced Cluster Management.
+[%collapsible]
+====
+* Crie uma VPC com uma conexão VPN site a site (usando pfsense) para se conetar à rede local.
+* A rede no local tem conetividade com a Internet.
+* Crie 3 sub-redes privadas em 3 AZs diferentes.
+* Crie uma zona hospedada privada do Route 53 e um resolvedor de DNS para a VPC.
+
+
+Crie o OpenShift Cluster na AWS a partir do Assistente de Gerenciamento Avançado de Cluster (ACM). Consulte as instruções link:https://docs.openshift.com/dedicated/osd_install_access_delete_cluster/creating-an-aws-cluster.html["aqui"].
+
+
+NOTE: Você também pode criar o cluster na AWS a partir do console OpenShift Hybrid Cloud. link:https://docs.openshift.com/container-platform/4.10/installing/installing_aws/installing-aws-default.html["aqui"]Consulte para obter instruções.
+
+
+TIP: Ao criar o cluster usando o ACM, você tem a capacidade de personalizar a instalação editando o arquivo yaml depois de preencher os detalhes na exibição de formulário. Depois que o cluster é criado, você pode fazer login ssh nos nós do cluster para solução de problemas ou configuração manual adicional. Use a chave ssh que você forneceu durante a instalação e o núcleo do nome de usuário para fazer login.
+
+====
+.Implante o Cloud Volumes ONTAP na AWS usando o BlueXP .
+[%collapsible]
+====
+* Instale o conetor no ambiente VMware local. Consulte as instruções link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-on-prem.html#install-the-connector["aqui"].
+* Implante uma instância do CVO na AWS usando o conetor. Consulte as instruções link:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-getting-started-aws.html["aqui"].
+
+
+
+NOTE: O conetor também pode ser instalado no ambiente de nuvem. link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html["aqui"]Consulte para obter informações adicionais.
+
+====
+.Instalar o Astra Trident no cluster OCP
+[%collapsible]
+====
+* Implante o Operador Trident usando o Helm. Consulte as instruções link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["aqui"]
+* Crie um back-end e uma classe de armazenamento. Consulte as instruções link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["aqui"].
+
+
+====
+.Adicione o cluster do OCP na AWS ao Astra Control Center.
+[%collapsible]
+====
+Adicione o cluster do OCP na AWS ao Astra Control Center.
+
+====
+.Usando o recurso de topologia CSI do Trident para arquiteturas multi-zona
+Os provedores de nuvem, hoje, permitem que os administradores de cluster do Kubernetes/OpenShift criem nós dos clusters baseados em zona. Os nós podem ser localizados em diferentes zonas de disponibilidade dentro de uma região ou em várias regiões. Para facilitar o provisionamento de volumes para workloads em uma arquitetura de várias zonas, o Astra Trident usa topologia de CSI. Usando o recurso de topologia de CSI, o acesso a volumes pode ser limitado a um subconjunto de nós, com base em regiões e zonas de disponibilidade. link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aqui"]Consulte para obter mais detalhes.
+
+
+NOTE: O Kubernetes oferece suporte a dois modos de vinculação de volume: - Quando **_VolumeBindingMode_ está definido como _imediato_** (padrão), o Astra Trident cria o volume sem qualquer reconhecimento de topologia. Os volumes persistentes são criados sem depender dos requisitos de agendamento do pod solicitante. - Quando **_VolumeBindingMode_ definido como _WaitForFirstConsumer_**, a criação e vinculação de um volume persistente para um PVC é adiada até que um pod que usa o PVC seja programado e criado. Dessa forma, os volumes são criados para atender às restrições de agendamento impostas pelos requisitos de topologia. Os back-ends de storage do Astra Trident podem ser desenvolvidos para provisionar volumes de forma seletiva com base em zonas de disponibilidade (back-end com reconhecimento de topologia). Para o StorageClasses que fazem uso de tal back-end, um volume só seria criado se solicitado por um aplicativo agendado em uma região/zona suportada. (StorageClass com reconhecimento de topologia) link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aqui"]consulte para obter detalhes adicionais.

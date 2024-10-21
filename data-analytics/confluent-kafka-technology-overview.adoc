@@ -1,0 +1,161 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-technology-overview.html 
+keywords: storagegrid, apache, confluent, kafka, grid manager, 
+summary: Esta secção descreve a tecnologia utilizada nesta solução. 
+---
+= Visão geral da tecnologia
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta secção descreve a tecnologia utilizada nesta solução.
+
+
+
+== NetApp StorageGRID
+
+O NetApp StorageGRID é uma plataforma de storage de objetos econômica e de alto desempenho. Usando armazenamento em camadas, a maioria dos dados no Kafka confluente, que é armazenado no armazenamento local ou no armazenamento SAN do corretor, é descarregado para o armazenamento de objetos remoto. Essa configuração resulta em melhorias operacionais significativas ao reduzir o tempo e o custo para rebalancear, expandir ou reduzir clusters ou substituir um agente com falha. O storage de objetos desempenha uma função importante no gerenciamento de dados que residem na camada de armazenamento de objetos, e é por isso que escolher o storage de objetos certo é importante.
+
+O StorageGRID oferece gerenciamento de dados global inteligente e voltado a políticas usando uma arquitetura de grade distribuída, baseada em nós. Ele simplifica o gerenciamento de petabytes de dados não estruturados e bilhões de objetos por meio de um namespace de objeto global abrangente, combinado com recursos sofisticados de gerenciamento de dados. O acesso a objeto de chamada única se estende por vários locais e simplifica arquiteturas de alta disponibilidade, ao mesmo tempo em que garante acesso contínuo a objetos, independentemente de interrupções no local ou na infraestrutura.
+
+A alocação a vários clientes permite que várias aplicações de dados empresariais e de nuvem não estruturados sejam atendidas com segurança na mesma grade, aumentando o ROI e os casos de uso do NetApp StorageGRID. Você pode criar vários níveis de serviço com políticas de ciclo de vida de objetos orientadas por metadados, otimizando a durabilidade, proteção, performance e localidade em várias regiões geográficas. Os usuários podem ajustar políticas de gerenciamento de dados e monitorar e aplicar limites de tráfego para se alinhar com o cenário de dados, sem interrupções, à medida que seus requisitos mudam em AMBIENTES DE TI em constante mudança.
+
+
+
+=== Gerenciamento simples com o Grid Manager
+
+O Gerenciador de Grade do StorageGRID é uma interface gráfica baseada em navegador que permite configurar, gerenciar e monitorar seu sistema StorageGRID em locais distribuídos globalmente em um único painel.
+
+image:confluent-kafka-image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Você pode executar as seguintes tarefas com a interface do Gerenciador de Grade do StorageGRID:
+
+* Gerencie repositórios de objetos distribuídos globalmente, em escala de petabytes, como imagens, vídeos e Registros.
+* Monitore os nós e serviços da grade para garantir a disponibilidade do objeto.
+* Gerencie o posicionamento dos dados de objetos ao longo do tempo usando regras de gerenciamento do ciclo de vida das informações (ILM). Essas regras governam o que acontece com os dados de um objeto depois que são ingeridos, como eles são protegidos contra perda, onde os dados do objeto são armazenados e por quanto tempo.
+* Monitore transações, desempenho e operações dentro do sistema.
+
+
+
+
+=== Políticas de gerenciamento do ciclo de vida das informações
+
+O StorageGRID tem políticas flexíveis de gerenciamento de dados que incluem a manutenção de cópias de réplicas de objetos e o uso de esquemas EC (codificação de apagamento), como 2-1, 4-2, entre outros, para armazenar objetos, dependendo de requisitos específicos de performance e proteção de dados. À medida que os workloads e os requisitos mudam com o tempo, é comum que as políticas de ILM também precisam mudar ao longo do tempo. Modificar políticas de ILM é um recurso essencial, permitindo que os clientes da StorageGRID se adaptem ao seu ambiente em constante mudança de forma rápida e fácil.
+
+
+
+=== Desempenho
+
+O StorageGRID dimensiona a performance adicionando mais nós de storage, que podem ser VMs, bare metal ou dispositivos criados sob medida, como o link:https://www.netapp.com/pdf.html?item=/media/7931-ds-3613.pdf["SG5712, SG5760, SG6060 OU SGF6024"^]. Em nossos testes, excedemos os principais requisitos de desempenho do Apache Kafka com uma grade de três nós de tamanho mínimo usando o dispositivo SGF6024. À medida que os clientes escalam seu cluster Kafka com corretores adicionais, eles podem adicionar mais nós de storage para aumentar o desempenho e a capacidade.
+
+
+
+=== Balanceador de carga e configuração de endpoint
+
+Os nós de administração no StorageGRID fornecem a IU do Gerenciador de Grade (interface do usuário) e o endpoint da API REST para exibir, configurar e gerenciar seu sistema StorageGRID, bem como logs de auditoria para rastrear a atividade do sistema. Para fornecer um ponto de extremidade S3 altamente disponível para armazenamento em camadas do Kafka, implementamos o balanceador de carga StorageGRID, que é executado como um serviço em nós de administração e nós de gateway. Além disso, o balanceador de carga também gerencia o tráfego local e fala com o GSLB (Global Server Load Balancing) para ajudar na recuperação de desastres.
+
+Para aprimorar ainda mais a configuração do endpoint, o StorageGRID fornece políticas de classificação de tráfego incorporadas ao nó de administração, permite monitorar o tráfego de workload e aplicar vários limites de qualidade do serviço (QoS) aos workloads. As políticas de classificação de tráfego são aplicadas a pontos de extremidade no serviço StorageGRID Load Balancer para nós de gateway e nós de administração. Essas políticas podem ajudar na modelagem e monitoramento do tráfego.
+
+
+
+=== Classificação de tráfego em StorageGRID
+
+O StorageGRID tem funcionalidade de QoS incorporada. As políticas de classificação de tráfego podem ajudar a monitorar diferentes tipos de tráfego S3 vindo de um aplicativo cliente. Em seguida, você pode criar e aplicar políticas para colocar limites nesse tráfego com base na largura de banda de entrada/saída, no número de solicitações simultâneas de leitura/gravação ou na taxa de solicitação de leitura/gravação.
+
+
+
+== Apache Kafka
+
+Apache Kafka é uma implementação de framework de um barramento de software usando processamento de fluxo escrito em Java e Scala. O objetivo é fornecer uma plataforma unificada, de alta taxa de transferência e baixa latência para lidar com feeds de dados em tempo real. O Kafka pode se conetar a um sistema externo para exportação e importação de dados através do Kafka Connect e fornece o Kafka Streams, uma biblioteca de processamento de fluxo Java. O Kafka usa um protocolo binário baseado em TCP que é otimizado para eficiência e depende de uma abstração de "conjunto de mensagens" que agrupa naturalmente as mensagens para reduzir a sobrecarga da rede de ida e volta. Isso permite operações de disco sequenciais maiores, pacotes de rede maiores e blocos de memória contíguos, permitindo que o Kafka transforme um fluxo intenso de gravações de mensagens aleatórias em gravações lineares. A figura a seguir mostra o fluxo de dados básico do Apache Kafka.
+
+image:confluent-kafka-image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Kafka armazena mensagens de valor-chave que vêm de um número arbitrário de processos chamados produtores. Os dados podem ser particionados em partições diferentes dentro de tópicos diferentes. Dentro de uma partição, as mensagens são estritamente ordenadas por seus deslocamentos (a posição de uma mensagem dentro de uma partição) e indexadas e armazenadas juntamente com um carimbo de data/hora. Outros processos chamados consumidores podem ler mensagens de partições. Para processamento de stream, o Kafka oferece a API Streams que permite escrever aplicativos Java que consomem dados do Kafka e gravar resultados de volta para o Kafka. O Apache Kafka também funciona com sistemas de processamento de stream externos, como Apache Apex, Apache Flink, Apache Spark, Apache Storm e Apache NiFi.
+
+O Kafka é executado em um cluster de um ou mais servidores (chamados corretores), e as partições de todos os tópicos são distribuídas pelos nós de cluster. Além disso, as partições são replicadas para vários corretores. Essa arquitetura permite que o Kafka forneça fluxos maciços de mensagens de forma tolerante a falhas e permitiu que ele substituísse alguns dos sistemas convencionais de mensagens, como o Java Message Service (JMS), o Advanced Message Queuing Protocol (AMQP) e assim por diante. Desde a versão 0.11.0.0, Kafka oferece gravações transacionais, que fornecem exatamente uma vez processamento de fluxo usando a API Streams.
+
+Kafka suporta dois tipos de tópicos: Regular e compactado. Tópicos regulares podem ser configurados com um tempo de retenção ou um espaço limitado. Se houver Registros que são mais antigos do que o tempo de retenção especificado ou se o limite de espaço for excedido para uma partição, Kafka pode excluir dados antigos para liberar espaço de armazenamento. Por padrão, os tópicos são configurados com um tempo de retenção de 7 dias, mas também é possível armazenar dados indefinidamente. Para tópicos compatados, os Registros não expiram com base em limites de tempo ou espaço. Em vez disso, Kafka trata mensagens posteriores como atualizações para mensagens mais antigas com a mesma chave e garante nunca excluir a mensagem mais recente por chave. Os usuários podem excluir mensagens completamente escrevendo uma chamada mensagem de tombstone com o valor nulo para uma chave específica.
+
+Existem cinco APIs principais no Kafka:
+
+* *API do produtor.* Permite que um aplicativo publique fluxos de Registros.
+* *API do consumidor.* Permite que um aplicativo assine tópicos e processos fluxos de Registros.
+* *API Connector.* Executa as APIs de produtor e consumidor reutilizáveis que podem vincular os tópicos aos aplicativos existentes.
+* *Streams API.* Esta API converte os fluxos de entrada para saída e produz o resultado.
+* *Admin API.* Usado para gerenciar tópicos Kafka, corretores e outros objetos Kafka.
+
+
+As APIs de consumidor e produtor baseiam-se no protocolo de mensagens Kafka e oferecem uma implementação de referência para clientes consumidores e produtores Kafka em Java. O protocolo de mensagens subjacente é um protocolo binário que os desenvolvedores podem usar para escrever seus próprios clientes consumidores ou produtores em qualquer linguagem de programação. Isso desbloqueia o Kafka do ecossistema Java Virtual Machine (JVM). Uma lista de clientes não Java disponíveis é mantida no wiki Apache Kafka.
+
+
+
+=== Casos de uso do Apache Kafka
+
+O Apache Kafka é mais popular para mensagens, rastreamento de atividades de sites, métricas, agregação de log, processamento de stream, sourcing de eventos e Registro de commit.
+
+* O Kafka melhorou a produtividade, o particionamento integrado, a replicação e a tolerância a falhas, o que o torna uma boa solução para aplicações de processamento de mensagens em larga escala.
+* O Kafka pode reconstruir as atividades de um usuário (visualizações de página, pesquisas) em um pipeline de rastreamento como um conjunto de feeds de publicação e inscrição em tempo real.
+* Kafka é frequentemente usado para dados de monitoramento operacional. Isso envolve a agregação de estatísticas de aplicativos distribuídos para produzir feeds centralizados de dados operacionais.
+* Muitas pessoas usam o Kafka como um substituto para uma solução de agregação de log. A agregação de log normalmente coleta arquivos de log físicos de servidores e os coloca em um local central (por exemplo, um servidor de arquivos ou HDFS) para processamento. O Kafka abstrai os detalhes dos arquivos e fornece uma abstração mais limpa dos dados de log ou evento como um fluxo de mensagens. Isso permite um processamento de menor latência e suporte mais fácil para várias fontes de dados e consumo de dados distribuídos.
+* Muitos usuários do Kafka processam dados em pipelines de processamento que consistem em vários estágios, nos quais dados de entrada brutos são consumidos de tópicos Kafka e, em seguida, agregados, enriquecidos ou transformados em novos tópicos para consumo adicional ou processamento de acompanhamento. Por exemplo, um pipeline de processamento para recomendar artigos de notícias pode rastrear o conteúdo do artigo de feeds RSS e publicá-lo em um tópico "artigos". O processamento adicional pode normalizar ou deduplicar esse conteúdo e publicar o conteúdo do artigo limpo em um novo tópico, e uma etapa final de processamento pode tentar recomendar esse conteúdo aos usuários. Tais pipelines de processamento criam gráficos de fluxos de dados em tempo real com base nos tópicos individuais.
+* A origem de eventos é um estilo de design de aplicativo para o qual as alterações de estado são registradas como uma sequência de Registros ordenada por tempo. O suporte do Kafka para dados de log armazenados muito grandes faz dele um excelente backend para uma aplicação construída neste estilo.
+* Kafka pode servir como uma espécie de commit-log externo para um sistema distribuído. O log ajuda a replicar dados entre nós e atua como um mecanismo de re-sincronização para que os nós com falha restaurem seus dados. O recurso de compactação de log no Kafka ajuda a suportar esse caso de uso.
+
+
+
+
+== Confluente
+
+A Confluent Platform é uma plataforma pronta para a empresa que completa o Kafka com recursos avançados projetados para ajudar a acelerar o desenvolvimento e a conetividade de aplicativos, permitir transformações por meio do processamento de fluxo, simplificar as operações empresariais em escala e atender aos rigorosos requisitos de arquitetura. Construído pelos criadores originais do Apache Kafka, o Confluent expande os benefícios do Kafka com recursos de nível empresarial, ao mesmo tempo em que remove o fardo do gerenciamento ou monitoramento do Kafka. Hoje, mais de 80% dos Fortune 100 são alimentados por tecnologia de streaming de dados – e a maioria deles usa confluentes.
+
+
+
+=== Por que confluente?
+
+Ao integrar dados históricos e em tempo real em uma única fonte central da verdade, o Confluent facilita a criação de uma categoria totalmente nova de aplicações modernas orientadas a eventos, obter um pipeline de dados universal e desbloquear novos casos de uso poderosos com escalabilidade, desempenho e confiabilidade totais.
+
+
+
+=== Para que é utilizado o confluente?
+
+A Confluent Platform permite que você se concentre em como obter valor de negócios de seus dados, em vez de se preocupar com a mecânica subjacente, como como os dados estão sendo transportados ou integrados entre sistemas diferentes. Especificamente, a Confluent Platform simplifica a conexão de fontes de dados ao Kafka, criando aplicativos de streaming, além de proteger, monitorar e gerenciar sua infraestrutura do Kafka. Hoje, a Confluent Platform é usada para uma ampla variedade de casos de uso em vários setores, desde serviços financeiros, varejo omnichannel e carros autônomos até deteção de fraudes, microsserviços e IoT.
+
+A figura a seguir mostra os componentes da Plataforma Kafka confluentes.
+
+image:confluent-kafka-image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== Visão geral da tecnologia de streaming de eventos da Confluent
+
+No centro da Confluent Platform está https://kafka.apache.org/["Apache Kafka"^], a plataforma de streaming distribuída de código aberto mais popular. As principais capacidades do Kafka são as seguintes:
+
+* Publique e assine fluxos de Registros.
+* Armazene fluxos de Registros de uma maneira tolerante a falhas.
+* Processar fluxos de Registros.
+
+
+Fora da caixa, a Confluent Platform também inclui Schema Registry, REST Proxy, um total de mais de 100 conetores Kafka pré-construídos e ksqlDB.
+
+
+
+=== Visão geral dos recursos empresariais da plataforma confluent
+
+* *Centro de Controle confluente.* Um sistema baseado em GUI para gerenciar e monitorar o Kafka. Ele permite que você gerencie facilmente o Kafka Connect e crie, edite e gerencie conexões com outros sistemas.
+* *Confluente para o Kubernetes.* O Confluent for Kubernetes é um operador do Kubernetes. As operadoras de Kubernetes ampliam os recursos de orquestração do Kubernetes fornecendo os recursos e requisitos exclusivos para uma aplicação de plataforma específica. Para a Confluent Platform, isso inclui simplificar muito o processo de implantação do Kafka no Kubernetes e automatizar tarefas típicas de ciclo de vida da infraestrutura.
+* * Confluent conetores para Kafka.* Os conetores usam a API Kafka Connect para conetar o Kafka a outros sistemas, como bancos de dados, armazenamentos de valor-chave, índices de pesquisa e sistemas de arquivos. Confluent Hub tem conetores para download para as fontes de dados e dissipadores mais populares, incluindo versões totalmente testadas e suportadas desses conetores com Confluent Platform. Mais detalhes podem ser encontrados https://docs.confluent.io/home/connect/userguide.html["aqui"^].
+* *Clusters de auto-equilíbrio.* Fornece balanceamento de carga automatizado, deteção de falhas e autorrecuperação. Ele fornece suporte para adicionar ou desativar corretores conforme necessário, sem ajuste manual.
+* * Confluent cluster linking.* Conecta clusters diretamente e espelha tópicos de um cluster para outro por meio de uma ponte de link. A vinculação de cluster simplifica a configuração de implantações de vários data centers, multicluster e nuvem híbrida.
+* *Confluent auto data balancer.* Monitora seu cluster para o número de corretores, o tamanho das partições, o número de partições e o número de líderes dentro do cluster. Ele permite que você mova dados para criar um workload uniforme em todo o cluster, enquanto reduz o rebalancear o tráfego para minimizar o efeito nos workloads de produção e rebalanceamento.
+* *Replicador confluente.* Torna mais fácil do que nunca manter vários clusters Kafka em vários data centers.
+* *Armazenamento em camadas.* Fornece opções para armazenar grandes volumes de dados do Kafka usando seu provedor de nuvem favorito, reduzindo assim a carga operacional e os custos. Com o storage em camadas, você pode manter os dados em storage de objetos econômico e escalonar corretores somente quando precisar de mais recursos de computação.
+* * Confluent JMS cliente.* A Confluent Platform inclui um cliente compatível com JMS para Kafka. Este cliente Kafka implementa a API padrão JMS 1,1, usando os corretores Kafka como backend. Isso é útil se você tiver aplicativos legados usando JMS e quiser substituir o corretor de mensagens JMS existente pelo Kafka.
+* * Confluent MQTT proxy.* Fornece uma maneira de publicar dados diretamente para o Kafka a partir de dispositivos e gateways MQTT sem a necessidade de um corretor MQTT no meio.
+* * Plugins de segurança confluentes.* Plugins de segurança confluent são usados para adicionar recursos de segurança a várias ferramentas e produtos da Confluent Platform. Atualmente, há um plugin disponível para o PROXY REST confluente que ajuda a autenticar as solicitações recebidas e propagar o principal autenticado para solicitações para o Kafka. Isso permite que os clientes proxy REST confluentes utilizem os recursos de segurança multitenant do corretor Kafka.
+

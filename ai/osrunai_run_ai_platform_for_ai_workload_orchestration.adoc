@@ -1,0 +1,20 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_run_ai_platform_for_ai_workload_orchestration.html 
+keywords:  
+summary:  
+---
+= Execute: Plataforma AI para orquestração de workload de IA
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+* Acelerar o time-to-Innovation. Ao usingRun:mecanismos de agrupamento, enfileiramento e priorização de recursos de IA em conjunto com o sistema de storage NetApp, os pesquisadores são removidos dos problemas de gerenciamento de infraestrutura e podem se concentrar exclusivamente na ciência de dados. Os clientes do Run:AI e NetApp aumentam a produtividade executando quantos workloads forem necessários sem gargalos de computação ou pipeline de dados.
+* Aumento da produtividade da equipe. Os algoritmos Run:AI Fairness garantem que todos os usuários e equipes recebam seu fairshare de recursos. Políticas em torno de projetos prioritários podem ser predefinidas e a plataforma permite a alocação dinâmica de recursos de uma equipe de usuários para outra, ajudando os usuários a obter acesso oportuno a recursos de GPU cobiçados.
+* Melhor utilização da GPU. O Run:AI Scheduler permite que os usuários façam uso fácil de GPUs fracionárias, GPUs inteiras e vários nós de GPUs para treinamento distribuído no Kubernetes. Dessa forma, os workloads de AI são executados com base nas necessidades e não na capacidade. Equipes de ciência de dados podem executar mais experimentos de AI na mesma infraestrutura.
+

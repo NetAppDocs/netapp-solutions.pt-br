@@ -1,0 +1,404 @@
+= 
+:allow-uri-read: 
+
+
+[cols="10%, 30%, 60%"]
+|===
+| *Data* | *Área da solução* | *Descrição da mudança* 
+
+
+| 14 de outubro de 2024 | Banco de dados | Novo TR-5000: Backup, recuperação e clonagem de banco de dados PostgreSQL no ONTAP com SnapCenter 
+
+
+| 14 de outubro de 2024 | Banco de dados | Estudo de caso do cliente: A empresa de produtos médicos migra a carga de trabalho SQL no local para o Amazon FSX ONTAP para reduzir custos 
+
+
+| 20 de setembro de 2024 | Banco de dados | Novo TR-4998: Oracle HA no AWS EC2 com cluster de pacemaker e FSX ONTAP 
+
+
+| 17 de setembro de 2025 | Virtualização | Adicione soluções para Hyper-V: SnapMirror ative Sync com clusters stretch 
+
+
+| 13 de setembro de 2024 | Virtualização Red Hat OpenShift | Adicionado Guia de práticas recomendadas para VMs OpenShift 
+
+
+| 23 de agosto de 2024 | Virtualização | Adicionado o Guia de implantação do VMFS 
+
+
+| 23 de agosto de 2024 | Banco de dados | Novo TR-4997: Implantação e proteção do Oracle RAC no VCF com vVols 
+
+
+| 16 de agosto de 2024 | Nuvem híbrida | Adicionada recuperação de desastres usando a solução BlueXP  DRaaS para datastores NFS 
+
+
+| 16 de agosto de 2024 | Nuvem híbrida | Adicionado DR usando BlueXP  DRaaS para solução de datastores VMFS 
+
+
+| 31 de julho de 2024 | Banco de dados | Novo TR-4996: Implantação e proteção do Oracle si no VCF com vVols 
+
+
+| 5 de junho de 2024 | Banco de dados | Novo TR-4992: Implantação Oracle simplificada e automatizada no NetApp C-Series com NFS 
+
+
+| 14 de maio de 2024 | Virtualização | Adicionado migração de VMs para o Amazon EC2 usando o conteúdo do FSX ONTAP 
+
+
+| 10 de maio de 2024 | Virtualização | Foi adicionada a implementação do Hyper-V no conteúdo do NetApp 
+
+
+| 1 de maio de 2024 | Banco de dados | Nova Orientação de dimensionamento Oracle para Azure NetApp Files 
+
+
+| 19 de abril de 2024 | Virtualização Red Hat OpenShift | Adicionado novo conteúdo para integração de CI para VMs no OpenShift Virtualization 
+
+
+| 16 de abril de 2024 | Virtualização Red Hat OpenShift | Adicionado novo conteúdo para proteção de dados de VMs no OpenShift Virtualization 
+
+
+| 17 de abril de 2024 | Banco de dados | Automação do ciclo de vida do clone do SnapCenter 
+
+
+| 3 de abril de 2024 | Banco de dados | Novo TR-4990: Recuperação rápida do Oracle VLDB com Incremental Merge no ANF 
+
+
+| 15 de fevereiro de 2024 | Banco de dados | Novo TR-4988: Backup, recuperação e clone de banco de dados Oracle no ANF com SnapCenter 
+
+
+| 7 de fevereiro de 2024 | Banco de dados | Novo TR-4987: Implantação Oracle simplificada e automatizada no Amazon FSX ONTAP com iSCSI 
+
+
+| 18 de dezembro de 2023 | Banco de dados | Novo TR-4986: Implantação Oracle simplificada e automatizada no Amazon FSX ONTAP com iSCSI 
+
+
+| 12 de dezembro de 2023 | Multicloud híbrida com Red Hat OpenShift | Adicionado novo conteúdo para o Azure Cloud 
+
+
+| 7 de dezembro de 2023 | Banco de dados | TR-4983: Implantação Oracle simplificada e automatizada no NetApp ASA com iSCSI 
+
+
+| 27 de novembro de 2023 | Banco de dados | TR-4979: Oracle simplificado e autogerenciado no VMware Cloud on AWS com o FSX ONTAP instalado no convidado 
+
+
+| 7 de novembro de 2023 | Nuvem soberana | Novo conteúdo: StorageGRID como uma extensão de armazenamento de objetos 
+
+
+| 6 de novembro de 2023 | Nuvem soberana | Novo conteúdo para o VMware Sovereign Cloud com o NetApp 
+
+
+| 11 de outubro de 2023 | AI | Nova solução: MLOPS de multicloud híbrida com o Domino Data Lab e o NetApp 
+
+
+| 10 de outubro de 2023 | Multicloud híbrida com Red Hat OpenShift | Adicionado novo conteúdo para o Google Cloud 
+
+
+| 29 de setembro de 2023 | Banco de dados | Adicionado novo TR-4981: Redução de custos do Oracle ative Data Guard com o AWS FSX ONTAP 
+
+
+| 19 de setembro de 2023 | AI | Whitepaper adicionado: Generative AI e NetApp Value 
+
+
+| 17 de agosto de 2023 | Nuvem híbrida | Adicionado: Usando o Veeam Replication e o Azure NetApp Files datastore para recuperação de desastres na solução Azure VMware 
+
+
+| 17 de agosto de 2023 | Nuvem híbrida | Adicionado: Usando o Veeam Replication e o FSX ONTAP para recuperação de desastres no VMware Cloud na AWS 
+
+
+| 15 de agosto de 2023 | Virtualização | Redesenhou a página inicial da virtualização (VMware) 
+
+
+| 2 de agosto de 2023 | Banco de dados | Adicionado novo TR-4977: Backup, restauração e clone de banco de dados Oracle com os Serviços SnapCenter - Azure 
+
+
+| 14 de julho de 2023 | Análise de dados | Atualização TR-4947 : carga de trabalho do Apache Kafka com armazenamento NetApp NFS ( AWS FSX ONTAP incluído ) 
+
+
+| 9 de junho de 2023 | Banco de dados | Adicionado novo TR-4973: Recuperação rápida e clone do Oracle VLDB com integração incremental no AWS FSX ONTAP 
+
+
+| 8 de junho de 2023 | Nuvem híbrida | Adicionado GCVE com CVS - recuperação de desastres consistente de aplicativos com NetApp SnapCenter e replicação Veeam 
+
+
+| 8 de junho de 2023 | Nuvem híbrida | Adicionado GCVE com CVS - migração de VM para o armazenamento de dados NFS do NetApp Cloud volume Service no Google Cloud usando o recurso de replicação da Veeam 
+
+
+| 23 de maio de 2023 | Virtualização | Adicionado o TR-4400: VMware vSphere Virtual volumes (vVols) com o NetApp ONTAP 
+
+
+| 19 de maio de 2023 | Banco de dados | Adicionado novo TR-4974: Oracle 19Ci na reinicialização autônoma no AWS FSX/EC2 com NFS/ASM 
+
+
+| 16 de maio de 2023 | Multicloud híbrida com Red Hat OpenShift | Adicionado novo título na barra lateral e novo conteúdo 
+
+
+| 16 de maio de 2023 | Multicloud híbrida com Red Hat OpenShift | Adicionado novo conteúdo 
+
+
+| 10 de maio de 2023 | Nuvem híbrida | TR-4955 adicionado: Recuperação de desastres com Azure NetApp Files (ANF) e solução Azure VMware (AVS) 
+
+
+| 5 de maio de 2023 | Banco de dados | Novo TR-4951: Backup e recuperação para o Microsoft SQL Server no AWS FSX ONTAP 
+
+
+| 4 de maio de 2023 | Virtualização | Adicionado conteúdo "Novidades com o VMware vSphere 8" 
+
+
+| 27 de abril de 2023 | Nuvem híbrida | Adicionado o Veeam Backup & Restore no VMware Cloud com o AWS FSX ONTAP 
+
+
+| 31 de março de 2023 | Banco de dados | Adição de implantação e proteção de banco de dados Oracle no AWS FSX/EC2 com iSCSI/ASM 
+
+
+| 31 de março de 2023 | Banco de dados | Adicionado backup, restauração e clonagem de banco de dados Oracle com os Serviços SnapCenter 
+
+
+| 29 de março de 2023 | Automação | Blog atualizado "Monitoramento e redimensionamento automático do FSX ONTAP usando a função do AWS Lambda" com opções para implantação privada/pública, juntamente com opções de implantação manual/automatizada. 
+
+
+| 22 de março de 2023 | Automação | Blog adicionado: Monitoramento e redimensionamento automático do FSX ONTAP usando a função AWS Lambda 
+
+
+| 15 de fevereiro de 2023 | Banco de dados | Adicionado PostgreSQL implantação de alta disponibilidade e recuperação de desastres no AWS FSX/EC2 
+
+
+| 7 de fevereiro de 2023 | Nuvem híbrida | Blog adicionado: Anunciando a disponibilidade geral do suporte ao armazenamento de dados do NetApp Cloud Volumes Service para o VMware Engine 
+
+
+| 7 de fevereiro de 2023 | Nuvem híbrida | Adicionado TR-4955: Recuperação de desastres com o FSX ONTAP e VMC (AWS VMware Cloud) 
+
+
+| 24 de janeiro de 2023 | Banco de dados | Adicionado TR-4954: Implantação e proteção de bancos de dados Oracle no Azure NetApp Files 
+
+
+| 12 de janeiro de 2023 | Banco de dados | Blog adicionado: Proteja suas cargas de trabalho do SQL Server usando o NetApp SnapCenter com o Amazon FSX ONTAP 
+
+
+| 15 de dezembro de 2022 | Banco de dados | Adicionado TR-4923: SQL Server no AWS EC2 usando o Amazon FSX ONTAP 
+
+
+| 6 de dezembro de 2022 | Banco de dados | Adicionado 7 vídeos para modernização de banco de dados Oracle na nuvem híbrida com o armazenamento Amazon FSX 
+
+
+| 25 de outubro de 2022 | Nuvem híbrida | Link adicionado à documentação do VMware para o FSX ONTAP como um datastore NFS 
+
+
+| 25 de outubro de 2022 | Nuvem híbrida | Referência adicionada ao blog para configurar a nuvem híbrida com o FSX ONTAP e VMC no AWS SDDC usando o VMware HCX 
+
+
+| 30 de setembro de 2022 | Nuvem híbrida | Solução adicionada para migrar cargas de trabalho para o armazenamento de dados do FSX ONTAP usando VMware HCX 
+
+
+| 29 de setembro de 2022 | Nuvem híbrida | Solução adicionada para migração de workloads para o armazenamento de dados do ANF usando o VMware HCX 
+
+
+| 14 de setembro de 2022 | Nuvem híbrida | Adicionado links para calculadoras e simuladores TCO para FSX ONTAP / VMC e ANF / AVS 
+
+
+| 14 de setembro de 2022 | Nuvem híbrida | Adicionada opção suplementar de armazenamento de dados NFS para AWS/VMC 
+
+
+| 25 de agosto de 2022 | Banco de dados | Blog adicionado - modernize sua operação de banco de dados Oracle na nuvem híbrida com o armazenamento Amazon FSX 
+
+
+| 11 de julho de 2023 | Análise de dados | Atualização TR - 4947 : Apache Kafka com FSX ONTAP 
+
+
+| 25 de agosto de 2022 | AI | Nova solução: NVIDIA AI Enterprise com NetApp e VMware 
+
+
+| 23 de agosto de 2022 | Nuvem híbrida | Atualizada a disponibilidade de região mais recente para todas as opções suplementares de armazenamento de dados NFS 
+
+
+| 5 de agosto de 2022 | Virtualização | Foram adicionadas informações de "reinicialização necessária" para as configurações recomendadas do ESXi e do ONTAP 
+
+
+| 28 de julho de 2022 | Nuvem híbrida | Adicionada solução de recuperação de desastres com o SnapCenter e a Veeam para AWS/VMC (storage conectado ao convidado) 
+
+
+| 21 de julho de 2022 | Nuvem híbrida | Solução de DR adicionada com CVO e JetStream para AVS (armazenamento conetado convidado) 
+
+
+| 29 de junho de 2022 | Banco de dados | Adicionado WP-7357: Implantação de banco de dados Oracle nas melhores práticas do EC2/FSX 
+
+
+| 16 de junho de 2022 | AI | Adicionado o NVIDIA DGX SuperPOD com o guia de design da NetApp 
+
+
+| 10 de junho de 2022 | Nuvem híbrida | Adicionado AVS com visão geral do armazenamento de dados nativo do ANF e DR com JetStream 
+
+
+| 7 de junho de 2022 | Nuvem híbrida | Suporte de região AVS atualizado para combinar anúncio / suporte de pré-visualização pública 
+
+
+| 7 de junho de 2022 | Análise de dados | Link adicionado ao NetApp EF600 com a solução para Splunk Enterprise 
+
+
+| 2 de junho de 2022 | Nuvem híbrida | Adicionada lista de disponibilidade de região para datastores NFS para multicloud híbrida da NetApp com VMware 
+
+
+| 20 de maio de 2022 | AI | Novos guias de design e implantação do BeeGFS para o SuperPOD 
+
+
+| 1 de abril de 2022 | Nuvem híbrida | Conteúdo organizado da multicloud híbrida com soluções VMware: Páginas iniciais para cada hyperscaler e inclusão do conteúdo da solução disponível (caso de uso) 
+
+
+| 29 de março de 2022 | Contêineres | Adicionado um novo TR: DevOps com o NetApp Astra 
+
+
+| 8 de março de 2022 | Contêineres | Adicionado uma nova demonstração em vídeo: Acelere o desenvolvimento de software com o Astra Control e a tecnologia NetApp FlexClone 
+
+
+| 1 de março de 2022 | Contêineres | Adicionadas novas seções ao NVA-1160: Instalação do Astra Control Center via OperatorHub e Ansible 
+
+
+| 2 de fevereiro de 2022 | Geral | Criou Landing pages para organizar melhor o conteúdo da IA e do Data Analytics moderno 
+
+
+| 22 de janeiro de 2022 | AI | TR adicional: Movimentação de dados com o e-Series e BeeGFS para workflows de AI e análise 
+
+
+| 21 de dezembro de 2021 | Geral | Crie Landing pages para organizar melhor o conteúdo para virtualização e Hybrid Multicloud com VMware 
+
+
+| 21 de dezembro de 2021 | Contêineres | Adicionado uma nova demonstração em vídeo: Utilize o NetApp Astra Control para executar análises pós-mortem e restaurar sua aplicação para NVA-1160 
+
+
+| 6 de dezembro de 2021 | Nuvem híbrida | Criação de Hybrid Multicloud com o conteúdo VMware para ambiente de virtualização e opções de armazenamento Guest Connected 
+
+
+| 15 de novembro de 2021 | Contêineres | Adicionado uma nova demonstração em vídeo: Proteção de dados em pipeline de CI/CD com Astra Control para NVA-1160 
+
+
+| 15 de novembro de 2021 | Análises de dados modernas | Novo conteúdo: Melhores práticas para Kafka confluente 
+
+
+| 2 de novembro de 2021 | Automação | Requisitos de autenticação da AWS para CVO e Connector usando o NetApp Cloud Manager 
+
+
+| 29 de outubro de 2021 | Análises de dados modernas | Novo conteúdo: TR-4657 - soluções de dados de nuvem híbrida da NetApp: Spark e Hadoop 
+
+
+| 29 de outubro de 2021 | Banco de dados | Proteção de dados automatizada para bancos de dados Oracle 
+
+
+| 26 de outubro de 2021 | Banco de dados | Seção de blog adicionada para aplicativos empresariais e banco de dados ao bloco de soluções NetApp. Adicionado dois blogs para blogs de banco de dados. 
+
+
+| 18 de outubro de 2021 | Banco de dados | TR-4908 - soluções de banco de dados de nuvem híbrida com SnapCenter 
+
+
+| 14 de outubro de 2021 | Virtualização | Adicionadas partes 1-4 do NetApp com a série de blogs do VMware VCF 
+
+
+| 4 de outubro de 2021 | Contêineres | Adicionado uma nova demonstração em vídeo: Migração de carga de trabalho usando o Astra Control Center para NVA-1160 
+
+
+| 23 de setembro de 2021 | Migração de dados | Novo conteúdo: Melhores práticas da NetApp para NetApp XCP 
+
+
+| 21 de setembro de 2021 | Virtualização | Novo conteúdo ou ONTAP para administradores do VMware vSphere, automação do VMware vSphere 
+
+
+| 9 de setembro de 2021 | Contêineres | Adicionado F5 BIG-IP load balancer integração com OpenShift para NVA-1160 
+
+
+| 5 de agosto de 2021 | Contêineres | Adicionado uma nova integração de tecnologia ao NVA-1160 - Centro de Controle Astra NetApp no Red Hat OpenShift 
+
+
+| 21 de julho de 2021 | Banco de dados | Implantação automatizada do Oracle19c para ONTAP em NFS 
+
+
+| 2 de julho de 2021 | Banco de dados | TR-4897 - SQL Server no Azure NetApp Files: Visão de implantação real 
+
+
+| 16 de junho de 2021 | Contêineres | Adicionado uma nova demonstração em vídeo, Instalando a virtualização OpenShift: Red Hat OpenShift com NetApp 
+
+
+| 16 de junho de 2021 | Contêineres | Adicionado uma nova demonstração de vídeo, implantando uma Máquina Virtual com OpenShift Virtualization: Red Hat OpenShift com NetAppp 
+
+
+| 14 de junho de 2021 | Banco de dados | Solução adicionada: Microsoft SQL Server no Azure NetApp Files 
+
+
+| 11 de junho de 2021 | Contêineres | Adicionado uma nova demonstração em vídeo: Migração de carga de trabalho usando Trident e SnapMirror para NVA-1160 
+
+
+| 9 de junho de 2021 | Contêineres | Adicionado um novo caso de uso ao NVA-1160 - Gerenciamento avançado de clusters para Kubernetes no Red Hat OpenShift com NetApp 
+
+
+| 28 de maio de 2021 | Contêineres | Adicionado um novo caso de uso ao NVA-1160 - virtualização OpenShift com NetApp ONTAP 
+
+
+| 27 de maio de 2021 | Contêineres | Adicionado um novo caso de uso ao NVA-1160- multilocação no OpenShift com NetApp ONTAP 
+
+
+| 26 de maio de 2021 | Contêineres | Adicionado NVA-1160 - Red Hat OpenShift com NetApp 
+
+
+| 25 de maio de 2021 | Contêineres | Blog adicionado: Instalando o NetApp Trident no Red Hat OpenShift – como resolver o problema 'toomanyrequests' do Docker! 
+
+
+| 19 de maio de 2021 | Geral | Adicionado link para as soluções FlexPod 
+
+
+| 19 de maio de 2021 | AI | Solução de plano de controle de IA convertida de PDF para HTML 
+
+
+| 17 de maio de 2021 | Geral | Adicionado bloco de Feedback da solução à página principal 
+
+
+| 11 de maio de 2021 | Banco de dados | Adicionada implantação automatizada do Oracle 19Ci para ONTAP em NFS 
+
+
+| 10 de maio de 2021 | Virtualização | Novo vídeo: Como usar vVols com o NetApp e o VMware Tanzu Basic, parte 3 
+
+
+| 6 de maio de 2021 | Banco de dados Oracle | Adicionado link para bancos de dados Oracle 19C RAC no data center do FlexPod com Cisco UCS e NetApp AFF A800 sobre FC 
+
+
+| 5 de maio de 2021 | Banco de dados Oracle | Adicionado FlexPod NVA (1155) e vídeo de automação 
+
+
+| 3 de maio de 2021 | Virtualização de desktop | Link adicionado às soluções de virtualização de desktop FlexPod 
+
+
+| 30 de abril de 2021 | Virtualização | Vídeo: Como usar vVols com o NetApp e o VMware Tanzu Basic, parte 2 
+
+
+| 26 de abril de 2021 | Contêineres | Blog adicionado: Usando o VMware Tanzu com o ONTAP para acelerar sua jornada do Kubernetes 
+
+
+| 6 de abril de 2021 | Geral | Adicionado "sobre este Repositório" 
+
+
+| 31 de março de 2021 | AI | Adicionado TR-4886 - inferência de IA na borda: NetApp ONTAP com o projeto de solução Lenovo ThinkSystem 
+
+
+| 29 de março de 2021 | Análises de dados modernas | Adicionado NVA-1157 - carga de trabalho do Apache Spark com a solução de armazenamento NetApp 
+
+
+| 23 de março de 2021 | Virtualização | Vídeo: Como usar vVols com o NetApp e o VMware Tanzu Basic, parte 1 
+
+
+| 9 de março de 2021 | Geral | Adicionado conteúdo do e-Series; conteúdo de AI categorizado 
+
+
+| 4 de março de 2021 | Automação | Novo conteúdo: Primeiros passos com a automação da solução NetApp 
+
+
+| 18 de fevereiro de 2021 | Virtualização | Adicionado TR-4597 - VMware vSphere para ONTAP 
+
+
+| 16 de fevereiro de 2021 | AI | Adicionadas etapas de implantação automatizada para inferência do AI Edge 
+
+
+| 3 de fevereiro de 2021 | SAP | Adicionada página inicial para todo o conteúdo SAP e SAP HANA 
+
+
+| 1 de fevereiro de 2021 | Virtualização de desktop | VDI com NetApp VDS, conteúdo adicionado para nós de GPU 
+
+
+| 6 de janeiro de 2021 | AI | Nova solução: NetApp ONTAP AI com os sistemas NVIDIA DGX A100 e switches Ethernet de espetro Mellanox (design e implantação) 
+
+
+| 22 de dezembro de 2020 | Geral | Lançamento inicial do repositório de soluções da NetApp 
+|===

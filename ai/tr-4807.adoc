@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: ai/tr-4807.html 
+keywords:  
+summary:  
+---
+= TR-4807: Arquitetura de referência da NetApp ONTAP AI para cargas de trabalho de serviços financeiros - Design da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp, NVIDIA
+
+[role="lead"]
+Essa arquitetura de referência oferece diretrizes para clientes que estão criando uma infraestrutura de inteligência artificial usando sistemas NVIDIA DGX-1 e storage NetApp AFF para casos de uso do setor financeiro. Ele inclui informações sobre os fluxos de trabalho de alto nível usados no desenvolvimento de modelos de deep learning para casos de teste e resultados de serviços financeiros. Ele também inclui recomendações de dimensionamento para implantações de clientes.
+
+link:https://www.netapp.com/pdf.html?item=/media/17205-tr4807pdf.pdf["TR-4807: Arquitetura de referência da NetApp ONTAP AI para cargas de trabalho de serviços financeiros - Design da solução"^]

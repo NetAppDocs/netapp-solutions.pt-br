@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_executive_summary.html 
+keywords: WP-7328, wp7328, 7328, Executive Summary, NVIDIA, Jarvis, 
+summary:  
+---
+= WP-7328: IA conversacional NetApp usando NVIDIA Jarvis
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp Davide Onofrio, NVIDIA
+
+[role="lead"]
+A família de sistemas DGX da NVIDIA é composta pelos primeiros sistemas integrados baseados em inteligência artificial (AI) do mundo criados sob medida para a AI empresarial. Os sistemas de storage da NetApp AFF oferecem performance extrema e recursos de gerenciamento de dados de nuvem híbrida líderes do setor. A NetApp e a NVIDIA se uniram para criar a arquitetura de referência do NetApp ONTAP AI, uma solução pronta para uso para workloads de IA e aprendizado de máquina (ML) que oferece suporte, confiabilidade e desempenho de classe empresarial.
+
+Este white paper fornece orientação direcional para os clientes que criam sistemas de IA conversacionais para dar suporte a diferentes casos de uso em vários setores verticais do setor. Ele inclui informações sobre a implantação do sistema usando NVIDIA Jarvis. Os testes foram realizados usando uma estação DGX da NVIDIA e um sistema de storage da NetApp AFF A220.
+
+O público-alvo da solução inclui os seguintes grupos:
+
+* Arquitetos corporativos que projetam soluções para o desenvolvimento de modelos de IA e software para casos de uso de IA conversacionais, como um assistente de varejo virtual
+* Cientistas de dados que procuram maneiras eficientes de alcançar metas de desenvolvimento de modelagem de linguagem
+* Engenheiros de dados responsáveis pela manutenção e processamento de dados de texto, como perguntas do cliente e transcrições de diálogo
+* Tomadores de decisão executivos e DE TI e líderes de negócios interessados em transformar a experiência de IA conversacional e alcançar o time-to-market mais rápido de iniciativas de IA
+

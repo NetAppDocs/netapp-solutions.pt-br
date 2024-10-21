@@ -1,0 +1,123 @@
+---
+sidebar: sidebar 
+permalink: ai/aipod_nv_hw_components.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
+summary: NetApp AIPod com sistemas DGX da NVIDIA - componentes de hardware 
+---
+= NVA-1173 NetApp AIPod com sistemas DGX da NVIDIA - componentes de hardware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção concentra-se nos componentes de hardware para os sistemas NetApp AIPod com NVIDIA DGX.
+
+
+
+== Sistemas de storage da NetApp AFF
+
+Os sistemas de storage de última geração da NetApp AFF permitem que os departamentos DE TI atendam aos requisitos de storage empresarial com performance líder do setor, flexibilidade superior, integração com a nuvem e o melhor gerenciamento de dados da categoria. Especialmente desenvolvido para flash, os sistemas AFF ajudam a acelerar, gerenciar e proteger os dados essenciais aos negócios.
+
+
+
+=== Sistemas de storage da AFF A90
+
+O NetApp AFF A90 com tecnologia do software de gerenciamento de dados NetApp ONTAP oferece proteção de dados incorporada, recursos opcionais anti-ransomware e a alta performance e resiliência necessárias para dar suporte aos workloads mais essenciais dos negócios. Ele elimina interrupções nas operações essenciais, minimiza o ajuste de performance e protege seus dados contra ataques de ransomware. Ele oferece: • Desempenho líder do setor • segurança de dados sem compromisso • atualizações simplificadas e sem interrupções
+
+_Sistema de armazenamento NetApp AFF A90_
+
+image:aipod_nv_A90.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+==== Performance líder do setor
+
+O AFF A90 gerencia com facilidade workloads de nova geração, como deep learning, AI e análises de alta velocidade, além de bancos de dados empresariais tradicionais, como Oracle, SAP HANA, Microsoft SQL Server e aplicações virtualizadas. Ele mantém as aplicações essenciais aos negócios em execução na velocidade máxima, com até 2,4M IOPS por par de HA e latência de até 100µs, além de aumentar a performance em até 50% em relação aos modelos NetApp anteriores. Com NFS sobre RDMA, pNFS e Session Trunking, os clientes podem alcançar o alto nível de desempenho de rede necessário para aplicativos de próxima geração usando a infraestrutura de rede de data center existente. Os clientes também podem escalar e crescer com suporte unificado a multiprotocolos para storage SAN, nas e de objetos, além de oferecer o máximo de flexibilidade com software de gerenciamento de dados unificado e único da ONTAP, para dados no local ou na nuvem. Além disso, a integridade do sistema pode ser otimizada com as análises preditivas baseadas em AI fornecidas pela Active IQ e pela Cloud Insights.
+
+
+
+==== Segurança garantida dos dados
+
+Os sistemas AFF A90 contêm um pacote completo de software de proteção de dados integrado e consistente com aplicações NetApp. Ele oferece proteção de dados incorporada e soluções anti-ransomware de última geração para prevenção e recuperação pós-ataque. Arquivos maliciosos podem ser bloqueados para serem gravados no disco, e as anormalidades de storage são facilmente monitoradas para obter insights.
+
+
+
+==== Atualizações simplificadas e sem interrupções
+
+O AFF A90 está disponível como uma atualização em chassi sem interrupções para clientes A800 existentes. O NetApp facilita a atualização e a eliminação de interrupções para operações essenciais com nossos recursos avançados de confiabilidade, disponibilidade, capacidade de manutenção e gerenciabilidade (RASM). Além disso, o NetApp aumenta ainda mais a eficiência operacional e simplifica as atividades diárias das equipes DE TI, pois o software ONTAP aplica atualizações de firmware automaticamente para todos os componentes do sistema.
+
+Para as maiores implantações, os sistemas AFF A1K oferecem as mais altas opções de performance e capacidade, enquanto outros sistemas de storage da NetApp, como o AFF A70, e o AFF C800, oferecem opções para implantações menores a um custo mais baixo.
+
+
+
+== NVIDIA DGX BasePOD
+
+O NVIDIA DGX BasePOD é uma solução integrada que consiste em componentes de hardware e software da NVIDIA, soluções de MLOPS e storage de terceiros. Aproveitando as práticas recomendadas de design de sistema com escalabilidade horizontal com os produtos da NVIDIA e soluções de parceiros validadas, os clientes podem implementar uma plataforma eficiente e gerenciável para desenvolvimento de AI. A Figura 1 destaca os vários componentes do NVIDIA DGX BasePOD.
+
+_NVIDIA DGX BasePOD solution_
+
+image:aipod_nv_basepod_layers.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== Sistemas NVIDIA DGX H100
+
+O sistema NVIDIA DGX H100& nº 8482 é o motor da AI que é acelerado pela performance inovadora da GPU NVIDIA H100 Tensor Core.
+
+_Sistema DGX H100 da NVIDIA_
+
+image:aipod_nv_H100_3D.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+As principais especificações do sistema DGX H100 são: • Oito GPUs NVIDIA H100. • 80 GB de memória GPU por GPU, para um total de 640GB GB. • Quatro chips NVIDIA NVSwitch. • Processadores Intel Xeon Platinum 8480 de 56 núcleos com suporte PCIe 5,0. 2 DDR5 TB de memória do sistema •. • Quatro portas OSFP que servem oito adaptadores NVIDIA ConnectX e 174.-7 (InfiniBand/Ethernet) de porta única e dois adaptadores NVIDIA ConnectX-7 (InfiniBand/Ethernet) de porta dupla. • Duas unidades de NVMe de 1,92 TB e M,2 TB para DGX os, oito unidades de NVMe de 3,84 TB e U,2 TB para storage/cache. • 10,2 kW de potência máxima. As portas traseiras da bandeja da CPU DGX H100 são mostradas abaixo. Quatro portas OSFP atendem a oito adaptadores ConnectX-7 para a malha de computação InfiniBand. Cada par de adaptadores ConnectX-7 de porta dupla fornece caminhos paralelos para as estruturas de armazenamento e gerenciamento. A porta fora da banda é usada para acesso à BMC.
+
+_Painel traseiro do NVIDIA DGX H100_
+
+image:aipod_nv_H100_rear.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== Rede NVIDIA
+
+
+
+==== Switch NVIDIA Quantum-2 QM9700
+
+_Switch InfiniBand NVIDIA Quantum-2 QM9700_
+
+image:aipod_nv_QM9700.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os switches NVIDIA Quantum-2 QM9700 com conetividade InfiniBand de 400GB GB/s alimentam a malha de computação nas configurações de BasePOD InfiniBand do NVIDIA Quantum-2. Os adaptadores de porta única ConnectX-7 são usados para a malha de computação InfiniBand. Cada sistema DGX da NVIDIA tem conexões duplas a cada switch de QM9700 GbE, fornecendo vários caminhos de baixa latência e alta largura de banda entre os sistemas.
+
+
+
+==== Switch NVIDIA Spectrum-3 SN4600
+
+_NVIDIA Spectrum-3 SN4600 switch_
+
+image:aipod_nv_SN4600_hires_smallest.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os switches NVIDIA Spectrum& n.o 8482;-3 SN4600 oferecem 128 portas totais (64 por switch) para fornecer conectividade redundante para o gerenciamento na banda do DGX BasePOD. O switch NVIDIA SN4600 pode fornecer velocidades entre 1 GbE e 200 GbE. Para dispositivos de armazenamento conetados via Ethernet, os switches NVIDIA SN4600 também são usados. As portas dos adaptadores ConnectX-7 de porta dupla do NVIDIA DGX são usadas para gerenciamento na banda e conectividade de storage.
+
+
+
+==== Switch NVIDIA Spectrum SN2201
+
+_NVIDIA Spectrum SN2201 switch_
+
+image:aipod_nv_SN2201.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os switches NVIDIA Spectrum SN2201 oferecem 48 portas para fornecer conetividade para gerenciamento fora da banda. O gerenciamento fora da banda fornece conectividade de gerenciamento consolidada para todos os componentes do DGX BasePOD.
+
+
+
+==== Adaptador NVIDIA ConnectX-7
+
+_Adaptador NVIDIA ConnectX-7_
+
+image:aipod_nv_CX7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O adaptador NVIDIA ConnectX-7 pode fornecer 25 GB/50 GB/100 GB/200 GB/400G GB de taxa de transferência. Os sistemas DGX da NVIDIA usam adaptadores ConnectX-7 de porta única e dupla para fornecer flexibilidade nas implantações DGX BasePOD com InfiniBand de 400GB GB/s e Ethernet.

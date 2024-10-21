@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: ai/tr-4851.html 
+keywords:  
+summary:  
+---
+= TR-4851: Data Lake NetApp StorageGRID para workloads com direção autônoma - Design de soluções
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+David Arnette, NetApp
+
+[role="lead"]
+O TR-4851 demonstra o uso do storage de objetos NetApp StorageGRID como repositório de dados e sistema de gerenciamento para desenvolvimento de software de aprendizado de máquina (ML) e deep learning (DL). Este documento descreve o fluxo de dados e os requisitos no desenvolvimento de software de veículos autônomos e os recursos do StorageGRID que simplificam o ciclo de vida dos dados. Essa solução se aplica a qualquer fluxo de trabalho de pipeline de dados em vários estágios que seja típico dos processos de desenvolvimento DE ML e DL.
+
+link:https://www.netapp.com/pdf.html?item=/media/19399-tr-4851.pdf["TR-4851: Data Lake NetApp StorageGRID para workloads com direção autônoma - Design de soluções"^]

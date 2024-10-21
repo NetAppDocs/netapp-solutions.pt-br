@@ -1,0 +1,95 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-confluent-kafka-certification.html 
+keywords: certification, setup, configuration, benchmark 
+summary: Realizamos a certificação com a Plataforma Confluent com Kafka para armazenamento em camadas em NetApp StorageGRID. 
+---
+= Verificação confluente
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Foi realizada verificação com a Plataforma Confluent 6,2 Tiered Storage no NetApp StorageGRID. As equipes NetApp e confluentes trabalharam nessa verificação juntos e executaram os casos de teste necessários para verificação.
+
+
+
+== Configuração da Plataforma Confluent
+
+Usamos a seguinte configuração para verificação.
+
+Para verificação, foram utilizados três zookeepers, cinco corretores, cinco servidores de execução de script de teste, servidores de ferramentas nomeadas com 256GB GB de RAM e 16 CPUs. Para storage NetApp, usamos o StorageGRID com um balanceador de carga de SG1000 TB com quatro SGF6024s. O armazenamento e os corretores foram conetados através de 100GbE conexões.
+
+A figura a seguir mostra a topologia de rede da configuração usada para verificação confluente.
+
+image:confluent-kafka-image7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os servidores de ferramentas atuam como clientes de aplicativos que enviam solicitações para nós confluentes.
+
+
+
+== Configuração de armazenamento em camadas confluente
+
+A configuração de armazenamento em camadas requer os seguintes parâmetros no Kafka:
+
+....
+Confluent.tier.archiver.num.threads=16
+confluent.tier.fetcher.num.threads=32
+confluent.tier.enable=true
+confluent.tier.feature=true
+confluent.tier.backend=S3
+confluent.tier.s3.bucket=kafkasgdbucket1-2
+confluent.tier.s3.region=us-west-2
+confluent.tier.s3.cred.file.path=/data/kafka/.ssh/credentials
+confluent.tier.s3.aws.endpoint.override=http://kafkasgd.rtpppe.netapp.com:10444/
+confluent.tier.s3.force.path.style.access=true
+....
+Para verificação, usamos o StorageGRID com o protocolo HTTP, mas o HTTPS também funciona. A chave de acesso e a chave secreta são armazenadas no nome do arquivo fornecido no `confluent.tier.s3.cred.file.path` parâmetro.
+
+
+
+== Storage de objetos NetApp - StorageGRID
+
+Nós configuramos a configuração de um único site no StorageGRID para verficação.
+
+image:confluent-kafka-image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Testes de verificação
+
+Nós completamos os cinco casos de teste a seguir para a verificação. Esses testes são executados no framework Trogdor. Os dois primeiros foram testes de funcionalidade e os três restantes foram testes de desempenho.
+
+
+
+=== Teste de correção do armazenamento de objetos
+
+Este teste determina se todas as operações básicas (por exemplo, get/put/delete) na API do armazenamento de objetos funcionam bem de acordo com as necessidades de armazenamento em camadas. É um teste básico que cada serviço de armazenamento de objetos deve esperar passar antes dos seguintes testes. É um teste assertivo que passa ou falha.
+
+
+
+=== Disposição em camadas teste correto
+
+Esse teste determina se a funcionalidade de armazenamento em camadas de ponta a ponta funciona bem com um teste assertivo que seja aprovado ou falha. O teste cria um tópico de teste que, por padrão, é configurado com a disposição em camadas habilitada e com um tamanho de hotset altamente reduzido. Ele produz um fluxo de evento para o tópico de teste recém-criado, espera que os corretores arquivem os segmentos para o armazenamento de objetos e, em seguida, consome o fluxo de eventos e valida que o fluxo consumido corresponde ao fluxo produzido. O número de mensagens produzidas para o fluxo de eventos é configurável, o que permite que o usuário gere uma carga de trabalho suficientemente grande de acordo com as necessidades de teste. O tamanho reduzido do hotset garante que o consumidor busca fora do segmento ativo seja atendido somente a partir do armazenamento de objetos; isso ajuda a testar a exatidão do armazenamento de objetos para leituras. Realizamos este teste com e sem uma injeção de falha de armazenamento de objetos. Nós simulamos a falha de nós ao interromper o serviço do gerente de serviço em um dos nós do StorageGRID e validar que a funcionalidade completa funciona com storage de objetos.
+
+
+
+=== Referência de obtenção de nível
+
+Este teste validou o desempenho de leitura do armazenamento de objetos em camadas e verificou o intervalo buscar solicitações de leitura sob carga pesada de segmentos gerados pelo benchmark. Neste benchmark, a confluent desenvolveu clientes personalizados para atender as solicitações de busca de nível.
+
+
+
+=== Benchmark de workload produzir e consumir
+
+Esse teste gerou indiretamente a carga de trabalho de gravação no armazenamento de objetos por meio do arquivamento de segmentos. A carga de trabalho de leitura (segmentos lidos) foi gerada a partir do armazenamento de objetos quando os grupos de consumidores buscaram os segmentos. Essa carga de trabalho foi gerada pelo script de teste. Este teste verificou o desempenho de leitura e gravação no armazenamento de objetos em threads paralelas. Testamos com e sem injeção de falha de armazenamento de objetos, como fizemos no teste de correção da funcionalidade de disposição em camadas.
+
+
+
+=== Benchmark do workload de retenção
+
+Esse teste verificou o desempenho de exclusão de um armazenamento de objetos em uma carga de trabalho pesada de retenção de tópico. A carga de trabalho de retenção foi gerada usando um script de teste que produz muitas mensagens em paralelo a um tópico de teste. O tópico de teste estava configurando com uma configuração agressiva de retenção baseada em tamanho e tempo que fazia com que o fluxo de eventos fosse continuamente purgado do armazenamento de objetos. Os segmentos foram então arquivados. Isso levou a um grande número de exclusões no armazenamento de objetos pelo corretor e coleta do desempenho das operações de exclusão de armazenamento de objetos.

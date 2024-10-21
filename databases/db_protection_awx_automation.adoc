@@ -1,0 +1,706 @@
+---
+sidebar: sidebar 
+permalink: databases/db_protection_awx_automation.html 
+keywords: Linux, RHEL Oracle19c, NFS, ONTAP 
+summary: Esta página descreve a proteção de dados automatizada do Oracle19c no storage NetApp ONTAP. 
+---
+= Procedimento de implantação passo a passo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta página descreve a proteção de dados automatizada do Oracle19c no storage NetApp ONTAP.
+
+
+
+== AWX/Tower proteção de dados Oracle
+
+
+
+=== Crie o inventário, o grupo, os hosts e as credenciais do seu ambiente
+
+Esta seção descreve a configuração de inventário, grupos, hosts e credenciais de acesso no AWX/Ansible Tower que preparam o ambiente para o consumo de soluções automatizadas da NetApp.
+
+. Configure o inventário.
++
+.. Navegue até recursos → inventários → Adicionar e clique em Adicionar inventário.
+.. Forneça o nome e os detalhes da organização e clique em Salvar.
+.. Na página inventários, clique no inventário criado.
+.. Navegue até o submenu grupos e clique em Adicionar.
+.. Forneça o nome oracle para seu primeiro grupo e clique em Salvar.
+.. Repita o processo para um segundo grupo chamado DR_oracle.
+.. Selecione o grupo oracle criado, vá para o submenu hosts e clique em Adicionar novo host.
+.. Forneça o endereço IP do IP de gerenciamento do host Oracle de origem e clique em Salvar.
+.. Esse processo deve ser repetido para o grupo DR_oracle e adicionar o IP/nome de host de gerenciamento do host DR/Destination Oracle.
+
+
+
+
+
+NOTE: Abaixo estão as instruções para criar os tipos e credenciais de credenciais para o ONTAP no local ou para o CVO na AWS.
+
+[role="tabbed-block"]
+====
+.No local
+--
+. Configure as credenciais.
+. Criar tipos de credenciais. Para soluções que envolvam o ONTAP, você deve configurar o tipo de credencial para corresponder às entradas de nome de usuário e senha.
++
+.. Navegue até Administration → Credential Types e clique em Add (Adicionar).
+.. Forneça o nome e a descrição.
+.. Cole o seguinte conteúdo na Configuração de Entrada:
++
+[source, cli]
+----
+fields:
+  - id: dst_cluster_username
+    type: string
+    label: Destination Cluster Username
+  - id: dst_cluster_password
+    type: string
+    label: Destination Cluster Password
+    secret: true
+  - id: src_cluster_username
+    type: string
+    label: Source Cluster Username
+  - id: src_cluster_password
+    type: string
+    label: Source Cluster Password
+    secret: true
+----
+.. Cole o conteúdo a seguir na Configuração do Injetor e clique em Salvar:
++
+[source, cli]
+----
+extra_vars:
+  dst_cluster_username: '{{ dst_cluster_username }}'
+  dst_cluster_password: '{{ dst_cluster_password }}'
+  src_cluster_username: '{{ src_cluster_username }}'
+  src_cluster_password: '{{ src_cluster_password }}'
+----
+
+
+. Criar credencial para ONTAP
++
+.. Navegue até Resources → Credentials e clique em Add (Adicionar).
+.. Introduza o nome e os detalhes da organização para as credenciais do ONTAP
+.. Selecione o tipo de credencial que foi criado na etapa anterior.
+.. Em Detalhes do tipo, insira o Nome de usuário e a Senha dos clusters de origem e destino.
+.. Clique em Guardar
+
+
+. Criar credencial para Oracle
++
+.. Navegue até Resources → Credentials e clique em Add (Adicionar).
+.. Insira o nome e os detalhes da organização para o Oracle
+.. Selecione o tipo de credencial da máquina.
+.. Em Detalhes do tipo, insira o Nome de usuário e a Senha dos hosts Oracle.
+.. Selecione o método de escalonamento de privilégios correto e introduza o nome de utilizador e a palavra-passe.
+.. Clique em Guardar
+.. Repita o processo se necessário para uma credencial diferente para o host DR_oracle.
+
+
+
+
+--
+.CVO
+--
+. Configure as credenciais.
+. Criar tipos de credenciais. Para soluções que envolvam o ONTAP, você deve configurar o tipo de credencial para corresponder às entradas de nome de usuário e senha, também adicionaremos entradas para o Cloud Central e AWS.
++
+.. Navegue até Administration → Credential Types e clique em Add (Adicionar).
+.. Forneça o nome e a descrição.
+.. Cole o seguinte conteúdo na Configuração de Entrada:
++
+[source, cli]
+----
+fields:
+  - id: dst_cluster_username
+    type: string
+    label: CVO Username
+  - id: dst_cluster_password
+    type: string
+    label: CVO Password
+    secret: true
+  - id: cvo_svm_password
+    type: string
+    label: CVO SVM Password
+    secret: true
+  - id: src_cluster_username
+    type: string
+    label: Source Cluster Username
+  - id: src_cluster_password
+    type: string
+    label: Source Cluster Password
+    secret: true
+  - id: regular_id
+    type: string
+    label: Cloud Central ID
+    secret: true
+  - id: email_id
+    type: string
+    label: Cloud Manager Email
+    secret: true
+  - id: cm_password
+    type: string
+    label: Cloud Manager Password
+    secret: true
+  - id: access_key
+    type: string
+    label: AWS Access Key
+    secret: true
+  - id: secret_key
+    type: string
+    label: AWS Secret Key
+    secret: true
+  - id: token
+    type: string
+    label: Cloud Central Refresh Token
+    secret: true
+----
+.. Cole o seguinte conteúdo na Configuração do Injetor e clique em Salvar:
++
+[source, cli]
+----
+extra_vars:
+  dst_cluster_username: '{{ dst_cluster_username }}'
+  dst_cluster_password: '{{ dst_cluster_password }}'
+  cvo_svm_password: '{{ cvo_svm_password }}'
+  src_cluster_username: '{{ src_cluster_username }}'
+  src_cluster_password: '{{ src_cluster_password }}'
+  regular_id: '{{ regular_id }}'
+  email_id: '{{ email_id }}'
+  cm_password: '{{ cm_password }}'
+  access_key: '{{ access_key }}'
+  secret_key: '{{ secret_key }}'
+  token: '{{ token }}'
+----
+
+
+. Criar credencial para ONTAP/CVO/AWS
++
+.. Navegue até Resources → Credentials e clique em Add (Adicionar).
+.. Introduza o nome e os detalhes da organização para as credenciais do ONTAP
+.. Selecione o tipo de credencial que foi criado na etapa anterior.
+.. Em Detalhes do tipo, insira o nome de usuário e a senha dos clusters de origem e CVO, Cloud Central/Manager, AWS Access/Secret Key e Cloud Central Refresh Token.
+.. Clique em Guardar
+
+
+. Criar credencial para Oracle (Source)
++
+.. Navegue até Resources → Credentials e clique em Add (Adicionar).
+.. Insira o nome e os detalhes da organização do host Oracle
+.. Selecione o tipo de credencial da máquina.
+.. Em Detalhes do tipo, insira o Nome de usuário e a Senha dos hosts Oracle.
+.. Selecione o método de escalonamento de privilégios correto e introduza o nome de utilizador e a palavra-passe.
+.. Clique em Guardar
+
+
+. Criar credencial para destino Oracle
++
+.. Navegue até Resources → Credentials e clique em Add (Adicionar).
+.. Insira o nome e os detalhes da organização do host Oracle DR
+.. Selecione o tipo de credencial da máquina.
+.. Em Detalhes do tipo, digite o Nome de usuário (EC2-user ou se você tiver alterado o nome de usuário padrão digite-o) e a chave privada SSH
+.. Selecione o método correto de escalonamento de privilégios (sudo) e insira o nome de usuário e a senha, se necessário.
+.. Clique em Guardar
+
+
+
+
+--
+====
+
+
+=== Crie um projeto
+
+. Vá para recursos → Projetos e clique em Adicionar.
++
+.. Introduza o nome e os detalhes da organização.
+.. Selecione Git no campo Source Control Credential Type (tipo de credencial de controle de origem).
+.. <https://github.com/NetApp-Automation/na_oracle19c_data_protection.git>[]Insira como a URL de controle de origem.
+.. Clique em Guardar.
+.. O projeto pode precisar sincronizar ocasionalmente quando o código-fonte muda.
+
+
+
+
+
+
+=== Configurar variáveis globais
+
+As variáveis definidas nesta seção se aplicam a todos os hosts Oracle, bancos de dados e ao cluster ONTAP.
+
+. Insira seus parâmetros específicos do ambiente na seguinte forma de variáveis globais incorporadas ou vars.
+
+
+
+NOTE: Os itens em azul devem ser alterados para corresponder ao seu ambiente.
+
+[role="tabbed-block"]
+====
+.No local
+--
+[source, shell]
+----
+# Oracle Data Protection global user configuration variables
+# Ontap env specific config variables
+hosts_group: "ontap"
+ca_signed_certs: "false"
+
+# Inter-cluster LIF details
+src_nodes:
+  - "AFF-01"
+  - "AFF-02"
+
+dst_nodes:
+  - "DR-AFF-01"
+  - "DR-AFF-02"
+
+create_source_intercluster_lifs: "yes"
+
+source_intercluster_network_port_details:
+  using_dedicated_ports: "yes"
+  using_ifgrp: "yes"
+  using_vlans: "yes"
+  failover_for_shared_individual_ports: "yes"
+  ifgrp_name: "a0a"
+  vlan_id: "10"
+  ports:
+    - "e0b"
+    - "e0g"
+  broadcast_domain: "NFS"
+  ipspace: "Default"
+  failover_group_name: "iclifs"
+
+source_intercluster_lif_details:
+  - name: "icl_1"
+    address: "10.0.0.1"
+    netmask: "255.255.255.0"
+    home_port: "a0a-10"
+    node: "AFF-01"
+  - name: "icl_2"
+    address: "10.0.0.2"
+    netmask: "255.255.255.0"
+    home_port: "a0a-10"
+    node: "AFF-02"
+
+create_destination_intercluster_lifs: "yes"
+
+destination_intercluster_network_port_details:
+  using_dedicated_ports: "yes"
+  using_ifgrp: "yes"
+  using_vlans: "yes"
+  failover_for_shared_individual_ports: "yes"
+  ifgrp_name: "a0a"
+  vlan_id: "10"
+  ports:
+    - "e0b"
+    - "e0g"
+  broadcast_domain: "NFS"
+  ipspace: "Default"
+  failover_group_name: "iclifs"
+
+destination_intercluster_lif_details:
+  - name: "icl_1"
+    address: "10.0.0.3"
+    netmask: "255.255.255.0"
+    home_port: "a0a-10"
+    node: "DR-AFF-01"
+  - name: "icl_2"
+    address: "10.0.0.4"
+    netmask: "255.255.255.0"
+    home_port: "a0a-10"
+    node: "DR-AFF-02"
+
+# Variables for SnapMirror Peering
+passphrase: "your-passphrase"
+
+# Source & Destination List
+dst_cluster_name: "dst-cluster-name"
+dst_cluster_ip: "dst-cluster-ip"
+dst_vserver: "dst-vserver"
+dst_nfs_lif: "dst-nfs-lif"
+src_cluster_name: "src-cluster-name"
+src_cluster_ip: "src-cluster-ip"
+src_vserver: "src-vserver"
+
+# Variable for Oracle Volumes and SnapMirror Details
+cg_snapshot_name_prefix: "oracle"
+src_orabinary_vols:
+  - "binary_vol"
+src_db_vols:
+  - "db_vol"
+src_archivelog_vols:
+  - "log_vol"
+snapmirror_policy: "async_policy_oracle"
+
+# Export Policy Details
+export_policy_details:
+  name: "nfs_export_policy"
+  client_match: "0.0.0.0/0"
+  ro_rule: "sys"
+  rw_rule: "sys"
+
+# Linux env specific config variables
+mount_points:
+  - "/u01"
+  - "/u02"
+  - "/u03"
+hugepages_nr: "1234"
+redhat_sub_username: "xxx"
+redhat_sub_password: "xxx"
+
+# DB env specific install and config variables
+recovery_type: "scn"
+control_files:
+  - "/u02/oradata/CDB2/control01.ctl"
+  - "/u03/orareco/CDB2/control02.ctl"
+----
+--
+.CVO
+--
+[source, shell]
+----
+###########################################
+### Ontap env specific config variables ###
+###########################################
+
+#Inventory group name
+#Default inventory group name - "ontap"
+#Change only if you are changing the group name either in inventory/hosts file or in inventory groups in case of AWX/Tower
+hosts_group: "ontap"
+
+#CA_signed_certificates (ONLY CHANGE to "true" IF YOU ARE USING CA SIGNED CERTIFICATES)
+ca_signed_certs: "false"
+
+#Names of the Nodes in the Source ONTAP Cluster
+src_nodes:
+  - "AFF-01"
+  - "AFF-02"
+
+#Names of the Nodes in the Destination CVO Cluster
+dst_nodes:
+  - "DR-AFF-01"
+  - "DR-AFF-02"
+
+#Define whether or not to create intercluster lifs on source cluster (ONLY CHANGE to "No" IF YOU HAVE ALREADY CREATED THE INTERCLUSTER LIFS)
+create_source_intercluster_lifs: "yes"
+
+source_intercluster_network_port_details:
+  using_dedicated_ports: "yes"
+  using_ifgrp: "yes"
+  using_vlans: "yes"
+  failover_for_shared_individual_ports: "yes"
+  ifgrp_name: "a0a"
+  vlan_id: "10"
+  ports:
+    - "e0b"
+    - "e0g"
+  broadcast_domain: "NFS"
+  ipspace: "Default"
+  failover_group_name: "iclifs"
+
+source_intercluster_lif_details:
+  - name: "icl_1"
+    address: "10.0.0.1"
+    netmask: "255.255.255.0"
+    home_port: "a0a-10"
+    node: "AFF-01"
+  - name: "icl_2"
+    address: "10.0.0.2"
+    netmask: "255.255.255.0"
+    home_port: "a0a-10"
+    node: "AFF-02"
+
+###########################################
+### CVO Deployment Variables ###
+###########################################
+
+####### Access Keys Variables ######
+
+# Region where your CVO will be deployed.
+region_deploy: "us-east-1"
+
+########### CVO and Connector Vars ########
+
+# AWS Managed Policy required to give permission for IAM role creation.
+aws_policy: "arn:aws:iam::1234567:policy/OCCM"
+
+# Specify your aws role name, a new role is created if one already does not exist.
+aws_role_name: "arn:aws:iam::1234567:policy/OCCM"
+
+# Name your connector.
+connector_name: "awx_connector"
+
+# Name of the key pair generated in AWS.
+key_pair: "key_pair"
+
+# Name of the Subnet that has the range of IP addresses in your VPC.
+subnet: "subnet-12345"
+
+# ID of your AWS secuirty group that allows access to on-prem resources.
+security_group: "sg-123123123"
+
+# You Cloud Manager Account ID.
+account: "account-A23123A"
+
+# Name of the your CVO instance
+cvo_name: "test_cvo"
+
+# ID of the VPC in AWS.
+vpc: "vpc-123123123"
+
+###################################################################################################
+# Variables for - Add on-prem ONTAP to Connector in Cloud Manager
+###################################################################################################
+
+# For Federated users, Client ID from API Authentication Section of Cloud Central to generate access token.
+sso_id: "123123123123123123123"
+
+# For regular access with username and password, please specify "pass" as the connector_access. For SSO users, use "refresh_token" as the variable.
+connector_access: "pass"
+
+####################################################################################################
+# Variables for SnapMirror Peering
+####################################################################################################
+passphrase: "your-passphrase"
+
+#####################################################################################################
+# Source & Destination List
+#####################################################################################################
+#Please Enter Destination Cluster Name
+dst_cluster_name: "dst-cluster-name"
+
+#Please Enter Destination Cluster (Once CVO is Created Add this Variable to all templates)
+dst_cluster_ip: "dst-cluster-ip"
+
+#Please Enter Destination SVM to create mirror relationship
+dst_vserver: "dst-vserver"
+
+#Please Enter NFS Lif for dst vserver (Once CVO is Created Add this Variable to all templates)
+dst_nfs_lif: "dst-nfs-lif"
+
+#Please Enter Source Cluster Name
+src_cluster_name: "src-cluster-name"
+
+#Please Enter Source Cluster
+src_cluster_ip: "src-cluster-ip"
+
+#Please Enter Source SVM
+src_vserver: "src-vserver"
+
+#####################################################################################################
+# Variable for Oracle Volumes and SnapMirror Details
+#####################################################################################################
+#Please Enter Source Snapshot Prefix Name
+cg_snapshot_name_prefix: "oracle"
+
+#Please Enter Source Oracle Binary Volume(s)
+src_orabinary_vols:
+  - "binary_vol"
+#Please Enter Source Database Volume(s)
+src_db_vols:
+  - "db_vol"
+#Please Enter Source Archive Volume(s)
+src_archivelog_vols:
+  - "log_vol"
+#Please Enter Destination Snapmirror Policy
+snapmirror_policy: "async_policy_oracle"
+
+#####################################################################################################
+# Export Policy Details
+#####################################################################################################
+#Enter the destination export policy details (Once CVO is Created Add this Variable to all templates)
+export_policy_details:
+  name: "nfs_export_policy"
+  client_match: "0.0.0.0/0"
+  ro_rule: "sys"
+  rw_rule: "sys"
+
+#####################################################################################################
+### Linux env specific config variables ###
+#####################################################################################################
+
+#NFS Mount points for Oracle DB volumes
+mount_points:
+  - "/u01"
+  - "/u02"
+  - "/u03"
+
+# Up to 75% of node memory size divided by 2mb. Consider how many databases to be hosted on the node and how much ram to be allocated to each DB.
+# Leave it blank if hugepage is not configured on the host.
+hugepages_nr: "1234"
+
+# RedHat subscription username and password
+redhat_sub_username: "xxx"
+redhat_sub_password: "xxx"
+
+####################################################
+### DB env specific install and config variables ###
+####################################################
+#Recovery Type (leave as scn)
+recovery_type: "scn"
+
+#Oracle Control Files
+control_files:
+  - "/u02/oradata/CDB2/control01.ctl"
+  - "/u03/orareco/CDB2/control02.ctl"
+----
+--
+====
+
+
+=== Playbooks de automação
+
+Há quatro playbooks separados que precisam ser executados.
+
+. Playbook para configurar seu ambiente, no local ou CVO.
+. Playbook para replicação de binários e bancos de dados Oracle em um cronograma
+. Playbook para replicação do Oracle Logs em uma programação
+. Playbook para recuperar seu banco de dados em um host de destino
+
+
+[role="tabbed-block"]
+====
+.Configuração do ONTAP/CVO
+--
+[.Underline]*Configuração do ONTAP e do CVO*
+
+*Configure e inicie o modelo de tarefa.*
+
+. Crie o modelo de trabalho.
++
+.. Navegue até recursos → modelos → Adicionar e clique em Adicionar modelo de tarefa.
+.. Introduza o nome ONTAP/CVO Setup (Configuração do CVO/CVO)
+.. Selecione o tipo de tarefa; Executar configura o sistema com base em um manual de estratégia.
+.. Selecione o inventário, projeto, manual de estratégia e credenciais correspondentes para o manual de estratégia.
+.. Selecione o manual de estratégia ONTAP_setup.yml para um ambiente local ou selecione cvo_setup.yml para replicação em uma instância do cvo.
+.. Cole variáveis globais copiadas da etapa 4 no campo variáveis do modelo na guia YAML.
+.. Clique em Guardar.
+
+
+. Inicie o modelo de trabalho.
++
+.. Navegue até recursos → modelos.
+.. Clique no modelo desejado e, em seguida, clique em Iniciar.
++
+
+NOTE: Vamos usar este modelo e copiá-lo para os outros playbooks.
+
+
+
+
+
+--
+.Replicação para volumes binários e bancos de dados
+--
+[.Underline]*Agendamento do Livro de reprodução de replicação binário e base de dados*
+
+*Configure e inicie o modelo de tarefa.*
+
+. Copie o modelo de trabalho criado anteriormente.
++
+.. Navegue até recursos → modelos.
+.. Encontre o modelo de configuração do ONTAP/CVO e, no lado direito, clique em Copiar modelo
+.. Clique em Editar modelo no modelo copiado e altere o nome para Binary e Database Replication Playbook.
+.. Mantenha o mesmo inventário, projeto, credenciais para o modelo.
+.. Selecione o ora_replication_CG.yml como o manual a ser executado.
+.. As variáveis permanecerão as mesmas, mas o IP do cluster do CVO precisará ser definido na variável dst_cluster_ip.
+.. Clique em Guardar.
+
+
+. Programe o modelo de trabalho.
++
+.. Navegue até recursos → modelos.
+.. Clique no modelo de livro de reprodução de replicação de binário e base de dados e, em seguida, clique em agendas no conjunto superior de opções.
+.. Clique em Adicionar, adicionar Calendário de nomes para replicação binária e de banco de dados, escolha a data/hora de início no início da hora, escolha o fuso horário local e frequência de execução. A frequência de execução será muitas vezes a replicação do SnapMirror será atualizada.
++
+
+NOTE: Será criado um agendamento separado para a replicação do volume de registo, para que possa ser replicado numa cadência mais frequente.
+
+
+
+
+
+--
+.Replicação para volumes de log
+--
+[.Underline]*Agendamento do Diário de replicação*
+
+*Configure e inicie o modelo de tarefa*
+
+. Copie o modelo de trabalho criado anteriormente.
++
+.. Navegue até recursos → modelos.
+.. Encontre o modelo de configuração do ONTAP/CVO e, no lado direito, clique em Copiar modelo
+.. Clique em Editar modelo no modelo copiado e altere o nome para Log Replication Playbook.
+.. Mantenha o mesmo inventário, projeto, credenciais para o modelo.
+.. Selecione o ora_replication_logs.yml como o manual a ser executado.
+.. As variáveis permanecerão as mesmas, mas o IP do cluster do CVO precisará ser definido na variável dst_cluster_ip.
+.. Clique em Guardar.
+
+
+. Programe o modelo de trabalho.
++
+.. Navegue até recursos → modelos.
+.. Clique no modelo do livro de reprodução de replicação de log e, em seguida, clique em agendas no conjunto superior de opções.
+.. Clique em Adicionar, adicionar Agenda de nomes para replicação de log, escolha a data/hora de início no início da hora, escolha o fuso horário local e frequência de execução. A frequência de execução será muitas vezes a replicação do SnapMirror será atualizada.
+
+
++
+
+NOTE: Recomenda-se definir o agendamento de log para atualizar a cada hora para garantir a recuperação para a última atualização por hora.
+
+
+
+--
+.Restaurar e recuperar banco de dados
+--
+[.Underline]*Agendamento do Diário de replicação*
+
+*Configure e inicie o modelo de tarefa.*
+
+. Copie o modelo de trabalho criado anteriormente.
++
+.. Navegue até recursos → modelos.
+.. Encontre o modelo de configuração do ONTAP/CVO e, no lado direito, clique em Copiar modelo
+.. Clique em Editar modelo no modelo copiado e altere o nome para Restaurar e recuperar Playbook.
+.. Mantenha o mesmo inventário, projeto, credenciais para o modelo.
+.. Selecione o ora_recovery.yml como o manual de estratégia a ser executado.
+.. As variáveis permanecerão as mesmas, mas o IP do cluster do CVO precisará ser definido na variável dst_cluster_ip.
+.. Clique em Guardar.
+
+
++
+
+NOTE: Este manual de estratégia não será executado até que você esteja pronto para restaurar seu banco de dados no local remoto.
+
+
+
+--
+====
+
+
+=== Recuperando o banco de dados Oracle
+
+. Os volumes de dados dos bancos de dados Oracle são protegidos por meio da replicação do NetApp SnapMirror para um cluster ONTAP redundante em data center secundário ou Cloud volume ONTAP em nuvem pública. Em um ambiente de recuperação de desastres totalmente configurado, as instâncias de computação de recuperação no data center secundário ou na nuvem pública estão em espera e prontas para recuperar o banco de dados de produção em caso de desastre. As instâncias de computação de reserva são mantidas em sincronia com instâncias on-premise executando atualizações para o paraellel no patch do kernel do os ou atualizando em um lockstep.
+. Nesta solução demonstrada, o volume binário Oracle é replicado para o destino e montado na instância de destino para criar a pilha de software Oracle. Essa abordagem para recuperar Oracle tem vantagem sobre uma nova instalação do Oracle no último minuto quando ocorreu um desastre. Ele garante que a instalação da Oracle esteja totalmente sincronizada com a instalação atual do software de produção local e níveis de patch, etc. no entanto, isso pode ou não ter implicações adicionais de licenciamento de software para o volume binário da Oracle replicado no site de recuperação, dependendo de como o licenciamento de software é estruturado com a Oracle. Recomenda-se que o usuário verifique com sua equipe de licenciamento de software para avaliar o potencial requisito de licenciamento Oracle antes de decidir usar a mesma abordagem.
+. O host Oracle de reserva no destino é configurado com as configurações de pré-requisitos Oracle.
+. Os SnapMirrors são quebrados e os volumes são gravados e montados no host Oracle de reserva.
+. O módulo de recuperação Oracle executa as seguintes tarefas para recuperação e inicialização do Oracle no local de recuperação depois que todos os volumes de banco de dados são montados na instância de computação de reserva.
++
+.. Sincronizar o arquivo de controle: Implantamos arquivos de controle Oracle duplicados em diferentes volumes de banco de dados para proteger o arquivo de controle de banco de dados crítico. Um está no volume de dados e outro está no volume de log. Como os volumes de dados e de log são replicados em frequência diferente, eles estarão fora de sincronia no momento da recuperação.
+.. Relink Oracle binary: Como o binário Oracle é transferido para um novo host, ele precisa de um relink.
+.. Recuperar banco de dados Oracle: O mecanismo de recuperação recupera o último número de alteração do sistema no último log arquivado disponível no volume de log Oracle do arquivo de controle e recupera o banco de dados Oracle para recuperar todas as transações comerciais que puderam ser replicadas para o local de DR no momento da falha. O banco de dados é então iniciado em uma nova encarnação para continuar conexões de usuário e transação de negócios no local de recuperação.
+
+
+
+
+
+NOTE: Antes de executar o manual de recuperação, certifique-se de ter o seguinte: Certifique-se de que ele copie o arquivo /etc/oratab e /etc/oraInst.loc do host Oracle de origem para o host de destino

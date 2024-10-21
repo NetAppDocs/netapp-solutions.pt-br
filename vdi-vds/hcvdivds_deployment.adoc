@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_deployment.html 
+keywords: Azure, VDS, release 
+summary: O NetApp VDS pode ser implantado no Microsoft Azure usando um aplicativo de configuração disponível com base na base de código necessária. 
+---
+= Implantação
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NetApp VDS pode ser implantado no Microsoft Azure usando um aplicativo de configuração disponível com base na base de código necessária. A versão atual está disponível https://cwasetup.cloudworkspace.com["aqui"^] e a versão de pré-visualização do próximo produto está disponível https://preview.cwasetup.cloudworkspace.com["aqui"].
+
+ https://www.youtube.com/watch?v=Gp2DzWBc0Go&["este vídeo"^]Consulte para obter instruções de implantação.
+
+video::Gp2DzWBc0Go[youtube]

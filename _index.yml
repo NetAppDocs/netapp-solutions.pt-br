@@ -1,0 +1,74 @@
+---
+indexpage:
+  title: Soluções da NetApp
+  summary: As soluções da NetApp são um conjunto de recursos estratégicos e tecnológicos
+    que enfatizam o portfólio de produtos e serviços da NetApp para atender às necessidades
+    de negócios mais críticas de nossos clientes.
+  lead: As soluções da NetApp são um conjunto de recursos estratégicos e tecnológicos
+    que enfatizam o portfólio de produtos e serviços da NetApp para atender às necessidades
+    de negócios mais críticas de nossos clientes.
+  tiles:
+  - title: Introdução
+    links:
+    - title: Sobre este Repositório
+      url: about.html
+    - title: Alterar Histórico
+      url: change-log-display.html
+    - title: Blogs
+      url: blogs.html
+    - title: Vídeos e demos
+      url: videos.html
+    - title: Avisos legais
+      url: legal-notices.html
+  - title: Soluções de virtualização
+    links:
+    - title: Virtualização da VMware
+      url: vmware/index.html
+    - title: Virtualização Hyper-V
+      url: hyperv/index.html
+    - title: Virtualização OpenShift
+      url: osv/index.html
+    - title: Virtualização Proxmox
+      url: proxmox/proxmox-overview.html
+  - title: Soluções de nuvem e nuvem híbrida
+    links:
+    - title: Multiclouds híbridas do NetApp com VMware
+      url: ehc/index.html
+    - title: Multiclouds híbridas da NetApp com a Red Hat
+      url: rhhc/index.html
+    - title: VMware Sovereign Cloud
+      url: vmw-sc/index.html
+  - title: Ai e soluções de infraestrutura básica
+    links:
+    - title: Inteligência artificial
+      url: ai/index.html
+    - title: Análises de dados modernas
+      url: data-analytics/index.html
+    - title: Contêineres
+      url: containers/index.html
+    - title: Bancos de dados
+      url: databases/index.html
+    - title: SAP E SAP HANA
+      url: https://docs.netapp.com/us-en/netapp-solutions-sap/index.html
+  - title: Automação de soluções
+    links:
+    - title: Introdução
+      url: automation/automation_introduction.html
+    - title: Como começar
+      url: automation/getting-started.html
+    - title: Automação de solicitações
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20%3Crequest_title%3E
+  - title: FlexPod - Uma solução NetApp & Cisco
+    links:
+    - title: Conteúdo técnico das soluções da FlexPod
+      url: https://docs.netapp.com/us-en/flexpod/
+    - title: Página de vendas da FlexPod
+      url: https://flexpod.com
+    - title: Blogs
+      url: https://blog.netapp.com/tag/FlexPod/
+  - title: Feedback
+    links:
+    - title: Propor uma nova solução
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Solution]%0d%0a%0d%0aSolution%20Use%20Case:%20%0d%0aSolution%20Description:%20%0d%0aAdditional%20Comments:&title=Request%20Solution%20-%20%3Csolution%3E
+    - title: Fornecer feedback da solução
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Solution%20Feedback]%0d%0a%0d%0aSolution%20Name:%20%0d%0aSolution%20Feedback:%20%0d%0aAdditional%20Comments:&title=Solution%20Feedback%20-%20%3Csolution%3E

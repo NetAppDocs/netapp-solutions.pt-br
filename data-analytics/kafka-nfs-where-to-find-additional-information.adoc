@@ -1,0 +1,71 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-where-to-find-additional-information.html 
+keywords:  
+summary:  
+---
+= Onde encontrar informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* O que é o Apache Kafka?
++
+https://www.confluent.io/what-is-apache-kafka/["https://www.confluent.io/what-is-apache-kafka/"^]
+
+* O que é silly Rename?
++
+https://linux-nfs.org/wiki/index.php/Server-side_silly_rename["https://linux-nfs.org/wiki/index.php/Server-side_silly_rename"^]
+
+* O ONATP é lido para aplicações de streaming.
++
+https://www.netapp.com/blog/ontap-ready-for-streaming-applications/["https://www.netapp.com/blog/ontap-ready-for-streaming-applications/"^]
+
+* Silly- renomeie o problema com Kafka.
++
+https://sbg.technology/2018/07/10/kafka-nfs/["https://sbg.technology/2018/07/10/kafka-nfs/"^]
+
+* Documentação do produto NetApp
++
+https://www.netapp.com/support-and-training/documentation/["https://www.netapp.com/support-and-training/documentation/"^]
+
+* O que é NFS?
++
+https://en.wikipedia.org/wiki/Network_File_System["https://en.wikipedia.org/wiki/Network_File_System"^]
+
+* O que é a reatribuição de partição Kafka?
++
+https://docs.cloudera.com/runtime/7.2.10/kafka-managing/topics/kafka-manage-cli-reassign-overview.html["https://docs.cloudera.com/runtime/7.2.10/kafka-managing/topics/kafka-manage-cli-reassign-overview.html"^]
+
+* O que é o OpenMessaging Benchmark?
++
+https://openmessaging.cloud/["https://openmessaging.cloud/"^]
+
+* Como você migra um corretor Kafka?
++
+https://medium.com/@sanchitbansal26/how-to-migrate-kafka-cluster-with-no-downtime-58c216129058["https://medium.com/@sanchitbansal26/how-to-migrate-kafka-cluster-with-no-downtime-58c216129058"^]
+
+* Como você monitora o corretor Kafka com Prometheus?
++
+https://www.confluent.io/blog/monitor-kafka-clusters-with-prometheus-grafana-and-confluent/[]
+
+* Plataforma gerenciada para Apache Kafka
++
+https://www.instaclustr.com/platform/managed-apache-kafka/[]
+
+* Suporte para Apache Kafka
++
+https://www.instaclustr.com/support-solutions/kafka-support/[]
+
+* Serviços de consultoria para Apache Kafka
++
+https://www.instaclustr.com/services/consulting/[]
+
+

@@ -1,0 +1,149 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-dgx-superpod.html 
+keywords: netapp, aipod, nvidia, dgx superpod, ai solution, design 
+summary: Essa arquitetura verificada do NetApp descreve o design dos componentes básicos do NVIDIA com os componentes básicos do NetApp. Essa solução é uma plataforma de data center full stack validada em um cluster de aceitação dedicado no NVIDIA. 
+---
+= NVIDIA DGX SuperPOD com NetApp - Guia de Design
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Essa arquitetura verificada do NetApp descreve o design dos componentes básicos do NVIDIA com os componentes básicos do NetApp. Essa solução é uma plataforma de data center full-stack validada em um cluster de aceitação dedicado no NVIDIA.
+
+image:NVIDIAlogo.png["200.200"]
+
+Amine Bennani, Christian Whiteside, David Arnette e Sathish Thyagarajan, NetApp
+
+
+
+== Resumo executivo
+
+No cenário tecnológico de rápida evolução de hoje, a IA está revolucionando as experiências do consumidor e impulsionando a inovação em todos os setores. No entanto, ela também apresenta desafios significativos para os DEPARTAMENTOS DE TI, que estão sob pressão para implantar soluções de computação de alto desempenho (HPC) capazes de lidar com as demandas intensas dos workloads de IA. À medida que as organizações querem aproveitar o poder da AI, cresce a urgência de uma solução fácil de implantar, escalar e gerenciar.
+
+O NVIDIA DGX SuperPOD é uma plataforma de infraestrutura de data center de AI fornecida como uma solução pronta para uso para uso para dar suporte aos workloads de AI mais complexos que as empresas atuais enfrentam. No centro de qualquer modelo de deep learning (DL) preciso, há grandes volumes de dados que exigem uma solução de storage de alta taxa de transferência que possa servir e reservir esses dados com eficiência. Com a solução BeeGFS da NetApp, que consiste nos storage arrays NetApp EF600 com o sistema de arquivos paralelo BeeGFS, o NVIDIA DGX SuperPOD aproveita todos os recursos. A solução BeeGFS da NetApp foi validada pela NVIDIA para integrar e escalar à arquitetura do SuperPOD. O resultado é a implantação e o gerenciamento simplificados do data center de IA, ao mesmo tempo em que oferece escalabilidade praticamente ilimitada para desempenho e capacidade.
+
+
+
+== Visão geral da solução
+
+A solução BeeGFS da NetApp, equipada com os sistemas de storage NetApp EF600 NVMe de alta performance e o sistema de arquivos paralelo BeeGFS dimensionável, oferece uma base de storage eficiente e robusta para workloads de AI exigentes. Sua arquitetura de disco compartilhado garante alta disponibilidade, mantendo desempenho e acessibilidade consistentes, mesmo diante dos desafios do sistema. Essa solução oferece uma arquitetura dimensionável e flexível que pode ser personalizada para atender a diversos requisitos de storage. Os clientes podem facilmente expandir seu desempenho e capacidade de storage integrando componentes básicos de storage adicionais para lidar com os workloads mais exigentes.
+
+
+
+=== Tecnologia da solução
+
+* O NVIDIA DGX SuperPOD aproveita os sistemas DGX H100 e H200 com um storage compartilhado validado com conexão externa:
++
+** Cada unidade dimensionável (SU) do DGX SuperPOD consiste em 32 sistemas DGX e é capaz de alcançar 640 petaFLOPS de performance de AI com precisão de FP8:1. A NetApp recomenda o dimensionamento da solução de storage BeeGFS da NetApp com pelo menos 2 componentes básicos para uma única configuração do DGX SuperPOD.
+
+
+
+
+_Uma visão de alto nível da solução_
+
+image:EF_SuperPOD_HighLevel.png["Figura que mostra uma visão geral de alto nível da solução BeeGFS da NetApp com um SuperPOD DGX da NVIDIA."]
+
+* Os componentes básicos do NetApp BeeGFS consistem em dois arrays NetApp EF600 e dois servidores x86:
++
+** Com os all-flash arrays NetApp EF600 na base do SuperPOD DGX da NVIDIA, os clientes recebem uma base de storage confiável com o respaldo de 9s U de tempo de atividade.
+** A camada do sistema de arquivos entre os sistemas NetApp EF600 e NVIDIA DGX é o sistema de arquivos paralelos do BeeGFS. BeeGFS foi criado pelo Fraunhofer Center for High-Performance Computing na Alemanha para resolver os problemas dos sistemas de arquivos paralelos legados. O resultado é um sistema de arquivos com uma arquitetura de espaço de usuário moderna, que agora é desenvolvido e entregue pela ThinkParQ e usado por muitos ambientes de supercomputação.
+** O suporte da NetApp para BeeGFS alinha a excelente organização de suporte da NetApp aos requisitos do cliente de performance e tempo de atividade. Os clientes têm acesso a recursos de suporte superiores, acesso antecipado a lançamentos do BeeGFS e acesso a recursos empresariais do BeeGFS selecionados, como aplicação de cotas e alta disponibilidade (HA).
+
+
+* A combinação dos componentes básicos do NVIDIA SuperPOD SUS e do NetApp BeeGFS fornece uma solução de AI ágil na qual a computação ou o storage são dimensionados de forma fácil e otimizada.
+
+
+_NetApp BeeGFS building block_
+
+image:EF_SuperPOD_buildingblock.png["Figura que mostra um único bloco de construção do NetApp BeeGFS."]
+
+
+
+=== Resumo do caso de uso
+
+Esta solução aplica-se aos seguintes casos de uso:
+
+* Inteligência artificial (IA), incluindo aprendizado de máquina (ML), aprendizado profundo (DL), processamento de linguagem natural (PNL), compreensão de linguagem natural (NLU) e IA generativa (GenAI).
+* Treinamento de IA de médio a grande escala
+* Visão computacional, fala, áudio e modelos de linguagem
+* HPC incluindo aplicações aceleradas por interface de passagem de mensagens (MPI) e outras técnicas de computação distribuída
+* Workloads de aplicação caraterizados por:
++
+** Leitura ou escrita em arquivos maiores que 1GB
+** Leitura ou escrita no mesmo arquivo por vários clientes (10s, 100s e 1000s)
+
+
+* Conjuntos de dados multiterabytes ou multipetabytes
+* Ambientes que precisam de um único namespace de armazenamento otimizado para uma combinação de arquivos grandes e pequenos
+
+
+
+
+== Requisitos de tecnologia
+
+Esta seção aborda os requisitos de tecnologia para o SuperPOD DGX da NVIDIA com a solução NetApp.
+
+
+
+=== Requisitos de hardware
+
+A Tabela 1 abaixo lista os componentes de hardware necessários para implementar a solução para um único SU. O dimensionamento da solução começa com 32 sistemas NVIDIA DGX H100 e dois ou três componentes básicos do NetApp BeeGFS. Um único componente básico do NetApp BeeGFS consiste em dois arrays NetApp EF600 e dois servidores x86. Os clientes podem adicionar componentes básicos adicionais à medida que o tamanho da implantação aumenta. Para obter mais informações, consulte https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-h100/latest/dgx-superpod-components.html["Arquitetura de referência do NVIDIA DGX H100"^] e https://fieldportal.netapp.com/content/1792438["NVA-1164-DESIGN: BeeGFS em NetApp NVA Design"^].
+
+|===
+| Hardware | Quantidade 
+
+
+| NVIDIA DGX H100 ou H200 | 32 
+
+
+| Switches NVIDIA Quantum QM9700 | 8 folha, 4 coluna vertebral 
+
+
+| Blocos de construção do NetApp BeeGFS | 3 
+|===
+
+
+=== Requisitos de software
+
+A Tabela 2 abaixo lista os componentes de software necessários para implementar a solução. Os componentes de software usados em qualquer implementação específica da solução podem variar de acordo com os requisitos do cliente.
+
+|===
+| Software 
+
+
+| Pilha de software do NVIDIA DGX 
+
+
+| Gerenciador de comandos do NVIDIA base 
+
+
+| Sistema de arquivos paralelos BeeGFS da ThinkParQ 
+|===
+
+
+== Verificação da solução
+
+O NVIDIA DGX SuperPOD com NetApp foi validado em um cluster de aceitação dedicado na NVIDIA com o uso de componentes básicos do NetApp BeeGFS. Os critérios de aceitação foram baseados em uma série de testes de aplicação, desempenho e estresse realizados pela NVIDIA. Para obter mais informações, consulte https://nvidia-gpugenius.highspot.com/viewer/62915e2ef093f1a97b2d1fe6?iid=62913b14052a903cff46d054&source=email.62915e2ef093f1a97b2d1fe7.4["NVIDIA DGX SuperPOD: Arquitetura de referência do NetApp EF600 e BeeGFS"^] .
+
+
+
+== Conclusão
+
+A NetApp e a NVIDIA têm um longo histórico de colaboração para oferecer um portfólio de soluções de AI para o mercado. O NVIDIA DGX SuperPOD com o array all-flash NetApp EF600 é uma solução comprovada e validada que os clientes podem implantar com confiança. Essa arquitetura totalmente integrada e pronta para uso elimina o risco da implantação e coloca qualquer pessoa no caminho para vencer a corrida para a liderança em IA.
+
+
+
+== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* link:https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-h100/latest/index.html#["Arquitetura de referência do NVIDIA DGX SuperPOD"]
+* link:https://docs.nvidia.com/nvidia-dgx-superpod-data-center-design-dgx-h100.pdf["Guia de referência do design de data center do NVIDIA DGX SuperPOD"]
+* link:https://nvidiagpugenius.highspot.com/viewer/62915e2ef093f1a97b2d1fe6?iid=62913b14052a903cff46d054&source=email.62915e2ef093f1a97b2d1fe7.4["NVIDIA DGX SuperPOD: NetApp EF600 e BeeGFS"]
+

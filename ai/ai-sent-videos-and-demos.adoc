@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-videos-and-demos.html 
+keywords: video, demo, notebook 
+summary: Esta seção lista os notebooks Jupyter e outros recursos úteis para esta solução. 
+---
+= Vídeos e demonstrações
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Existem dois cadernos que contêm o pipeline de análise de sentimento: https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/Support-Center-Model-Transfer-Learning-and-Fine-Tuning.ipynb[""Support-Center-Model-Transfer-Learning-and-Fine-Tuning.ipynb""] E link:https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/Support-Center-Sentiment-Analysis-Pipeline.ipynb[""Support-Center-sentiment-Analysis-Pipeline.ipynb""]. Juntos, esses notebooks demonstram como desenvolver um pipeline para ingerir dados do centro de suporte e extrair sentimentos de cada frase usando modelos de deep learning de última geração ajustados aos dados do usuário.
+
+
+
+== Centro de suporte - análise de sentimento Pipeline.ipynb
+
+Este caderno contém o pipeline Inference RIVA para ingerindo áudio, convertendo-o em texto e extraindo sentimentos para uso em um painel externo. O conjunto de dados é transferido e processado automaticamente se isso ainda não tiver sido feito. A primeira seção do caderno é o Speech-to-Text que lida com a conversão de arquivos de áudio para texto. Isso é seguido pela seção análise de sentimento, que extrai sentimentos para cada frase de texto e exibe esses resultados em um formato semelhante ao painel proposto.
+
+
+NOTE: Esse bloco de anotações deve ser executado antes do treinamento do modelo e do ajuste preciso, pois o conjunto de dados MP3 deve ser baixado e convertido no formato correto.
+
+image:ai-sent-image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Centro de suporte - Treinamento de modelos e Ajuste fino.ipynb
+
+O ambiente virtual do TAO Toolkit deve ser configurado antes de executar o notebook (consulte a seção TAO Toolkit na visão geral dos comandos para obter instruções de instalação).
+
+Este notebook conta com o Kit de ferramentas TAO para ajustar modelos de deep learning nos dados dos clientes. Tal como acontece com o caderno anterior, este é separado em duas secções para os componentes fala-para-texto e análise de sentimento. Cada seção passa por Data Processing, treinamento e ajuste de modelos, avaliação de resultados e exportação de modelos. Finalmente, há uma seção final para implantar ambos os modelos ajustados para uso no RIVA.
+
+image:ai-sent-image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

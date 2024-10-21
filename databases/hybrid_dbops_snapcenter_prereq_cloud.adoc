@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_prereq_cloud.html 
+summary: Antes de instalarmos o Cloud Manager Connector e o Cloud Volumes ONTAP e configurarmos o SnapMirror, precisamos fazer alguma preparação para o nosso ambiente de nuvem. Esta página descreve o trabalho que precisa ser feito, bem como as considerações ao implantar o Cloud Volumes ONTAP. 
+keywords: prerequisites, aws, azure, gcp, cloud central, cloud volumes ontap 
+---
+= Pré-requisitos para a nuvem pública
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de instalarmos o Cloud Manager Connector e o Cloud Volumes ONTAP e configurarmos o SnapMirror, precisamos fazer alguma preparação para o nosso ambiente de nuvem. Esta página descreve o trabalho que precisa ser feito, bem como as considerações ao implantar o Cloud Volumes ONTAP.
+
+
+
+== Lista de verificação dos pré-requisitos de implantação do Cloud Manager e do Cloud Volumes ONTAP
+
+* Um login no NetApp Cloud Central
+* Acesso à rede a partir de um navegador da Web para vários endpoints
+* Um local de rede para um conetor
+* Permissões do provedor de nuvem
+* Rede para serviços individuais
+
+
+Para obter mais informações sobre o que você precisa para começar, visite nosso https://docs.netapp.com/us-en/occm/reference_checklist_cm.html["documentação da nuvem"^].
+
+
+
+== Considerações
+
+
+
+=== 1. O que é um conetor do Cloud Manager?
+
+Na maioria dos casos, um administrador de conta do Cloud Central deve implantar um conetor na nuvem ou na rede local. O conetor permite que o Cloud Manager gerencie recursos e processos em seu ambiente de nuvem pública.
+
+Para obter mais informações sobre conetores, visite nosso https://docs.netapp.com/us-en/occm/concept_connectors.html["documentação da nuvem"^].
+
+
+
+=== 2. Dimensionamento e arquitetura do Cloud Volumes ONTAP
+
+Ao implantar o Cloud Volumes ONTAP, você terá a opção de um pacote predefinido ou a criação de sua própria configuração. Embora muitos desses valores possam ser alterados posteriormente sem interrupções, há algumas decisões importantes que precisam ser tomadas antes da implantação com base nos workloads a serem implantados na nuvem.
+
+Cada provedor de nuvem tem opções diferentes para implantação e quase todas as cargas de trabalho têm suas próprias propriedades exclusivas. O NetApp tem um https://cloud.netapp.com/cvo-sizer["Ferramenta de dimensionamento CVO"^] que pode ajudar a dimensionar as implantações corretamente com base na capacidade e no desempenho, mas foi construído em torno de alguns conceitos básicos que valem a pena considerar:
+
+* Capacidade necessária
+* Capacidade de rede da máquina virtual em nuvem
+* Características de desempenho do storage de nuvem
+
+
+A chave é Planejar uma configuração que não apenas atenda aos requisitos atuais de capacidade e desempenho, mas também olhe para o crescimento futuro. Isto é geralmente conhecido como headroom da capacidade e headroom do desempenho.
+
+Se pretender obter mais informações, leia a documentação sobre o planeamento corretamente para https://docs.netapp.com/us-en/occm/task_planning_your_config.html["AWS"^], https://docs.netapp.com/us-en/occm/task_planning_your_config_azure.html["Azure"^] e https://docs.netapp.com/us-en/occm/task_planning_your_config_gcp.html["GCP"^].
+
+
+
+=== 3. Nó único ou alta disponibilidade?
+
+Em todas as nuvens, existe a opção de implantar o CVO em um único nó ou em um par de alta disponibilidade em cluster com dois nós. Dependendo do caso de uso, você pode querer implantar um único nó para economizar custos ou um par de HA para fornecer mais disponibilidade e redundância.
+
+Para um caso de uso de recuperação de desastres ou para fiação de storage temporário para desenvolvimento e teste, nós únicos são comuns, uma vez que o impacto de uma interrupção súbita da infraestrutura ou zona é menor. No entanto, para qualquer caso de uso de produção, quando os dados estão em apenas um local ou quando o conjunto de dados precisa ter mais redundância e disponibilidade, recomenda-se alta disponibilidade.
+
+Para obter mais informações sobre a arquitetura da versão de alta disponibilidade de cada nuvem, visite a documentação de https://docs.netapp.com/us-en/occm/concept_ha.html["AWS"^], https://docs.netapp.com/us-en/occm/concept_ha_azure.html["Azure"^] e https://docs.netapp.com/us-en/occm/concept_ha_google_cloud.html["GCP"^].

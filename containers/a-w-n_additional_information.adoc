@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_additional_information.html 
+keywords:  
+summary:  
+---
+= Onde encontrar informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes sites:
+
+* Documentação do NetApp
++
+https://docs.netapp.com/["https://docs.netapp.com/"^]
+
+* Documentação do NetApp Trident
++
+https://docs.netapp.com/us-en/trident/index.html["https://docs.netapp.com/us-en/trident/index.html"]
+
+* Documentação do Centro de Controle NetApp Astra
++
+https://docs.netapp.com/us-en/astra-control-center/["https://docs.netapp.com/us-en/astra-control-center/"^]
+
+* Anthos clusters na documentação do VMware
++
+https://cloud.google.com/anthos/clusters/docs/on-prem/latest/overview["https://cloud.google.com/anthos/clusters/docs/on-prem/latest/overview"^]
+
+* Anthos na documentação de bare metal
++
+https://cloud.google.com/anthos/clusters/docs/bare-metal/latest["https://cloud.google.com/anthos/clusters/docs/bare-metal/latest"]
+
+* Documentação do VMware vSphere
++
+https://docs.vmware.com["https://docs.vmware.com/"^]
+
+

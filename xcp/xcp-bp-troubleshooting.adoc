@@ -1,0 +1,60 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-troubleshooting.html 
+keywords: troubleshooting, problems, error 70, 
+summary: Esta seção fornece orientação para solução de problemas para migração de dados usando o NetApp XCP. 
+---
+= Solução de problemas
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção fornece orientação para solução de problemas para migração de dados usando o NetApp XCP.
+
+
+
+== Erro 1: XCP falhou com nfs3 erro 70: Erro de identificador de arquivo obsoleto no xcp.log
+
+*Razão e orientação.*
+
+Monte a pasta de origem e verifique se a pasta existe. Se não existir ou se tiver sido removido, você receberá um `stale filehandle` erro, nesse caso, você pode ignorar o erro.
+
+
+
+== Erro 2: O volume de destino NFS do NetApp tem espaço, mas o XCP falhou com o erro nfs3 28: nenhum espaço restante no dispositivo
+
+*Razão e orientação.*
+
+. Verifique o espaço do volume de destino NFS executando o `df` comando ou verifique o armazenamento.
++
+....
+root@workr-140: USER3# df -h /xcpdest
+Filesystem                 Size  Used Avail Use% Mounted on
+10.63.150.127:/xcpsrc_vol  4.3T  1.7T  2.6T  40% /xcpsrc_vol
+....
+. Verifique os inodes no controlador de armazenamento.
++
+....
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+vserver        volume  files    files-used
+-------------- ------- -------- ----------
+A800-Node1_vs1 xcpdest 21251126 21251126
+A800-Node1-2::>
+....
+. Se o inode for usado, aumente o número de inodes executando o seguinte comando:
++
+....
+A800-Node1-2::> volume modify -volume xcpdest -vserver A800-Node1_vs1 -files 40000000
+Volume modify successful on volume xcpdest of Vserver A800-Node1_vs1.
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+vserver        volume  files    files-used
+-------------- ------- -------- ----------
+A800-Node1_vs1 xcpdest 39999990 21251126
+A800-Node1-2::>
+....
+

@@ -1,0 +1,292 @@
+---
+sidebar: sidebar 
+permalink: hyperv/hyperv-smas.html 
+keywords: hyperv, hyper-v, snapmirror, active, sync, stretch, cluster, netapp, virtualization 
+summary: Este documento documenta a replicação bidirecional síncrona da tecnologia de sincronização ativa da SnapMirror entre clusters de failover, permitindo que os dados de aplicativos multisite, por exemplo, MSSQL e Oracle, estejam ativamente acessíveis e sincronizados em ambos os sites. 
+---
+= SnapMirror ative Sync com clusters Microsoft Stretch
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este documento documenta a replicação bidirecional síncrona da tecnologia de sincronização ativa da SnapMirror entre clusters de failover, permitindo que os dados de aplicativos multisite, por exemplo, MSSQL e Oracle, estejam ativamente acessíveis e sincronizados em ambos os sites.
+
+
+
+== Introdução
+
+A partir do ONTAP 9.15,1, o SnapMirror active Sync é compatível com implantações ativo-ativo simétricas, permitindo operações de e/S de leitura e gravação de ambas as cópias de um LUN protegido com replicação síncrona bidirecional. Um cluster do Windows Stretch é uma extensão do recurso Cluster de failover do Windows que abrange vários locais geográficos para fornecer alta disponibilidade e recuperação de desastres. Com aplicativos ativos/ativos simétricos de sincronização ativa e em cluster do SnapMirror, como o cluster de failover do Windows, podemos obter disponibilidade contínua para aplicativos essenciais aos negócios do Microsoft Hyper-V para alcançar rto zero e RPO durante incidentes inesperados. Essa solução oferece os seguintes benefícios:
+
+* Perda de dados zero: Garante que os dados sejam replicados de forma síncrona, alcançando zero objetivo do ponto de restauração (RPO).
+* Alta disponibilidade e balanceamento de carga: Ambos os sites podem lidar ativamente com solicitações, fornecendo balanceamento de carga e alta disponibilidade.
+* Continuidade dos negócios: Implemente uma configuração ativo-ativo simétrica para garantir que ambos os data centers estejam atendendo ativamente às aplicações e possam assumir o controle de forma otimizada em caso de falha.
+* Melhorar o desempenho: Use a configuração ativo-ativo simétrica para distribuir a carga entre vários sistemas de storage, melhorando os tempos de resposta e o desempenho geral do sistema.
+
+
+Este documento documenta a replicação bidirecional síncrona da tecnologia de sincronização ativa da SnapMirror entre clusters de failover, permitindo que os dados de aplicativos multisite, por exemplo, MSSQL e Oracle, estejam ativamente acessíveis e sincronizados em ambos os sites. Se ocorrer uma falha, os aplicativos serão imediatamente redirecionados para o local ativo restante, sem perda de dados e sem perda de acesso, fornecendo alta disponibilidade, recuperação de desastres e redundância geográfica.
+
+
+
+== Casos de uso
+
+Em caso de interrupção, como um ataque cibernético, uma interrupção de energia ou um desastre natural, um ambiente de negócios globalmente conectado exige recuperação rápida dos dados das aplicações essenciais aos negócios, sem perda de dados. Essas demandas são intensificadas em áreas como finanças e aquelas que seguem mandatos regulatórios, como o Regulamento Geral de proteção de dados (GDPR). Implantar uma configuração ativa-ativa simétrica para replicar dados entre locais geograficamente dispersos, fornecendo acesso local aos dados e garantindo continuidade em caso de interrupções regionais.
+
+A sincronização ativa do SnapMirror fornece os seguintes casos de uso:
+
+.Implantação de aplicativos para objeto de tempo de recuperação zero (rto)
+Em uma implantação de sincronização ativa do SnapMirror, você tem um cluster primário e espelhado. Um LUN no cluster primário ( L1P) tem um espelho (L1S) no secundário; a leitura e as gravações são servidas pelo local para os hosts com base nas configurações de proximidade direta.
+
+.Implantação de aplicativos para rto zero ou TAF
+O failover de aplicações transparente (TAF) é baseado no failover de caminho baseado em software MPIO de host para obter acesso sem interrupções ao storage. Ambas as cópias LUN, por exemplo, primária (L1P) e cópia espelhada (L1S), têm a mesma identidade (número de série) e são reportadas como graváveis para leitura para o host.
+
+.Aplicações em cluster
+As aplicações em cluster, incluindo VMware vSphere Metro Storage Cluster (vMSC), Oracle RAC e Windows failover Clustering com SQL, exigem acesso simultâneo para que as VMs possam fazer failover para o outro site sem qualquer sobrecarga de desempenho. O SnapMirror ativo-ativo simétrico do SYNC ativo serve a e/S localmente com replicação bidirecional para atender aos requisitos de aplicações em cluster.
+
+.Cenário de desastre
+Replique sincronamente vários volumes para uma aplicação entre locais em locais geograficamente dispersos. Você pode fazer o failover automaticamente para a cópia secundária em caso de interrupção no primário, permitindo a continuidade dos negócios para aplicações de camada um.
+
+.Failover do Windows
+O SnapMirror active Sync oferece flexibilidade com granularidade fácil de usar no nível da aplicação e failover automático para obter alta disponibilidade de dados e rápida replicação de dados para suas aplicações essenciais aos negócios, como Oracle, Microsoft SQL Server e assim por diante, em ambientes virtuais e físicos.
+
+
+
+== Arquitetura de soluções
+
+O cluster Stretch de failover da Microsoft tem dois nós Hyper-V em cada local. Esses dois nós compartilham o storage do NetApp e usam o SnapMirror active Sync simétrico ativo-ativo para replicar os volumes entre os dois locais. Um grupo de consistência garante que todos os volumes de um conjunto de dados sejam silenciados e, em seguida, encaixados exatamente no mesmo ponto no tempo. Isso fornece um ponto de restauração consistente com dados nos volumes que dão suporte ao conjunto de dados. O mediador do ONTAP recebe informações de integridade sobre clusters e nós do ONTAP perpeered, orquestrando entre os dois e determinando se cada nó/cluster está funcionando e funcionando.
+
+Componentes da solução:
+
+* Dois sistemas de storage NetApp ONTAP 9.15,1: Domínio de primeira e segunda falha
+* Uma VM do Rethat 8,7 para o mediador ONTAP
+* Três clusters de failover do Hyper-V no Windows 2022:
++
+** site1, site 2 para as aplicações
+** site 3 para mediador
+
+
+* VM em Hyper-V: Controlador de domínio Microsoft, MSSQL sempre em instância de cluster de failover, Mediador ONTAP
+
+
+image:hyperv-smas-image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== Instale um cluster de failover do Microsoft Stretch
+
+Você pode usar o Windows Admin Center, o PowerShell ou o console do Gerenciador de servidor para instalar o recurso Cluster de failover e seus cmdlets do PowerShell associados. Para obter detalhes sobre pré-requisitos e etapas, marque criar um cluster de failover.
+
+Aqui está um guia passo a passo para configurar um cluster do Windows Stretch:
+
+. Instale o Windows 2022 em todos os quatro servidores hyperv1, hyperv2, hyperv3 e hyperv4
+. Junte todos os quatro servidores ao mesmo domínio do ative Directory: hyperv.local.
+. Instale os recursos do Windows de cluster de failover, Hyper-V, Hyper-V_PowerShell e MPIO em cada servidor.
++
+[source, shell]
+----
+Install-WindowsFeature –Name “Failover-Clustering”, “Hyper-V”, “Hyper-V-Powershell”, “MPIO” –IncludeManagementTools
+----
+. Configurar MPIO, adicionar suporte para dispositivos iSCSI.
++
+image:hyperv-smas-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. No local 1 e no local 2 ONTAP armazenamento, crie dois iSCSI LUNs (SQLdata e SQLlog) e mapeie para o grupo iqn de servidores do Windows. Use o iniciador de software iSCSI da Microsoft para conetar os LUNs. Para obter mais detalhes, link:https://docs.netapp.com/us-en/ontap-sm-classic/iscsi-config-windows/index.html["Configuração iSCSI para Windows"]consulte .
+. Execute o relatório de validação de cluster para verificar se há erros ou avisos.
++
+[source, shell]
+----
+Test-Cluster –Node hyperv1, hyperv2, hyperv3, hyperv4
+----
+. Criar um cluster de failover, atribuir um endereço IP estático,
++
+[source, shell]
+----
+New-Cluster –Name <clustername> –Node hyperv1, hyperv2, hyperv3, hyperv4, StaticAddress <IPaddress>
+----
++
+image:hyperv-smas-image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Adicione os armazenamentos iSCSI mapeados ao cluster de failover.
+. Configure uma testemunha para quórum, clique com o botão direito do Mouse no cluster -> mais ações -> Configurar configurações de Quórum de cluster, escolha testemunha de disco.
++
+O diagrama abaixo mostra quatro LUNs compartilhados em cluster – dois sites sqldata e sqllog e uma testemunha de disco no quórum.
+
++
+image:hyperv-smas-image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+.Sempre em instância de cluster de failover
+Uma instância de cluster de failover sempre ativa (FCI) é uma instância do SQL Server que é instalada entre nós com storage de disco compartilhado SAN em um WSFC. Durante um failover, o serviço WSFC transfere a propriedade dos recursos da instância para um nó de failover designado. A instância do SQL Server é então reiniciada no nó de failover e os bancos de dados são recuperados como de costume. Para obter mais detalhes sobre a configuração, verifique o Cluster de failover do Windows com SQL. Crie duas VMs Hyper-V SQL FCI em cada site e defina a prioridade. Use hyperv1 e hyperv2 como proprietários preferenciais para as VMs do site 1 e hyperv3 e hyperv4 como proprietários preferenciais para VMs do site 2.
+
+image:hyperv-smas-image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== Crie peering Intercluster
+
+Você precisa criar relacionamentos entre pares entre clusters de origem e destino antes de poder replicar cópias Snapshot usando o SnapMirror.
+
+. Adicione interfaces de rede entre clusters em ambos os clusters
++
+image:hyperv-smas-image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Você pode usar o comando cluster peer create para criar uma relação de peer entre um cluster local e remoto. Após a criação do relacionamento de pares, você pode executar o cluster peer create no cluster remoto para autenticá-lo no cluster local.
++
+image:hyperv-smas-image7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== Configure o Mediador com o ONTAP
+
+O mediador do ONTAP recebe informações de integridade sobre clusters e nós do ONTAP perpeered, orquestrando entre os dois e determinando se cada nó/cluster está funcionando e funcionando. O SM-as permite que os dados sejam replicados para o destino assim que forem gravados no volume de origem. O mediador deve ser implantado no terceiro domínio de falha. Pré-requisitos
+
+* Especificações de hardware: 8GB GB de RAM, 2x2GHz CPU, 1GB GB de rede (RTT do cliente 125ms)
+* Instalado Red Hat 8,7 os, verifique link:https://docs.netapp.com/us-en/ontap/mediator/index.html["Versão do ONTAP Mediator e versão Linux suportada"].
+* Configurar o host Mediator Linux: Configuração de rede e portas de firewall 31784 e 3260
+* Instale o pacote yum-utils
+* link:https://docs.netapp.com/us-en/ontap/mediator/index.html#register-a-security-key-when-uefi-secure-boot-is-enabled["Registre uma chave de segurança quando o UEFI Secure Boot estiver ativado"]
+
+
+.Passos
+. Transfira o pacote de instalação do Mediator a partir do link:https://mysupport.netapp.com/site/products/all/details/ontap-mediator/downloads-tab["Página de download do ONTAP Mediator"].
+. Verifique a assinatura do código do ONTAP Mediator.
+. Execute o instalador e responda aos prompts conforme necessário:
++
+[source, shell]
+----
+./ontap-mediator-1.8.0/ontap-mediator-1.8.0 -y
+----
+. Quando o Secure Boot estiver ativado, você deve seguir etapas adicionais para Registrar a chave de segurança após a instalação:
++
+.. Siga as instruções no arquivo README para assinar o módulo do kernel SCST:
++
+[source, shell]
+----
+/opt/netapp/lib/ontap_mediator/ontap_mediator/SCST_mod_keys/README.module-signing
+----
+.. Localize as teclas necessárias:
++
+[source, shell]
+----
+/opt/netapp/lib/ontap_mediator/ontap_mediator/SCST_mod_keys
+----
+
+
+. Verifique a instalação
++
+.. Confirme os processos:
++
+[source, shell]
+----
+systemctl status ontap_mediator mediator-scst
+----
++
+image:hyperv-smas-image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+.. Confirme as portas usadas pelo serviço do Mediador ONTAP:
++
+image:hyperv-smas-image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+. Inicialize o Mediador ONTAP para sincronização ativa do SnapMirror usando certificados autoassinados
++
+.. Localize o certificado CA do ONTAP Mediator no local de instalação do software do ONTAP Mediator Linux VM/host cd /opt/NetApp/lib/ONTAP_Mediator/ONTAP_Mediator/Server_config.
+.. Adicione o certificado da CA do Mediador do ONTAP a um cluster do ONTAP.
++
+[source, shell]
+----
+security certificate install -type server-ca -vserver <vserver_name>
+----
+
+
+. Adicione o mediador, vá para System Manager, Protect>Overview>Mediator, insira o endereço IP do mediador, o nome de usuário (API User default is mediatoradmin), a senha e a porta 31784.
++
+O diagrama a seguir mostra a interface de rede entre clusters, os pares de cluster, o mediador e o SVM peer estão configurados.
+
++
+image:hyperv-smas-image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== Configurar a proteção ativa/ativa simétrica
+
+Grupos de consistência facilitam o gerenciamento do workload de aplicações, com políticas de proteção locais e remotas facilmente configuradas e cópias Snapshot simultâneas de uma coleção de volumes em um momento consistente com falhas ou consistentes com aplicações. Para obter mais detalhes, link:https://docs.netapp.com/us-en/ontap/consistency-groups/index.html["visão geral do grupo de consistência"]consulte . Usamos uma configuração uniforme para esta configuração.
+
+.Passos para uma configuração uniforme
+. Ao criar o grupo de consistência, especifique iniciadores de host para criar grupos.
+. Marque a caixa de seleção para habilitar o SnapMirror e escolha a política AutomatedFailoverDuplex.
+. Na caixa de diálogo exibida, marque a caixa de seleção replicar grupos de iniciadores para replicar grupos de iniciadores. Em Editar configurações proximais, defina SVMs proximais para seus hosts.
++
+image:hyperv-smas-image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione Guardar
++
+A relação de proteção é estabelecida entre a origem e o destino.
+
++
+image:hyperv-smas-image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== Execute o Teste de Validação de failover do cluster
+
+Recomendamos que você execute testes de failover planejados para fazer uma verificação de validação de cluster, os bancos de dados SQL ou qualquer software em cluster em ambos os sites – o site principal ou espelhado deve continuar acessível durante os testes.
+
+Os requisitos do cluster de failover do Hyper-V incluem:
+
+* A relação de sincronização ativa do SnapMirror deve estar sincronizada.
+* Não é possível iniciar um failover planejado quando uma operação sem interrupções está em processo. As operações ininterruptas incluem movimentação de volume, realocação de agregados e failovers de storage.
+* O Mediador ONTAP deve ser configurado, conetado e no quórum.
+* Pelo menos dois nós de cluster Hyper-V em cada local com os processadores de CPU pertencem à mesma família de CPU para otimizar o processo de migração de VM. As CPUs devem ser CPUs com suporte para virtualização assistida por hardware e prevenção de execução de dados (DEP) baseada em hardware.
+* Os nós de cluster do Hyper-V devem ser os mesmos membros do domínio do ative Directory para garantir a resiliência.
+* Os nós de cluster Hyper-V e os nós de storage NetApp devem ser conetados por redes redundantes para evitar um único ponto de falha.
+* Storage compartilhado, que pode ser acessado por todos os nós de cluster por meio do protocolo iSCSI, Fibre Channel ou SMB 3,0.
+
+
+
+
+==== Cenários de teste
+
+Há muitas maneiras de acionar um failover em um host, armazenamento ou rede.
+
+image:hyperv-smas-image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+.Nó ou site com falha do Hyper-V
+* Um nó de cluster de failover pode assumir a carga de trabalho de um nó com falha, um processo conhecido como failover. Ação: Desligue o resultado esperado de um nó Hyper-V: O outro nó no cluster assumirá a carga de trabalho. As VMs serão migradas para o outro nó.
+* Uma falha de local também podemos falhar o local inteiro e acionar o failover do local principal para o site espelhado: Ação: Desativar ambos os nós do Hyper-V em um local. Resultado esperado: As VMs no local principal migrarão para o cluster Hyper-V do local espelhado porque o SnapMirror ativo-ativo simétrico ativo/ativo serve IO localmente com replicação bidirecional, sem impacto de workload com RPO zero e rto zero.
+
+
+.Falha de storage em um local
+* Offline volumes Ação: cluster1::> volume off-line vol1 resultados esperados: O ONTAP detetará o volume principal do site off-line, o cluster se comunicará com o mediador e detetará o estado do armazenamento. O Hyper-V do local primário se comunica com o volume de storage espelhado para alcançar RPO zero e rto zero.
+* Parar um SVM no local primário Ação: Parar os resultados esperados do iSCSI SVM: O cluster primário Hyper-v já se conetou ao local espelhado e com o SnapMirror ativo-ativo simétrico sem impacto de workload com RPO zero e rto zero.
+
+
+.Critérios de sucesso
+Durante os testes, observe o seguinte:
+
+* Observe o comportamento do cluster e verifique se os serviços são transferidos para os nós restantes.
+* Verifique se existem erros ou interrupções de serviço.
+* Garantir que o cluster possa lidar com falhas de storage e continuar operando.
+* Verifique se os dados do banco de dados permanecem acessíveis e se os serviços continuam operando.
+* Verifique se a integridade dos dados do banco de dados é mantida.
+* Valide que aplicativos específicos podem fazer failover para outro nó sem impacto no usuário.
+* Verifique se o cluster pode equilibrar a carga e manter o desempenho durante e após um failover.
+
+
+
+
+== Resumo
+
+O SnapMirror ative Sync pode ajudar os dados de aplicativos multisite, por exemplo, MSSQL e Oracle a serem ativamente acessíveis e sincronizados em ambos os sites. Se ocorrer uma falha, os aplicativos são imediatamente redirecionados para o local ativo restante, sem perda de dados e sem perda de acesso.

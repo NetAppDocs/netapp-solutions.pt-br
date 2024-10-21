@@ -1,0 +1,72 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-ncvs-datastore.html 
+keywords: gcp, gcve, cvs, nfs, supplemental, datastore, vcenter, vmware 
+summary: Os clientes podem expandir a capacidade de storage no Google Cloud VMware Engine usando o armazenamento de dados suplementar NFS com o NetApp Cloud volume Service. 
+---
+= Armazenamento de dados NFS suplementar do NetApp Cloud volume Service
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Os clientes podem expandir a capacidade de storage no Google Cloud VMware Engine usando o armazenamento de dados suplementar NFS com o NetApp Cloud volume Service.
+
+
+
+== Visão geral
+
+Autores: Suresh Toppay, NetApp
+
+Os clientes que exigem capacidade de storage adicional no ambiente do Google Cloud VMware Engine (GCVE) podem utilizar o NetApp Cloud volume Service para montar como armazenamento de dados NFS suplementar. O armazenamento de dados no serviço de volume de nuvem da NetApp permite que os clientes repliquem entre regiões para se protegerem do diaster.
+
+image:gcp_ncvs_ds01.png["Armazenamento de dados NFS do NetApp Cloud volume Service no GCVE"]
+
+
+
+== Etapas de implantação para montar o armazenamento de dados NFS do NetApp CVS no GCVE
+
+.Provisione volume CVS-Performance
+[%collapsible]
+====
+O volume do serviço de volume de nuvem da NetApp pode ser provisionado por link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/workflow["Usando o Google Cloud Console"] link:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-service-gcp/task-create-volumes.html["Usando o portal ou API do NetApp BlueXP "]
+
+====
+.Marque esse volume CVS como não excluível
+[%collapsible]
+====
+Para evitar a exclusão acidental do volume enquanto a VM estiver em execução, verifique se o volume está marcado como não deletável, como mostrado na captura de tela abaixo. image:gcp_ncvs_ds02.png["Opção não-deletable NetApp CVS"] Para obter mais informações, link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes#creating_an_nfs_volume["Criando volume NFS"]consulte a documentação.
+
+====
+.Certifique-se de que existe uma conexão privada no GCVE para a VPC de locatário do NetApp CVS.
+[%collapsible]
+====
+Para montar o armazenamento de dados NFS, deve haver uma conexão privada entre o GCVE e o projeto CVS do NetApp. Para mais informações, consulte link:https://cloud.google.com/vmware-engine/docs/networking/howto-setup-private-service-access["Como configurar o Acesso ao Serviço Privado"]
+
+====
+.Montar o armazenamento de dados NFS
+[%collapsible]
+====
+Para obter instruções sobre como montar o armazenamento de dados NFS no GCVE, consulte link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service-datastores["Como criar o armazenamento de dados NFS com o NetApp CVS"]
+
+
+NOTE: Como os hosts do vSphere são gerenciados pelo Google, você não tem acesso para instalar o pacote de instalação (VIB) do vSphere API for Array Integration (VAAI). Se você precisar de suporte para volumes virtuais (Vevolve), informe-nos. Se você gostaria de usar Jumbo Frames, por favor consulte link:https://cloud.google.com/vpc/docs/mtu["Máximo de tamanhos de MTU suportados no GCP"]
+
+====
+
+
+== Economia com o serviço de volume de nuvem da NetApp
+
+Para saber mais sobre sua possível economia com o Serviço de volume de nuvem da NetApp para suas demandas de armazenamento no GCVE, verifique link:https://bluexp.netapp.com/gcve-cvs/roi["Calculadora de ROI da NetApp"]
+
+
+
+== Links de referência
+
+* link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Blog do Google - como usar o NetApp CVS como datastores do Google Cloud"]
+* link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Blog do NetApp: Uma maneira melhor de migrar seus aplicativos ricos em storage para o Google Cloud"]
+

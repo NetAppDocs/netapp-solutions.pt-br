@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-use-cases.html 
+keywords: assessment, call performance, pipeline, speech to text, target audience 
+summary: Com o estado atual da arte, ferramentas de modelagem pré-treinadas publicadas pela NVIDIA, AWS, Google e outros, um pipeline de ponta a ponta com modelos complexos agora pode ser configurado e personalizado com relativa facilidade. 
+---
+= Casos de uso
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Devido ao número de chamadas que esses centros de suporte processam, a avaliação do desempenho da chamada pode levar tempo significativo se for realizada manualmente. Métodos tradicionais, como contagem de palavras e outros métodos, podem alcançar alguma automação, mas esses métodos não capturam aspetos mais nuances e contexto semântico da linguagem dinâmica. Técnicas de modelagem de IA podem ser usadas para realizar algumas dessas análises mais nuances de forma automatizada. Além disso, com o estado atual da arte, ferramentas de modelagem pré-treinadas publicadas pela NVIDIA, AWS, Google e outros, um pipeline de ponta a ponta com modelos complexos agora pode ser configurado e personalizado com relativa facilidade.
+
+Um pipeline de ponta a ponta para análise de sentimento do centro de suporte ingere arquivos de áudio em tempo real enquanto os funcionários conversam com os chamadores. Em seguida, esses arquivos de áudio são processados para uso no componente de fala para texto que os converte em um formato de texto. Cada frase na conversa recebe um rótulo indicando o sentimento (positivo, negativo ou neutro).
+
+A análise de sentimento pode fornecer um aspeto essencial das conversas para a avaliação do desempenho da chamada. Esses sentimentos adicionam um nível adicional de profundidade às interações entre funcionários e chamadores. O painel de sentimento assistido por IA fornece aos gerentes um acompanhamento em tempo real do sentimento dentro de uma conversa, juntamente com uma análise retrospetiva das chamadas anteriores do funcionário.
+
+Há ferramentas pré-criadas que podem ser combinadas de maneiras avançadas para criar rapidamente um pipeline de AI completo para resolver esse problema. Neste caso, a biblioteca NVIDIA RIVA pode ser usada para executar as duas tarefas da série: Transcrição de áudio e análise de sentimento. O primeiro é um algoritmo de processamento de sinal de aprendizagem supervisionado e o segundo é um algoritmo de classificação de PNL de aprendizagem supervisionado. Esses algoritmos prontos para uso podem ser ajustados para qualquer caso de uso relevante com dados relevantes para negócios usando o Kit de Ferramentas TAO da NVIDIA. Isso leva a soluções mais precisas e poderosas sendo construídas por apenas uma fração do custo e dos recursos. Os clientes podem incorporar a https://developer.nvidia.com/maxine["NVIDIA Maxine"^] estrutura para aplicativos de videoconferência acelerados por GPU no design do centro de suporte.
+
+Os seguintes casos de uso estão no centro desta solução. Ambos os casos de uso usam o Kit de ferramentas TAO para ajuste fino de modelos e RIVA para implantação de modelos.
+
+* Fala para texto
+* Análise de sentimento
+
+
+Para analisar as interações do centro de suporte entre funcionários e clientes, cada conversa do cliente na forma de chamadas de áudio pode ser executada através do pipeline para extrair sentimentos de nível de frase. Esses sentimentos podem então ser verificados por um humano para justificar os sentimentos ou ajustá-los conforme necessário. Os dados rotulados são então passados para a etapa de ajuste fino para melhorar as previsões de sentimento. Se os dados de sentimento rotulados já existirem, o ajuste fino do modelo pode ser acelerado. Em ambos os casos, o pipeline é generalizável para outras soluções que exigem a ingestão de áudio e a classificação de sentenças.
+
+image:ai-sent-image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+As saídas de sentimento de IA são carregadas para um banco de dados de nuvem externo ou para um sistema de armazenamento gerenciado pela empresa. As saídas de sentimento são transferidas deste banco de dados maior para o armazenamento local para uso dentro do painel que exibe a análise de sentimento para os gerentes. A principal funcionalidade do painel é interagir com o funcionário do serviço ao cliente em tempo real. Os gerentes podem avaliar e fornecer feedback sobre os funcionários durante suas chamadas com atualizações ao vivo do sentimento de cada frase, bem como uma revisão histórica do desempenho passado do funcionário ou das reações do cliente.
+
+image:ai-sent-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O link:https://github.com/NetApp/netapp-dataops-toolkit/releases/tag/v2.0.0["Toolkit DataOps do NetApp"^]pode continuar a gerenciar sistemas de storage de dados mesmo depois que o pipeline de inferência RIVA gera rótulos de sentimento. Esses resultados de AI podem ser carregados em um sistema de storage gerenciado pelo Toolkit DataOps do NetApp. Os sistemas de storage de dados devem ser capazes de gerenciar centenas de inserções e selecionar a cada minuto. O sistema de armazenamento local do dispositivo consulta o armazenamento de dados maior em tempo real para extração. A instância maior de armazenamento de dados também pode ser consultada para obter dados históricos para aprimorar ainda mais a experiência do painel. O Toolkit DataOps do NetApp facilita esses dois usos clonando rapidamente os dados e distribuindo-os em todos os painéis que os usam.
+
+
+
+== Público-alvo
+
+O público-alvo da solução inclui os seguintes grupos:
+
+* Gerentes de funcionários
+* Engenheiros de dados/cientistas de dados
+* ADMINISTRADORES DE TI (on-premises, na nuvem ou híbrida)
+
+
+Acompanhar sentimentos ao longo das conversas é uma ferramenta valiosa para avaliar o desempenho dos funcionários. Usando o painel de IA, os gerentes podem ver como os funcionários e chamadores mudam seus sentimentos em tempo real, permitindo avaliações ao vivo e sessões de orientação. Além disso, as empresas podem obter informações valiosas sobre os clientes envolvidos em conversas vocais, chatbots de texto e videoconferência. Essa análise de clientes usa os recursos do processamento multimodal em escala com workflows e modelos de AI modernos e modernos.
+
+No lado dos dados, um grande número de arquivos de áudio são processados diariamente pelo centro de suporte. O kit de ferramentas de DataOps do NetApp facilita essa tarefa de gerenciamento de dados tanto para o ajuste fino periódico de modelos quanto para dashboards de análise de sentimento.
+
+Os ADMINISTRADORES DE TI também se beneficiam do Toolkit DataOps do NetApp, pois permite que eles movam dados rapidamente entre os ambientes de implantação e produção. Os ambientes e servidores NVIDIA também devem ser gerenciados e distribuídos para permitir inferência em tempo real.

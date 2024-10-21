@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-performance-tuning.html 
+keywords: performance, tuning, operations, windows 
+summary: Esta seção fornece alguns dos parâmetros de ajuste que ajudam a melhorar o desempenho das operações XCP. 
+---
+= Ajuste de desempenho
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção fornece alguns dos parâmetros de ajuste que ajudam a melhorar o desempenho das operações XCP:
+
+* Para melhor escalonamento e distribuição da carga de trabalho entre várias instâncias do XCP, divida as subpastas para cada instância do XCP para migração e transferência de dados.
+* O XCP pode usar o máximo de recursos de CPU - quanto mais núcleos de CPU, melhor o desempenho. Portanto, você deve ter mais CPUs no servidor XCP. Testamos 128GB CPUs RAM e 48x núcleos, o que proporcionou melhor desempenho do que 8x CPUs e 8GB GB de RAM.
+* A cópia XCP com a `-parallel` opção é baseada no número de CPUs. O número padrão de threads paralelos (sete) às vezes é suficiente para a maioria das operações de transferência e migração de dados XCP. Para o XCP Windows por padrão, o número de processos paralelos é igual ao número de CPUs. O número máximo para a `-parallel` opção deve ser menor ou igual ao número de núcleos.
+* 10GbE é um bom começo para a transferência de dados. No entanto, testamos com 25GbE e 100GbE, que proporcionaram melhor transferência de dados e são recomendados para transferência de dados de tamanho grande.
+* Para o Azure NetApp Files, o desempenho varia de acordo com o nível de serviço. Para obter mais informações, consulte a tabela a seguir, que mostra os níveis de serviço e os detalhes de desempenho do Azure NetApp Files.
+
+
+|===
+| Nível de serviço | Padrão | Premium | Ultra 
+
+
+| Taxa de transferência | 16Mbps TB/terabyte (TB) | 64MBps TB/TB | 128MBps TB/TB 
+
+
+| Tipos de workload | Compartilhamentos de arquivo de uso geral, e-mail e web | BMS, bancos de dados e aplicações | Aplicações sensíveis à latência 
+
+
+| Desempenho explicado | Desempenho padrão: 1.000 IOPS por TB (16K I/o) e 16Mbps/TB | Desempenho premium – 4.000 IOPS por TB (16K I/o) e 64MBps/TB | Desempenho extremo: 8.000 IOPS por TB (16K I/o) e 128MBps PB/TB 
+|===
+Você precisa escolher o nível de serviço certo com base nos tipos de taxa de transferência e workload. A maioria dos clientes começa com o nível Premium e altera o nível de serviço com base no workload.

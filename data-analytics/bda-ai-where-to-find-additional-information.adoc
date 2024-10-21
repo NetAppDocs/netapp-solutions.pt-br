@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-where-to-find-additional-information.html 
+keywords: additional information 
+summary:  
+---
+= Onde encontrar informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* Guia de práticas recomendadas e implementação de volumes do NetApp FlexGroup
++
+https://www.netapp.com/pdf.html?item=/media/12385-tr4571pdf.pdf[]
+
+* Documentação do produto NetApp
++
+https://www.netapp.com/us/documentation/index.aspx[]
+
+

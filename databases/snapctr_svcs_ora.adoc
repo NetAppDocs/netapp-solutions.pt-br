@@ -1,0 +1,460 @@
+---
+sidebar: sidebar 
+permalink: databases/snapctr_svcs_ora.html 
+keywords: Oracle, Database, SnapCenter, SnapShot, FlexClone, BlueXP, Database Backup, Database Restore, Database Clone 
+summary: A solução fornece visão geral e detalhes para backup, restauração e clone de banco de dados Oracle usando o NetApp SnapCenter SaaS usando o console BlueXP  na nuvem do Azure. 
+---
+= TR-4964: Backup, restauração e clonagem de bancos de dados Oracle com os Serviços SnapCenter - AWS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Essa solução fornece visão geral e detalhes para backup, restauração e clone de banco de dados Oracle usando o NetApp SnapCenter SaaS usando o console BlueXP  na nuvem do Azure.
+
+NetApp
+
+
+
+== Finalidade
+
+Os Serviços SnapCenter são a versão SaaS da clássica ferramenta de IU de gerenciamento de banco de dados SnapCenter, disponível no console de gerenciamento de nuvem da NetApp BlueXP . Ele faz parte integrante da oferta de proteção de dados e backup em nuvem da NetApp para bancos de dados como Oracle e HANA executados no storage de nuvem da NetApp. Esse serviço baseado em SaaS simplifica a implantação tradicional de servidor autônomo do SnapCenter, que geralmente requer um servidor Windows operando em um ambiente de domínio do Windows.
+
+Nesta documentação, demonstramos como você pode configurar os Serviços SnapCenter para fazer backup, restaurar e clonar bancos de dados Oracle implantados no armazenamento Amazon FSX ONTAP e instâncias de computação EC2. Embora seja muito mais fácil de configurar e usar, os Serviços SnapCenter oferecem funcionalidades importantes que estão disponíveis na ferramenta de IU do SnapCenter legada.
+
+Esta solução aborda os seguintes casos de uso:
+
+* Backup de banco de dados com snapshots para bancos de dados Oracle hospedados no Amazon FSX ONTAP
+* Recuperação de banco de dados Oracle em caso de falha
+* Clonagem rápida e com uso eficiente de storage de bancos de dados primários para um ambiente de desenvolvimento/teste ou outros casos de uso
+
+
+
+
+== Público-alvo
+
+Esta solução destina-se aos seguintes públicos:
+
+* O DBA que gerencia bancos de dados Oracle em execução no Amazon FSX ONTAP
+* O arquiteto de solução interessado em testar o backup, a restauração e o clone de banco de dados Oracle na nuvem pública da AWS
+* O administrador de armazenamento que suporta e gerencia o armazenamento do Amazon FSX ONTAP
+* O proprietário do aplicativo que possui aplicativos que são implantados no Amazon FSX ONTAP
+
+
+
+
+== Ambiente de teste e validação de soluções
+
+O teste e a validação dessa solução foram realizados em um ambiente AWS FSX e EC2 que pode não corresponder ao ambiente de implantação final. Para obter mais informações, consulte a <<Fatores-chave para consideração da implantação>>seção .
+
+
+
+=== Arquitetura
+
+image:snapctr_svcs_architecture.png["Esta imagem fornece uma imagem detalhada do backup e recuperação do BlueXP  para aplicativos no console BlueXP , incluindo a IU, o conetor e os recursos que ele gerencia."]
+
+Esta imagem fornece uma imagem detalhada do backup e recuperação do BlueXP  para aplicativos no console do BlueXP , incluindo a interface do usuário, o conetor e os recursos que ele gerencia.
+
+
+
+=== Componentes de hardware e software
+
+*Hardware*
+
+[cols="33%, 33%, 33%"]
+|===
+
+
+| FSX ONTAP armazenamento | Versão atual oferecida pela AWS | Um cluster do FSX HA na mesma VPC e zona de disponibilidade 
+
+
+| EC2 instância para computação | t2.xlarge/4vCPU/16G | Duas instâncias EC2 T2 xlarge EC2, uma como servidor de banco de dados primário e a outra como servidor de banco de dados clone 
+|===
+*Software*
+
+[cols="33%, 33%, 33%"]
+|===
+
+
+| RedHat Linux | RHEL-8,6.0_HVM-20220503-x86_64-2-Hourly2-GP2 | Implantou a assinatura RedHat para testes 
+
+
+| Oracle Grid Infrastructure | Versão 19,18 | Aplicado patch RU p34762026_190000_Linux-x86-64.zip 
+
+
+| Banco de dados Oracle | Versão 19,18 | Aplicado patch RU p34765931_190000_Linux-x86-64.zip 
+
+
+| Oracle OPatch | Versão 12.2.0.1.36 | Último patch p6880880_190000_Linux-x86-64.zip 
+
+
+| Serviço SnapCenter | Versão | v2.3.1.2324 
+|===
+
+
+=== Fatores-chave para consideração da implantação
+
+* *Conetor a ser implantado na mesma VPC do banco de dados e FSX.* Quando possível, o conetor deve ser implantado na mesma VPC da AWS, o que permite a conetividade com o armazenamento FSX e a instância de computação EC2.
+* *Uma política do AWS IAM criada para o SnapCenter Connector.* A política em formato JSON está disponível na documentação detalhada do serviço SnapCenter. Ao iniciar a implantação do conetor com o console BlueXP , você também será solicitado a configurar os pré-requisitos com detalhes da permissão necessária no formato JSON. A política deve ser atribuída à conta de usuário da AWS que possui o conetor.
+* *A chave de acesso à conta da AWS e o par de chaves SSH criados na conta da AWS.* O par de chaves SSH é atribuído ao usuário EC2 para fazer login no host do conetor e, em seguida, implantar um plug-in de banco de dados no host do servidor EC2 DB. A chave de acesso concede permissão para provisionar o conetor necessário com a política do IAM acima.
+* *Uma credencial adicionada à configuração do console BlueXP .* Para adicionar o Amazon FSX ONTAP ao ambiente de trabalho do BlueXP , uma credencial que concede permissões do BlueXP  para acessar o Amazon FSX ONTAP está configurada na configuração do console do BlueXP .
+* *java-11-openjdk instalado no host da instância de banco de dados EC2.* A instalação do serviço SnapCenter requer a versão 11 do java. Ele precisa ser instalado no host do aplicativo antes da tentativa de implantação do plugin.
+
+
+
+
+== Implantação de solução
+
+Há extensa documentação do NetApp com um escopo mais amplo para ajudar você a proteger os dados da aplicação nativa da nuvem. O objetivo desta documentação é fornecer procedimentos passo a passo que abrangem a implantação do Serviço SnapCenter com o console BlueXP  para proteger seu banco de dados Oracle implantado no Amazon FSX ONTAP e uma instância de computação EC2. Este documento preenche certos detalhes que podem estar faltando em instruções mais gerais.
+
+Para começar, execute as seguintes etapas:
+
+* Leia as instruções gerais link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-cloud-app-data-to-cloud.html#architecture["Proteja os dados das aplicações nativas da nuvem"^]e as seções relacionadas ao Oracle e ao Amazon FSX ONTAP.
+* Veja o seguinte vídeo passo a passo.
+
+
+.Implantação de soluções
+video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto]
+
+
+=== Pré-requisitos para a implantação do serviço SnapCenter
+
+[%collapsible]
+====
+A implantação requer os seguintes pré-requisitos.
+
+. Um servidor de banco de dados Oracle primário em uma instância EC2 com um banco de dados Oracle totalmente implantado e em execução.
+. Um cluster do Amazon FSX ONTAP implantado na AWS que hospeda os volumes de banco de dados acima.
+. Um servidor de banco de dados opcional em uma instância do EC2 que pode ser usado para testar a clonagem de um banco de dados Oracle para um host alternativo com o objetivo de dar suporte a uma carga de trabalho de desenvolvimento/teste ou a qualquer caso de uso que exija um conjunto de dados completo de um banco de dados Oracle de produção.
+. Se você precisar de ajuda para atender aos pré-requisitos acima para implantação de banco de dados Oracle no Amazon FSX ONTAP e instância de computação EC2, consulte link:aws_ora_fsx_ec2_iscsi_asm.html["Implantação e proteção de banco de dados Oracle no AWS FSX/EC2 com iSCSI/ASM"^] ou white paper link:aws_ora_fsx_ec2_deploy_intro.html["Implantação do banco de dados Oracle no EC2 e nas melhores práticas do FSX"^]
+
+
+====
+
+
+=== Preparação de integração para BlueXP 
+
+[%collapsible]
+====
+. Use o link link:https://console.bluexp.netapp.com/["NetApp BlueXP"] para se inscrever no acesso ao console do BlueXP .
+. Faça login na sua conta da AWS para criar uma política do IAM com permissões adequadas e atribuir a política à conta da AWS que será usada para a implantação do BlueXP  Connector.
++
+image:snapctr_svcs_connector_01-policy.png["Captura de tela mostrando esta etapa na GUI."]
+
++
+A política deve ser configurada com uma string JSON disponível na documentação do NetApp. A string JSON também pode ser recuperada da página quando o provisionamento do conetor é iniciado e você é solicitado a atribuição de permissões de pré-requisitos.
+
+. Você também precisa da AWS VPC, sub-rede, grupo de segurança, uma chave de acesso e segredos da conta de usuário da AWS, uma chave SSH para EC2 usuários e assim por diante, pronta para o provisionamento do conetor.
+
+
+====
+
+
+=== Implante um conetor para serviços SnapCenter
+
+[%collapsible]
+====
+. Faça login no console do BlueXP . Para uma conta compartilhada, é uma prática recomendada criar um espaço de trabalho individual clicando em *conta* > *Gerenciar conta* > *Área de trabalho* para adicionar um novo espaço de trabalho.
++
+image:snapctr_svcs_connector_02-wspace.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Clique em *Adicionar um conetor* para iniciar o fluxo de trabalho de provisionamento do conetor.
+
+
+image:snapctr_svcs_connector_03-add.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Escolha seu provedor de nuvem (neste caso, *Amazon Web Services*).
+
+
+image:snapctr_svcs_connector_04-aws.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Ignore as etapas *permissão*, *Autenticação* e *rede* se você já as tiver configuradas na sua conta da AWS. Caso contrário, você deve configurá-los antes de prosseguir. A partir daqui, você também pode recuperar as permissões para a política da AWS referenciada na seção anterior "<<Preparação de integração para BlueXP >>."
+
+
+image:snapctr_svcs_connector_05-remind.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Insira a autenticação da sua conta da AWS com *Access Key* e *Secret Key*.
++
+image:snapctr_svcs_connector_06-auth.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Nomeie a instância do conetor e selecione *criar função* em *Detalhes*.
+
+
+image:snapctr_svcs_connector_07-details.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Configure a rede com o par de chaves *VPC*, *Subnet* e SSH *Key Pair* adequado para acesso ao conetor.
++
+image:snapctr_svcs_connector_08-network.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Defina o *Security Group* para o conetor.
++
+image:snapctr_svcs_connector_09-security.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Revise a página de resumo e clique em *Add* para iniciar a criação do conetor. Geralmente, leva cerca de 10 minutos para concluir a implantação. Uma vez concluída, a instância do Connector aparece no painel do AWS EC2.
+
+
+image:snapctr_svcs_connector_10-review.png["Captura de tela mostrando esta etapa na GUI."]
+
+====
+
+
+=== Defina uma credencial no BlueXP  para acesso aos recursos da AWS
+
+[%collapsible]
+====
+. Primeiro, a partir do console AWS EC2, crie uma função no menu *Identity and Access Management (IAM)* *Roles*, *Create role* para iniciar o fluxo de trabalho de criação de funções.
++
+image:snapctr_svcs_credential_01-aws.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Na página *Selecione entidade confiável*, escolha *conta AWS*, *outra conta AWS* e cole no ID da conta do BlueXP , que pode ser recuperado do console do BlueXP .
++
+image:snapctr_svcs_credential_02-aws.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Filtre as políticas de permissão do fsx e adicione *políticas de permissões* à função.
++
+image:snapctr_svcs_credential_03-aws.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Na página *Detalhes da função*, nomeie a função, adicione uma descrição e clique em *criar função*.
++
+image:snapctr_svcs_credential_04-aws.png["Captura de tela mostrando esta etapa na GUI."]
+
+. De volta ao console do BlueXP , clique no ícone de configuração no canto superior direito do console para abrir a página *credenciais da conta*, clique em *Adicionar credenciais* para iniciar o fluxo de trabalho de configuração de credenciais.
++
+image:snapctr_svcs_credential_05-aws.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Escolha o local da credencial como - *Serviços da Amazon - BlueXP *.
++
+image:snapctr_svcs_credential_06-aws.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Defina as credenciais da AWS com o *Role ARN* adequado, que pode ser recuperado da função AWS IAM criada na etapa 1 acima. BlueXP  *ID de conta*, que é usado para criar a função AWS IAM na primeira etapa.
++
+image:snapctr_svcs_credential_07-aws.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Revisão e *Adicionar*. image:snapctr_svcs_credential_08-aws.png["Captura de tela mostrando esta etapa na GUI."]
+
+
+====
+
+
+=== Configuração dos serviços SnapCenter
+
+[%collapsible]
+====
+Com o conetor implantado e a credencial adicionada, os serviços SnapCenter podem agora ser configurados com o seguinte procedimento:
+
+. Em *meu ambiente de trabalho* clique em *Adicionar ambiente de trabalho* para descobrir o FSX implantado na AWS.
+
+
+image:snapctr_svcs_setup_01.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Escolha *Amazon Web Services* como local.
+
+
+image:snapctr_svcs_setup_02.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Clique em *Descubra já existente* ao lado de *Amazon FSX ONTAP*.
+
+
+image:snapctr_svcs_setup_03.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Selecione o *Nome de credenciais* que você criou na seção anterior para conceder ao BlueXP  as permissões necessárias para gerenciar o FSX ONTAP. Se você não tiver adicionado credenciais, você pode adicioná-las no menu *Configurações* no canto superior direito do console BlueXP .
++
+image:snapctr_svcs_setup_04.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Escolha a região da AWS onde o Amazon FSX ONTAP está implantado, selecione o cluster FSX que hospeda o banco de dados Oracle e clique em Adicionar.
+
+
+image:snapctr_svcs_setup_05.png["Captura de tela mostrando esta etapa na GUI."]
+
+. A instância descoberta do Amazon FSX ONTAP agora aparece no ambiente de trabalho.
+
+
+image:snapctr_svcs_setup_06.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Você pode fazer login no cluster FSX com suas credenciais de conta fsxadmin.
+
+
+image:snapctr_svcs_setup_07.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Depois de fazer login no Amazon FSX ONTAP, revise suas informações de armazenamento de banco de dados (como volumes de banco de dados).
+
+
+image:snapctr_svcs_setup_08.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Na barra lateral esquerda do console, passe o Mouse sobre o ícone de proteção e clique em *proteção* > *aplicativos* para abrir a página de inicialização dos aplicativos. Clique em *Discover Applications*.
+
+
+image:snapctr_svcs_setup_09.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Selecione *Cloud Native* como o tipo de origem do aplicativo.
+
+
+image:snapctr_svcs_setup_10.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Escolha *Oracle* para o tipo de aplicativo.
+
+
+image:snapctr_svcs_setup_13.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Preencha os detalhes do host do aplicativo AWS EC2 Oracle. Escolha *usando SSH* como *Host Installation Type* para instalação de plug-in de uma etapa e descoberta de banco de dados. Em seguida, clique em *Add SSH Private Key*.
++
+image:snapctr_svcs_setup_14.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Cole na chave SSH de EC2 usuários para o host de banco de dados EC2 e clique em *Validar* para continuar.
++
+image:snapctr_svcs_setup_14-1.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Você será solicitado a *validando a impressão digital* para continuar.
++
+image:snapctr_svcs_setup_14-2.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Clique em *Next* para instalar um plugin de banco de dados Oracle e descobrir os bancos de dados Oracle no host EC2. Os bancos de dados descobertos são adicionados a *aplicativos*. O banco de dados *Status de proteção* é exibido como *desprotegido* quando descoberto inicialmente.
++
+image:snapctr_svcs_setup_17.png["Captura de tela mostrando esta etapa na GUI."]
+
+
+
+Isso conclui a configuração inicial dos serviços SnapCenter para Oracle. As próximas três seções deste documento descrevem operações de backup, restauração e clone de banco de dados Oracle.
+
+====
+
+
+=== Backup de banco de dados Oracle
+
+[%collapsible]
+====
+. Clique nos três pontos ao lado do banco de dados *Status de proteção* e clique em *políticas* para exibir as políticas de proteção de banco de dados pré-carregadas padrão que podem ser aplicadas para proteger seus bancos de dados Oracle.
+
+
+image:snapctr_svcs_bkup_01.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Você também pode criar sua própria política com uma frequência de backup personalizada e uma janela de retenção de dados de backup.
+
+
+image:snapctr_svcs_bkup_02.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Quando estiver satisfeito com a configuração da política, poderá atribuir a sua política de escolha para proteger a base de dados.
+
+
+image:snapctr_svcs_bkup_03.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Escolha a política a ser atribuída ao banco de dados.
+
+
+image:snapctr_svcs_bkup_04.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Depois que a política é aplicada, o status de proteção da base de dados mudou para *Protected* com uma marca de seleção verde.
+
+
+image:snapctr_svcs_bkup_05.png["Captura de tela mostrando esta etapa na GUI."]
+
+. O backup do banco de dados é executado em um agendamento predefinido. Você também pode executar um backup on-demand único, conforme mostrado abaixo.
+
+
+image:snapctr_svcs_bkup_06.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Os detalhes dos backups do banco de dados podem ser visualizados clicando em *Exibir detalhes* na lista de menus. Isso inclui o nome da cópia de segurança, o tipo de cópia de segurança, o SCN e a data da cópia de segurança. Um conjunto de backup cobre um snapshot para volume de dados e volume de log. Um instantâneo de volume de log ocorre logo após um instantâneo de volume de banco de dados. Você pode aplicar um filtro se estiver procurando por um backup específico em uma lista longa.
+
+
+image:snapctr_svcs_bkup_07.png["Captura de tela mostrando esta etapa na GUI."]
+
+====
+
+
+=== Restauração e recuperação de banco de dados Oracle
+
+[%collapsible]
+====
+. Para uma restauração de banco de dados, escolha o backup certo, seja pelo SCN ou pelo tempo de backup. Clique nos três pontos do backup de dados do banco de dados e, em seguida, clique em *Restore* para iniciar a restauração e recuperação do banco de dados.
+
+
+image:snapctr_svcs_restore_01.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Escolha a configuração de restauração. Se você tem certeza de que nada mudou na estrutura física do banco de dados após o backup (como a adição de um arquivo de dados ou um grupo de discos), você pode usar a opção *Force in place restore*, que geralmente é mais rápida. Caso contrário, não marque esta caixa.
+
+
+image:snapctr_svcs_restore_02.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Revise e inicie a restauração e a recuperação do banco de dados.
+
+
+image:snapctr_svcs_restore_03.png["Captura de tela mostrando esta etapa na GUI."]
+
+. Na guia *Monitoramento de tarefas*, você pode exibir o status da tarefa de restauração, bem como todos os detalhes enquanto ela estiver sendo executada.
+
+
+image:snapctr_svcs_restore_05.png["Captura de tela mostrando esta etapa na GUI."]
+
+image:snapctr_svcs_restore_04.png["Captura de tela mostrando esta etapa na GUI."]
+
+====
+
+
+=== Clone de banco de dados Oracle
+
+[%collapsible]
+====
+Para clonar um banco de dados, inicie o fluxo de trabalho clone na mesma página de detalhes do backup do banco de dados.
+
+. Selecione a cópia de segurança da base de dados correta, clique nos três pontos para visualizar o menu e escolha a opção *Clone*.
+
+
+image:snapctr_svcs_clone_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione a opção *Basic* se você não precisar alterar nenhum parâmetro de banco de dados clonado.
+
+
+image:snapctr_svcs_clone_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Em alternativa, selecione *ficheiro de especificação*, que lhe dá a opção de transferir o ficheiro init atual, efetuar alterações e, em seguida, carregá-lo de volta para o trabalho.
+
+
+image:snapctr_svcs_clone_03_1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Reveja e inicie o trabalho.
+
+
+image:snapctr_svcs_clone_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Monitorize o estado da tarefa de clonagem a partir do separador *monitorização da tarefa*.
+
+
+image:snapctr_svcs_clone_07-status.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Valide o banco de dados clonado no host de instância EC2.
+
+
+image:snapctr_svcs_clone_08-crs.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:snapctr_svcs_clone_08-db.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+====
+
+
+== Informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* Configurar e administrar o BlueXP 
+
+
+link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.htmll["https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html"^]
+
+* Documentação de backup e recuperação do BlueXP
+
+
+link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html["https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html"^]
+
+* Amazon FSX ONTAP
+
+
+link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
+
+* Amazon EC2
+
+
+link:https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_channel=ps&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2&ef_id=Cj0KCQiA54KfBhCKARIsAJzSrdqwQrghn6I71jiWzSeaT9Uh1-vY-VfhJixF-xnv5rWwn2S7RqZOTQ0aAh7eEALw_wcB:G:s&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2["https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_channel=ps&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2&ef_id=Cj0KCQiA54KfBhCKARIsAJzSrdqwQrghn6I71jiWzSeaT9Uh1-vY-VfhJixF-xnv5rWwn2S7RqZOTQ0aAh7eEALw_wcB:G:s&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2"^]

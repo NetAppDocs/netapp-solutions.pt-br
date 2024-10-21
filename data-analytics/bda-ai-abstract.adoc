@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-abstract.html 
+keywords:  
+summary:  
+---
+= Resumo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este documento descreve como mover dados de sistemas de análise de big data e computação de alta performance (HPC) para que eles possam ser usados em fluxos de trabalho de inteligência artificial (AI). A AI normalmente processa dados NFS por meio de exportações de NFS. No entanto, você pode ter seus dados de AI em uma plataforma de big data analytics e computação de alto desempenho (HPC). Isso pode ser o Hadoop Distributed File System (HDFS), um objeto binário grande (Blob), armazenamento S3 ou o General Parallel File System (GPFS) da IBM. Neste documento, descrevemos como mover dados de uma plataforma de análise de big data e GPFS para o NFS usando comandos nativos do Hadoop, o módulo de análise no local (NIPAM) do NetApp e o NetApp XCP. Este documento também discute os benefícios comerciais da migração de dados de big data e HPC para IA.

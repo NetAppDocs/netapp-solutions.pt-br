@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_live_migration.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualização OpenShift da Red Hat com NetApp ONTAP 
+---
+= Fluxos de trabalho: Virtualização OpenShift da Red Hat com NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção mostra como migrar uma máquina virtual no OpenShift Virtualization entre nós no cluster .
+
+
+
+== Migração do VM Live
+
+Live Migration é um processo de migração de uma instância de VM de um nó para outro em um cluster OpenShift sem tempo de inatividade. Para que a migração ao vivo funcione em um cluster OpenShift, as VMs devem estar vinculadas a PVCs com o modo de acesso compartilhado ReadWriteMany. Os backends Trident configurados usando drivers ONTAP-nas suportam o modo de acesso RWX para protocolos de sistema de arquivos nfs e smb. Consulte a documentação link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["aqui"]. Os backends Trident configurados usando drivers ONTAP-san suportam o modo de acesso RWX para o modo de volume de bloco para protocolos iSCSI e NVMe/TCP. Consulte a documentação link:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["aqui"].
+
+Portanto, para que a migração ao vivo seja bem-sucedida, as VMs devem ser provisionadas com discos (discos de inicialização e discos hot plug adicionais) com PVCs usando classes de armazenamento ONTAP-nas ou ONTAP-san (VolumeMode: Block). Quando os PVCs são criados, o Trident cria volumes de ONTAP em uma SVM habilitada para NFS ou iSCSI.
+
+image:redhat_openshift_image55.png["Arquitetura de migração do VM Live"]
+
+Para executar uma migração em tempo real de uma VM criada anteriormente e que esteja em um estado em execução, execute as seguintes etapas:
+
+. Selecione a VM que você deseja migrar ao vivo.
+. Clique no separador *Configuration*.
+. Certifique-se de que todos os discos da VM sejam criados usando classes de armazenamento que possam suportar o modo de acesso RWX.
+. Clique em *ações* no canto direito e selecione *migrar*.
+. Para ver a progressão da migração, aceda a virtualização > Visão geral no menu do lado esquerdo e, em seguida, clique no separador *Migrations*.
+
+
+A migração da VM passará de *Pending* para *Scheduling* para *successful*
+
+
+NOTE: Uma instância de VM em um cluster OpenShift migra automaticamente para outro nó quando o nó original é colocado no modo de manutenção se a estratégia de despejo estiver definida como LiveMigrate.
+
+image:rh-os-n_use_case_vm_live_migrate_1.png["Início da migração ativa da VM"]
+
+image:rh-os-n_use_case_vm_live_migrate_2.png["Migração ativa da VM bem-sucedida"]

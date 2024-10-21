@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-use-case-2-backup-and-disaster-recovery-from-the-cloud-to-on-premises.html 
+keywords: cloud-based analytics, apache spark, hadoop, ebs, hdfs 
+summary: Este caso de uso é baseado em um cliente de transmissão que precisa fazer backup de dados de análise baseados em nuvem para seu data center local. 
+---
+= Caso de uso 2: Backup e recuperação de desastres da nuvem para o local
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este caso de uso é baseado em um cliente de transmissão que precisa fazer backup de dados analíticos baseados na nuvem para seu data center local, como ilustrado na figura abaixo.
+
+image:hdcs-sh-image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Cenário
+
+Nesse cenário, os dados do sensor de IoT são ingeridos na nuvem e analisados usando um cluster Apache Spark de código aberto na AWS. O requisito é fazer backup dos dados processados da nuvem para on-premises.
+
+
+
+== Requisitos e desafios
+
+Os principais requisitos e desafios para esse caso de uso incluem:
+
+* Habilitar a proteção de dados não deve causar nenhum efeito de performance no cluster de produção Spark/Hadoop na nuvem.
+* Os dados do sensor de nuvem precisam ser movidos e protegidos para o local de maneira eficiente e segura.
+* Flexibilidade para transferir dados da nuvem para o local em diferentes condições, como sob demanda, instantâneo e durante tempos de carregamento de clusters baixos.
+
+
+
+
+== Solução
+
+O cliente usa o AWS Elastic Block Store (EBS) para o armazenamento HDFS do cluster Spark para receber e ingerir dados de sensores remotos por meio do Kafka. Consequentemente, o armazenamento HDFS atua como a fonte para os dados de backup.
+
+Para atender a esses requisitos, o NetApp ONTAP Cloud é implantado na AWS e um compartilhamento NFS é criado para atuar como destino de backup do cluster do Spark/Hadoop.
+
+Depois que o compartilhamento NFS for criado, copie os dados do armazenamento do EBS do HDFS para o compartilhamento NFS do ONTAP. Depois que os dados residirem em NFS na nuvem da ONTAP, a tecnologia SnapMirror pode ser usada para espelhar os dados da nuvem em um storage no local, conforme necessário, de maneira segura e eficiente.
+
+Essa imagem mostra o backup e a recuperação de desastres da solução no local para a nuvem.
+
+image:hdcs-sh-image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: ehc/ehc-datastore-intro.html 
+keywords: NetApp Solutions, amazon, vmc, aws, microsoft azure, avs, azure, google cloud, gcp, gcve, vmware managed cloud, enterprise, hybrid, cloud, cloud volumes ontap, cvo, datastore, fsx, fsx ontap 
+summary:  
+---
+= Opções de storage do NetApp para provedores de nuvem pública
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Explore as opções do NetApp como storage nos três principais hyperscalers.
+
+[role="tabbed-block"]
+====
+.AWS/VMC
+--
+A AWS oferece suporte ao storage NetApp nas seguintes configurações:
+
+* FSX ONTAP como armazenamento conetado ao hóspede
+* Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
+* O FSX ONTAP como um armazenamento de dados NFS complementar
+
+
+Veja o detalhado link:aws-guest.html["Opções de armazenamento Guest Connect para VMC"]. Veja o detalhado link:aws-native-nfs-datastore-option.html["Opções suplementares de armazenamento de dados NFS para VMC"].
+
+--
+.Azure/AVS
+--
+O Azure é compatível com o storage NetApp nas seguintes configurações:
+
+* Azure NetApp Files (ANF) como storage conectado aos hóspedes
+* Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
+* O Azure NetApp Files (ANF) como um armazenamento de dados complementar de NFS
+
+
+Veja o detalhado link:azure-guest.html["Opções de armazenamento Guest Connect para AVS"]. Veja o detalhado link:azure-native-nfs-datastore-option.html["Opções suplementares de armazenamento de dados NFS para AVS"].
+
+--
+.GCP / GCVE
+--
+O Google Cloud é compatível com o storage NetApp nas seguintes configurações:
+
+* Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
+* Cloud Volumes Service (CVS) como armazenamento conetado ao convidado
+* Cloud Volumes Service (CVS) como um armazenamento de dados NFS complementar
+
+
+Veja o detalhado link:gcp-guest.html["Opções de armazenamento Guest Connect para GCVE"].
+
+Leia mais sobre link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Suporte ao armazenamento de dados do NetApp Cloud Volumes Service para o Google Cloud VMware Engine (blog do NetApp)"^] ou link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Como usar o NetApp CVS como datastores para o Google Cloud (blog do Google)"^]
+
+--
+====

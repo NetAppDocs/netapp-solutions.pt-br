@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-conclusion.html 
+keywords: conclusion, summary, data protection, hadoop, more information, Acknowledgements 
+summary: Esta seção fornece um resumo dos casos de uso e soluções fornecidos pelo NetApp para atender a vários requisitos de proteção de dados do Hadoop. 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção fornece um resumo dos casos de uso e soluções fornecidos pelo NetApp para atender a vários requisitos de proteção de dados do Hadoop. Com o Data Fabric da NetApp, os clientes podem:
+
+* Ter a flexibilidade de escolher as soluções de proteção de dados certas aproveitando os recursos de gerenciamento de rich data da NetApp e a integração com workflows nativos do Hadoop.
+* Reduza o tempo da janela de backup do cluster Hadoop em quase 70%.
+* Eliminar qualquer efeito de desempenho resultante dos backups de cluster do Hadoop.
+* Fornecer proteção de dados multicloud e acesso a dados de diferentes fornecedores de nuvem simultaneamente a uma única fonte de dados analíticos.
+* Crie cópias de cluster do Hadoop rápidas e com uso eficiente de espaço usando a tecnologia FlexClone.
+
+
+
+
+== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* Soluções de análise de big data da NetApp
++
+https://www.netapp.com/us/solutions/applications/big-data-analytics/index.aspx["https://www.netapp.com/us/solutions/applications/big-data-analytics/index.aspx"^]
+
+* Carga de trabalho do Apache Spark com o storage NetApp
++
+https://www.netapp.com/pdf.html?item=/media/26877-nva-1157-deploy.pdf["https://www.netapp.com/pdf.html?item=/media/26877-nva-1157-deploy.pdf"^]
+
+* Soluções de storage da NetApp para o Apache Spark
++
+https://www.netapp.com/media/16864-tr-4570.pdf["https://www.netapp.com/media/16864-tr-4570.pdf"^]
+
+* Apache Hadoop no Data Fabric habilitado pela NetApp
++
+https://www.netapp.com/media/16877-tr-4529.pdf["https://www.netapp.com/media/16877-tr-4529.pdf"^]
+
+
+
+
+
+== Agradecimentos
+
+* Rio de Janeiro, Brasil, Sales Rep, Rio de Janeiro, NetApp
+* Hoseb Dermanilian, Gerente de Desenvolvimento de Negócios, NetApp
+* Lee Dorrier, diretor do MPSG, NetApp
+* David Thiessen, engenheiro de sistemas, NetApp
+
+
+
+
+== Histórico de versões
+
+|===
+| Versão | Data | Histórico de versões do documento 
+
+
+| Versão 1,0 | Janeiro de 2018 | Lançamento inicial 
+
+
+| Versão 2,0 | Outubro de 2021 | Atualizado com o caso de uso nº 5: Acelere o workload analítico 
+
+
+| Versão 3,0 | Novembro de 2023 | Removidos detalhes do NIPAM 
+|===

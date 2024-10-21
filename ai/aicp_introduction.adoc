@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_introduction.html 
+keywords: tr-4798, tr4798, 4798, MLOps, Trident, ONTAP, containers, AI, Kubernetes, Kubeflow, Jupyter, Airflow, MLflow, JupyterHub 
+summary: Esta solução destina-se a demonstrar várias ferramentas e frameworks de código aberto diferentes que podem ser incorporados em um fluxo de trabalho MLOps. Essas diferentes ferramentas e frameworks podem ser usados juntos ou sozinhos, dependendo dos requisitos e do caso de uso. 
+---
+= MLOps de código aberto com NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+, NetApp, NetApp, NetApp, NetApp
+
+[role="lead"]
+Empresas e organizações de todos os tamanhos e de vários setores estão recorrendo à inteligência artificial (AI) para resolver problemas do mundo real, fornecer produtos e serviços inovadores e obter vantagem em um mercado cada vez mais competitivo. Muitas organizações estão recorrendo a ferramentas de MLOps de código aberto para acompanhar o ritmo acelerado da inovação no setor. Essas ferramentas de código aberto oferecem recursos avançados e recursos de ponta, mas muitas vezes não são responsáveis pela disponibilidade de dados e segurança de dados. Infelizmente, isso significa que cientistas de dados altamente qualificados são forçados a gastar uma quantidade significativa de tempo esperando para obter acesso aos dados ou esperar que operações relacionadas a dados rudimentares sejam concluídas. Ao emparelhar ferramentas de MLOps de código aberto populares com uma infraestrutura de dados inteligente da NetApp, as organizações podem acelerar seus pipelines de dados. Por sua vez, acelera suas iniciativas de AI. Eles podem extrair valor de seus dados, ao mesmo tempo em que garantem a proteção e a segurança. Essa solução demonstra o emparelhamento dos recursos de gerenciamento de dados do NetApp com várias ferramentas e estruturas de código aberto populares para lidar com esses desafios.
+
+A lista a seguir destaca alguns recursos principais que são habilitados por esta solução:
+
+* Os usuários podem provisionar rapidamente novos volumes de dados de alta capacidade e espaços de trabalho de desenvolvimento com respaldo de storage NetApp de alta performance com escalabilidade horizontal.
+* Os usuários podem clonar quase instantaneamente volumes de dados de alta capacidade e espaços de trabalho de desenvolvimento para permitir experimentação ou iteração rápida.
+* Os usuários podem salvar snapshots de volumes de dados de alta capacidade e espaços de trabalho de desenvolvimento quase instantaneamente para backup e/ou rastreabilidade/linha de base.
+
+
+image:aicp_image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Um fluxo de trabalho típico MLOps incorpora espaços de trabalho de desenvolvimento, geralmente tomando a forma link:https://jupyter.org["Computadores portáteis Jupyter"^]de ; acompanhamento de experimentos; pipelines de treinamento automatizado; pipelines de dados e inferência/implantação. Esta solução destaca várias ferramentas e estruturas diferentes que podem ser usadas de forma independente ou em conjunto para abordar os diferentes aspetos do fluxo de trabalho. Também demonstramos o emparelhamento dos recursos de gerenciamento de dados do NetApp com cada uma dessas ferramentas. Esta solução destina-se a oferecer blocos de construção a partir dos quais uma organização pode construir um fluxo de trabalho personalizado MLOps que é específico para seus casos de uso e requisitos.
+
+As seguintes ferramentas/frameworks são abordadas nesta solução:
+
+* link:https://airflow.apache.org["Fluxo de ar Apache"^]
+* link:https://jupyter.org/hub["JupyterHub"^]
+* link:https://www.kubeflow.org["Kubeflow"^]
+* link:https://www.mlflow.org["MLflow"^]
+
+
+A lista a seguir descreve padrões comuns para implantar essas ferramentas de forma independente ou em conjunto.
+
+* Implante JupyterHub, MLflow e Apache Airflow em conjunto - JupyterHub para link:https://jupyter.org["Computadores portáteis Jupyter"^], MLflow para rastreamento de experimentos e Apache Airflow para treinamento automatizado e pipelines de dados.
+* Implante Kubeflow e Apache Airflow em conjunto - Kubeflow para link:https://jupyter.org["Computadores portáteis Jupyter"^], acompanhamento de experimentos, pipelines de treinamento automatizado e inferência; e Apache Airflow para pipelines de dados.
+* Implante o Kubeflow como uma solução completa de plataforma MLOps para link:https://jupyter.org["Computadores portáteis Jupyter"^], rastreamento de experimentos, treinamento automatizado, pipelines de dados e inferência.
+

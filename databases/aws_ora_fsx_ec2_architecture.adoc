@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_ora_fsx_ec2_architecture.html 
+summary: Esta seção descreve uma arquitetura de solução de implantação personalizada do RDS Oracle com armazenamento personalizado do Oracle RDS e do FSX ONTAP. 
+keywords: architecture, Oracle RDS, RDS, FSx ONTAP, FSx, AWS, Oracle, HA, DR 
+---
+= Arquitetura da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O diagrama de arquitetura a seguir ilustra uma implantação de banco de dados Oracle altamente disponível em uma instância do AWS EC2 com o serviço de armazenamento FSX. Um esquema de implantação semelhante, mas com o modo de espera em uma região diferente, pode ser configurado para recuperação de desastres.
+
+No ambiente, a instância de computação Oracle é implantada por meio de um console de instância do AWS EC2. Existem vários tipos de instâncias do EC2 disponíveis no console. A NetApp recomenda a implantação de um tipo de instância EC2 orientada a banco de dados, como uma imagem M5 AMI com o RedHat Enterprise Linux 8 e até 10Gps Gbps de largura de banda de rede.
+
+O armazenamento de banco de dados Oracle no FSX volumes, por outro lado, é implantado com o console ou CLI do AWS FSX. Os volumes binários, dados ou log da Oracle são apresentados e montados em um host Linux de instância EC2. Cada volume de dados ou log pode ter vários LUNs alocados, dependendo do protocolo de storage subjacente empregado.
+
+image:aws_ora_fsx_ec2_arch.png["Esta imagem mostra um diagrama de arquitetura de exemplo, incluindo o cluster de HA primário - o cluster de HA em espera - nós de gestão - e os nós de ligação relacionados."]
+
+Um cluster de armazenamento FSX é projetado com redundância dupla, para que os clusters de armazenamento primário e de espera sejam implantados em duas zonas de disponibilidade diferentes. Os volumes de banco de dados são replicados de um cluster FSX primário para um cluster FSX em espera em um intervalo configurável pelo usuário para todos os volumes binários, dados e log da Oracle.
+
+Esse ambiente Oracle de alta disponibilidade é gerenciado com um nó da controladora Ansible e um servidor de backup e uma ferramenta de IU do SnapCenter. Com os kits de ferramentas baseados em manual do Ansible, a instalação, a configuração e a replicação da Oracle são automatizadas. Qualquer atualização para o sistema operacional do kernel da instância do Oracle EC2 ou patch do Oracle pode ser executada em paralelo para manter o primário e o modo de espera em sincronia. Na verdade, a configuração inicial de automação pode ser facilmente expandida para executar algumas tarefas diárias repetidas da Oracle, se necessário.
+
+O SnapCenter fornece workflows para recuperação pontual do banco de dados Oracle ou para clonagem de banco de dados nas zonas principal ou de espera, se necessário. Com a IU do SnapCenter, você pode configurar o backup e a replicação do banco de dados Oracle para armazenamento FSX de reserva para alta disponibilidade ou recuperação de desastres com base em seus objetivos de rto ou RPO.
+
+A solução fornece um processo alternativo que oferece recursos semelhantes aos disponíveis na implantação do Oracle RAC e do Data Guard.

@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_user_management.html 
+keywords: VDS, Azure, Active Directory, NTLM, Kerberos, ADConnect, 
+summary: O NetApp VDS usa o Azure ative Directory para autenticação de identidade e os Serviços de domínio do Azure ative Directory para autenticação NTLM/Kerberos. A ferramenta ADConnect pode ser usada para sincronizar um domínio do ative Directory on-premise com o Azure ative Directory. 
+---
+= Gerenciamento de usuários
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NetApp VDS usa o Azure ative Directory para autenticação de identidade e os Serviços de domínio do Azure ative Directory para autenticação NTLM/Kerberos. A ferramenta ADConnect pode ser usada para sincronizar um domínio do ative Directory on-premise com o Azure ative Directory.
+
+Novos usuários podem ser adicionados a partir do portal ou você pode habilitar o espaço de trabalho na nuvem para usuários existentes. As permissões para workspaces e serviços de aplicativos podem ser controladas por usuários individuais ou por grupos. A partir do portal de gerenciamento, os usuários administrativos podem ser definidos para controlar permissões para o portal, espaços de trabalho e assim por diante.
+
+A figura a seguir mostra o gerenciamento de usuários no NetApp VDS.
+
+image:hcvdivds_image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Cada workspace reside em sua própria unidade organizacional do ative Directory (ou) sob a UO do Cloud Workspace, conforme mostrado na figura a seguir.
+
+image:hcvdivds_image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Para obter mais informações, consulte https://youtu.be/RftG7v9n8hw["este vídeo"^] sobre permissões de usuário e gerenciamento de usuários no NetApp VDS.
+
+Quando um grupo do ative Directory é definido como um CRAUserGroup usando uma chamada de API para o datacenter, todos os usuários desse grupo são importados para o CloudWorkspace para gerenciamento usando a IU. Como o espaço de trabalho na nuvem está habilitado para o usuário, o VDS cria pastas home do usuário, permissões de configurações, atualizações de propriedades do usuário e assim por diante.
+
+Se o usuário VDI habilitado estiver marcado, o VDS criará uma máquina RDS de sessão única dedicada a esse usuário. Ele solicita que o modelo e o datastore provisionem.
+
+image:hcvdivds_image26.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

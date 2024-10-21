@@ -1,0 +1,150 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-introduction.html 
+keywords: tr-4886, tr4886, 4886, introduction, netapp, ai, inferencing, lenovo, thinksystem, solution, design 
+summary: 'Este documento descreve uma arquitetura de computação e storage para implantar a inferência de inteligência artificial (AI) baseada em GPU em controladores de storage NetApp e servidores Lenovo ThinkSystem em um ambiente de borda que atende a novos cenários de aplicações.' 
+---
+= TR-4886: Inferência de IA na borda - NetApp com Lenovo ThinkSystem - Projeto de solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Sathish Thyagarajan, NetApp Miroslav Hodak, Lenovo
+
+[role="lead"]
+Este documento descreve uma arquitetura de computação e storage para implantar a inferência de inteligência artificial (AI) baseada em GPU em controladores de storage NetApp e servidores Lenovo ThinkSystem em um ambiente de borda que atende a novos cenários de aplicações.
+
+
+
+== Resumo
+
+Vários cenários de aplicações emergentes, como sistemas avançados de assistência ao condutor (ADAS), indústria 4,0, cidades inteligentes e Internet das coisas (IoT), exigem o processamento de fluxos de dados contínuos sob uma latência quase nula. Este documento descreve uma arquitetura de computação e storage para implantar a inferência de inteligência artificial (AI) baseada em GPU em controladores de storage NetApp e servidores Lenovo ThinkSystem em um ambiente de borda que atenda a esses requisitos. Este documento também fornece dados de desempenho para o benchmark de inferência MLPerf padrão do setor, avaliando várias tarefas de inferência em servidores de borda equipados com GPUs NVIDIA T4. Investigamos o desempenho de cenários de inferência off-line, de fluxo único e multistream e mostramos que a arquitetura com um sistema de storage compartilhado em rede econômico é de alta performance e fornece um ponto central para gerenciamento de dados e modelos para vários servidores de borda.
+
+
+
+== Introdução
+
+As empresas estão gerando cada vez mais volumes massivos de dados na borda da rede. Para obter o máximo valor de sensores inteligentes e dados de IoT, as organizações estão procurando uma solução de streaming de eventos em tempo real que permita a computação de borda. Por isso, os trabalhos computacionalmente exigentes são cada vez mais realizados na borda, fora dos data centers. A inferência de IA é um dos impulsionadores dessa tendência. Os servidores de borda fornecem poder computacional suficiente para essas cargas de trabalho, especialmente ao usar aceleradores, mas o armazenamento limitado geralmente é um problema, especialmente em ambientes de vários servidores. Neste documento, mostramos como você pode implantar um sistema de storage compartilhado no ambiente de borda e como ele beneficia as cargas de trabalho de inferência de IA sem impor uma penalidade de desempenho.
+
+Este documento descreve uma arquitetura de referência para inferência de IA na borda. Ele combina vários servidores de borda Lenovo ThinkSystem com um sistema de armazenamento NetApp para criar uma solução fácil de implantar e gerenciar. Destina-se a ser um guia de base para implantações práticas em várias situações, como o chão de fábrica com várias câmeras e sensores industriais, sistemas de ponto de venda (POS) em transações de varejo ou sistemas de auto-condução completa (FSD) que identificam anomalias visuais em veículos autônomos.
+
+Este documento abrange o teste e a validação de uma configuração de computação e storage que consiste no servidor de borda Lenovo ThinkSystem SE350 e um sistema de storage NetApp AFF e EF-Series de nível básico. As arquiteturas de referência fornecem uma solução eficiente e econômica para implantações de AI, além de fornecer serviços de dados abrangentes, proteção de dados integrada, escalabilidade otimizada e storage de dados conectado à nuvem com o software de gerenciamento de dados NetApp ONTAP e NetApp SANtricity.
+
+
+
+=== Público-alvo
+
+Este documento destina-se aos seguintes públicos:
+
+* Líderes empresariais e arquitetos empresariais que querem produzir IA na borda.
+* Cientistas de dados, engenheiros de dados, pesquisadores de AI/aprendizado de máquina (ML) e desenvolvedores de sistemas de AI.
+* Arquitetos empresariais que projetam soluções para o desenvolvimento de modelos e aplicações de AI/ML.
+* Cientistas de dados e engenheiros de AI buscam maneiras eficientes de implantar modelos DE deep learning (DL) e ML.
+* Gerentes de dispositivos de borda e administradores de servidor de borda responsáveis pela implantação e gerenciamento de modelos de inferência de borda.
+
+
+
+
+=== Arquitetura da solução
+
+Esse servidor Lenovo ThinkSystem e a solução de storage NetApp ONTAP ou NetApp SANtricity foram projetados para lidar com inferência de AI em grandes conjuntos de dados usando o poder de processamento das GPUs junto com CPUs tradicionais. Essa validação demonstra alto desempenho e gerenciamento de dados otimizado com uma arquitetura que usa servidores de borda único ou múltiplo Lenovo SR350 interconetados com um único sistema de armazenamento NetApp AFF, como mostrado nas duas figuras a seguir.
+
+image:ai-edge-image2.jpg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+image:ai-edge-image17.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A visão geral da arquitetura lógica na figura a seguir mostra as funções dos elementos de computação e storage nessa arquitetura. Especificamente, mostra o seguinte:
+
+* Dispositivos de computação de borda que executam inferência nos dados recebidos de câmeras, sensores e assim por diante.
+* Um elemento de storage compartilhado que atende a vários propósitos:
++
+** Fornece um local central para modelos de inferência e outros dados necessários para realizar a inferência. Os servidores de computação acessam o storage diretamente e usam modelos de inferência na rede sem a necessidade de copiá-los localmente.
+** Os modelos atualizados são enviados aqui.
+** Arquiva dados de entrada que os servidores de borda recebem para análise posterior. Por exemplo, se os dispositivos de borda estiverem conetados a câmeras, o elemento de armazenamento manterá os vídeos capturados pelas câmeras.
+
+
+
+
+image:ai-edge-image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+|===
+
+
+| vermelho | azul 
+
+
+| Sistema de computação Lenovo | Sistema de storage da NetApp AFF 
+
+
+| Dispositivos de borda que executam inferência em entradas de câmeras, sensores e assim por diante. | Armazenamento compartilhado contendo modelos de inferência e dados de dispositivos de borda para análise posterior. 
+|===
+Esta solução NetApp e Lenovo oferece os seguintes principais benefícios:
+
+* Computação acelerada por GPU na borda.
+* Implantação de vários servidores de borda suportados e gerenciados a partir de um storage compartilhado.
+* Proteção de dados robusta para atender aos objetivos de ponto de restauração (RPOs) e de tempo de recuperação (RTOs) sem perda de dados.
+* Gerenciamento de dados otimizado com clones e cópias NetApp Snapshot para otimizar os workflows de desenvolvimento.
+
+
+
+
+=== Como usar essa arquitetura
+
+Este documento valida o design e o desempenho da arquitetura proposta. No entanto, não testamos certas partes do nível de software, como o gerenciamento de contêineres, workloads ou modelos e a sincronização de dados com a nuvem ou o data center no local, porque elas são específicas para um cenário de implantação. Aqui, existem várias opções.
+
+No nível de gerenciamento de contentores, o gerenciamento de contentores do Kubernetes é uma boa escolha e é bem suportado em uma versão totalmente upstream (Canonical) ou em uma versão modificada adequada para implantações corporativas (Red Hat). O link:aicp_introduction.html["Plano de controle do NetApp AI"^] que usa o NetApp Trident e o recém-adicionado https://github.com/NetApp/netapp-dataops-toolkit/releases/tag/v2.0.0["Toolkit DataOps do NetApp"^] fornece rastreabilidade incorporada, funções de gerenciamento de dados, interfaces e ferramentas para que cientistas de dados e engenheiros de dados se integrem ao storage NetApp. O Kubeflow, o kit de ferramentas ML para Kubernetes, fornece recursos de IA adicionais, juntamente com um suporte para controle de versão de modelos e KFServing em várias plataformas, como o serviço TensorFlow ou o servidor de inferência NVIDIA Triton. Outra opção é a plataforma NVIDIA EGX, que fornece gerenciamento de carga de trabalho juntamente com acesso a um catálogo de contentores de inferência de IA habilitados para GPU. No entanto, essas opções podem exigir esforço e experiência significativos para colocá-los em produção e podem exigir a assistência de um fornecedor de software independente (ISV) ou consultor.
+
+
+
+=== Áreas de solução
+
+O principal benefício da inferência de AI e da computação de borda é a capacidade dos dispositivos de computação, processamento e análise de dados com alto nível de qualidade sem latência. Existem muitos exemplos de casos de uso de computação de borda para descrever neste documento, mas aqui estão alguns exemplos proeminentes:
+
+
+
+==== Automóveis: Veículos autônomos
+
+A ilustração clássica da computação de borda está nos sistemas avançados de assistência ao motorista (ADAS) em veículos autônomos (AV). A IA em carros sem motorista deve processar rapidamente muitos dados de câmeras e sensores para ser um motorista seguro bem-sucedido. Levar muito tempo para interpretar entre um objeto e um ser humano pode significar vida ou morte, portanto, ser capaz de processar esses dados o mais próximo possível do veículo é crucial. Nesse caso, um ou mais servidores de computação de borda manipula a entrada de câmeras, RADAR, lidar e outros sensores, enquanto o storage compartilhado mantém modelos de inferência e armazena dados de entrada de sensores.
+
+
+
+==== Saúde: Monitorização do paciente
+
+Um dos maiores impactos da IA e da computação de borda é a sua capacidade de melhorar o monitoramento contínuo de pacientes para doenças crônicas, tanto em unidades de cuidados domiciliares como em unidades de terapia intensiva (UTIs). Os dados de dispositivos de borda que monitoram os níveis de insulina, respiração, atividade neurológica, ritmo cardíaco e funções gastrointestinais exigem análise instantânea de dados que devem ser acionados imediatamente, pois há tempo limitado para agir para salvar a vida de alguém.
+
+
+
+==== Varejo: Pagamento sem caixa
+
+A computação de borda pode impulsionar a IA e O ML para ajudar os Varejistas a reduzir o tempo de checkout e aumentar o tráfego de pés. Os sistemas sem caixa suportam vários componentes, como os seguintes:
+
+* Autenticação e acesso. Conetar o comprador físico a uma conta validada e permitir o acesso ao espaço de varejo.
+* Monitoramento de inventário. Usando sensores, etiquetas RFID e sistemas de visão computacional para ajudar a confirmar a seleção ou a desseleção de itens pelos compradores.
++
+Aqui, cada um dos servidores de borda lida com cada contador de checkout e o sistema de armazenamento compartilhado serve como um ponto de sincronização central.
+
+
+
+
+
+==== Serviços financeiros: Segurança humana em quiosques e prevenção de fraudes
+
+As organizações bancárias estão usando IA e computação de borda para inovar e criar experiências bancárias personalizadas. Os quiosques interativos que usam análise de dados em tempo real e inferência de IA agora permitem que os caixas eletrônicos não apenas ajudem os clientes a sacar dinheiro, mas monitorem quiosques proativamente por meio das imagens capturadas das câmeras para identificar riscos à segurança humana ou comportamento fraudulento. Nesse cenário, os servidores de computação de borda e os sistemas de storage compartilhado são conectados a quiosques e câmeras interativas para ajudar os bancos a coletar e processar dados com modelos de inferência de IA.
+
+
+
+==== Fabricação: Indústria 4,0
+
+A quarta revolução industrial (indústria 4,0) começou, juntamente com tendências emergentes, como Smart Factory e impressão 3DD. Para se preparar para um futuro liderado por dados, a comunicação máquina-máquina (M2MG) de grande escala e a IoT são integradas para aumentar a automação sem a necessidade de intervenção humana. A fabricação já é altamente automatizada e adicionar recursos de IA é uma continuação natural da tendência a longo prazo. A IA permite automatizar operações que podem ser automatizadas com a ajuda de visão computacional e outras funcionalidades de AI. Você pode automatizar o controle de qualidade ou tarefas que dependem da visão humana ou da tomada de decisão para realizar análises mais rápidas de materiais em linhas de montagem em pisos de fábrica para ajudar as fábricas a atender aos padrões ISO exigidos de segurança e gerenciamento de qualidade. Aqui, cada servidor de borda de computação é conetado a um array de sensores que monitoram o processo de fabricação e os modelos de inferência atualizados são enviados para o storage compartilhado, conforme necessário.
+
+
+
+==== Telecomunicações: Deteção de ferrugem, inspeção de torre e otimização de rede
+
+A indústria de telecomunicações usa técnicas de visão computacional e IA para processar imagens que detetam automaticamente ferrugem e identificam torres de células que contêm corrosão e, portanto, exigem inspeção adicional. O uso de imagens de drones e modelos de IA para identificar regiões distintas de uma torre para analisar ferrugem, rachaduras superficiais e corrosão aumentou nos últimos anos. A demanda continua crescendo para tecnologias de IA que permitem que a infraestrutura de telecomunicações e as torres de células sejam inspecionadas de forma eficiente, avaliadas regularmente quanto à degradação e reparadas prontamente quando necessário.
+
+Além disso, outro caso de uso emergente em telecomunicações é o uso de algoritmos de IA e ML para prever padrões de tráfego de dados, detetar dispositivos compatíveis com 5G e automatizar e aumentar o gerenciamento de energia de entradas múltiplas e saídas múltiplas (MIMO). O hardware MIMO é usado em torres de rádio para aumentar a capacidade da rede; no entanto, isso vem com custos adicionais de energia. Os modelos ML para "modo de suspensão MIMO" implantados em locais celulares podem prever o uso eficiente de rádios e ajudar a reduzir os custos de consumo de energia para operadoras de rede móvel (MNOs). As soluções de inferência de AI e computação de borda ajudam as MNOs a reduzir a quantidade de dados transmitidos de volta e de volta para data centers, reduzir o TCO, otimizar as operações de rede e melhorar a performance geral dos usuários finais.

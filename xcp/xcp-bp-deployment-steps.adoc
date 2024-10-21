@@ -1,0 +1,341 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-deployment-steps.html 
+keywords: deployment, solution components, linux server, windows server aff a800, ha 
+summary: Esta seção aborda as etapas de implantação do NetApp XCP para transferência de dados. 
+---
+= Etapas de implantação
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção aborda as etapas de implantação do NetApp XCP para transferência de dados.
+
+
+
+== Detalhes da cama de teste
+
+A tabela a seguir fornece os detalhes do leito de teste que foi usado para essa implantação e validação de desempenho.
+
+|===
+| Componentes da solução | Detalhes 
+
+
+| XCP versão 1,7  a| 
+* Um servidor Linux - Linux (RHEL 7,9 ou RHEL 8)
+* Um servidor Windows – padrão do Windows Server 2019
+
+
+
+
+| Par de HA de storage array do NetApp AFF para o volume de origem  a| 
+* AFF8080
+* NetApp ONTAP 9
+* Protocolo NFS
+
+
+
+
+| Par de HA de storage array do NetApp AFF para volume de destino  a| 
+* AFF A800
+* ONTAP 9
+* Protocolo NFS
+
+
+
+
+| Servidor Fujitsu PRIMERGY RX2540 | Cada um equipado com: * 48 CPUs * memória física Intel Xeon * 256GB * 10GbE porta dupla 
+
+
+| Rede | 10GbE 
+|===
+
+
+== Etapas de implantação - nas
+
+Para implantar o NetApp XCP para transferência de dados, primeiro instale e ative o software XCP no local de destino. Pode rever os detalhes no https://mysupport.netapp.com/documentation/productlibrary/index.html?productID=63064["Guia do Usuário do NetApp XCP"^]. Para fazer isso, execute as seguintes etapas:
+
+. Cumpra os pré-requisitos conforme detalhado na seção link:xcp-bp-netapp-xcp-overview.html#prerequisites-for-xcp[""Pré-requisitos para XCP.""]
+. Transfira o software XCP a partir do https://mysupport.netapp.com/site/products/all/details/netapp-xcp/downloads-tab["NetApp XCP (Downloads) página"^].
+. Copie os arquivos tar do XCP baixados para o servidor XCP.
++
+....
+# scp Documents/OneDrive\ -\ NetApp\ Inc/XCP/software/1.6.1/NETAPP_XCP_1.6.1.tgz mailto:root@10.63.150.53:/usr/src
+....
+. Descompacte o arquivo tarfile.
++
+....
+[root@mastr-53 src]# tar -zxvf NETAPP_XCP_1.6.1.tgz
+....
+. Baixe a licença https://xcp.netapp.com/license/xcp.xwic%20["https://xcp.netapp.com/license/xcp.xwic"^] e copie para o servidor XCP.
+. Ative a licença.
++
+....
+[root@mastr-53 linux]# ./xcp activate
+[root@mastr-53 src]# cp license /opt/NetApp/xFiles/xcp/license
+[root@mastr-53 src]# cd /usr/src/xcp/linux/
+[root@mastr-53 linux]# ./xcp activate
+....
+. Encontre a porta NFS de origem e o servidor NFS de destino. A porta padrão é 2049.
++
+....
+[root@mastr-53 ~]# rpcinfo -p 10.63.150.213
+[root@mastr-53 ~]# rpcinfo -p 10.63.150.63
+....
+. Verifique a conexão NFS. Verifique o servidor NFS (para origem e destino) usando telnet para a porta do servidor NFS.
++
+....
+[root@mastr-53 ~]# telnet 10.63.150.127 2049
+[root@mastr-53 ~]# telnet 10.63.150.63 2049
+....
+. Configure o catálogo.
++
+.. Crie um volume NFS e exporte NFS para o catálogo XCP. Você também pode aproveitar a exportação NFS do sistema operacional para o catálogo XCP.
++
+....
+A800-Node1-2::> volume create -vserver Hadoop_SVM -volume xcpcatalog -aggregate aggr_Hadoop_1 -size 50GB -state online -junction-path /xcpcatalog -policy default -unix-permissions ---rwxr-xr-x -type RW -snapshot-policy default -foreground true
+A800-Node1-2::> volume mount -vserver Hadoop_SVM -volume xcpcatalog_vol -junction-path /xcpcatalog
+....
+.. Verifique a exportação NFS.
++
+....
+[root@mastr-53 ~]# showmount -e 10.63.150.63 | grep xcpca
+/xcpcatalog (everyone)
+....
+..  `xcp.ini`Atualizar .
++
+....
+[root@mastr-53 ~]# cat /opt/NetApp/xFiles/xcp/xcp.ini
+# Sample xcp config
+[xcp]
+catalog = 10.63.150.64:/xcpcatalog
+
+[root@mastr-53 ~]#
+....
+
+
+. Encontre as exportações de nas de origem usando `xcp show`o . Procure:
++
+....
+== NFS Exports ==
+== Attributes of NFS Exports ==
+....
++
+....
+[root@mastr-53 linux]# ./xcp show 10.63.150.127
+== NFS Exports ==
+<check here>
+== Attributes of NFS Exports ==
+<check here>
+....
+. (Opcional) Digitalizar os dados de origem nas.
++
+....
+[root@mastr-53 linux]# ./xcp scan -newid xcpscantest4 -stats 10.63.150.127:/xcpsrc_vol
+....
++
+A digitalização dos dados nas de origem ajuda você a entender o layout de dados e encontrar possíveis problemas de migração. O tempo de operação de digitalização XCP é proporcional ao número de arquivos e à profundidade do diretório. Você pode pular esta etapa se estiver familiarizado com seus dados nas.
+
+. Verifique o relatório criado pelo `xcp scan`. Procure principalmente por pastas ilegíveis e arquivos ilegíveis.
++
+....
+[root@mastr-53 linux]# mount 10.63.150.64:/xcpcatalog  /xcpcatalog
+base) nkarthik-mac-0:~ karthikeyannagalingam$ scp -r root@10.63.150.53:/xcpcatalog/catalog/indexes/xcpscantest4 Documents/OneDrive\ -\ NetApp\ Inc/XCP/customers/reports/
+....
+. (Opcional) altere o inode. Visualize o número de inodes e modifique o número com base no número de arquivos a serem migrados ou copiados para volumes de catálogo e destino (se necessário).
++
+....
+A800-Node1-2::> volume show -volume xcpcatalog -fields files,files-used
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+A800-Node1-2::> volume modify -volume xcpcatalog -vserver A800-Node1_vs1 -files 2000000
+Volume modify successful on volume xcpcatalog of Vserver A800-Node1_vs1.
+
+A800-Node1-2::> volume show -volume xcpcatalog -fields files,files-used
+....
+. Digitalize o volume de destino.
++
+....
+[root@mastr-53 linux]# ./xcp scan -stats 10.63.150.63:/xcpdest
+....
+. Verifique o espaço do volume de origem e destino.
++
+....
+[root@mastr-53 ~]# df -h /xcpsrc_vol
+[root@mastr-53 ~]# df -h /xcpdest/
+....
+. Copie os dados da origem para o destino usando `xcp copy` e verifique o resumo.
++
+....
+[root@mastr-53 linux]# ./xcp copy -newid create_Sep091599198212 10.63.150.127:/xcpsrc_vol 10.63.150.63:/xcpdest
+<command inprogress results removed>
+Xcp command : xcp copy -newid create_Sep091599198212 -parallel 23 10.63.150.127:/xcpsrc_vol 10.63.150.63:/xcpdest
+Stats       : 9.07M scanned, 9.07M copied, 118 linked, 9.07M indexed, 173 giants
+Speed       : 1.57 TiB in (412 MiB/s), 1.50 TiB out (392 MiB/s)
+Total Time  : 1h6m.
+STATUS      : PASSED
+[root@mastr-53 linux]#
+....
++
+
+NOTE: Por padrão, o XCP cria sete processos paralelos para copiar os dados. Isso pode ser ajustado.
+
++
+
+NOTE: A NetApp recomenda que o volume de origem seja somente leitura. Em tempo real, o volume de origem é um sistema de arquivos ativo e ativo. A `xcp copy` operação pode falhar porque o NetApp XCP não suporta uma fonte ativa que é continuamente alterada por um aplicativo.
+
++
+Para Linux, o XCP requer uma ID de índice porque o XCP Linux executa catalogação.
+
+. (Opcional) Verifique os inodes no volume NetApp de destino.
++
+....
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+vserver        volume  files    files-used
+-------------- ------- -------- ----------
+A800-Node1_vs1 xcpdest 21251126 15039685
+
+A800-Node1-2::>
+....
+. Execute a atualização incremental usando `xcp sync`o .
++
+....
+[root@mastr-53 linux]# ./xcp sync -id create_Sep091599198212
+Xcp command : xcp sync -id create_Sep091599198212
+Stats       : 9.07M reviewed, 9.07M checked at source, no changes, 9.07M reindexed
+Speed       : 1.73 GiB in (8.40 MiB/s), 1.98 GiB out (9.59 MiB/s)
+Total Time  : 3m31s.
+STATUS      : PASSED
+....
++
+Para este documento, para simular em tempo real, os um milhão de arquivos nos dados de origem foram renomeados e, em seguida, os arquivos atualizados foram copiados para o destino usando `xcp sync`o . Para Windows, o XCP precisa de caminhos de origem e destino.
+
+. Validar a transferência de dados. Pode validar se a origem e o destino têm os mesmos dados utilizando `xcp verify`o .
++
+....
+Xcp command : xcp verify 10.63.150.127:/xcpsrc_vol 10.63.150.63:/xcpdest
+Stats       : 9.07M scanned, 9.07M indexed, 173 giants, 100% found (6.01M have data), 6.01M compared, 100% verified (data, attrs, mods)
+Speed       : 3.13 TiB in (509 MiB/s), 11.1 GiB out (1.76 MiB/s)
+Total Time  : 1h47m.
+STATUS      : PASSED
+....
+
+
+A documentação do XCP fornece várias opções (com exemplos) para as `scan` operações , `copy`, `sync` e . `verify` Para obter mais informações, consulte https://mysupport.netapp.com/documentation/productlibrary/index.html?productID=63064["Guia do Usuário do NetApp XCP"^] .
+
+
+NOTE: Os clientes do Windows devem copiar os dados usando listas de controle de acesso (ACLs). O NetApp recomenda a utilização do comando `xcp copy -acl -fallbackuser\<username> -fallbackgroup\<username or groupname> <source> <destination>`. Para obter o máximo de desempenho, considerando o volume de origem que tem dados SMB com ACL e os dados acessíveis por NFS e SMB, o destino deve ser um volume NTFS. Usando o XCP (versão NFS), copie os dados do servidor Linux e execute a sincronização XCP (versão SMB) com `-acl` as opções e `-nodata` do servidor Windows para copiar as ACLs dos dados de origem para os dados SMB de destino.
+
+Para obter instruções detalhadas, https://helpcenter.netwrix.com/NA/Configure_IT_Infrastructure/Accounts/DCA_Manage_Auditing_Security_Log.html["Configurar a política "gerir auditoria e registo de segurança""^]consulte .
+
+
+
+== Etapas de implantação - migração de dados HDFS/MapRFS
+
+Nesta seção, discutimos o novo recurso XCP chamado Hadoop Filesystem Data Transfer para nas, que migra dados do HDFS/MapRFS para NFS e vice-versa.
+
+
+
+=== Pré-requisitos
+
+Para o recurso MapRFS/HDFS, você deve executar o seguinte procedimento em um ambiente de usuário não-root. Normalmente, o usuário não-root é hdfs, mapr ou um usuário que tem permissão para fazer alterações no sistema de arquivos HDFS e MapRFS.
+
+. Defina as variáveis CLASSPATH, HADOOP_Home, NHDFS_LIBJVM_PATH, LB_Library_PATH e NHDFS_LIBHDFS_PATH na CLI ou no arquivo .bashrc do usuário junto com o `xcp` comando.
++
+** NHDFS_LIBHDFS_path aponta para o arquivo libhdfs.so. Este arquivo fornece APIs HDFS para interagir e manipular os arquivos HDFS/MapRFS e o sistema de arquivos como parte da distribuição Hadoop.
+** NHDFS_LIBJVM_path aponta para o arquivo libjvm.so. Esta é uma biblioteca de máquina VIRTUAL JAVA compartilhada no local jre.
+** CLASSPATH aponta para todos os arquivos JARs usando valores (Hadoop classpath –glob).
+** LD_Library_path aponta para a localização da pasta da biblioteca nativa do Hadoop.
++
+Veja a amostra a seguir com base em um cluster Cloudera.
+
++
+[listing]
+----
+export CLASSPATH=$(hadoop classpath --glob)
+export LD_LIBRARY_PATH=/usr/java/jdk1.8.0_181-cloudera/jre/lib/amd64/server/
+export HADOOP_HOME=/opt/cloudera/parcels/CDH-6.3.4-1.cdh6.3.4.p0.6751098/
+#export HADOOP_HOME=/opt/cloudera/parcels/CDH/
+export NHDFS_LIBJVM_PATH=/usr/java/jdk1.8.0_181-cloudera/jre/lib/amd64/server/libjvm.so
+export NHDFS_LIBHDFS_PATH=$HADOOP_HOME/lib64/libhdfs.so
+----
++
+Nesta versão, oferecemos suporte a digitalização, cópia e verificação de operações e migração de dados do HDFS para o NFS. Você pode transferir dados de um nó de trabalho único de um cluster de data Lake e de vários nós de trabalho. Na versão 1,8, os usuários root e não-root podem executar a migração de dados.
+
+
+
+
+
+
+
+=== Etapas de implantação - o usuário não-root migra dados HDFS/MaprFS para o NetApp NFS
+
+. Siga os mesmos passos mencionados a partir de 1-9 passos da secção passos para implementação.
+. No exemplo a seguir, o usuário migra dados do HDFS para o NFS.
++
+.. Crie uma pasta e ficheiros (utilizando `hadoop fs -copyFromLocal`) no HDFS.
++
+[listing]
+----
+[root@n138 ~]# su - tester -c 'hadoop fs -mkdir /tmp/testerfolder_src/util-linux-2.23.2/mohankarthikhdfs_src'
+[root@n138 ~]# su - tester -c 'hadoop fs -ls -d  /tmp/testerfolder_src/util-linux-2.23.2/mohankarthikhdfs_src'
+drwxr-xr-x   - tester supergroup          0 2021-11-16 16:52 /tmp/testerfolder_src/util-linux-2.23.2/mohankarthikhdfs_src
+[root@n138 ~]# su - tester -c "echo 'testfile hdfs' > /tmp/a_hdfs.txt"
+[root@n138 ~]# su - tester -c "echo 'testfile hdfs 2' > /tmp/b_hdfs.txt"
+[root@n138 ~]# ls -ltrah /tmp/*_hdfs.txt
+-rw-rw-r-- 1 tester tester 14 Nov 16 17:00 /tmp/a_hdfs.txt
+-rw-rw-r-- 1 tester tester 16 Nov 16 17:00 /tmp/b_hdfs.txt
+[root@n138 ~]# su - tester -c 'hadoop fs -copyFromLocal /tmp/*_hdfs.txt hdfs:///tmp/testerfolder_src/util-linux-2.23.2/mohankarthikhdfs_src'
+[root@n138 ~]#
+----
+.. Verifique as permissões na pasta HDFS.
++
+[listing]
+----
+[root@n138 ~]# su - tester -c 'hadoop fs -ls hdfs:///tmp/testerfolder_src/util-linux-2.23.2/mohankarthikhdfs_src'
+Found 2 items
+-rw-r--r--   3 tester supergroup         14 2021-11-16 17:01 hdfs:///tmp/testerfolder_src/util-linux-2.23.2/mohankarthikhdfs_src/a_hdfs.txt
+-rw-r--r--   3 tester supergroup         16 2021-11-16 17:01 hdfs:///tmp/testerfolder_src/util-linux-2.23.2/mohankarthikhdfs_src/b_hdfs.txt
+----
+.. Crie uma pasta em NFS e verifique as permissões.
++
+[listing]
+----
+[root@n138 ~]# su - tester -c 'mkdir /xcpsrc_vol/mohankarthiknfs_dest'
+[root@n138 ~]# su - tester -c 'ls -l /xcpsrc_vol/mohankarthiknfs_dest'
+total 0
+[root@n138 ~]# su - tester -c 'ls -d /xcpsrc_vol/mohankarthiknfs_dest'
+/xcpsrc_vol/mohankarthiknfs_dest
+[root@n138 ~]# su - tester -c 'ls -ld /xcpsrc_vol/mohankarthiknfs_dest'
+drwxrwxr-x 2 tester tester 4096 Nov 16 14:32 /xcpsrc_vol/mohankarthiknfs_dest
+[root@n138 ~]#
+----
+.. Copie os arquivos do HDFS para o NFS usando o XCP e verifique as permissões.
++
+[listing]
+----
+[root@n138 ~]# su - tester -c '/usr/src/hdfs_nightly/xcp/linux/xcp copy -chown hdfs:///tmp/testerfolder_src/util-linux-2.23.2/mohankarthikhdfs_src/ 10.63.150.126:/xcpsrc_vol/mohankarthiknfs_dest'
+XCP Nightly_dev; (c) 2021 NetApp, Inc.; Licensed to Karthikeyan Nagalingam [NetApp Inc] until Wed Feb  9 13:38:12 2022
+
+xcp: WARNING: No index name has been specified, creating one with name: autoname_copy_2021-11-16_17.04.03.652673
+
+Xcp command : xcp copy -chown hdfs:///tmp/testerfolder_src/util-linux-2.23.2/mohankarthikhdfs_src/ 10.63.150.126:/xcpsrc_vol/mohankarthiknfs_dest
+Stats       : 3 scanned, 2 copied, 3 indexed
+Speed       : 3.44 KiB in (650/s), 80.2 KiB out (14.8 KiB/s)
+Total Time  : 5s.
+STATUS      : PASSED
+[root@n138 ~]# su - tester -c 'ls -l /xcpsrc_vol/mohankarthiknfs_dest'
+total 0
+-rw-r--r-- 1 tester supergroup 14 Nov 16 17:01 a_hdfs.txt
+-rw-r--r-- 1 tester supergroup 16 Nov 16 17:01 b_hdfs.txt
+[root@n138 ~]# su - tester -c 'ls -ld /xcpsrc_vol/mohankarthiknfs_dest'
+drwxr-xr-x 2 tester supergroup 4096 Nov 16 17:01 /xcpsrc_vol/mohankarthiknfs_dest
+[root@n138 ~]#
+----
+
+
+

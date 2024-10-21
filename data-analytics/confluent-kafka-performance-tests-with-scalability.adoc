@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-performance-tests-with-scalability.html 
+keywords: performance, tests, scalability 
+summary: Realizamos os testes de storage em camadas com três a quatro nós para produzir e consumir workloads com a configuração do NetApp StorageGRID. 
+---
+= Testes de desempenho com escalabilidade
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Realizamos os testes de storage em camadas com três a quatro nós para workloads de produtor e consumidor com a configuração NetApp StorageGRID. De acordo com nossos testes, o tempo de conclusão e os resultados de desempenho foram diretamente proporcionais ao número de nós StorageGRID. A configuração do StorageGRID exigiu um mínimo de três nós.
+
+* O tempo para concluir a operação de produção e consumo diminuiu linearmente quando o número de nós de storage aumentou.
+
+
+image:confluent-kafka-image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+* O desempenho da operação de recuperação do S3 aumentou linearmente com base no número de nós StorageGRID. O StorageGRID dá suporte a até 200 nós de StorageGRID.
+
+
+image:confluent-kafka-image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

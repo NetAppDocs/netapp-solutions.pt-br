@@ -1,0 +1,60 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-solution.html 
+keywords: solution architecture, confluent platform, linux, Fujitsu primergy, intel xenon 
+summary: Esta seção aborda o hardware e o software usados para verificação de desempenho na implantação da Plataforma Confluent com o NetApp ONTAP para armazenamento em camadas. A tabela a seguir aborda a arquitetura da solução e os componentes básicos. 
+---
+= Solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O controlador de armazenamento Confluent e NetApp AFF A900 alimentado pela ONTAP são sistemas distribuídos projetados para fluxos de dados. Ambos são horizontalmente escaláveis, tolerantes a falhas, e fornecem excelente desempenho sob carga. Eles se complementam em streaming de dados distribuídos e processamento de fluxo com custos de storage menores com tecnologias de redução de dados que minimizam o espaço físico dos dados. O controlador de storage do AFF A900 oferece excelente desempenho, ao mesmo tempo em que permite a desacoplamento de recursos de computação e storage de dados. Isso simplifica a administração do sistema e permite que os recursos sejam dimensionados de forma independente.
+
+image:kafka-sc-image3.png["Imagem que descreve a visão geral da solução."]
+
+
+
+== Detalhes da arquitetura da solução
+
+Esta seção aborda o hardware e o software usados para verificação de desempenho na implantação da Plataforma Confluent com o NetApp ONTAP para armazenamento em camadas. A tabela a seguir aborda a arquitetura da solução e os componentes básicos.
+
+|===
+| Componente da plataforma | Configuração do ambiente 
+
+
+| Plataforma Confluent versão 6,2  a| 
+* 3 x zookeepers
+* 8 x servidores de corretores
+* 5 x servidores de ferramentas
+* 1 x Grafana
+* 1 x centro de controle
+
+
+
+
+| Sistema operacional em todos os nós | Linux (ubuntu 18,04.04) 
+
+
+| NetApp ONTAP para baldes quentes  a| 
+* 1 pares de alta disponibilidade (HA) do AFF A900
+* 4 x 24 x 800 SSDs
+* Protocolo S3
+* 100GbE
+
+
+
+
+| 15 servidores Fujitsu PRIMERGY RX2540  a| 
+* 2 CPUs; 16 núcleos físicos no total
+* Intel Xeon
+* 256GB memória física
+* 100GbE porta dupla
+
+
+|===

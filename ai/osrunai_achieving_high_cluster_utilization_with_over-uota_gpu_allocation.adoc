@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html 
+keywords:  
+summary:  
+---
+= Alcançar a alta utilização de cluster com alocação de GPU de cota excessiva
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesta seção e nas seções link:osrunai_basic_resource_allocation_fairness.html["Equidade na alocação básica de recursos"], e link:osrunai_over-quota_fairness.html["Equidade de excesso de quota"], criamos cenários de teste avançados para demonstrar os recursos de orquestração Run:AI para gerenciamento complexo de carga de trabalho, agendamento automático de prevenção e provisionamento de GPU de excesso de cota. Fizemos isso para alcançar um alto uso de recursos de cluster e otimizar a produtividade da equipe de ciência de dados de nível empresarial em um ambiente de IA da ONTAP.
+
+Para estas três secções, defina os seguintes projetos e quotas:
+
+|===
+| Projeto | Cota 
+
+
+| equipa a | 4 
+
+
+| equipa-b | 2 
+
+
+| equipa-c | 2 
+
+
+| equipa-d | 8 
+|===
+Além disso, usamos os seguintes recipientes para essas três seções:
+
+* Computador portátil Jupyter: `jupyter/base-notebook`
+* Run: Ai início rápido: `gcr.io/run-ai-demo/quickstart`
+
+
+Definimos os seguintes objetivos para este cenário de teste:
+
+* Mostrar a simplicidade do provisionamento de recursos e como os recursos são abstraídos dos usuários
+* Mostrar como os usuários podem provisionar facilmente frações de uma GPU e número inteiro de GPUs
+* Mostrar como o sistema elimina os gargalos de computação, permitindo que equipes ou usuários ultrapassem a cota de recursos se houver GPUs gratuitas no cluster
+* Mostrar como os gargalos de pipeline de dados são eliminados usando a solução NetApp ao executar tarefas com uso intenso de computação, como o contêiner do NetApp
+* Mostrar como vários tipos de contentores estão sendo executados usando o sistema
++
+** Notebook Jupyter
+** Run: Ai container
+
+
+* Mostrar alta utilização quando o cluster estiver cheio
+
+
+Para obter detalhes sobre a sequência de comandos real executada durante o teste, link:osrunai_testing_details_for_section_48.html["Detalhes de teste para a Seção 4,8"]consulte .
+
+Quando todas as cargas de trabalho do 13 forem enviadas, você verá uma lista de nomes de contêineres e GPUs alocadas, conforme mostrado na figura a seguir. Temos sete treinamentos e seis trabalhos interativos, simulando quatro equipes de ciência de dados, cada uma com seus próprios modelos em execução ou em desenvolvimento. Para trabalhos interativos, desenvolvedores individuais estão usando notebooks Jupyter para escrever ou depurar seu código. Assim, é adequado provisionar frações de GPU sem usar muitos recursos de cluster.
+
+image:osrunai_image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os resultados deste cenário de teste mostram o seguinte:
+
+* O cluster deve estar cheio: 16/16 GPUs são usadas.
+* Alta utilização do cluster.
+* Mais experimentos do que GPUs devido à alocação fracionária.
+* `team-d` Não está usando toda a sua cota; portanto `team-b`, e `team-c` pode usar GPUs adicionais para seus experimentos, levando a um tempo mais rápido para a inovação.
+

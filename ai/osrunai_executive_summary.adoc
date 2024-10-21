@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_executive_summary.html 
+keywords:  
+summary:  
+---
+= TR-4858: Solução de orquestração NetApp com Run:AI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Jogos muito populares no site nesse momento são NetApp
+
+[role="lead"]
+Os sistemas de storage da NetApp AFF oferecem performance extrema e recursos de gerenciamento de dados de nuvem híbrida líderes do setor. O NetApp e o Run:AI fizeram uma parceria para demonstrar as funcionalidades exclusivas da solução de AI da NetApp ONTAP para workloads de inteligência artificial (AI) e aprendizado de máquina (ML) que oferece suporte, confiabilidade e desempenho de nível empresarial. A orquestração Run:AI de workloads de IA adiciona uma plataforma de agendamento e utilização de recursos baseada no Kubernetes para ajudar os pesquisadores a gerenciar e otimizar a utilização de GPU. Juntamente com os sistemas DGX da NVIDIA, a solução combinada da NetApp, NVIDIA e Run:AI fornecem um stack de infraestrutura criado sob medida para workloads de AI empresariais. Esse relatório técnico fornece orientação direcional para os clientes que criam sistemas de IA conversacionais para dar suporte a vários casos de uso e verticais do setor. Ele inclui informações sobre a implantação do Run:AI e um sistema de storage NetApp AFF A800 e serve como uma arquitetura de referência para a maneira mais simples de alcançar uma implantação rápida e bem-sucedida de iniciativas de AI.
+
+O público-alvo da solução inclui os seguintes grupos:
+
+* Arquitetos empresariais que projetam soluções para o desenvolvimento de modelos de AI e software para casos de uso baseados em Kubernetes, como microsserviços em contêiner
+* Cientistas de dados buscam maneiras eficientes de alcançar metas de desenvolvimento de modelos eficientes em um ambiente de cluster com várias equipes e projetos
+* Engenheiros de dados responsáveis pela manutenção e execução de modelos de produção
+* Executivos e responsáveis por decisões de TI e líderes empresariais que gostariam de criar a experiência ideal de utilização de recursos do cluster do Kubernetes e alcançar o time-to-market mais rápido das iniciativas de AI
+

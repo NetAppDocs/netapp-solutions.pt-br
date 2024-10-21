@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_netapp_retail_assistant_demonstration.html 
+keywords: Retail, Assistant, Demonstration, Video Demo 
+summary:  
+---
+= Demonstração do Assistente de varejo da NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Gravamos um vídeo de demonstração do Assistente de varejo da NetApp (NARA).
+
+
+
+== Vídeo demonstração da NARA
+
+.Vídeo demonstração da NARA
+video::b4aae689-31b5-440c-8dde-ac050140ece7[panopto]
+image:cainvidia_image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

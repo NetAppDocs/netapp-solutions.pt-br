@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_getting_started.html 
+summary: Esta seção fornece um resumo das tarefas que devem ser concluídas para atender aos requisitos de pré-requisito, conforme descrito na seção anterior. A seção a seguir fornece uma lista de tarefas de alto nível para operações de nuvem pública e no local. Os processos e procedimentos detalhados podem ser acessados clicando nos links relevantes. 
+keywords: introduction, workflow 
+---
+= Visão geral dos primeiros passos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção fornece um resumo das tarefas que devem ser concluídas para atender aos requisitos de pré-requisito, conforme descrito na seção anterior. A seção a seguir fornece uma lista de tarefas de alto nível para operações de nuvem pública e no local. Os processos e procedimentos detalhados podem ser acessados clicando nos links relevantes.
+
+
+
+== On-premises
+
+* Configurar usuário de administrador de banco de dados no SnapCenter
+* Pré-requisitos de instalação do plugin SnapCenter
+* Instalação do plug-in do host SnapCenter
+* Descoberta de recursos DB
+* Configurar peering de cluster de storage e replicação de volume de banco de dados
+* Adicionar SVM de storage de banco de dados do CVO ao SnapCenter
+* Configurar política de backup de banco de dados no SnapCenter
+* Implementar política de backup para proteger o banco de dados
+* Validar cópia de segurança
+
+
+
+
+== Nuvem pública da AWS
+
+* Verificação pré-voo
+* Etapas para implantar o Cloud Manager e o Cloud Volumes ONTAP na AWS
+* Implante uma instância de computação do EC2 para workload de banco de dados
+
+
+Clique nos seguintes links para obter detalhes:
+
+link:hybrid_dbops_snapcenter_getting_started_onprem.html["No local"], link:hybrid_dbops_snapcenter_getting_started_aws.html["Nuvem pública - AWS"]

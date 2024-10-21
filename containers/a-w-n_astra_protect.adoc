@@ -1,0 +1,103 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_astra_protect.html 
+summary: Depois que os workloads de aplicações são gerenciados pelo Astra Control Center, você pode configurar as configurações de proteção para esses workloads. 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift 
+---
+= Proteja suas aplicações
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Depois que os workloads de aplicações são gerenciados pelo Astra Control Center, você pode configurar as configurações de proteção para esses workloads.
+
+
+
+== Criando um instantâneo de aplicativo
+
+Um snapshot de uma aplicação cria uma cópia Snapshot do ONTAP que pode ser usada para restaurar ou clonar a aplicação para um ponto específico no tempo com base nessa cópia Snapshot.
+
+. Para tirar um instantâneo do aplicativo, navegue até a guia aplicativos > gerenciados e clique no aplicativo do qual você deseja fazer uma cópia Snapshot. Clique no menu suspenso ao lado do nome do aplicativo e clique em Instantâneo.
++
+image:redhat_openshift_image130.jpg["Botão instantâneo do Astra Control Center"]
+
+. Introduza os detalhes do instantâneo, clique em seguinte e, em seguida, clique em Instantâneo. Demora cerca de um minuto para criar o instantâneo e o estado fica disponível depois de o instantâneo ser criado com sucesso.
+
+
+image:redhat_openshift_image131.jpg["Astra Control Center criar snapshot"]
+
+
+
+== Criar uma cópia de segurança da aplicação
+
+Um backup de um aplicativo captura o estado ativo do aplicativo e a configuração de seus recursos, os oculta em arquivos e os armazena em um bucket de armazenamento de objetos remoto.
+
+Para fazer backup e restauração de aplicações gerenciadas no Centro de Controle Astra, você deve configurar as configurações de superusuário para os sistemas ONTAP de backup como pré-requisito. Para fazer isso, digite os seguintes comandos.
+
+[listing]
+----
+ONTAP::> export-policy rule modify -vserver ocp-trident -policyname default -ruleindex 1 -superuser sys
+ONTAP::> export-policy rule modify -policyname default -ruleindex 1 -anon 65534 -vserver ocp-trident
+----
+Para criar um backup de aplicativo, execute as seguintes etapas:
+
+. Para criar um backup da aplicação gerenciada no Astra Control Center, navegue até aplicativos > gerenciados e clique no aplicativo do qual você deseja fazer um backup. Clique no menu suspenso ao lado do nome do aplicativo e clique em Backup.
++
+image:redhat_openshift_image132.jpg["Botão de backup do Astra Control Center"]
+
+. Introduza os detalhes da cópia de segurança, selecione o intervalo de armazenamento de objetos para guardar os ficheiros de cópia de segurança e clique em seguinte. Depois de analisar os detalhes, clique em Backup. Dependendo do tamanho do aplicativo e dos dados, o backup pode levar vários minutos. O estado da cópia de segurança fica disponível depois de a cópia de segurança ser concluída com êxito.
++
+image:redhat_openshift_image133.jpg["Criar backup no Astra Control Center"]
+
+
+
+
+
+== Restaurar uma aplicação
+
+Com um toque de botão, você pode restaurar um aplicativo para o namespace de origem no mesmo cluster ou para um cluster remoto para fins de proteção de aplicativos e recuperação de desastres.
+
+Para restaurar um aplicativo, execute as seguintes etapas:
+
+. Navegue até Apps > separador gerido e clique na aplicação em questão. Clique no menu suspenso ao lado do nome do aplicativo e clique em Restaurar.
++
+image:redhat_openshift_image134.jpg["Botão clone do Astra Control Center"]
+
+. Insira o nome do namespace de restauração, selecione o cluster para o qual deseja restaurá-lo e escolha se deseja restaurá-lo a partir de um snapshot existente ou de um backup do aplicativo. Clique em seguinte.
++
+image:redhat_openshift_image135.jpg["Restauração do Astra Control Center"]
+
+. No painel de revisão, introduza `restore` e clique em Restaurar depois de ter revisto os detalhes.
++
+image:redhat_openshift_image136.jpg["Revisão da restauração do Astra Control Center"]
+
+
+
+O novo aplicativo vai para o estado de restauração enquanto o Astra Control Center restaura o aplicativo no cluster selecionado. Depois que todos os recursos do aplicativo são instalados e detetados pelo Astra, o aplicativo vai para o estado disponível.
+
+image:redhat_openshift_image137.jpg["Descoberta da nova aplicação Astra Control Center"]
+
+
+
+== Clonar uma aplicação
+
+Você pode clonar uma aplicação para o cluster de origem ou para um cluster remoto para fins de desenvolvimento/teste ou proteção de aplicação e recuperação de desastres. Clonar uma aplicação no mesmo cluster no mesmo back-end de storage usa a tecnologia NetApp FlexClone, que clona os PVCs instantaneamente e economiza espaço de storage.
+
+. Para clonar um aplicativo, navegue até a guia aplicativos > gerenciados e clique no aplicativo em questão. Clique no menu suspenso ao lado do nome do aplicativo e clique em Clone.
++
+image:redhat_openshift_image138.jpg["Botão clone do Astra Control Center"]
+
+. Insira os detalhes do novo namespace, selecione o cluster para o qual deseja cloná-lo e escolha se deseja cloná-lo a partir de um snapshot existente, um backup ou o estado atual da aplicação. Clique em Avançar e clique em clonar no painel Revisão depois de revisar os detalhes.
++
+image:redhat_openshift_image139.jpg["Restauração do Astra Control Center"]
+
+. A nova aplicação entra no estado de descoberta enquanto o Astra Control Center cria a aplicação no cluster selecionado. Depois que todos os recursos do aplicativo são instalados e detetados pelo Astra, o aplicativo entra no estado disponível.
++
+image:redhat_openshift_image140.jpg["Descoberta da nova aplicação Astra Control Center"]
+
+

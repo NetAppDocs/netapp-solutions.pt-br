@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_solution_deployment_and_validation_details.html 
+keywords: Solution, Deployment, Validation 
+summary:  
+---
+= Detalhes de validação e implantação da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+As seções a seguir discutem os detalhes da implantação e validação da solução.

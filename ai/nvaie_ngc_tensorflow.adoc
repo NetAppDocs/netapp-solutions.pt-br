@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: ai/nvaie_ngc_tensorflow.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVAIE, VMware, NGC 
+summary: NVIDIA AI Enterprise com NetApp e VMware - Utilize o software NVIDIA NGC - exemplo de caso de uso - trabalho de treinamento TensorFlow 
+---
+= Exemplo de caso de uso - TensorFlow Training Job
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção descreve as tarefas que precisam ser executadas para executar um trabalho de treinamento do TensorFlow em um ambiente empresarial de IA da NVIDIA.
+
+
+
+== Pré-requisitos
+
+Antes de executar as etapas descritas nesta seção, assumimos que você já criou um modelo de VM Guest seguindo as instruções descritas na link:nvaie_ngc_setup.html["Configuração"] página.
+
+
+
+== Criar VM convidada a partir do modelo
+
+Primeiro, você deve criar uma nova VM convidada a partir do modelo que você criou na seção anterior. Para criar uma nova VM convidada a partir do modelo, inicie sessão no VMware vSphere, clique no nome do modelo, escolha 'Nova VM a partir deste modelo...' e, em seguida, siga o assistente.
+
+image:nvaie_image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Criar e montar volume de dados
+
+Em seguida, crie um novo volume de dados para armazenar seu conjunto de dados de treinamento. Você pode criar rapidamente um novo volume de dados usando o Toolkit DataOps do NetApp. O comando exemplo que se segue mostra a criação de um volume chamado 'imagenet' com uma capacidade de 2 TB.
+
+....
+$ netapp_dataops_cli.py create vol -n imagenet -s 2TB
+....
+Antes de preencher o volume de dados com dados, você deve montá-lo na VM convidada. Você pode montar rapidamente um volume de dados usando o Toolkit DataOps do NetApp. O comando de exemplo que se segue mostra o tom do volume que foi criado na etapa anterior.
+
+....
+$ sudo -E netapp_dataops_cli.py mount vol -n imagenet -m ~/imagenet
+....
+
+
+== Preencher volume de dados
+
+Após o novo volume ter sido provisionado e montado, o conjunto de dados de treinamento pode ser recuperado da localização de origem e colocado no novo volume. Isso geralmente envolverá a extração de dados de um data Lake S3 ou Hadoop e, às vezes, envolverá a ajuda de um engenheiro de dados.
+
+
+
+== Execute o trabalho de formação do TensorFlow
+
+Agora, você está pronto para executar seu trabalho de treinamento TensorFlow. Para executar seu trabalho de treinamento do TensorFlow, execute as seguintes tarefas.
+
+. Puxe a imagem do contentor NVIDIA NGC Enterprise TensorFlow.
++
+....
+$ sudo docker pull nvcr.io/nvaie/tensorflow-2-1:22.05-tf1-nvaie-2.1-py3
+....
+. Inicie uma instância do contentor TensorFlow da NVIDIA. Use a opção '-v' para anexar o volume de dados ao recipiente.
++
+....
+$ sudo docker run --gpus all -v ~/imagenet:/imagenet -it --rm nvcr.io/nvaie/tensorflow-2-1:22.05-tf1-nvaie-2.1-py3
+....
+. Execute seu programa de treinamento TensorFlow dentro do recipiente. O comando exemplo que se segue mostra a execução de um exemplo de programa de treinamento ResNet-50 incluído na imagem do contentor.
++
+....
+$ python ./nvidia-examples/cnn/resnet.py --layers 50 -b 64 -i 200 -u batch --precision fp16 --data_dir /imagenet/data
+....
+

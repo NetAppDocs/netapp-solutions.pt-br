@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-use-case-3-enabling-devtest-on-existing-hadoop-data.html 
+keywords: devtest, hadoop, spark, analytics data, reporting 
+summary: Nesse caso de uso, o requisito do cliente é criar, com rapidez e eficiência, novos clusters Hadoop/Spark com base em um cluster Hadoop existente que contenha uma grande quantidade de dados analíticos para fins de DevTest e geração de relatórios no mesmo data center, bem como em locais remotos. 
+---
+= Caso de uso 3: Habilitando o DevTest em dados existentes do Hadoop
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesse caso de uso, o requisito do cliente é criar, com rapidez e eficiência, novos clusters Hadoop/Spark com base em um cluster Hadoop existente que contenha uma grande quantidade de dados analíticos para fins de DevTest e geração de relatórios no mesmo data center, bem como em locais remotos.
+
+
+
+== Cenário
+
+Nesse cenário, vários clusters do Spark/Hadoop são criados a partir de uma implementação de data Lake Hadoop grande no local e em locais de recuperação de desastres.
+
+
+
+== Requisitos e desafios
+
+Os principais requisitos e desafios para esse caso de uso incluem:
+
+* Crie vários clusters Hadoop para DevTest, QA ou qualquer outra finalidade que exija acesso aos mesmos dados de produção. O desafio aqui é clonar um cluster Hadoop muito grande várias vezes instantaneamente e com uso muito eficiente de espaço.
+* Sincronize os dados do Hadoop com o DevTest e as equipes de relatórios para obter eficiência operacional.
+* Distribua os dados do Hadoop usando as mesmas credenciais entre a produção e os novos clusters.
+* Use políticas agendadas para criar clusters de QA com eficiência sem afetar o cluster de produção.
+
+
+
+
+== Solução
+
+A tecnologia FlexClone é usada para atender aos requisitos descritos acima. A tecnologia FlexClone é a cópia de leitura/gravação de uma cópia Snapshot. Ele lê os dados de dados de cópia Snapshot pai e consome apenas espaço adicional para blocos novos ou modificados. É rápido e eficiente em termos de espaço.
+
+Primeiro, uma cópia Snapshot do cluster existente foi criada usando um grupo de consistência do NetApp.
+
+Cópias snapshot no NetApp System Manager ou no prompt de administrador de storage. As cópias Snapshot do grupo de consistência são cópias Snapshot do grupo consistente com aplicações, e o volume FlexClone é criado com base nas cópias Snapshot do grupo de consistência. Vale ressaltar que um volume FlexClone herda a política de exportação NFS do volume pai. Depois que a cópia Snapshot for criada, um novo cluster Hadoop deve ser instalado para fins de DevTest e geração de relatórios, como mostrado na figura abaixo. O volume NFS clonado do novo cluster Hadoop acessa os dados NFS.
+
+Esta imagem mostra o cluster Hadoop para DevTest.
+
+image:hdcs-sh-image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-test-plan.html 
+keywords: test, plan, mlperf, inference, benchmarks 
+summary: Este documento segue o código MLPerf inference v0,7, código MLPerf inference v1,1 e regras. Executamos benchmarks projetados para inferência na borda, conforme definido nas tabelas apresentadas nesta seção. 
+---
+= Plano de teste
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este documento segue a inferência MLPerf v0,7 https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["código"^], MLPerf Inference v1,1 https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["código"^] e https://github.com/mlcommons/inference_policies/blob/master/inference_rules.adoc["regras"^]. Executamos benchmarks MLPerf projetados para inferência na borda, conforme definido na tabela a seguir.
+
+|===
+| Área | Tarefa | Modelo | Conjunto de dados | Tamanho da QSL | Qualidade | Restrição de latência MultiStream 
+
+
+| Visão | Classificação da imagem | Resnet50v1.5 | IMAGEnet (224x224) | 1024 | 99% de FP32 | 50ms 
+
+
+| Visão | Detecção de objetos (grande) | SSD- ResNet34 | COCO (1200x1200) | 64 | 99% de FP32 | 66ms 
+
+
+| Visão | Detecção de objetos (pequeno) | SSD- MobileNetsv1 | Coco (300X300) | 256 | 99% de FP32 | 50ms 
+
+
+| Visão | Segmentação de imagens médicas | 3D UNET | BRaTS 2019 (224x224x160) | 16 | 99% e 99,9% de FP32 | n/a. 
+
+
+| Fala | Fala para texto | RNNT | Limpeza de desenv | 2513 | 99% de FP32 | n/a. 
+
+
+| Idioma | Processamento de linguagem | BERT | Plantel v1,1 | 10833 | 99% de FP32 | n/a. 
+|===
+A tabela a seguir apresenta cenários de referência do Edge.
+
+|===
+| Área | Tarefa | Cenários 
+
+
+| Visão | Classificação da imagem | Fluxo único, offline, multistream 
+
+
+| Visão | Detecção de objetos (grande) | Fluxo único, offline, multistream 
+
+
+| Visão | Detecção de objetos (pequeno) | Fluxo único, offline, multistream 
+
+
+| Visão | Segmentação de imagens médicas | Fluxo único, offline 
+
+
+| Fala | Fala para texto | Fluxo único, offline 
+
+
+| Idioma | Processamento de linguagem | Fluxo único, offline 
+|===
+Realizamos esses benchmarks usando a arquitetura de armazenamento em rede desenvolvida nesta validação e comparamos os resultados com os de execuções locais nos servidores de borda previamente submetidos ao MLPerf. A comparação é determinar quanto impacto o storage compartilhado tem no desempenho de inferência.

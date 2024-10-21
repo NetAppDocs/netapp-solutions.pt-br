@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_astra_register.html 
+summary: Para permitir que o Astra Control Center gerencie suas cargas de trabalho, primeiro Registre seu cluster Red Hat OpenShift. 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift 
+---
+= Registre seus clusters Red Hat OpenShift com o Astra Control Center
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para permitir que o Astra Control Center gerencie suas cargas de trabalho, primeiro Registre seu cluster Red Hat OpenShift.
+
+
+
+== Registre clusters do Red Hat OpenShift
+
+. A primeira etapa é adicionar os clusters OpenShift ao Astra Control Center e gerenciá-los. Vá para clusters e clique em Adicionar um cluster, carregue o arquivo kubeconfig para o cluster OpenShift e clique em Selecionar armazenamento.
++
+image:redhat_openshift_image91.jpg["Astra Control Center criar cluster"]
+
++
+
+NOTE: O arquivo kubeconfig pode ser gerado para autenticar com um nome de usuário e senha ou um token. Os tokens expiram após um período limitado de tempo e podem deixar o cluster registrado inacessível. A NetApp recomenda o uso de um arquivo kubeconfig com um nome de usuário e senha para Registrar seus clusters OpenShift no Centro de Controle Astra.
+
+. O Astra Control Center detecta as classes de storage qualificadas. Agora, selecione a maneira como o storageclass provisiona volumes usando o Trident apoiado por um SVM no NetApp ONTAP e clique em Rever. No painel seguinte, verifique os detalhes e clique em Adicionar cluster.
++
+image:redhat_openshift_image92.jpg["Astra Control Center cria storage selecionado de cluster"]
+
+. Registre ambos os clusters OpenShift como descrito na etapa 1. Quando adicionados, os clusters passam para o status de descoberta enquanto o Astra Control Center os inspeciona e instala os agentes necessários. O status do cluster muda para em execução depois que eles são registrados com sucesso.
++
+image:redhat_openshift_image93.jpg["Clusters Astra Control Center disponíveis"]
+
++
+
+NOTE: Todos os clusters do Red Hat OpenShift a serem gerenciados pelo Astra Control Center devem ter acesso ao Registro de imagem que foi usado para sua instalação, pois os agentes instalados nos clusters gerenciados extraem as imagens desse Registro.
+
+. Importe clusters do ONTAP como recursos de storage para serem gerenciados como back-ends pelo Astra Control Center. Quando os clusters OpenShift são adicionados ao Astra e uma storageclass é configurada, ele automaticamente descobre e inspeciona o cluster ONTAP que suporta o storageclass, mas não o importa para o Centro de Controle Astra para ser gerenciado.
++
+image:redhat_openshift_image94.jpg["Detecção de back-end do Astra Control Center"]
+
+. Para importar os clusters do ONTAP, vá para backends, clique no menu suspenso e selecione Gerenciar ao lado do cluster do ONTAP a ser gerenciado. Insira as credenciais do cluster do ONTAP, clique em revisar informações e, em seguida, clique em Importar backend de armazenamento.
++
+image:redhat_openshift_image95.jpg["Criar back-end no Astra Control Center"]
+
+. Depois que os backends são adicionados, o status muda para disponível. Esses backends agora têm as informações sobre os volumes persistentes no cluster OpenShift e os volumes correspondentes no sistema ONTAP.
++
+image:redhat_openshift_image96.jpg["Back-ends Astra Control Center disponíveis"]
+
+. Para fazer backup e restauração em clusters OpenShift usando o Astra Control Center, você precisa provisionar um bucket de storage de objetos compatível com o protocolo S3. As opções atualmente suportadas são o ONTAP S3, o StorageGRID e o AWS S3. Para o propósito desta instalação, vamos configurar um bucket do AWS S3. Vá para baldes, clique em Adicionar balde e selecione Genérico S3. Digite os detalhes sobre o bucket do S3 e as credenciais para acessá-lo, clique na caixa de seleção "tornar esse bucket o bucket padrão para a nuvem" e clique em Adicionar.
++
+image:redhat_openshift_image97.jpg["Astra Control Center criar bucket"]
+
+

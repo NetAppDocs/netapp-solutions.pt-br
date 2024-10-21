@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_saving_data_to_a_trident-provisioned_persistentvolume.html 
+keywords:  
+summary:  
+---
+= Salvando dados em um Persistentvolume provisionado pelo Trident
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NetApp Trident é um projeto de código aberto totalmente compatível desenvolvido para ajudar você a atender às demandas sofisticadas de persistência das suas aplicações em contêiner. Você pode ler e gravar dados em um Trident provisionado por Kubernetes Persistentvolume (PV) com o benefício adicional de categorização de dados, criptografia, tecnologia NetApp Snapshot, conformidade e alta performance oferecidas pelo software de gerenciamento de dados NetApp ONTAP.
+
+
+
+== Reutilização de PVCs em um namespace existente
+
+Para projetos de AI maiores, pode ser mais eficiente para diferentes contêineres ler e gravar dados no mesmo PV do Kubernetes. Para reutilizar uma reivindicação de volume persistente (PVC) do Kubernetes, o usuário já deve ter criado um PVC. Consulte a https://netapp-trident.readthedocs.io/["Documentação do NetApp Trident"^] para obter detalhes sobre como criar um PVC. Aqui está um exemplo de reutilização de um PVC existente:
+
+....
+$ runai submit pvc-test -p team-a --pvc test:/tmp/pvc1mount -i gcr.io/run-ai-demo/quickstart -g 1
+....
+Execute o seguinte comando para ver o status da tarefa `pvc-test` para o projeto `team-a`:
+
+....
+$ runai get pvc-test -p team-a
+....
+Você deve ver o PV /tmp/pvc1mount montado no `team-a` trabalho `pvc-test`. Desta forma, vários contentores podem ler a partir do mesmo volume, o que é útil quando há vários modelos concorrentes em desenvolvimento ou em produção. Os cientistas de dados podem construir um conjunto de modelos e, em seguida, combinar resultados de previsão por votação por maioria ou outras técnicas.
+
+Use o seguinte para acessar o shell do contentor:
+
+....
+$ runai bash pvc-test -p team-a
+....
+Em seguida, você pode verificar o volume montado e acessar seus dados dentro do recipiente.
+
+Essa funcionalidade de reutilização de PVCs funciona com o NetApp FlexVol volumes e o NetApp ONTAP FlexGroup volumes, permitindo que os engenheiros de dados tenham opções mais flexíveis e robustas de gerenciamento de dados para utilizar o Data Fabric com a tecnologia da NetApp.

@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws-solutions.html 
+keywords: NetApp Solutions, amazon, vmc, vmware managed cloud, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Soluções da NetApp para a nuvem gerenciada da VMware (VMC)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba mais sobre as soluções que o NetApp traz para a AWS.
+
+A VMware define os workloads de nuvem em uma de três categorias:
+
+* Proteger (incluindo recuperação de desastres e backup / restauração)
+* Migrar
+* Estender
+
+
+Navegue pelas soluções disponíveis nas seções a seguir.
+
+[role="tabbed-block"]
+====
+.Proteger
+--
+* link:aws-guest-dr-solution-overview.html["Recuperação de desastres com VMC na AWS (Guest Connected)"]
+* link:aws-vmc-veeam-fsx-solution.html["Faça o backup e restauração no VMC com o FSX ONTAP"]
+* link:aws-dro-overview.html["Recuperação de desastres (DRO) com o FSX ONTAP e VMC"]
+* link:veeam-fsxn-dr-to-vmc.html["Usando o Veeam Replication e o FSX ONTAP para recuperação de desastres no VMware Cloud na AWS"]
+
+
+--
+.Migrar
+--
+* link:aws-migrate-vmware-hcx.html["Migre cargas de trabalho para o armazenamento de dados do FSX ONTAP usando o VMware HCX"]
+
+
+--
+.Estender
+--
+EM BREVE!
+
+--
+====

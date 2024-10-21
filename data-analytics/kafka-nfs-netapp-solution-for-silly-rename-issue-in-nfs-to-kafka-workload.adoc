@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-netapp-solution-for-silly-rename-issue-in-nfs-to-kafka-workload.html 
+keywords: solution, posix, xfs, ext4, rebalancing 
+summary: Esta seção descreve o problema de renomeação boba e as alterações necessárias para que o servidor NFS e o cliente NFS resolvam o problema. 
+---
+= Solução NetApp para problema de renomeação bobo para cargas de trabalho NFS para Kafka
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Kafka é construído com a suposição de que o sistema de arquivos subjacente é compatível com POSIX: Por exemplo, XFS ou EXT4. O rebalanceamento de recursos do Kafka remove arquivos enquanto o aplicativo ainda os usa. Um sistema de arquivos compatível com POSIX permite que o deslink continue. No entanto, ele só remove o arquivo após todas as referências ao arquivo terem desaparecido. Se o sistema de arquivos subjacente estiver conetado à rede, o cliente NFS interceta as chamadas de desvinculação e gerencia o fluxo de trabalho. Como há aberturas pendentes no arquivo que está sendo desvinculado, o cliente NFS envia uma solicitação de renomeação para o servidor NFS e, no último fechamento do arquivo não vinculado, emite uma operação de remoção no arquivo renomeado. Esse comportamento é comumente referido como NFS silly Rename, e é orquestrado pelo cliente NFS.
+
+Qualquer corretor Kafka usando armazenamento de um servidor NFSv3 corre em problemas por causa desse comportamento. No entanto, o protocolo NFSv4.x tem recursos para resolver esse problema, permitindo que o servidor assuma a responsabilidade pelos arquivos abertos e não vinculados. Os servidores NFS que suportam este recurso opcional comunicam a capacidade de propriedade ao cliente NFS no momento da abertura do arquivo. O cliente NFS então cessa o gerenciamento de desvinculação quando há abertura pendente e permite que o servidor gerencie o fluxo. Embora a especificação NFSv4 forneça diretrizes para implementação, até agora, não havia nenhuma implementação conhecida do servidor NFS que suportasse esse recurso opcional.
+
+As seguintes alterações são necessárias para que o servidor NFS e o cliente NFS resolvam o problema de renomeação boba:
+
+* *Alterações ao cliente NFS (Linux).* No momento da abertura do arquivo, o servidor NFS responde com um sinalizador, indicando a capacidade de lidar com a desvinculação de arquivos abertos. As alterações no lado do cliente NFS permitem que o servidor NFS processe a desvinculação na presença do sinalizador. O NetApp atualizou o cliente NFS Linux de código aberto com essas alterações. O cliente NFS atualizado agora está disponível em RHEL8,7 e RHEL9,1.
+* *Alterações no servidor NFS.* O servidor NFS mantém o controle das aberturas. A desvinculação em um arquivo aberto existente agora é gerenciada pelo servidor para corresponder à semântica POSIX. Quando a última abertura é fechada, o servidor NFS inicia a remoção real do arquivo e, assim, evita o processo de renomeação bobo. O servidor NFS da ONTAP implementou essa capacidade em sua versão mais recente, ONTAP 9.12,1.
+
+
+Com as alterações acima no cliente e servidor NFS, o Kafka pode colher com segurança todos os benefícios do armazenamento NFS conetado à rede.

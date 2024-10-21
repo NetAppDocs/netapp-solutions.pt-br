@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-conclusion.html 
+keywords: acknowledgements, additional information 
+summary: Essa solução da NetApp e da Lenovo é uma arquitetura flexível com escalabilidade horizontal ideal para entrada em AI empresarial de nível médio. O storage NetApp oferece a mesma ou melhor performance do storage SSD local, além de oferecer os seguintes benefícios para cientistas de dados, engenheiros de dados e responsáveis por decisões DE TI. 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A solução NetApp e Lenovo validada aqui é uma arquitetura flexível com escalabilidade horizontal ideal para entrada em AI empresarial de nível médio.
+
+O storage NetApp oferece a mesma ou melhor performance do storage SSD local, além de oferecer os seguintes benefícios para cientistas de dados, engenheiros de dados e responsáveis por decisões DE TI:
+
+* Compartilhamento fácil de dados entre sistemas de AI, análises e outros sistemas empresariais essenciais. Esse compartilhamento de dados reduz a sobrecarga da infraestrutura, melhora a performance e otimiza o gerenciamento de dados em toda a empresa.
+* Computação e storage escaláveis de forma independente para minimizar custos e melhorar a utilização de recursos.
+* Workflows de desenvolvimento e implantação otimizados usando clones e snapshots integrados para espaços de trabalho de usuário instantâneos e com uso eficiente de espaço, controle de versão integrado e implantação automatizada.
+* Proteção de dados de nível empresarial para recuperação de desastres e continuidade dos negócios.
+
+
+
+
+== Agradecimentos
+
+* Karthikeyan Nagalingam, engenheiro técnico de marketing, NetApp
+* Jarrett Upton, Admin, AI Lab Systems, Lenovo
+
+
+
+
+== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* Página de produto NetApp All Flash Arrays
++
+https://www.netapp.com/us/products/storage-systems/all-flash-array/aff-a-series.aspx["https://www.netapp.com/us/products/storage-systems/all-flash-array/aff-a-series.aspx"^]
+
+* Página NetApp AFF A400
++
+https://docs.netapp.com/us-en/ontap-systems/a400/index.html["https://docs.netapp.com/us-en/ontap-systems/a400/index.html"]
+
+* Página de produto do software de gerenciamento de dados NetApp ONTAP
++
+http://www.netapp.com/us/products/data-management-software/ontap.aspx["http://www.netapp.com/us/products/data-management-software/ontap.aspx"^]
+
+* MLPerf
++
+https://mlperf.org/["https://mlperf.org"^]
+
+* Benchmark TensorFlow
++
+https://github.com/tensorflow/benchmarks["https://github.com/tensorflow/benchmarks"^]
+
+* NVIDIA SMI (NVIDIA-smi)
++
+https://developer.nvidia.com/nvidia-system-management-interface["https://developer.nvidia.com/nvidia-system-management-interface"]
+
+

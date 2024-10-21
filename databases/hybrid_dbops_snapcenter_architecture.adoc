@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_architecture.html 
+summary: Esta seção descreve uma arquitetura típica de nuvem híbrida para operações de desenvolvimento/teste e DR. 
+keywords: architecture, synchronized database 
+---
+= Arquitetura de soluções
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O diagrama da arquitetura a seguir ilustra uma implementação típica da operação de banco de dados empresarial em uma nuvem híbrida para operações de desenvolvimento/teste e recuperação de desastres.
+
+image:Hybrid_Cloud_DB_Diagram.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Em operações de negócios normais, os volumes de banco de dados sincronizados na nuvem podem ser clonados e montados para instâncias de banco de dados de desenvolvimento/teste para desenvolvimento ou teste de aplicações. Em caso de falha, os volumes de banco de dados sincronizados na nuvem podem ser ativados para recuperação de desastres.

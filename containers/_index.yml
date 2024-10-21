@@ -1,0 +1,58 @@
+---
+indexpage:
+  title: Soluções de contêiner da NetApp
+  summary: As soluções de contêiner do NetApp são implantações validadas de muitos
+    orquestradores de contêiner populares baseados no Kubernetes e sua integração
+    com os sistemas e software de gerenciamento de storage da NetApp.
+  lead: As soluções de contêiner do NetApp são implantações validadas de muitos orquestradores
+    de contêiner populares baseados no Kubernetes e sua integração com os sistemas
+    e software de gerenciamento de storage da NetApp.
+  tiles:
+  - title: Anthos com NetApp
+    links:
+    - title: Visão geral da solução
+      url: a-w-n_solution_overview.html
+    - title: Anthos Visão geral
+      url: a-w-n_overview_anthos.html
+    - title: Integrações de storage do NetApp
+      url: a-w-n_overview_storint.html
+    - title: Casos de uso
+      url: a-w-n_use_cases.html
+    - title: Vídeos e demonstrações
+      url: a-w-n_videos_and_demos.html
+  - title: Red Hat OpenShift com NetApp
+    links:
+    - title: Visão geral da solução
+      url: rh-os-n_solution_overview.html
+    - title: Visão geral do Red Hat OpenShift
+      url: rh-os-n_overview_openshift.html
+    - title: Integrações de storage do NetApp
+      url: rh-os-n_overview_storint.html
+    - title: Casos de uso
+      url: rh-os-n_use_cases.html
+    - title: Vídeos e demonstrações
+      url: rh-os-n_videos_and_demos.html
+  - title: VMware Tanzu com NetApp
+    links:
+    - title: Visão geral da solução
+      url: vtwn_solution_overview.html
+    - title: Visão geral do VMware Tanzu
+      url: vtwn_overview_vmware_tanzu.html
+    - title: Integrações de storage do NetApp
+      url: vtwn_overview_storint.html
+    - title: Vídeos e demonstrações
+      url: vtwn_videos_and_demos.html
+  - title: Sobre nossos recursos para contentores
+    links:
+    - title: Centro de Controle NetApp Astra
+      url: https://cloud.netapp.com/astra
+    - title: NetApp Trident
+      url: https://netapp.io/persistent-storage-provisioner-for-kubernetes/
+  - title: Sobre nossas soluções de parceiros
+    links:
+    - title: Site da Anthos
+      url: https://cloud.google.com/anthos
+    - title: Site do Red Hat OpenShift
+      url: https://www.redhat.com/en/technologies/cloud-computing/openshift
+    - title: Site da VMware Tanzu
+      url: https://tanzu.vmware.com/

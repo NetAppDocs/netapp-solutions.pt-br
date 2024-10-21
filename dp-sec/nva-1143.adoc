@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: dp-sec/nva-1143.html 
+keywords:  
+summary:  
+---
+= NVA-1143: NetApp HCI - controles de segurança NIST para FISMA com HyTrust para infraestrutura multitenant - Projeto e implantação de NVA
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Arvind Ramakrishnan, Abhinav Singh, NetApp
+
+[role="lead"]
+O NVA-1143 descreve como o NetApp HCI pode ser projetado e implantado para atender aos controles de segurança e privacidade do Instituto Nacional de padrões e tecnologia (NIST) SP 800-53 Revisão 4, que são cruciais para infraestruturas de nuvem privada e implantações de vários clientes.
+
+link:https://www.netapp.com/pdf.html?item=/media/17065-nva1143pdf.pdf["NVA-1143: NetApp HCI - controles de segurança NIST para FISMA com HyTrust para infraestrutura multitenant - Projeto e implantação de NVA"^]

@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_abstract.html 
+keywords:  
+summary:  
+---
+= Resumo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esse relatório técnico oferece diretrizes para clientes com equipes de engenharia/ciência de dados pequenas a grandes e médias empresas para otimizar o uso do cluster e da GPU do Kubernetes usando a CLI Run:AI e o painel do sistema no NetApp ONTAP AI. Ele também inclui informações de instalação da plataforma Run:AI, cenários de teste e comandos detalhados para casos de teste validados. A solução de orquestração Run:AI juntamente com o plano de controle de AI da NetApp proporcionam um tempo mais rápido para a inovação, melhorando a produtividade do desenvolvedor com a utilização ideal de recursos.

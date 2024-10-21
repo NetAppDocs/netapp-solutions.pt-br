@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-test-plan.html 
+keywords: test plan, validation, image recognition training, processes 
+summary: Nesta validação, realizamos treinamento de reconhecimento de imagem conforme especificado pela MLPerf v2,0. Especificamente, treinamos o modelo ResNet v2,0 com o conjunto de dados IMAGEnet. A métrica principal é o tempo para alcançar a precisão desejada. Também relatamos a largura de banda de treinamento em imagens por segundo para avaliar melhor a eficiência da escalabilidade horizontal. 
+---
+= Plano de teste
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesta validação, realizamos treinamento de reconhecimento de imagem conforme especificado pela MLPerf v2,0. Especificamente, treinamos o modelo ResNet v2,0 com o conjunto de dados IMAGEnet até atingir uma precisão de 76,1%. A métrica principal é o tempo para alcançar a precisão desejada. Também relatamos a largura de banda de treinamento em imagens por segundo para avaliar melhor a eficiência da escalabilidade horizontal.
+
+O caso de teste primário avaliou vários processos de treinamento independentes (um por nó) executados simultaneamente. Isso simula o principal caso de uso, um sistema compartilhado usado por vários cientistas de dados. O segundo caso de teste avaliou a eficiência da escalabilidade horizontal.

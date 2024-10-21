@@ -1,0 +1,425 @@
+---
+sidebar: sidebar 
+permalink: ehc/veeam-gcnv-dr-to-gcve.html 
+keywords: disaster recovery, avs, google cloud, gcp, gcve, gcnv, google cloud netapp volumes, netapp volumes, dr, veeam, replication 
+summary:  
+---
+= Usando o Veeam Replication e o Google Cloud NetApp volumes datastore para recuperação de desastres no Google Cloud VMware Engine
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Um plano abrangente de recuperação de desastres é essencial para as empresas em tempos de crise. Muitas organizações utilizam a computação em nuvem para operações diárias e recuperação de desastres. Essa abordagem proativa pode reduzir ou eliminar interrupções caras nos negócios.
+
+Este artigo descreve como usar o Veeam Backup & Replication para configurar a recuperação de desastres para VMs no local no Google Cloud NetApp volumes (NetApp volumes).
+
+
+
+== Visão geral
+
+O Google Cloud NetApp volumes é um serviço de storage do Google e do NetApp disponível para o Google Cloud. O serviço NetApp volumes fornece storage de alta performance em NFS/SMB. O storage NetApp volumes NFS certificado pela VMware pode ser usado como um armazenamento de dados externo para hosts ESXi no GCVE. Os usuários precisam fazer uma conexão de peering entre sua nuvem privada GCVE e o projeto NetApp volumes. Não há cobranças de rede resultantes do acesso ao armazenamento dentro de uma região. Os usuários podem criar volumes do NetApp no console do Google Cloud e habilitar a proteção de exclusão antes de montar volumes como datastores nos hosts ESXi.
+
+Os armazenamentos de dados NFS baseados no NetApp volumes podem ser usados para replicar dados no local usando qualquer solução validada de terceiros que forneça a funcionalidade de replicação de VM. Ao adicionar armazenamentos de dados do NetApp volumes, ele permite a implantação otimizada de custos em vez de criar um SDDC baseado no Google Cloud com um grande número de hosts ESXi para acomodar o armazenamento. Esta abordagem é chamada de "Pilot Light Cluster". Um cluster de luz piloto é uma configuração mínima de host GCVE (3 hosts ESXi GCVE), juntamente com a capacidade dos datastores do NetApp volumes, para permitir o dimensionamento independente para atender aos requisitos de capacidade.
+
+O objetivo é sustentar uma infraestrutura econômica com apenas os componentes principais para gerenciar um failover. Um cluster de luz piloto pode expandir e adicionar mais hosts GCVE no caso de um failover. Depois que o failover for resolvido e as operações normais forem retomadas, o cluster de luzes piloto poderá reduzir sua escala, retornando a um modo operacional de baixo custo.
+
+
+
+== Finalidades deste documento
+
+este artigo descreve como usar um armazenamento de dados do Google Cloud NetApp volumes com o Veeam Backup & Replication para configurar a recuperação de desastres para VMs VMware locais no GCVE usando a funcionalidade de software de replicação da Veeam VM.
+
+O Veeam Backup & Replication é uma aplicação de backup e replicação para ambientes virtuais. Quando as máquinas virtuais são replicadas, o Veeam Backup & Replication criará uma cópia exata das VMs no formato nativo do VMware vSphere no cluster GCVE SDDC de destino. O Veeam Backup & Replication manterá a cópia sincronizada com a VM original. A replicação oferece o melhor objetivo de tempo de recuperação (rto), pois há uma cópia montada de uma VM no local de DR em um estado pronto para iniciar.
+
+Esse mecanismo de replicação garante que as cargas de trabalho possam iniciar rapidamente no GCVE em caso de desastre. O software Veeam Backup & Replication também otimiza a transmissão de tráfego para replicação por WAN e conexões lentas. Além disso, ele também filtra blocos de dados duplicados, zero blocos de dados, arquivos de swap e "arquivos de sistema operacional convidado VM excluídos". O software também comprimirá o tráfego de réplica. Para evitar que os trabalhos de replicação consumam toda a largura de banda da rede, podem ser utilizados aceleradores de WAN e regras de limitação de rede.
+
+O processo de replicação no Veeam Backup & Replication é orientado a trabalhos, o que significa que a replicação é realizada configurando tarefas de replicação. No caso de um evento de desastre, o failover pode ser acionado para recuperar as VMs falhando na cópia de réplica. Quando o failover é executado, uma VM replicada assume a função da VM original. O failover pode ser executado no estado mais recente de uma réplica ou em qualquer um de seus pontos de restauração em boas condições. Isso possibilita a recuperação de ransomware ou testes isolados, conforme necessário. O Veeam Backup & Replication oferece várias opções para lidar com diferentes cenários de recuperação de desastres.
+
+
+
+== Visão geral da solução
+
+Esta solução abrange as seguintes etapas de alto nível:
+
+. Criar um volume NFS com o Google Cloud NetApp volumes
+. Siga o processo do GCP para criar um armazenamento de dados GCVE a partir do volume NetApp volumes NFS.
+. Configure uma tarefa de replicação para criar réplicas de VM usando o Veeam Backup & Replication.
+. Crie um plano de failover e execute o failover.
+. Volte para as VMs de produção assim que o evento de desastre for concluído e o local principal estiver pronto.
+
+
+
+NOTE: Ao criar um volume no NetApp volumes, para uso como armazenamento de dados GCVE, somente o NFS v3 é compatível.
+
+Para obter mais informações sobre como usar volumes NFS do NetApp como datastores para GCVE, https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-datastores-gcve["Uso do volume NFS como armazenamento de dados vSphere hospedado pelo Google Cloud NetApp volumes"] confira .
+
+
+
+== Arquitetura
+
+O diagrama a seguir mostra a arquitetura da solução apresentada nesta documentação. Uma prática recomendada é ter um servidor Veeam Backup & Replication localizado no local e no GCVE SDDC. O backup e a recuperação são executados e gerenciados pelo servidor Veeam no local, e a replicação é gerenciada pelo servidor Veeam no GCVE SDDC. Essa arquitetura oferece a mais alta disponibilidade quando ocorre uma falha no data center principal.
+
+image::dr-veeam-gcnv-image01.png[diagrama de arquitetura]
+
+
+
+== Pré-requisitos para a replicação do Veeam para armazenamentos de dados GCVE e NetApp volumes
+
+Esta solução requer os seguintes componentes e configurações:
+
+. O NetApp volumes tem um pool de storage disponível com capacidade livre suficiente para acomodar o volume NFS a ser criado.
+. O software Veeam Backup and Replication é executado em um ambiente local com conetividade de rede apropriada.
+. Certifique-se de que a VM de backup do Veeam Backup & Replication esteja conetada à fonte, bem como aos clusters GCVE SDDC de destino.
+. Certifique-se de que a VM de backup do Veeam Backup & Replication esteja conetada às VMs do servidor Veeam Proxy nos clusters GCVE de origem e destino.
+. O servidor de backup deve ser capaz de resolver nomes curtos e conetar-se a vCenters de origem e destino.
+
+
+Os usuários precisam fazer uma conexão de peering entre a nuvem privada GCVE e o projeto NetApp volumes usando as páginas de peering de rede VPC ou conexões privadas na IU do console do VMware Engine Cloud.
+
+
+NOTE: A Veeam requer uma conta de usuário da solução GCVE com Privileges elevado ao adicionar o servidor GCVE vCenter ao inventário do Veeam Backup and Replication. Para obter mais informações, consulte a documentação do Google Cloud Platform (GCP), https://cloud.google.com/vmware-engine/docs/private-clouds/classic-console/howto-elevate-privilege["Elevar o VMware Engine Privileges"].
+
+Para obter informações adicionais, consulte a https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["Considerações e limitações"] documentação do Veeam Backup & Replication.
+
+
+
+== Etapas de implantação
+
+As seções a seguir descrevem as etapas de implantação para criar e montar um armazenamento de dados NFS usando o Google Cloud NetApp volumes e usar o Veeam Backup and Replication para implementar uma solução completa de recuperação de desastres entre um data center local e o Google Cloud VMware Engine.
+
+
+
+=== Crie o volume e o armazenamento de dados do NetApp volumes NFS para o GCVE
+
+ https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-datastores-gcve["Uso do volume NFS como armazenamento de dados vSphere hospedado pelo Google Cloud NetApp volumes"]Consulte para obter uma visão geral de como usar o Google Cloud NetApp volumes como um armazenamento de dados para o GCVE.
+
+Execute as etapas a seguir para criar e usar um armazenamento de dados NFS para GCVE usando volumes do NetApp:
+
+.Criar volume NetApp volumes NFS
+[%collapsible]
+====
+O Google Cloud NetApp volumes é acessado pelo console do Google Cloud Platform (GCP).
+
+Consulte a https://cloud.google.com/netapp/volumes/docs/configure-and-use/volumes/create-volume["Crie um volume"] documentação do Google Cloud NetApp volumes para obter informações detalhadas sobre esta etapa.
+
+. Em um navegador da Web, navegue https://console.cloud.google.com/[] e faça login no console do GCP. Procure por *NetApp volumes* para começar.
+. Na interface de gerenciamento *NetApp volumes*, clique em *Create* para começar a criar um volume NFS.
++
+image::dr-veeam-gcnv-image02.png[criar volume]
+
++
+clique em ok
+
+. No assistente *criar um volume*, preencha todas as informações necessárias:
++
+** Um nome para o volume.
+** O pool de armazenamento no qual criar o volume.
+** Um nome de compartilhamento usado ao montar o volume NFS.
+** A capacidade do volume em GiB.
+** O protocolo de armazenamento a ser utilizado.
+** Marque a caixa para *Bloquear volume da exclusão quando os clientes estiverem conetados* (exigido pelo GCVE ao montar como um datastore).
+** As regras de exportação para acessar o volume. Estes são os endereços IP dos adaptadores ESXi na rede NFS.
+** Uma programação de instantâneos usada para proteger o volume usando snapshots locais.
+** Opcionalmente, escolha fazer backup do volume e/ou criar etiquetas para o volume.
++
+
+NOTE: Ao criar um volume no NetApp volumes, para uso como armazenamento de dados GCVE, somente o NFS v3 é compatível.
+
++
+image::dr-veeam-gcnv-image03.png[criar volume]
+
++
+clique em ok
+
++
+image::dr-veeam-gcnv-image04.png[criar volume]
+
++
+Clique em *Create* para concluir a criação do volume.
+
+
+
+. Depois que o volume é criado, o caminho de exportação NFS necessário para montar o volume pode ser visualizado na página de propriedades do volume.
++
+image::dr-veeam-gcnv-image05.png[propriedades do volume]
+
+
+
+====
+.Monte o armazenamento de dados NFS no GCVE
+[%collapsible]
+====
+No momento da gravação, o processo para montar um datastore no GCVE requer a abertura de um ticket de suporte do GCP para que o volume seja montado como um datastore NFS.
+
+ https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-datastores-gcve["Uso do volume NFS como armazenamento de dados vSphere hospedado pelo Google Cloud NetApp volumes"]Consulte para obter mais informações.
+
+====
+
+
+=== Replique VMs para GCVE e execute o plano de failover e failback
+
+.Replique VMs para o armazenamento de dados NFS no GCVE
+[%collapsible]
+====
+O Veeam Backup & Replication utiliza os recursos de snapshot do VMware vSphere durante a replicação, o Veeam Backup & Replication solicita ao VMware vSphere que crie um snapshot de VM. O snapshot da VM é a cópia pontual de uma VM que inclui discos virtuais, estado do sistema, configuração e metadados. O Veeam Backup & Replication usa o snapshot como fonte de dados para replicação.
+
+Para replicar VMs, execute as seguintes etapas:
+
+. Abra o Veeam Backup & Replication Console.
+. Na guia *Home*, clique em *trabalho de replicação > Máquina virtual...*
++
+image::dr-veeam-gcnv-image06.png[criar tarefa de replicação de vm]
+
++
+clique em ok
+
+. Na página *Nome* do assistente *Nova tarefa de replicação*, especifique um nome de tarefa e selecione as caixas de seleção de controle avançado apropriadas.
++
+** Marque a caixa de seleção réplica de semeadura se a conetividade entre o local e o GCP tiver largura de banda restrita.
+** Selecione a caixa de verificação remapeamento de rede (para sites SDDC GCVE com redes diferentes) se os segmentos no SDDC GCVE não corresponderem aos das redes locais.
+** Marque a caixa de seleção Replica Re-IP (para sites de DR com esquema de endereçamento IP diferente) se o esquema de endereçamento IP no local de produção local for diferente do esquema no site GCVE de destino.
++
+image::dr-veeam-gcnv-image07.png[página de nome]
+
++
+clique em ok
+
+
+
+. Na página *máquinas virtuais*, selecione as VMs a serem replicadas no datastore NetApp volumes conetado a um SDDC GCVE. Clique em *Add*, em seguida, na janela *Add Object*, selecione as VMs ou os contentores VM necessários e clique em *Add*. Clique em *seguinte*.
++
+
+NOTE: As máquinas virtuais podem ser colocadas no VSAN para preencher a capacidade disponível do armazenamento de dados VSAN. Em um cluster de luz piloto, a capacidade utilizável de um cluster VSAN de 3 nós será limitada. Os demais dados podem ser facilmente armazenados nos datastores do Google Cloud NetApp volumes para que as VMs possam ser recuperadas e o cluster pode ser expandido posteriormente para atender aos requisitos de CPU/memória.
+
++
+image::dr-veeam-gcnv-image08.png[Selecione VMs a serem replicadas]
+
++
+clique em ok
+
+. Na página *destino*, selecione o destino como o cluster/hosts GCVE SDDC e o pool de recursos apropriado, a pasta VM e o datastore GCNV para as réplicas da VM. Clique em *seguinte* para continuar.
++
+image::dr-veeam-gcnv-image09.png[selecione os detalhes do destino]
+
++
+clique em ok
+
+. Na página *rede*, crie o mapeamento entre redes virtuais de origem e destino, conforme necessário. Clique em *seguinte* para continuar.
++
+image::dr-veeam-gcnv-image10.png[mapeamento de rede]
+
++
+clique em ok
+
+. Na página *Re-IP*, clique no botão *Add...* para adicionar uma nova regra de re-ip. Preencha os intervalos de ip da VM de origem e destino para especificar a rede que será aplicada às VM de origem no caso de um failover. Use asteriscos para especificar um intervalo de endereços é indicado para esse octeto. Clique em *seguinte* para continuar.
++
+image::dr-veeam-gcnv-image11.png[Página re-IP]
+
++
+clique em ok
+
+. Na página *Job Settings*, especifique o repositório de backup que armazenará metadados para réplicas de VM, a política de retenção e selecione o botão na parte inferior do botão *Advanced...* na parte inferior para configurações adicionais de tarefa. Clique em *seguinte* para continuar.
+. Em *transferência de dados*, selecione os servidores proxy que residem nos sites de origem e destino e mantenha a opção direta selecionada. Aceleradores de WAN também podem ser selecionados aqui, se configurado. Clique em *seguinte* para continuar.
++
+image::dr-veeam-gcnv-image12.png[Transferência de dados]
+
++
+clique em ok
+
+. Na página *processamento de convidados*, marque a caixa *Ativar processamento com reconhecimento de aplicativos* conforme necessário e selecione *credenciais do sistema operacional convidado*. Clique em *seguinte* para continuar.
++
+image::dr-veeam-gcnv-image13.png[Processamento de convidados]
+
++
+clique em ok
+
+. Na página *Programar*, defina as horas e a frequência em que o trabalho de replicação será executado. Clique em *seguinte* para continuar.
++
+image::dr-veeam-gcnv-image14.png[Página de programação]
+
++
+clique em ok
+
+. Por fim, reveja a definição do trabalho na página *Summary*. Marque a caixa para *Executar o trabalho quando clico em concluir* e clique em *concluir* para concluir a criação do trabalho de replicação.
+. Uma vez executado, o trabalho de replicação pode ser visualizado na janela de estado do trabalho.
++
+image::dr-veeam-gcnv-image15.png[Janela de status do trabalho]
+
++
+Para obter informações adicionais sobre replicação da Veeam, consulte link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["Como a replicação funciona"]
+
+
+
+====
+.Crie um plano de failover
+[%collapsible]
+====
+Quando a replicação inicial ou a semeadura estiver concluída, crie o plano de failover. O plano de failover ajuda a executar o failover para VMs dependentes, uma por uma ou como um grupo automaticamente. O plano de failover é o modelo da ordem em que as VMs são processadas, incluindo os atrasos de inicialização. O plano de failover também ajuda a garantir que as VMs dependentes críticas já estejam em execução.
+
+Depois de concluir a replicação inicial ou a semeadura, crie um plano de failover. Esse plano serve como um modelo estratégico para orquestrar o failover de VMs dependentes, individualmente ou em grupo. Ele define a ordem de processamento das VMs, incorpora atrasos de inicialização necessários e garante que VMs dependentes críticas estejam operacionais antes de outras. Ao implementar um plano de failover bem estruturado, as organizações podem simplificar seu processo de recuperação de desastres, minimizando o tempo de inatividade e mantendo a integridade dos sistemas interdependentes durante um evento de failover.
+
+Ao criar o plano, o Veeam Backup & Replication identifica e usa automaticamente os pontos de restauração mais recentes para iniciar as réplicas da VM.
+
+
+NOTE: O plano de failover só pode ser criado quando a replicação inicial estiver concluída e as réplicas da VM estiverem no estado Pronto.
+
+
+NOTE: O número máximo de VMs que podem ser iniciadas simultaneamente ao executar um plano de failover é 10.
+
+
+NOTE: Durante o processo de failover, as VMs de origem não serão desligadas.
+
+Para criar o *Plano de failover*, execute as seguintes etapas:
+
+. Na visualização *Home*, clique no botão *Plano de failover* na seção *Restore*. Na lista suspensa, selecione *VMware vSphere...*
++
+image::dr-veeam-gcnv-image16.png[Criar plano de failover]
+
++
+clique em ok
+
+. Na página *Geral* do assistente *novo Plano de failover*, forneça um nome e uma descrição para o plano. Scripts pré e pós-failover podem ser adicionados conforme necessário. Por exemplo, execute um script para desligar as VMs antes de iniciar as VMs replicadas.
++
+image::dr-veeam-gcnv-image17.png[Página geral]
+
++
+clique em ok
+
+. Na página *máquinas virtuais*, clique no botão para *Adicionar VM* e selecione *de réplicas...*. Escolha as VMs a serem parte do plano de failover e, em seguida, modifique a ordem de inicialização da VM e quaisquer atrasos de inicialização necessários para atender às dependências da aplicação.
++
+image::dr-veeam-gcnv-image18.png[página máquinas virtuais]
+
++
+clique em ok
+
++
+image::dr-veeam-gcnv-image19.png[Ordem de inicialização e atrasos]
+
++
+clique em ok
+
++
+Clique em *Apply* para continuar.
+
+. Finalmente, revise todas as configurações do plano de failover e clique em *Finish* para criar o plano de failover.
+
+
+Para obter informações adicionais sobre a criação de trabalhos de replicação, link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["Criando trabalhos de replicação"]consulte .
+
+====
+.Execute o plano de failover
+[%collapsible]
+====
+Durante o failover, a VM de origem no local de produção muda para sua réplica no local de recuperação de desastres. Como parte do processo, o Veeam Backup & Replication restaura a réplica da VM para o ponto de restauração necessário e transfere todas as atividades de e/S da VM de origem para a réplica. As réplicas servem não apenas para desastres reais, mas também para simular exercícios de DR. Na simulação de failover, a VM de origem continua em execução. Após a conclusão dos testes necessários, o failover pode ser desfeito, retornando as operações ao normal.
+
+
+NOTE: Certifique-se de que a segmentação de rede está em vigor para evitar conflitos de IP durante o failover.
+
+Conclua as etapas a seguir para iniciar o plano de failover:
+
+. Para começar, no modo de exibição *Home*, clique em *replicas > planos de failover* no menu à esquerda e, em seguida, no botão *Start*. Alternativamente, o botão *Start to...* pode ser usado para fazer failover para um ponto de restauração anterior.
++
+image::dr-veeam-gcnv-image20.png[Inicie o plano de failover]
+
++
+clique em ok
+
+. Monitore o progresso do failover na janela *executando o plano de failover*.
++
+image::dr-veeam-gcnv-image21.png[Monitorar o progresso do failover]
+
++
+clique em ok
+
+
+
+
+NOTE: O Veeam Backup & Replication interrompe todas as atividades de replicação da VM de origem até que a réplica seja retornada ao estado Pronto.
+
+Para obter informações detalhadas sobre planos de failover, link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_plan.html?ver=120["Planos de failover"]consulte .
+
+====
+.Failback para o local de produção
+[%collapsible]
+====
+A realização de um failover é considerada uma etapa intermediária e precisa ser finalizada com base no requisito. As opções incluem o seguinte:
+
+* *Failback to Production* - reverta para a VM original e sincronize todas as modificações feitas durante o período ativo da réplica de volta para a VM de origem.
+
+
+
+NOTE: Durante o failback, as alterações são transferidas, mas não aplicadas imediatamente. Selecione *Commit failback* quando a funcionalidade original da VM for verificada. Alternativamente, escolha *Desfazer failback* para reverter para a réplica da VM se a VM original apresentar comportamento inesperado.
+
+* *Undo failover* - reverta para a VM original, descartando todas as alterações feitas na réplica da VM durante seu período operacional.
+* * Failover permanente* - alterne permanentemente da VM original para sua réplica, estabelecendo a réplica como a nova VM primária para operações em andamento.
+
+
+Neste cenário, foi selecionada a opção "Failback to Production" (Falha na produção).
+
+Execute as etapas a seguir para executar um failback no local de produção:
+
+. No modo de exibição *Home*, clique em *replicas > Ativo* no menu à esquerda. Selecione as VMs a serem incluídas e clique no botão *Failback to Production* no menu superior.
++
+image::dr-veeam-gcnv-image22.png[Failback de arranque]
+
++
+clique em ok
+
+. Na página *Replica* do assistente *Failback*, selecione as réplicas a incluir no trabalho de failback.
+. Na página *destino*, selecione *Falha na VM original* e clique em *Avançar* para continuar.
++
+image::dr-veeam-gcnv-image23.png[Failback para VM original]
+
++
+clique em ok
+
+. Na página *modo de failback*, selecione *Automático* para iniciar o failback o mais rápido possível.
++
+image::dr-veeam-gcnv-image24.png[Modo de failback]
+
++
+clique em ok
+
+. Na página *Resumo*, escolha se deseja *ligar a VM de destino após a restauração* e clique em concluir para iniciar o trabalho de failback.
++
+image::dr-veeam-gcnv-image25.png[Resumo do trabalho de failback]
+
++
+clique em ok
+
+
+
+O failback commit finaliza a operação de failback, confirmando a integração bem-sucedida das alterações na VM de produção. Após a confirmação, o Veeam Backup & Replication retoma as atividades de replicação regulares para a VM de produção restaurada. Isso altera o status da réplica restaurada de _Failback_ para _Ready_.
+
+. Para confirmar o failback, navegue até *replicas > Ativo*, selecione as VMs a serem confirmadas, clique com o botão direito do Mouse e selecione *Commit failback*.
++
+image::dr-veeam-gcnv-image26.png[Failback de confirmação]
+
++
+clique em ok
+
++
+image::dr-veeam-gcnv-image27.png[Falha de confirmação bem-sucedida]
+
++
+Depois de o failback para a produção ser bem-sucedido, as VMs são todas restauradas de volta ao local de produção original.
+
+
+
+Para obter informações detalhadas sobre o processo de failback, consulte a documentação da Veeam para link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["Failover e failback para replicação"].
+
+====
+
+
+== Conclusão
+
+A funcionalidade do armazenamento de dados do NetApp volumes capacita a Veeam e outras ferramentas de terceiros validadas a oferecer soluções econômicas de recuperação de desastres (DR). Ao utilizar clusters de luz piloto em vez de clusters grandes e dedicados para réplicas de VM, as organizações podem reduzir significativamente as despesas. Essa abordagem permite estratégias de DR personalizadas que aproveitam as soluções de backup internas existentes para recuperação de desastres baseada na nuvem, eliminando a necessidade de datacenters locais adicionais. Em caso de desastre, o failover pode ser iniciado com um único clique ou configurado para ocorrer automaticamente, garantindo a continuidade dos negócios com o mínimo de tempo de inatividade.
+
+Para saber mais sobre esse processo, fique à vontade para seguir o vídeo detalhado.
+
+video::b2fb8597-c3fe-49e2-8a84-b1f10118db6d[panopto,width=Video walkthrough of the solution]

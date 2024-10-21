@@ -1,0 +1,82 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_example_trident_backends_for_ontap_ai_deployments.html 
+keywords: ONTAP, Trident, AI, Deployment, 
+summary: MLOps de código aberto com NetApp - exemplo de backends Trident para implantações NetApp AIPod 
+---
+= Exemplo de backends Trident para implantações NetApp AIPod
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de usar o Trident para provisionar recursos de storage dinamicamente no cluster do Kubernetes, é necessário criar um ou mais back-ends do Trident. Os exemplos a seguir representam diferentes tipos de backends que você pode querer criar se estiver implantando componentes desta solução em um link:aipod_nv_intro.html["NetApp AIPod"^]. Para obter mais informações sobre backends e, por exemplo, backends para outras plataformas/ambientes, consulte o link:https://docs.netapp.com/us-en/trident/index.html["Documentação do Trident"^].
+
+. A NetApp recomenda a criação de um backend Trident habilitado para FlexGroup para o AIPod.
++
+Os comandos de exemplo a seguir mostram a criação de um back-end Trident habilitado para FlexGroup para uma máquina virtual de storage (SVM) AIPod. Esse back-end usa o `ontap-nas-flexgroup` driver de armazenamento. O ONTAP suporta dois tipos principais de volume de dados: FlexVol e FlexGroup. Os volumes FlexVol são limitados por tamanho (a partir dessa gravação, o tamanho máximo depende da implantação específica). O FlexGroup volumes, por outro lado, pode ser dimensionado linearmente para até 20PB PB e 400 bilhões de arquivos, fornecendo um namespace único que simplifica muito o gerenciamento de dados. Portanto, os volumes do FlexGroup são ideais para workloads de AI e ML que dependem de grandes volumes de dados.
+
++
+Se você estiver trabalhando com uma pequena quantidade de dados e quiser usar volumes FlexVol em vez de volumes FlexGroup, você pode criar backends Trident que usam o `ontap-nas` driver de armazenamento em vez do driver de armazenamento `ontap-nas-flexgroup`.
+
++
+....
+$ cat << EOF > ./trident-backend-aipod-flexgroups-iface1.json
+{
+    "version": 1,
+    "storageDriverName": "ontap-nas-flexgroup",
+    "backendName": "aipod-flexgroups-iface1",
+    "managementLIF": "10.61.218.100",
+    "dataLIF": "192.168.11.11",
+    "svm": "ontapai_nfs",
+    "username": "admin",
+    "password": "ontapai"
+}
+EOF
+$ tridentctl create backend -f ./trident-backend-aipod-flexgroups-iface1.json -n trident
++-------------------------+---------------------+--------------------------------------+--------+---------+
+|            NAME         |   STORAGE DRIVER    |                 UUID                 | STATE  | VOLUMES |
++-------------------------+---------------------+--------------------------------------+--------+---------+
+| aipod-flexgroups-iface1 | ontap-nas-flexgroup | b74cbddb-e0b8-40b7-b263-b6da6dec0bdd | online |       0 |
++-------------------------+---------------------+--------------------------------------+--------+---------+
+$ tridentctl get backend -n trident
++-------------------------+---------------------+--------------------------------------+--------+---------+
+|            NAME         |   STORAGE DRIVER    |                 UUID                 | STATE  | VOLUMES |
++-------------------------+---------------------+--------------------------------------+--------+---------+
+| aipod-flexgroups-iface1 | ontap-nas-flexgroup | b74cbddb-e0b8-40b7-b263-b6da6dec0bdd | online |       0 |
++-------------------------+---------------------+--------------------------------------+--------+---------+
+....
+. O NetApp também recomenda a criação de um backend Trident habilitado para FlexVol. Você pode querer usar o FlexVol volumes para hospedar aplicativos persistentes, armazenar resultados, saída, informações de depuração e assim por diante. Se você quiser usar o FlexVol volumes, crie um ou mais backends Trident habilitados para FlexVol. Os comandos de exemplo a seguir mostram a criação de um único backend Trident habilitado para FlexVol.
+
+
+....
+$ cat << EOF > ./trident-backend-aipod-flexvols.json
+{
+    "version": 1,
+    "storageDriverName": "ontap-nas",
+    "backendName": "aipod-flexvols",
+    "managementLIF": "10.61.218.100",
+    "dataLIF": "192.168.11.11",
+    "svm": "ontapai_nfs",
+    "username": "admin",
+    "password": "ontapai"
+}
+EOF
+$ tridentctl create backend -f ./trident-backend-aipod-flexvols.json -n trident
++-------------------------+---------------------+--------------------------------------+--------+---------+
+|            NAME         |   STORAGE DRIVER    |                 UUID                 | STATE  | VOLUMES |
++-------------------------+---------------------+--------------------------------------+--------+---------+
+| aipod-flexvols          | ontap-nas           | 52bdb3b1-13a5-4513-a9c1-52a69657fabe | online |       0 |
++-------------------------+---------------------+--------------------------------------+--------+---------+
+$ tridentctl get backend -n trident
++-------------------------+---------------------+--------------------------------------+--------+---------+
+|            NAME         |   STORAGE DRIVER    |                 UUID                 | STATE  | VOLUMES |
++-------------------------+---------------------+--------------------------------------+--------+---------+
+| aipod-flexvols          | ontap-nas           | 52bdb3b1-13a5-4513-a9c1-52a69657fabe | online |       0 |
+| aipod-flexgroups-iface1 | ontap-nas-flexgroup | b74cbddb-e0b8-40b7-b263-b6da6dec0bdd | online |       0 |
++-------------------------+---------------------+--------------------------------------+--------+---------+
+....

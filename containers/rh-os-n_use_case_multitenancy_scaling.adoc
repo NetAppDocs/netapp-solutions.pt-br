@@ -1,0 +1,184 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_multitenancy_scaling.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: Configuração de alocação a vários clientes no Red Hat OpenShift com NetApp 
+---
+= Dimensionamento: Adicionando mais projetos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Em uma configuração multitenant, a adição de novos projetos com recursos de storage requer configuração adicional para garantir que a alocação a vários clientes não seja violada. Para adicionar mais projetos em um cluster multitenant, execute as seguintes etapas:
+
+. Faça login no cluster do NetApp ONTAP como administrador de storage.
+. Navegue até `Storage -> Storage VMs` e clique `Add`em . Criar um novo SVM dedicado ao Project-3. Também crie uma conta vsadmin para gerenciar o SVM e seus recursos.
+
+
+image:redhat_openshift_image42.jpg["Criar SVM para dimensionamento"]
+
+. Faça login no cluster Red Hat OpenShift como administrador de cluster.
+. Crie um novo projeto.
++
+[source, console]
+----
+oc create ns project-3
+----
+. Certifique-se de que o grupo de usuários do project-3 seja criado no IDP e sincronizado com o cluster OpenShift.
++
+[source, console]
+----
+oc get groups
+----
+. Crie a função de desenvolvedor para o project-3.
++
+[source, console]
+----
+cat << EOF | oc create -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: project-3
+  name: developer-project-3
+rules:
+  - verbs:
+      - '*'
+    apiGroups:
+      - apps
+      - batch
+      - autoscaling
+      - extensions
+      - networking.k8s.io
+      - policy
+      - apps.openshift.io
+      - build.openshift.io
+      - image.openshift.io
+      - ingress.operator.openshift.io
+      - route.openshift.io
+      - snapshot.storage.k8s.io
+      - template.openshift.io
+    resources:
+      - '*'
+  - verbs:
+      - '*'
+    apiGroups:
+      - ''
+    resources:
+      - bindings
+      - configmaps
+      - endpoints
+      - events
+      - persistentvolumeclaims
+      - pods
+      - pods/log
+      - pods/attach
+      - podtemplates
+      - replicationcontrollers
+      - services
+      - limitranges
+      - namespaces
+      - componentstatuses
+      - nodes
+  - verbs:
+      - '*'
+    apiGroups:
+      - trident.netapp.io
+    resources:
+      - tridentsnapshots
+EOF
+----
+
+
+
+NOTE: A definição de função fornecida nesta seção é apenas um exemplo. A função de desenvolvedor deve ser definida com base nos requisitos do usuário final.
+
+. Criar RoleBinding para desenvolvedores no project-3 vinculando a função desenvolvedor-project-3 ao grupo correspondente (ocp-project-3) no project-3.
++
+[source, console]
+----
+cat << EOF | oc create -f -
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: project-3-developer
+  namespace: project-3
+subjects:
+  - kind: Group
+    apiGroup: rbac.authorization.k8s.io
+    name: ocp-project-3
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: developer-project-3
+EOF
+----
+. Faça login no cluster Red Hat OpenShift como administrador de armazenamento
+. Crie um back-end do Trident e mapeie-o para o SVM dedicado ao Project-3. A NetApp recomenda o uso da conta vsadmin da SVM para conectar o back-end ao SVM, em vez de usar o administrador do cluster do ONTAP.
++
+[source, console]
+----
+cat << EOF | tridentctl -n trident create backend -f
+{
+    "version": 1,
+    "storageDriverName": "ontap-nas",
+    "backendName": "nfs_project_3",
+    "managementLIF": "172.21.224.210",
+    "dataLIF": "10.61.181.228",
+    "svm": "project-3-svm",
+    "username": "vsadmin",
+    "password": "NetApp!23"
+}
+EOF
+----
+
+
+
+NOTE: Estamos usando o driver ONTAP-nas para este exemplo. Use o driver apropriado para criar o backend com base no caso de uso.
+
+
+NOTE: Assumimos que o Trident está instalado no projeto Trident.
+
+. Crie a classe de storage para o Project-3 e configure-a para usar os pools de storage do back-end dedicado ao Project-3.
++
+[source, console]
+----
+cat << EOF | oc create -f -
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: project-3-sc
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: ontap-nas
+  storagePools: "nfs_project_3:.*"
+EOF
+----
+. Crie um ResourceQuota para restringir recursos no project-3 solicitando armazenamento de storageclasses dedicados a outros projetos.
++
+[source, console]
+----
+cat << EOF | oc create -f -
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+  name: project-3-sc-rq
+  namespace: project-3
+spec:
+  hard:
+    project-1-sc.storageclass.storage.k8s.io/persistentvolumeclaims: 0
+    project-2-sc.storageclass.storage.k8s.io/persistentvolumeclaims: 0
+EOF
+----
+. Patch the ResourceQuotes em outros projetos para restringir recursos nesses projetos de acesso ao armazenamento a partir da storageclass dedicada ao projeto-3.
++
+[source, console]
+----
+oc patch resourcequotas project-1-sc-rq -n project-1 --patch '{"spec":{"hard":{ "project-3-sc.storageclass.storage.k8s.io/persistentvolumeclaims": 0}}}'
+oc patch resourcequotas project-2-sc-rq -n project-2 --patch '{"spec":{"hard":{ "project-3-sc.storageclass.storage.k8s.io/persistentvolumeclaims": 0}}}'
+----
+

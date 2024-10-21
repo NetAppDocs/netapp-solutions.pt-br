@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: databases/sql-srv-anf_where_to_find_additional_information.html 
+keywords:  
+summary:  
+---
+= Onde encontrar informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes links do site:
+
+* Arquiteturas de solução usando Azure NetApp Files
++
+https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-solution-architectures["https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-solution-architectures"^]
+
+* Benefícios de usar o Azure NetApp Files para implantação do SQL Server
++
+https://docs.microsoft.com/en-us/azure/azure-netapp-files/solutions-benefits-azure-netapp-files-sql-server["https://docs.microsoft.com/en-us/azure/azure-netapp-files/solutions-benefits-azure-netapp-files-sql-server"^]
+
+* Tolerância de falhas, alta disponibilidade e resiliência com o Azure NetApp Files
++
+https://cloud.netapp.com/blog/azure-anf-blg-fault-tolerance-high-availability-and-resilience-with-azure-netapp-files["https://cloud.netapp.com/blog/azure-anf-blg-fault-tolerance-high-availability-and-resilience-with-azure-netapp-files"^]
+
+

@@ -1,0 +1,22 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-where-to-find-additional-information.html 
+keywords:  
+summary:  
+---
+= Onde encontrar informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* link:https://blog.netapp.com/tag/netapp-xcp/["Blogs do NetApp XCP"]
+* link:https://docs.netapp.com/us-en/xcp/["Documentação do NetApp XCP"]
+* link:../data-analytics/bda-ai-introduction.html["Big data analytics dados para inteligência artificial"]
+

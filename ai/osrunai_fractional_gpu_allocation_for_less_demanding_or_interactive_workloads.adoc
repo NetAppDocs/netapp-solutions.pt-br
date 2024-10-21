@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_fractional_gpu_allocation_for_less_demanding_or_interactive_workloads.html 
+keywords:  
+summary:  
+---
+= Alocação de GPU fracionada para cargas de trabalho menos exigentes ou interativas
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando pesquisadores e desenvolvedores estão trabalhando em seus modelos, seja nos estágios de desenvolvimento, ajuste de hiperparâmetros ou depuração, essas cargas de trabalho geralmente exigem menos recursos computacionais. Portanto, é mais eficiente provisionar GPU e memória fracionária, de modo que a mesma GPU possa ser alocada simultaneamente a outras cargas de trabalho. A solução de orquestração do Run:AI fornece um sistema de compartilhamento de GPU fracionário para cargas de trabalho em contêineres no Kubernetes. O sistema dá suporte a workloads que executam programas CUDA e é especialmente adequado para tarefas leves de IA, como inferência e criação de modelos. O sistema de GPU fracionário oferece, de forma transparente, às equipes de engenharia de IA e ciência de dados a capacidade de executar vários workloads simultaneamente em uma única GPU. Isso permite que as empresas executem mais cargas de trabalho, como visão computacional, reconhecimento de voz e processamento de linguagem natural no mesmo hardware, reduzindo assim os custos.
+
+O sistema de GPU fracionário do Run:AI cria efetivamente GPUs lógicas virtualizadas com sua própria memória e espaço de computação que os contentores podem usar e acessar como se fossem processadores independentes. Isso permite que vários workloads sejam executados em contêineres lado a lado na mesma GPU sem interferir uns com os outros. A solução é transparente, simples e portátil e não requer alterações nos próprios recipientes.
+
+Uma usecase típica poderia ver duas a oito tarefas em execução na mesma GPU, o que significa que você poderia fazer oito vezes o trabalho com o mesmo hardware.
+
+Para o trabalho `frac05` pertencente ao projeto `team-d` na figura a seguir, podemos ver que o número de GPUs alocadas era 0,50. Isso é verificado ainda pelo `nvidia-smi` comando, que mostra que a memória da GPU disponível para o contêiner foi de 16.255MB GB: Metade da GPU de 32GB GB por V100 GB no nó DGX-1.
+
+image:osrunai_image7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

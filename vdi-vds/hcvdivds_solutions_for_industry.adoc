@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_solutions_for_industry.html 
+keywords: GPU, Azure, NVIDIA, Tesla M60, 
+summary: As estações de trabalho gráficas são normalmente usadas em indústrias como manufatura, saúde, energia, Mídia e entretenimento, educação, arquitetura e assim por diante. A mobilidade é muitas vezes limitada para aplicativos com uso intenso de gráficos. 
+---
+= Soluções para a indústria
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+As estações de trabalho gráficas são normalmente usadas em indústrias como manufatura, saúde, energia, Mídia e entretenimento, educação, arquitetura e assim por diante. A mobilidade é muitas vezes limitada para aplicativos com uso intenso de gráficos.
+
+Para resolver o problema da mobilidade, os Serviços de desktop virtual fornecem um ambiente de desktop para todos os tipos de trabalhadores, desde trabalhadores de tarefas a usuários especializados, usando recursos de hardware na nuvem ou com o NetApp HCI, incluindo opções para configurações flexíveis de GPU. O VDS permite que os usuários acessem seu ambiente de trabalho de qualquer lugar com laptops, tablets e outros dispositivos móveis.
+
+Para executar cargas de trabalho de fabricação com software como ANSYS Fluent, ANSYS Mechanical, Autodesk AutoCAD, Autodesk Inventor, Autodesk 3dsDS Max, Dassault Systemes SOLIDWORKS, Dassault Systemes CATIA, PTC Creo, Siemens PLM NX, e assim por diante, as GPUs disponíveis em várias nuvens (a partir de janeiro de 2021) estão listadas na tabela a seguir.
+
+[cols="20%, 20%, 20%, 20%, 20%"]
+|===
+| Modelo de GPU | Microsoft Azure | Google Compute (GCP) | Amazon Web Services (AWS) | On-premises (NetApp HCI) 
+
+
+| NVIDIA M60 | Sim | Sim | Sim | Não 
+
+
+| NVIDIA T4 | Não | Sim | Sim | Sim 
+
+
+| NVIDIA P100 | Não | Sim | Não | Não 
+
+
+| NVIDIA P4 | Não | Sim | Não | Não 
+|===
+Sessões de desktop compartilhadas com outros usuários e desktops pessoais dedicados também estão disponíveis. Os desktops virtuais podem ter de uma a quatro GPUs ou utilizar GPUs parciais com o NetApp HCI. O NVIDIA T4 é uma placa de GPU versátil que pode atender às demandas de um amplo espetro de cargas de trabalho do usuário. Cada placa de GPU no NetApp HCI H615C tem 16GB GB de memória de buffer de quadros e três placas por servidor. O número de usuários que podem ser hospedados em um único servidor H615C depende da carga de trabalho do usuário.
+
+[cols="25%, 25%, 25%, 25%"]
+|===
+| Usuários/servidor | Bola de basquete (4GB) | Médio (8GB) | Futebol de areia (16GB) 
+
+
+| H615C | 12 | 6 | 3 
+|===
+Para determinar o tipo de usuário, execute a ferramenta de profiler de GPU enquanto os usuários estão trabalhando com aplicativos que executam tarefas típicas. O profiler de GPU captura as demandas de memória, o número de telas e a resolução que os usuários exigem. Em seguida, você pode escolher o perfil vGPU que atende aos seus requisitos.
+
+Os desktops virtuais com GPUs podem oferecer suporte a uma resolução de tela de até 8Kp e o utilitário nView pode dividir um único monitor em regiões para trabalhar com conjuntos de dados diferentes.
+
+Com o storage de arquivos do ONTAP, você terá os seguintes benefícios:
+
+* Um namespace único que pode crescer até 20PB PB de storage com 400 bilhões de arquivos, sem muita entrada administrativa
+* Um namespace que pode abranger o mundo com um Global File Cache
+* Alocação segura a vários clientes com storage gerenciado do NetApp
+* A migração de dados inativos para armazenamentos de objetos usando o NetApp FabricPool
+* Estatísticas rápidas de arquivos com análise do sistema de arquivos
+* Dimensionar um cluster de storage em até 24 nós, aumentando a capacidade e a performance
+* Capacidade de controlar o espaço de storage usando cotas e desempenho garantido com limites de QoS
+* Proteção de dados com criptografia
+* Atendendo a requisitos amplos de proteção e conformidade de dados
+* Fornecimento de opções flexíveis de continuidade dos negócios
+

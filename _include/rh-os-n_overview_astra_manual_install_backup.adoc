@@ -1,0 +1,279 @@
+= 
+:allow-uri-read: 
+
+
+. Entre no site de suporte da NetApp e faça o download da versão mais recente do NetApp. Para isso, é necessária uma licença anexada à sua conta NetApp. Depois de baixar o tarball, transfira-o para a estação de trabalho admin.
++
+
+NOTE: Para começar a usar uma licença de avaliação para Astra Control, visite o https://cloud.netapp.com/astra-register["Site de Registro Astra"^].
+
+. Descompacte a esfera tar e mude o diretório de trabalho para a pasta resultante.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ tar -vxzf astra-control-center-21.08.65.tar.gz
+[netapp-user@rhel7 ~]$ cd astra-control-center-21.08.65
+----
+. Antes de iniciar a instalação, envie as imagens do Astra Control Center para um Registro de imagens.
++
+
+NOTE: Você pode optar por fazer isso com Docker ou Podman; instruções para ambos são fornecidas nesta etapa.
+
+
+
+[role="tabbed-block"]
+====
+'''
+. Exporte o FQDN do Registro com o nome da organização/namespace/projeto como uma variável de ambiente 'Registro'.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ export registry=astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra
+----
+. Inicie sessão no registo.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ podman login -u ocp-user -p password --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com
+----
++
+
+NOTE: Se você estiver usando `kubeadmin` o usuário para fazer login no Registro privado, use token em vez de senha - `podman login -u ocp-user -p token --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com`.
+
++
+
+NOTE: Como alternativa, você pode criar uma conta de serviço, atribuir um editor de Registro e/ou função de visualizador de Registro (com base se você precisa de acesso push/pull) e fazer login no Registro usando o token da conta de serviço.
+
+. Crie um arquivo de script shell e cole o seguinte conteúdo nele.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ vi push-images-to-registry.sh
+
+for astraImageFile in $(ls images/*.tar); do
+   astraImage=$(podman load --input ${astraImageFile} | sed 's/Loaded image(s): //')
+   podman tag $astraImage $registry/$(echo $astraImage | sed 's/^[^\/]\+\///')
+   podman push $registry/$(echo $astraImage | sed 's/^[^\/]\+\///')
+done
+----
++
+
+NOTE: Se você estiver usando certificados não confiáveis para seu Registro, edite o script shell e use `--tls-verify=false` para o comando podman push `podman push $registry/$(echo $astraImage | sed 's/^[^\/]\+\///') --tls-verify=false` .
+
+. Torne o arquivo executável.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ chmod +x push-images-to-registry.sh
+----
+. Execute o script shell.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ ./push-images-to-registry.sh
+----
++
+'''
++
+'''
+. Exporte o FQDN do Registro com o nome da organização/namespace/projeto como uma variável de ambiente 'Registro'.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ export registry=astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra
+----
+. Inicie sessão no registo.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ docker login -u ocp-user -p password astra-registry.apps.ocp-vmw.cie.netapp.com
+----
++
+
+NOTE: Se você estiver usando `kubeadmin` o usuário para fazer login no Registro privado, use token em vez de senha - `docker login -u ocp-user -p token astra-registry.apps.ocp-vmw.cie.netapp.com`.
+
++
+
+NOTE: Como alternativa, você pode criar uma conta de serviço, atribuir um editor de Registro e/ou função de visualizador de Registro (com base se você precisa de acesso push/pull) e fazer login no Registro usando o token da conta de serviço.
+
+. Crie um arquivo de script shell e cole o seguinte conteúdo nele.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ vi push-images-to-registry.sh
+
+for astraImageFile in $(ls images/*.tar); do
+   astraImage=$(docker load --input ${astraImageFile} | sed 's/Loaded image: //')
+   docker tag $astraImage $registry/$(echo $astraImage | sed 's/^[^\/]\+\///')
+   docker push $registry/$(echo $astraImage | sed 's/^[^\/]\+\///')
+done
+----
+. Torne o arquivo executável.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ chmod +x push-images-to-registry.sh
+----
+. Execute o script shell.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ ./push-images-to-registry.sh
+----
++
+'''
+
+
+====
+. Em seguida, faça o upload dos certificados TLS do Registro de imagem para os nós OpenShift. Para fazer isso, crie um mapa de configuração no namespace openshift-config usando os certificados TLS e corrija-o para a configuração da imagem de cluster para tornar o certificado confiável.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create configmap default-ingress-ca -n openshift-config --from-file=astra-registry.apps.ocp-vmw.cie.netapp.com=tls.crt
+
+[netapp-user@rhel7 ~]$ oc patch image.config.openshift.io/cluster --patch '{"spec":{"additionalTrustedCA":{"name":"default-ingress-ca"}}}' --type=merge
+----
++
+
+NOTE: Se você estiver usando um Registro interno do OpenShift com certificados TLS padrão do operador Ingress com uma rota, você ainda precisará seguir a etapa anterior para corrigir os certificados para o nome do host de rota. Para extrair os certificados do operador Ingress, pode utilizar o comando `oc extract secret/router-ca --keys=tls.crt -n openshift-ingress-operator`.
+
+. Crie um namespace `netapp-acc-operator` para instalar o Operador do Centro de Controle Astra.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create ns netapp-acc-operator
+----
+. Crie um segredo com credenciais para fazer login no Registro de imagem no `netapp-acc-operator` namespace.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create secret docker-registry astra-registry-cred --docker-server=astra-registry.apps.ocp-vmw.cie.netapp.com --docker-username=ocp-user --docker-password=password -n netapp-acc-operator
+secret/astra-registry-cred created
+----
+. Edite o Astra Control Center Operator CR `astra_control_center_operator_deploy.yaml`, que é um conjunto de todos os recursos que o Astra Control Center implanta. No operador CR, localize a definição de implantação `acc-operator-controller-manager` e insira o FQDN para o Registro junto com o nome da organização como foi dado enquanto as imagens foram enviadas para o Registro (neste exemplo, `astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra`) substituindo o texto `ASTRA_IMAGE_REGISTRY` e forneça o nome do segredo que acabamos de criar na `imagePullSecrets` seção. Verifique outros detalhes do operador, salve e feche.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ vim astra_control_center_operator_deploy.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: acc-operator-controller-manager
+  namespace: netapp-acc-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+  template:
+    metadata:
+      labels:
+        control-plane: controller-manager
+    spec:
+      containers:
+      - args:
+        - --secure-listen-address=0.0.0.0:8443
+        - --upstream=http://127.0.0.1:8080/
+        - --logtostderr=true
+        - --v=10
+        image: ASTRA_IMAGE_REGISTRY/kube-rbac-proxy:v0.5.0
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: https
+      - args:
+        - --health-probe-bind-address=:8081
+        - --metrics-bind-address=127.0.0.1:8080
+        - --leader-elect
+        command:
+        - /manager
+        env:
+        - name: ACCOP_LOG_LEVEL
+          value: "2"
+        image: astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra/acc-operator:21.08.7
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        name: manager
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 300m
+            memory: 750Mi
+          requests:
+            cpu: 100m
+            memory: 75Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+      imagePullSecrets: [name: astra-registry-cred]
+      securityContext:
+        runAsUser: 65532
+      terminationGracePeriodSeconds: 10
+----
+. Crie o operador executando o seguinte comando.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create -f astra_control_center_operator_deploy.yaml
+----
+. Crie um namespace dedicado para instalar todos os recursos do Astra Control Center.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create ns netapp-astra-cc
+namespace/netapp-astra-cc created
+----
+. Crie o segredo para acessar o Registro de imagem nesse namespace.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create secret docker-registry astra-registry-cred --docker-server=astra-registry.apps.ocp-vmw.cie.netapp.com --docker-username=ocp-user --docker-password=password -n netapp-astra-cc
+
+secret/astra-registry-cred created
+----
+. Edite o arquivo CRD do Astra Control Center `astra_control_center_min.yaml` e insira o FQDN, os detalhes do Registro da imagem, o endereço de e-mail do administrador e outros detalhes.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ vim astra_control_center_min.yaml
+
+apiVersion: astra.netapp.io/v1
+kind: AstraControlCenter
+metadata:
+  name: astra
+spec:
+  accountName: "NetApp HCG Solutions"
+  astraVersion: "21.08.65"
+  astraAddress: "astra-control-center.cie.netapp.com"
+  autoSupport:
+    enrolled: true
+  email: "solutions_tme@netapp.com"
+  firstName: "NetApp HCG"
+  lastName: "Admin"
+  imageRegistry:
+    name: "astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra"     # use your registry
+    secret: "astra-registry-cred"             # comment out if not needed
+----
+. Crie o CRD Astra Control Center no namespace criado para ele.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc apply -f astra_control_center_min.yaml -n netapp-astra-cc
+astracontrolcenter.astra.netapp.io/astra created
+----
+
+
+
+NOTE: O arquivo anterior `astra_control_center_min.yaml` é a versão mínima do CRD Astra Control Center. Se você quiser criar o CRD com mais controle, como definir um storageclass diferente do padrão para criar PVCs ou fornecer detalhes SMTP para notificações por e-mail, você pode editar o arquivo `astra_control_center.yaml`, inserir os detalhes necessários e usá-lo para criar o CRD.

@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-data-mover-solution-for-ai.html 
+keywords: data mover, ai, hadoop, nipam, nfs, azure, 
+summary: A solução de migração de dados para AI é baseada nas necessidades dos clientes de processar dados do Hadoop a partir de operações de AI. O NetApp move dados do HDFS para o NFS usando o NIPAM. Em um caso de uso, o cliente precisava mover dados para o NFS no local e outro cliente precisava mover dados do Blob de armazenamento do Windows Azure para o Cloud Volumes Service para processar os dados das instâncias de nuvem de GPU na nuvem. 
+---
+= Solução de migração de dados para AI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A solução de migração de dados para AI é baseada nas necessidades dos clientes de processar dados do Hadoop a partir de operações de AI. O NetApp move dados do HDFS para o NFS usando o NIPAM. Em um caso de uso, o cliente precisava mover dados para o NFS no local e outro cliente precisava mover dados do Blob de armazenamento do Windows Azure para o Cloud Volumes Service para processar os dados das instâncias de nuvem de GPU na nuvem.
+
+O diagrama a seguir ilustra os detalhes da solução do movimentador de dados.
+
+image:bda-ai-image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+As etapas a seguir são necessárias para criar a solução do controlador de dados:
+
+. O ONTAP SAN fornece HDFS, e o nas fornece o volume NFS por meio do NIPAM para o cluster de data Lake de produção.
+. Os dados do cliente estão em HDFS e NFS. Os dados NFS podem ser dados de produção de outras aplicações usadas para operações de AI e big data analytics.
+. A tecnologia NetApp FlexClone cria um clone do volume de NFS de produção e o provisiona no cluster de AI no local.
+. Os dados de um LUN SAN HDFS são copiados para um volume NFS com o NIPAM e o `hadoop distcp` comando. O NIPAM usa a largura de banda de várias interfaces de rede para transferir dados. Esse processo reduz o tempo de cópia de dados para que mais dados possam ser transferidos.
+. Ambos os volumes NFS são provisionados para o cluster de AI para operações de AI.
+. Para processar dados NFS no local com GPUs na nuvem, os volumes NFS são espelhados para NetApp Private Storage (NPS) com tecnologia NetApp SnapMirror e fornecedores de serviço de nuvem para GPUs.
+. O cliente deseja processar dados em serviços EC2/EMR, HDInsight ou DataProc em GPUs de provedores de serviços em nuvem. O migrador de dados do Hadoop move os dados dos serviços do Hadoop para o Cloud volumes Services com o NIPAM e o `hadoop distcp` comando.
+. Os dados do Cloud Volumes Service são provisionados para a AI por meio do protocolo NFS. Os dados que são processados pela AI podem ser enviados em um local local local para análise de big data, além do cluster do NVIDIA por meio de NIPAM, SnapMirror e NPS.
+
+
+Nesse cenário, o cliente tem grandes dados de contagem de arquivos no sistema nas em um local remoto necessário para processamento de AI no controlador de storage do NetApp no local. Nesse cenário, é melhor usar a ferramenta de migração XCP para migrar os dados a uma velocidade mais rápida.
+
+O cliente de caso de uso híbrido pode usar a cópia e sincronização do BlueXP  para migrar dados locais de NFS, CIFS e S3 para a nuvem e vice-versa para processamento de AI com o uso de GPUs, como as de um cluster NVIDIA. A cópia e sincronização do BlueXP  e a ferramenta de migração do XCP são usadas para a migração de dados do NFS para o NetApp ONTAP NFS.

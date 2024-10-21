@@ -1,0 +1,22 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_overview_advanced.html 
+keywords: Advanced Configuration, Load Balancers 
+summary: Esta seção é dedicada a personalizações que os usuários do mundo real provavelmente precisarão executar ao implantar essa solução em produção, como a implantação de instâncias de balanceamento de carga personalizadas. 
+---
+= Opções de configuração avançadas
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Normalmente, a solução mais fácil de implantar é a melhor, mas, em alguns casos, personalizações avançadas são necessárias para atender aos requisitos ou especificações de um aplicativo específico ou do ambiente no qual a solução está sendo implantada. Para isso, a solução Red Hat OpenShift com NetApp permite que as seguintes personalizações atendam a essas necessidades.
+
+
+NOTE: Nesta seção, documentamos algumas opções de configuração avançadas, como o uso de balanceadores de carga de terceiros ou a criação de um Registro privado para hospedar imagens de contentor personalizadas, que são pré-requisitos para a instalação do Centro de Controle NetApp Astra.
+
+As páginas a seguir têm informações adicionais sobre as opções avançadas de configuração validadas na solução Red Hat OpenShift com NetApp:

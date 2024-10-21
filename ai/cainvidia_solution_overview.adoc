@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_solution_overview.html 
+keywords: Solution Overview, ONTAP, AI, BlueXP Copy and Sync, NVIDIA DGX, 
+summary:  
+---
+= Visão geral da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este documento fornece uma visão geral do modelo de AI conversacional para o ONTAP AI e o NVIDIA DGX.
+
+
+
+== Cópia e sincronização do NetApp ONTAP AI e BlueXP 
+
+A arquitetura do NetApp ONTAP AI, baseada nos sistemas DGX da NVIDIA e nos sistemas de storage conectados à nuvem da NetApp, foi desenvolvida e verificada pela NetApp e pela NVIDIA. Essa arquitetura de referência oferece às ORGANIZAÇÕES DE TI as seguintes vantagens:
+
+* Elimina complexidades de design
+* Possibilita o dimensionamento independente da computação e do storage
+* Permite que os clientes comecem aos poucos e escalem de forma otimizada
+* Oferece diversas opções de storage para diversos fins de performance e custo-benefício, o NetApp ONTAP AI integra diretamente os sistemas DGX e os sistemas de storage da NetApp AFF A220 com uma rede de última geração. Os sistemas NetApp ONTAP AI e DGX simplificam as implantações de AI eliminando a complexidade do design e as suposições. Os clientes podem começar aos poucos e expandir seus sistemas de maneira ininterrupta, além de gerenciar dados de forma inteligente da borda para o centro e para a nuvem e vice-versa.
+
+
+O NetApp BlueXP  Copy and Sync permite que você mova dados facilmente por vários protocolos, seja entre dois compartilhamentos NFS, dois compartilhamentos CIFS ou um compartilhamento de arquivos e o Amazon S3, o Amazon Elastic File System (EFS) ou os serviços de storage Azure Blob. Uma operação ativo-ativo significa que você pode continuar trabalhando com a origem e o destino ao mesmo tempo, sincronizando as alterações dos dados de maneira incremental quando necessário. Ao permitir que você mova e sincronize dados de forma incremental entre qualquer sistema de origem e destino, seja no local ou baseado na nuvem, o BlueXP  Copy and Sync abre uma ampla variedade de novas maneiras pelas quais você pode usar os dados. A migração de dados entre sistemas no local, a integração na nuvem e a migração para a nuvem, ou a colaboração e a análise de dados torna-se facilmente alcançável. A figura abaixo mostra as fontes e destinos disponíveis.
+
+Em sistemas de IA conversacionais, os desenvolvedores podem utilizar o BlueXP  Copy and Sync para arquivar o histórico de conversas da nuvem para data centers, a fim de permitir o treinamento off-line de modelos de processamento de linguagem natural (NLP). Ao treinar modelos para reconhecer mais intenções, o sistema de IA conversacional estará mais bem equipado para gerenciar perguntas mais complexas dos usuários finais.
+
+
+
+== Estrutura multimodal NVIDIA Jarvis
+
+image:cainvidia_image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+link:https://devblogs.nvidia.com/introducing-jarvis-framework-for-gpu-accelerated-conversational-ai-apps/["NVIDIA Jarvis"^] É uma estrutura de ponta a ponta para a construção de serviços de inteligência artificial conversacional. Ele inclui os seguintes serviços otimizados por GPU:
+
+* Reconhecimento automático de voz (ASR)
+* Compreensão da linguagem natural (NLU)
+* Integração com serviços de atendimento específicos de domínio
+* Texto para fala (TTS)
+* Os serviços baseados em visão computacional (CV)Jarvis usam modelos de aprendizagem profunda de última geração para lidar com a tarefa complexa e desafiadora da IA conversacional em tempo real. Para permitir a interação natural e em tempo real com um usuário final, os modelos precisam completar a computação em menos de 300 milissegundos. As interações naturais são desafiadoras, exigindo integração sensorial multimodal. Os pipelines de modelo também são complexos e requerem coordenação nos serviços acima mencionados.
+
+
+O Jarvis é uma estrutura de aplicação totalmente acelerada para a criação de serviços de IA de conversação multimodal que usam um pipeline de deep learning completo. A estrutura Jarvis inclui modelos de IA conversacionais pré-treinados, ferramentas e serviços completos otimizados para tarefas de fala, visão e NLU. Além dos serviços de IA, o Jarvis permite que você combine visão, áudio e outras entradas de sensores simultaneamente para fornecer recursos como conversas multiusuário e multicontexto em aplicativos como assistentes virtuais, diarização multiusuário e assistentes de call center.
+
+
+
+== NVIDIA Nemo
+
+link:https://developer.nvidia.com/nvidia-nemo["NVIDIA Nemo"^] É um kit de ferramentas Python de código aberto para criar, treinar e ajustar modelos de IA conversacionais de última geração acelerados por GPU usando interfaces de programação de aplicativos (APIs) fáceis de usar. O Nemo executa computação de precisão mista usando núcleos Tensor em GPUs NVIDIA e pode escalar até várias GPUs facilmente para oferecer o mais alto desempenho de treinamento possível. O Nemo é usado para criar modelos para aplicativos ASR, NLP e TTS em tempo real, como transcrições de videochamadas, assistentes de vídeo inteligentes e suporte automatizado de call center em diferentes setores da indústria, incluindo saúde, finanças, varejo e telecomunicações.
+
+Usamos o Nemo para treinar modelos que reconhecem intenções complexas de perguntas de usuários no histórico de conversas arquivadas. Este treinamento estende as capacidades do assistente virtual de varejo para além do que Jarvis suporta conforme entregue.
+
+
+
+== Resumo do caso de uso no varejo
+
+Usando NVIDIA Jarvis, construímos um assistente de varejo virtual que aceita a entrada de voz ou texto e responde a perguntas sobre o tempo, pontos de interesse e preços de inventário. O sistema de IA conversacional é capaz de lembrar o fluxo de conversa, por exemplo, fazer uma pergunta de acompanhamento se o usuário não especificar a localização para o clima ou pontos de interesse. O sistema também reconhece entidades complexas, como "comida tailandesa" ou "memória de laptop". Ele entende questões de linguagem natural como "vai chover na próxima semana em Los Angeles?" Uma demonstração do assistente virtual de varejo pode ser encontrada em link:cainvidia_customize_states_and_flows_for_retail_use_case.html["Personalizar Estados e fluxos para casos de uso de varejo"].

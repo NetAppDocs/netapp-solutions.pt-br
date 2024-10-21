@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: ehc/ehc-support-configs.html 
+keywords: NetApp Solutions, ehc, enterprise hybrid cloud, hyperscalers, vmware, supported config, config, configuration 
+summary:  
+---
+= Configurações compatíveis para multiclouds híbridas do NetApp com VMware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Compreender as combinações para suporte ao storage do NetApp nos principais hyperscalers.
+
+[cols="10%, 45%, 45%"]
+|===
+
+
+|  | *Hóspede conetado* | *Armazenamento de dados NFS suplementar* 
+
+
+| *AWS* | CVO FSX ONTAP link:aws/aws-guest.html["Detalhes"] | No FSX ONTAP link:aws/aws-native-overview.html["Detalhes"] 
+
+
+| *Azure* | ANF DO CVO link:azure/azure-guest.html["Detalhes"] | ANF link:azure/azure-native-overview.html["Detalhes"] 
+
+
+| *GCP* | CVO link:gcp/gcp-guest.html["Detalhes"] | GCNV 
+|===

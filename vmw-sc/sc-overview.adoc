@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: vmw-sc/sc-overview.html 
+keywords: NetApp Solutions, vmware, sovereign cloud 
+summary:  
+---
+= Visão geral do VMware Sovereign Cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O conceito de soberania está emergindo como um componente necessário da computação em nuvem para muitas entidades que processam e mantêm dados altamente confidenciais, como governos nacionais e estaduais, e indústrias altamente regulamentadas, como finanças e saúde. Os governos nacionais também procuram expandir a capacidade económica digital e reduzir a dependência de empresas multinacionais para os seus serviços em nuvem.
+
+
+
+== VMware Sovereign Cloud Initiative
+
+A VMware define uma nuvem soberana como uma que:
+
+* Protege e desbloqueia o valor dos dados críticos (por exemplo, dados nacionais, dados corporativos e dados pessoais) para organizações do setor público e privado
+* Oferece uma capacidade nacional para a economia digital
+* Protege os dados com controles de segurança auditados
+* Garante a conformidade com as leis de privacidade de dados
+* Melhora o controle dos dados fornecendo residência de dados e soberania de dados com controle jurisdicional completo
+
+
+
+
+== Parceria com um provedor confiável de serviços de nuvem do VMware Sovereign
+
+Para garantir o sucesso, as organizações devem trabalhar com parceiros de confiança que sejam capazes de hospedar plataformas de nuvem soberanas autênticas e autônomas. Os fornecedores de nuvem da VMware reconhecidos na iniciativa VMware Sovereign Cloud se comprometem a projetar e operar soluções de nuvem baseadas em arquiteturas modernas e definidas por software que incorporam os principais princípios e práticas recomendadas descritos na estrutura VMware Sovereign Cloud.
+
+* *Soberania de dados e Controle jurisdicional* – todos os dados são residentes e sujeitos ao controle exclusivo e autoridade do estado do país onde esses dados foram coletados. As operações são totalmente gerenciadas dentro da jurisdição
+* *Acesso e integridade de dados* – a infraestrutura em nuvem é resiliente e está disponível em pelo menos dois locais de data center dentro da jurisdição, com opções de conetividade seguras e privadas disponíveis.
+* *Segurança e conformidade de dados* – os controles do sistema de gerenciamento de segurança da informação são certificados de acordo com um padrão global (ou regional) reconhecido pelo setor e auditados regularmente.
+* *Independência de dados e Mobilidade* – suporte para arquiteturas de aplicativos modernas para evitar o aprisionamento na nuvem do fornecedor e permitir portabilidade e independência de aplicativos
+
+
+Para obter mais informações da VMware, visite:
+
+* link:https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/docs/vmw-sovereign-cloud-solution-brief-customer.pdf["Visão geral do VMware Sovereign Cloud"]
+* link:https://www.vmware.com/topics/glossary/content/sovereign-cloud.html["O que é o VMware Sovereign Cloud?"]
+* link:https://blogs.vmware.com/cloud/2021/10/06/vmware-sovereign-cloud/["Apresentamos a nova iniciativa VMware Sovereign Cloud"]
+* link:https://www.vmware.com/solutions/cloud-infrastructure/sovereign-cloud["Solução VMware Sovereign Cloud"]
+

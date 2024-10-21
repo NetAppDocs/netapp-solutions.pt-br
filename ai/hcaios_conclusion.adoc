@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_conclusion.html 
+keywords: Conclusion, ML, DL 
+summary:  
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A NetApp e o cnvrg.io fizeram uma parceria para oferecer aos clientes uma solução completa de gerenciamento de dados para O desenvolvimento de software ML e DL. O ONTAP AI fornece computação e storage de alto desempenho para qualquer escala de operação, e o software cnvrg.io otimiza os fluxos de trabalho de ciência de dados e melhora a utilização dos recursos.
+
+
+
+== Agradecimentos
+
+* Mike Oglesby, engenheiro técnico de marketing, NetApp
+* Santosh Rao, diretor técnico sênior da NetApp
+

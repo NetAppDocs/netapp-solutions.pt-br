@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-introduction.html 
+keywords: tr4947, 4947, introduction, kafka, nfs 
+summary: Este documento descreve os seguintes assuntos, o problema de renomeação boba e a validação da solução, reduzindo a utilização da CPU para reduzir o tempo de espera de e/S, o tempo de recuperação mais rápido do corretor Kafka e o desempenho na nuvem e no local. 
+---
+= TR-4947: Carga de trabalho Apache Kafka com armazenamento NetApp NFS - validação funcional e desempenho
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Shantanu Chakole, Karthikeyan Nagalingam, e Joe Scott, NetApp
+
+[role="lead"]
+O Kafka é um sistema distribuído de mensagens de publicação e assinatura com uma fila robusta que pode aceitar grandes quantidades de dados de mensagens. Com o Kafka, os aplicativos podem escrever e ler dados para tópicos de uma maneira muito rápida. Devido à sua tolerância a falhas e escalabilidade, o Kafka é frequentemente usado no espaço de Big Data como uma maneira confiável de ingerir e mover muitos fluxos de dados muito rapidamente. Os casos de uso incluem processamento de fluxo, rastreamento de atividade do site, coleta e monitoramento de métricas, agregação de log, análise em tempo real e assim por diante.
+
+Embora as operações normais do Kafka no NFS funcionem bem, o https://sbg.technology/2018/07/10/kafka-nfs/["nome bobo"^] problema falha no aplicativo durante o redimensionamento ou reparticionamento de um cluster do Kafka em execução no NFS. Este é um problema significativo porque um cluster Kafka deve ser redimensionado ou reparticionado para fins de balanceamento de carga ou manutenção. Você pode encontrar detalhes https://www.netapp.com/blog/ontap-ready-for-streaming-applications/["aqui"^]adicionais .
+
+Este documento descreve os seguintes assuntos:
+
+* O problema silly-rename e a validação da solução
+* Redução da utilização da CPU para reduzir o tempo de espera de e/S.
+* Tempo de recuperação mais rápido do corretor Kafka
+* Performance na nuvem e no local
+
+
+
+
+== Por que usar o armazenamento NFS para cargas de trabalho Kafka?
+
+As cargas de trabalho do Kafka em aplicações de produção podem transmitir grandes quantidades de dados entre aplicações. Esses dados são mantidos e armazenados nos nós de broker Kafka no cluster Kafka. O Kafka também é conhecido por disponibilidade e paralelismo, que ele alcança quebrando tópicos em partições e depois replicando essas partições em todo o cluster. Isso eventualmente significa que a enorme quantidade de dados que flui através de um cluster Kafka é geralmente multiplicada em tamanho. O NFS torna o rebalanceamento de dados à medida que o número de corretores muda muito rápido e fácil. Para ambientes grandes, o rebalanceamento de dados entre AS quando o número de corretores muda é muito demorado e, na maioria dos ambientes Kafka, o número de corretores muda frequentemente.
+
+Outros benefícios incluem o seguinte:
+
+* *Maturidade.* O NFS é um protocolo maduro, o que significa que a maioria dos aspectos da implementação, proteção e uso dele são bem compreendidos.
+* *Aberto.* O NFS é um protocolo aberto, e seu desenvolvimento contínuo é documentado nas especificações da Internet como um protocolo de rede livre e aberta.
+* *Custo-benefício.* O NFS é uma solução de baixo custo para compartilhamento de arquivos de rede que é fácil de configurar porque usa a infraestrutura de rede existente.
+* *Gerido centralmente.* O gerenciamento centralizado de NFS diminui a necessidade de mais software e espaço em disco em sistemas de usuário individuais.
+* *Distribuído.* O NFS pode ser usado como um sistema de arquivos distribuído, reduzindo a necessidade de dispositivos de armazenamento de Mídia removíveis.
+
+
+
+
+== Por que NetApp para cargas de trabalho Kafka?
+
+A implementação de NFS do NetApp é considerada um padrão ouro para o protocolo e é usada em inúmeros ambientes nas empresariais. Além da credibilidade da NetApp, também oferece os seguintes benefícios:
+
+* Confiabilidade e eficiência
+* Escalabilidade e performance
+* Alta disponibilidade (parceiro de HA em um cluster NetApp ONTAP)
+* Proteção de dados
++
+** *Recuperação de desastres (NetApp SnapMirror).* Seu site vai para baixo ou você quer começar em um site diferente e continuar de onde você parou.
+** Capacidade de gerenciamento do seu sistema de storage (administração e gerenciamento usando NetApp OnCommand).
+** *Balanceamento de carga.* O cluster permite acessar volumes diferentes de LIFs de dados hospedados em nós diferentes.
+** *Operações ininterruptas.* LIFs ou movimentos de volume são transparentes para os clientes NFS.
+
+
+

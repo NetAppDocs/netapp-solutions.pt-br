@@ -1,0 +1,227 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_vcf_aff_principal_vvols.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary:  
+---
+= O armazenamento de dados da VVol como o principal armazenamento para os domínios de cargas de trabalho do VI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Neste cenário, demonstraremos como configurar um datastore vVols como armazenamento principal para a implantação de um VI Workload Domain no VCF. Um contentor vVols deve ser preparado antes da implantação do domínio de carga de trabalho. Para fazer isso, as ferramentas do ONTAP para VMware vSphere são instaladas no domínio de gerenciamento VCF e a ferramenta API Swagger é usada para criar o contentor vVols.
+
+Autor: Josh Powell, Ravi BCB
+
+
+
+== Visão geral do cenário
+
+Quando apropriado, iremos consultar a documentação externa para as etapas que devem ser executadas no Gerenciador SDDC do VCF, e apenas cobrir as etapas que são específicas para a parte de configuração de armazenamento.
+
+Para obter mais informações sobre como usar o storage vVols com VCF, link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-admin/GUID-28A95C3D-1344-4579-A562-BEE5D07AAD2F.html["Storage do vVols com o VMware Cloud Foundation"]consulte .
+
+Para obter informações sobre como usar ferramentas ONTAP no modo VCF, link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/deploy/vmware_cloud_foundation_mode_deployment.html["Modo de implantação do VMware Cloud Foundation para ferramentas do ONTAP"]consulte .
+
+Este cenário abrange os seguintes passos de alto nível:
+
+* Verifique a rede para a máquina virtual de storage (SVM) ONTAP e se uma interface lógica (LIF) está presente para transportar tráfego NFS.
+* Crie uma política de exportação para permitir que os hosts ESXi acessem o volume NFS.
+* Implante ferramentas do ONTAP para VMware vSphere (modo VCF) no domínio de gerenciamento VCF.
+* Use a API Swagger nas ferramentas do ONTAP para adicionar o sistema de storage ONTAP.
+* Crie um pool de rede para tráfego NFS e vMotion no SDDC Manager.
+* Durante a configuração de implantação do VI Workload Domain, especifique as informações a serem conetadas ao volume NFS.
+* Monitorar a validação de storage e a implantação do domínio de workload.
+* Verifique se o armazenamento de dados NFS foi criado.
+
+
+
+
+== Pré-requisitos
+
+Este cenário requer os seguintes componentes e configurações:
+
+* O sistema de storage NetApp AFF com uma máquina virtual de storage (SVM) configurada para permitir o tráfego NFS.
+* A interface lógica (LIF) foi criada na rede IP para transportar tráfego NFS e está associada ao SVM.
+* A implantação do domínio de gerenciamento do VCF está concluída e a interface do SDDC Manager está acessível.
+* Quatro (4) hosts ESXi comissionados para o inventário do SDDC Manager.
+* Endereços IP reservados para o tráfego de armazenamento NFS na VLAN ou segmento de rede estabelecidos para esse fim.
+* As ferramentas do ONTAP para VMware vSphere v9,13 são baixadas link:https://mysupport.netapp.com/site/["Suporte à NetApp"]do site.
+* Volume de NFS criado no sistema de storage ONTAP com capacidade suficiente para conter o contêiner de vVols.
+
+
+
+NOTE: Ao implantar um domínio de carga de trabalho VI, o VCF valida a conetividade ao servidor NFS. Isso é feito usando o adaptador de gerenciamento nos hosts ESXi antes que qualquer adaptador vmkernel adicional seja adicionado com o endereço IP NFS. Portanto, é necessário garantir que 1) a rede de gerenciamento seja roteável para o servidor NFS, ou 2) um LIF para a rede de gerenciamento foi adicionado ao SVM que hospeda o volume do armazenamento de dados NFS, para garantir que a validação possa prosseguir.
+
+Para obter informações sobre a configuração de sistemas de armazenamento ONTAP, consulte o link:https://docs.netapp.com/us-en/ontap["Documentação do ONTAP 9"] centro.
+
+Para obter informações sobre como configurar o VCF, link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentação do VMware Cloud Foundation"]consulte .
+
+
+
+== Etapas de implantação
+
+As etapas para implantar um VI Workload Domain com um datastore vVols como storage principal podem ser divididas em dois grupos separados. Etapas relacionadas à criação de um contentor vVols com as Ferramentas do ONTAP para VMware vSphere e etapas a serem concluídas no Gerenciador de SDDC do VCF.
+
+
+
+=== Crie o contentor vVols com as Ferramentas do ONTAP
+
+Siga as etapas a seguir para criar um contêiner vVols no sistema de storage ONTAP.
+
+.Implantar as ferramentas do ONTAP para o VMware vSphere
+[%collapsible]
+====
+As ferramentas do ONTAP para VMware vSphere (OTV) são implantadas como um dispositivo de VM e fornecem uma IU do vCenter integrada para gerenciar o armazenamento do ONTAP. Nesta solução, o OTV é implantado no modo VCF, que não Registra automaticamente o plug-in com o vCenter e fornece uma interface API swagger para criar o contentor vVols.
+
+Execute as etapas a seguir para implantar as ferramentas do ONTAP para VMware vSphere:
+
+. Obtenha a imagem OVA das ferramentas ONTAP a partir do link:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["Site de suporte da NetApp"] e transfira-a para uma pasta local.
+. Faça login no vCenter Appliance para o VCF Management Domain.
+. Na interface do vCenter Appliance, clique com o botão direito do Mouse no cluster de gerenciamento e selecione *Deploy OVF Template...*
++
+image:vmware-vcf-aff-image21.png["Implantar modelo OVF..."]
+
++
+clique em ok
+
+. No assistente *Deploy OVF Template* clique no botão de opção *local file* e selecione o arquivo OVA das ferramentas do ONTAP baixado na etapa anterior.
++
+image:vmware-vcf-aff-image22.png["Selecione o ficheiro OVA"]
+
++
+clique em ok
+
+. Para as etapas de 2 a 5 do assistente, selecione um nome e uma pasta para a VM, selecione o recurso de computação, revise os detalhes e aceite o contrato de licença.
+. Para o local de armazenamento dos arquivos de configuração e disco, selecione o datastore VSAN do cluster do VCF Management Domain.
++
+image:vmware-vcf-aff-image23.png["Selecione o ficheiro OVA"]
+
++
+clique em ok
+
+. Na página Selecionar rede, selecione a rede utilizada para o tráfego de gestão.
++
+image:vmware-vcf-aff-image24.png["Selecione rede"]
+
++
+clique em ok
+
+. Na página Personalizar modelo preencha todas as informações necessárias:
++
+** Senha a ser usada para acesso administrativo ao OTV.
+** Endereço IP do servidor NTP.
+** Palavra-passe da conta de manutenção OTV.
+** Senha do OTV Derby DB.
+** Marque a caixa para *Ativar o VMware Cloud Foundation (VCF)*.
+** FQDN ou endereço IP do vCenter Appliance e forneça credenciais para o vCenter.
+** Forneça os campos de propriedades de rede necessários.
++
+Depois de concluído, clique em *Next* para continuar.
+
++
+image:vmware-vcf-aff-image25.png["Personalizar modelo OTV 1"]
+
++
+image:vmware-vcf-aff-image26.png["Personalizar modelo OTV 2"]
+
++
+clique em ok
+
+
+
+. Revise todas as informações na página Pronto para concluir e clique em concluir para começar a implantar o dispositivo OTV.
+
+
+====
+.Obtenha VCF appliance-api-token da Swagger UI
+[%collapsible]
+====
+Há várias etapas que devem ser concluídas usando a Swagger-UI. O primeiro é obter o VCF appliance-api-token.
+
+. Acesse a interface do usuário do Swagger navegando para `https://<otv_ip>:8143/api/rest/swagger-ui.html` em um navegador da Web.
+. Role para baixo até *User Authentication: APIs para autenticação de usuário* e selecione *Post /2,0/VCF/user/login*.
++
+image:vmware-vcf-aff-image27.png["Post /2,0/VCF/user/login"]
+
+. Em *parâmetro content type*, mude o tipo de conteúdo para *application/json*.
+. Em *vcfLoginRequest*, insira o nome de usuário e a senha do dispositivo OTV.
++
+image:vmware-vcf-aff-image28.png["Introduza o nome de utilizador e a palavra-passe do OTV"]
+
+. Clique no botão *Experimente!* e, em *cabeçalho de resposta*, copie a string de texto *"autorização":*.
++
+image:vmware-vcf-aff-image29.png["copiar cabeçalho resposta autorização"]
+
+
+
+====
+.Obtenha o certificado SSL público do sistema de armazenamento ONTAP
+[%collapsible]
+====
+A próxima etapa é obter o certificado SSL público do sistema de armazenamento ONTAP usando a interface do usuário Swagger.
+
+. Na interface do usuário do Swagger localize *Segurança: APIs relacionadas a certificados* e selecione *obter /3,0/security/certificates/host/Server-certificate*.
++
+image:vmware-vcf-aff-image30.png["Obtenha /3,0/security/certificates/ /host/Server-certificate"]
+
+. No campo *appliance-api-token* cole na cadeia de texto obtida na etapa anterior.
+. No campo *host* digite o endereço IP do sistema de armazenamento ONTAP do qual você pretende obter o certificado SSL público.
++
+image:vmware-vcf-aff-image31.png["copie o certificado ssl público"]
+
+
+
+====
+.Adicione armazenamento a ferramentas do ONTAP a partir da interface do usuário do Swagger
+[%collapsible]
+====
+Adicione o sistema de armazenamento ONTAP ao OTV usando o token VCF appliance-api e o certificado SSL público ONTAP.
+
+. Na IU do Swagger, role até sistemas de armazenamento: APIs relacionadas a sistemas de armazenamento e selecione Post /3,0/storage/clusters.
+. No campo appliance-api-token, preencha o token VCF que foi obtido em uma etapa anterior. Observe que o token expirará eventualmente, portanto, pode ser necessário obter um novo token periodicamente.
+. Na caixa de texto *controllerRequest* forneça o endereço IP do sistema de armazenamento ONTAP, nome de usuário, senha e o certificado SSL público obtido na etapa anterior.
++
+image:vmware-vcf-aff-image32.png["forneça informações para adicionar o sistema de armazenamento"]
+
+. Clique no botão *Experimente!* para adicionar o sistema de armazenamento ao OTV.
+
+
+====
+.Criar contêiner vVols no storage ONTAP
+[%collapsible]
+====
+A próxima etapa é criar o contêiner da VVol no sistema de storage da ONTAP. Observe que essa etapa exige que um volume NFS já tenha sido criado no sistema de storage ONTAP. Certifique-se de usar uma política de exportação que permita o acesso ao volume NFS dos hosts ESXi que o acessarão. Veja o passo anterior em...
+
+. Na IU do Swagger, role até Container: APIs relacionadas a containers e selecione Post /2,0/admin/containers.
++
+image:vmware-vcf-aff-image33.png["/2,0/admin/containers"]
+
+. No campo *appliance-api-token* preencha o token VCF obtido em uma etapa anterior. Observe que o token expirará eventualmente, portanto, pode ser necessário obter um novo token periodicamente.
+. Na caixa ConteinerRequest, preencha os seguintes campos obrigatórios:
++
+** "ControllerIp": ONTAP mgmt. Endereço IP>
+** "DefaultScp": "Perfil de capacidade de armazenamento a ser associado ao vvol container>
+** FlexVols - "aggregateName": ONTAP Aggregate no qual o volume NFS reside em>
+** FlexVols - "name": [Nome do NFS FlexVol>
+** "name" (nome) "name" (nome) do contentor vvol>
+** "VserverName": ONTAP Storage SVM que hospeda NFS FlexVol>
+
+
+
+
+image:vmware-vcf-aff-image34.png["Vvol containerRequest form"]
+
+4 clique no *Experimente!* para executar a instrução e criar o contentor vvol.
+
+====
+
+
+=== Implante o VI Workload Domain com vVols como storage principal
+
+Siga as etapas a seguir no SDDC Manager para implantar um VI Workload Domain com vVols como armazenamento principal.

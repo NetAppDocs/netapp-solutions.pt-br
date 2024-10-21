@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_abstract.html 
+keywords: NetApp Abstract ML AI 
+summary:  
+---
+= Resumo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O crescimento explosivo dos dados e o crescimento exponencial do aprendizado de máquina (ml) e da inteligência artificial (AI) convergiram para criar uma nova economia com desafios únicos de desenvolvimento e implementação. Grandes quantidades de dados geralmente são armazenadas em um data Lake de baixo custo, onde recursos de computação de AI de alta performance, como GPUs, não podem acessá-lo com eficiência. Neste relatório, apresentamos uma nova solução na qual os profissionais de ciência de dados implementam um hub de dados e, com um clique, criam um cache de conjuntos de dados próximos aos seus recursos de computação, onde quer que estejam localizados. Como resultado, os profissionais de AI podem realizar treinamento de modelo de alto desempenho com mais facilidade, com a colaboração aprimorada habilitada por um novo hub de versão de conjunto de dados.

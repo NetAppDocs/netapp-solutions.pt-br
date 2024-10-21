@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-intelligent-tiering-and-cost-savings.html 
+keywords: tiering, scaling, data-access patterns 
+summary: Quando os clientes percebem o poder e a facilidade de usar o Data Analytics do Splunk, é claro que querem indexar uma quantidade cada vez maior de dados. À medida que a quantidade de dados aumenta, também a infraestrutura de computação e storage necessária para atendê-la. 
+---
+= Disposição em camadas inteligente e economia de custos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando os clientes percebem o poder e a facilidade de usar o Data Analytics do Splunk, é claro que querem indexar uma quantidade cada vez maior de dados. À medida que a quantidade de dados aumenta, também a infraestrutura de computação e storage necessária para atendê-la. Como os dados mais antigos são referenciados com menos frequência, o fato de que a mesma quantidade de recursos de computação e o consumo de storage primário caro torna-se cada vez mais ineficiente. Para operar em escala, os clientes se beneficiam da migração de dados ativos para uma categoria mais econômica, liberando computação e storage primário para dados ativos.
+
+O Splunk SmartStore com StorageGRID oferece às organizações uma solução dimensionável, de alta performance e econômica. Como o SmartStore tem reconhecimento de dados, ele avalia automaticamente os padrões de acesso aos dados para determinar quais dados precisam estar acessíveis para análises em tempo real (dados ativos) e quais dados devem residir em storage de longo prazo de baixo custo (dados ativos). O SmartStore usa a API AWS S3 padrão do setor de forma dinâmica e inteligente, colocando dados no storage S3 fornecido pelo StorageGRID. A arquitetura flexível com escalabilidade horizontal do StorageGRID permite que a camada de dados mais quente cresça de forma econômica, conforme necessário. A arquitetura baseada em nós do StorageGRID garante que os requisitos de desempenho e custo sejam atendidos de forma otimizada.
+
+A imagem a seguir ilustra a disposição em camadas do Splunk e do StorageGRID.
+
+image:stgr-splunkss-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A combinação líder do setor do Splunk SmartStore com NetApp StorageGRID oferece os benefícios da arquitetura desacoplada por meio de uma solução full stack.

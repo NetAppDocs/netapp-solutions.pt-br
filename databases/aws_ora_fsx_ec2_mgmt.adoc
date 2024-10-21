@@ -1,0 +1,272 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_ora_fsx_ec2_mgmt.html 
+summary: Esta seção fornece detalhes sobre como os bancos de dados personalizados do AWS RDS para Oracle são gerenciados por meio da IU do SnapCenter como um suplemento para a IU do console do AWS RDS. 
+keywords: HA, DR, database, Oracle, RDS, AWS, SnapCenter 
+---
+= Gerenciamento de banco de dados EC2 e FSX Oracle
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Além do console de gerenciamento do AWS EC2 e do FSX, o nó de controle do Ansible e a ferramenta de IU do SnapCenter são implantados para gerenciamento de banco de dados nesse ambiente Oracle.
+
+Um nó de controle do Ansible pode ser usado para gerenciar a configuração do ambiente Oracle, com atualizações paralelas que mantêm instâncias primárias e em espera sincronizadas para atualizações do kernel ou patch. O failover, a ressincronização e o failback podem ser automatizados com o Toolkit de automação da NetApp para arquivar a recuperação e a disponibilidade rápidas de aplicações com o Ansible. Algumas tarefas de gerenciamento de banco de dados repetíveis podem ser executadas usando um manual de estratégia para reduzir erros humanos.
+
+A ferramenta de IU do SnapCenter pode executar backup instantâneo de banco de dados, recuperação pontual, clonagem de banco de dados, etc. com o plug-in SnapCenter para bancos de dados Oracle. Para obter mais informações sobre os recursos do Oracle plugin, consulte link:https://docs.netapp.com/ocsc-43/index.jsp?topic=%2Fcom.netapp.doc.ocsc-con%2FGUID-CF6B23A3-2B2B-426F-826B-490706880EE8.html["Visão geral do plug-in do SnapCenter para banco de dados Oracle"^].
+
+As seções a seguir fornecem detalhes sobre como as principais funções do gerenciamento de banco de dados Oracle são atendidas com a IU do SnapCenter:
+
+* Backups de snapshot de banco de dados
+* Restauração pontual de banco de dados
+* Criação de clone de banco de dados
+
+
+A clonagem de banco de dados cria uma réplica de um banco de dados primário em um host EC2 separado para recuperação de dados em caso de erro lógico ou corrupção de dados, e os clones também podem ser usados para teste de aplicativos, depuração, validação de patches e assim por diante.
+
+
+
+== Tirar um instantâneo
+
+Um banco de dados Oracle do EC2/FSX é feito regularmente backup em intervalos configurados pelo usuário. Um usuário também pode fazer um backup instantâneo único a qualquer momento. Isso se aplica a backups de snapshot de banco de dados completo, bem como backups de snapshot somente de log de arquivamento.
+
+
+
+=== Obtendo um instantâneo completo do banco de dados
+
+Um snapshot de banco de dados completo inclui todos os arquivos Oracle, incluindo arquivos de dados, arquivos de controle e arquivos de log de arquivamento.
+
+. Faça login na IU do SnapCenter e clique em recursos no menu do lado esquerdo. No menu suspenso Exibir, altere para o modo de exibição Grupo de recursos.
++
+image:aws_rds_custom_deploy_snp_10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique no nome completo do recurso de backup e, em seguida, clique no ícone fazer backup agora para iniciar um backup adicional.
++
+image:aws_rds_custom_deploy_snp_11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em cópia de segurança e, em seguida, confirme a cópia de segurança para iniciar uma cópia de segurança completa da base de dados.
++
+image:aws_rds_custom_deploy_snp_12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+No modo de exibição recurso do banco de dados, abra a página cópias de backup gerenciadas do banco de dados para verificar se o backup único foi concluído com êxito. Um backup completo do banco de dados cria dois snapshots: Um para o volume de dados e outro para o volume de log.
+
++
+image:aws_rds_custom_deploy_snp_13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+=== Tirar um instantâneo de registo de arquivo
+
+Um instantâneo de log de arquivamento só é obtido para o volume de log de arquivamento Oracle.
+
+. Faça login na IU do SnapCenter e clique na guia recursos na barra de menus do lado esquerdo. No menu suspenso Exibir, altere para o modo de exibição Grupo de recursos.
++
+image:aws_rds_custom_deploy_snp_10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique no nome do recurso de backup de log e, em seguida, clique no ícone fazer backup agora para iniciar um backup adicional para logs de arquivamento.
++
+image:aws_rds_custom_deploy_snp_14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em cópia de segurança e, em seguida, confirme a cópia de segurança para iniciar uma cópia de segurança de registo de arquivo.
++
+image:aws_rds_custom_deploy_snp_15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+No modo de exibição recurso do banco de dados, abra a página cópias de backup gerenciadas do banco de dados para verificar se o backup de log de arquivamento único foi concluído com êxito. Um backup de log de arquivamento cria um snapshot para o volume de log.
+
++
+image:aws_rds_custom_deploy_snp_16.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Restaurar a um ponto no tempo
+
+A restauração baseada em SnapCenter para um ponto no tempo é executada no mesmo host de instância do EC2. Execute as seguintes etapas para executar a restauração:
+
+. Na guia recursos do SnapCenter > modo de exibição Banco de dados, clique no nome do banco de dados para abrir o backup do banco de dados.
++
+image:aws_rds_custom_deploy_snp_17.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione a cópia de segurança da base de dados e o ponto a tempo desejado a ser restaurado. Marque também o número SCN correspondente para o ponto no tempo. A restauração pontual pode ser realizada usando a hora ou a SCN.
++
+image:aws_rds_custom_deploy_snp_18.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Realce o instantâneo do volume de log e clique no botão montar para montar o volume.
++
+image:aws_rds_custom_deploy_snp_19.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Escolha a instância EC2 principal para montar o volume de log.
++
+image:aws_rds_custom_deploy_snp_20.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Verifique se o trabalho de montagem foi concluído com êxito. Verifique também no host de instância EC2 para ver o volume do log montado e também o caminho do ponto de montagem.
++
+image:aws_rds_custom_deploy_snp_21_1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"] image:aws_rds_custom_deploy_snp_21_2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Copie os registos de arquivo do volume de registo montado para o diretório de registo de arquivo atual.
++
+[listing]
+----
+[ec2-user@ip-10-0-0-151 ~]$ cp /var/opt/snapcenter/sco/backup_mount/ip-10-0-0-151_03-25-2022_11.15.01.1503_1/ORCL/1/db/ORCL_A/arch/*.arc /ora_nfs_log/db/ORCL_A/arch/
+----
+. Retorne à guia recurso do SnapCenter > página backup do banco de dados, realce a cópia snapshot de dados e clique no botão Restaurar para iniciar o fluxo de trabalho de restauração do banco de dados.
++
+image:aws_rds_custom_deploy_snp_22.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Marque "todos os Datafiles" e "alterar o estado do banco de dados se necessário para restauração e recuperação" e clique em Avançar.
++
+image:aws_rds_custom_deploy_snp_23.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Escolha um escopo de recuperação desejado usando SCN ou Time. Em vez de copiar os logs de arquivo montados para o diretório de log atual, conforme demonstrado na etapa 6, o caminho de log de arquivo montado pode ser listado em "especificar locais de arquivos de log de arquivo externo" para recuperação.
++
+image:aws_rds_custom_deploy_snp_24_1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique um prescritor opcional para executar, se necessário.
++
+image:aws_rds_custom_deploy_snp_25.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique um afterscript opcional para ser executado, se necessário. Verifique o banco de dados aberto após a recuperação.
++
+image:aws_rds_custom_deploy_snp_26.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Forneça um servidor SMTP e um endereço de e-mail se for necessária uma notificação de tarefa.
++
+image:aws_rds_custom_deploy_snp_27.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Restaure o resumo do trabalho. Clique em concluir para iniciar o trabalho de restauro.
++
+image:aws_rds_custom_deploy_snp_28.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Valide a restauração do SnapCenter.
++
+image:aws_rds_custom_deploy_snp_29_1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Valide a restauração a partir do host de instância EC2.
++
+image:aws_rds_custom_deploy_snp_29_2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Para desmontar o volume do log de restauração, inverta as etapas na etapa 4.
+
+
+
+
+== Criando um clone de banco de dados
+
+A seção a seguir demonstra como usar o fluxo de trabalho clone do SnapCenter para criar um clone de banco de dados de um banco de dados primário para uma instância EC2 de reserva.
+
+. Faça um backup instantâneo completo do banco de dados primário do SnapCenter usando o grupo de recursos de backup completo.
++
+image:aws_rds_custom_deploy_replica_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na guia recurso do SnapCenter > modo de exibição Banco de dados, abra a página Gerenciamento de backup do banco de dados para o banco de dados principal do qual a réplica deve ser criada.
++
+image:aws_rds_custom_deploy_replica_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Monte o instantâneo do volume de log obtido na etapa 4 no host de instância EC2 em espera.
++
+image:aws_rds_custom_deploy_replica_13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"] image:aws_rds_custom_deploy_replica_14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Realce a cópia de snapshot a ser clonada para a réplica e clique no botão Clone para iniciar o procedimento de clone.
++
+image:aws_rds_custom_deploy_replica_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Altere o nome da cópia da réplica para que seja diferente do nome do banco de dados principal. Clique em seguinte.
++
+image:aws_rds_custom_deploy_replica_06.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Altere o host clone para o host EC2 de reserva, aceite o nome padrão e clique em Avançar.
++
+image:aws_rds_custom_deploy_replica_07.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Altere as configurações da sua casa Oracle para corresponder às configuradas para o host de servidor Oracle de destino e clique em Avançar.
++
+image:aws_rds_custom_deploy_replica_08.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique um ponto de recuperação usando o tempo ou o SCN e o caminho de log de arquivo montado.
++
+image:aws_rds_custom_deploy_replica_15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Envie as configurações de e-mail SMTP, se necessário.
++
+image:aws_rds_custom_deploy_replica_11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clone o resumo da tarefa e clique em concluir para iniciar a tarefa clone.
++
+image:aws_rds_custom_deploy_replica_12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Valide o clone de réplica revisando o log de trabalho de clone.
++
+image:aws_rds_custom_deploy_replica_17.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+O banco de dados clonado é registrado no SnapCenter imediatamente.
+
++
+image:aws_rds_custom_deploy_replica_18.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Desative o modo de log de arquivamento Oracle. Faça login na instância EC2 como usuário oracle e execute o seguinte comando:
++
+[source, cli]
+----
+sqlplus / as sysdba
+----
++
+[source, cli]
+----
+shutdown immediate;
+----
++
+[source, cli]
+----
+startup mount;
+----
++
+[source, cli]
+----
+alter database noarchivelog;
+----
++
+[source, cli]
+----
+alter database open;
+----
+
+
+
+NOTE: Em vez de cópias de backup primárias do Oracle, um clone também pode ser criado a partir de cópias de backup secundárias replicadas no cluster FSX de destino com os mesmos procedimentos.
+
+
+
+== Failover DE HA para standby e ressincronização
+
+O cluster de reserva do Oracle HA fornece alta disponibilidade em caso de falha no local principal, na camada de computação ou na camada de storage. Um benefício significativo da solução é que um usuário pode testar e validar a infraestrutura a qualquer momento ou com qualquer frequência. O failover pode ser simulado pelo usuário ou acionado por falha real. Os processos de failover são idênticos e podem ser automatizados para recuperação rápida de aplicações.
+
+Consulte a seguinte lista de procedimentos de failover:
+
+. Para um failover simulado, execute um backup instantâneo de log para liberar as transações mais recentes para o site de reserva, conforme demonstrado na <<Tirar um instantâneo de registo de arquivo>>seção . Para um failover acionado por uma falha real, os últimos dados recuperáveis são replicados para o site de reserva com o último backup de volume de log agendado bem-sucedido.
+. Quebre o SnapMirror entre o cluster do FSX primário e de espera.
+. Monte os volumes de banco de dados em espera replicados no host de instância EC2 em espera.
+. Revincule o binário Oracle se o binário Oracle replicado for usado para recuperação Oracle.
+. Recupere o banco de dados Oracle de reserva para o último log de arquivamento disponível.
+. Abra o banco de dados Oracle de reserva para acesso a aplicativos e usuários.
+. Para uma falha real do local principal, o banco de dados Oracle de reserva agora assume a função do novo local principal e os volumes do banco de dados podem ser usados para reconstruir o local principal com falha como um novo site de reserva com o método SnapMirror reverso.
+. Para uma falha simulada do local principal para teste ou validação, encerre o banco de dados Oracle de reserva após a conclusão dos exercícios de teste. Em seguida, desmonte os volumes do banco de dados de reserva do host de instância EC2 de reserva e sincronize novamente a replicação do site principal para o site de reserva.
+
+
+Esses procedimentos podem ser executados com o Kit de Ferramentas de Automação NetApp disponível para download no site público do NetApp GitHub.
+
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_ora_hadr_failover_resync.git
+----
+Leia atentamente as instruções do README antes de tentar configurar e testar o failover.

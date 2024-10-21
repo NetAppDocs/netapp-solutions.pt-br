@@ -1,0 +1,203 @@
+---
+sidebar: sidebar 
+permalink: databases/sql-srv-anf_reference_design_real-time_high-level_design.html 
+keywords: data layout, migration, backup, recovery, dev test, thick clones, business continuity, hybrid storage, snapshot, archive, 
+summary: Esta seção cobre uma implantação em tempo real de um banco de dados SQL em uma configuração AOAG usando um volume SMB do Azure NetApp Files. 
+---
+= Design de referência de alto nível em tempo real
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção cobre uma implantação em tempo real de um banco de dados SQL em uma configuração AOAG usando um volume SMB do Azure NetApp Files.
+
+* Número de nós: 4
+* Número de bases de dados: 21
+* Número de grupos de disponibilidade: 4
+* Retenção de backup: 7 dias
+* Arquivo de backup: 365 dias
+
+
+
+NOTE: A implantação do FCI com o SQL Server em máquinas virtuais do Azure com um compartilhamento do Azure NetApp Files fornece um modelo econômico com uma única cópia dos dados. Esta solução pode evitar problemas de operação de add-file se o caminho do arquivo for diferente da réplica secundária.
+
+image:sql-srv-anf_image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A imagem a seguir mostra os bancos de dados dentro do AOAG espalhados pelos nós.
+
+image:sql-srv-anf_image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Layout de dados
+
+Os arquivos do banco de dados do usuário (.mdf) e os arquivos de log de transações do banco de dados do usuário (.ldf) juntamente com tempdb são armazenados no mesmo volume. O nível de serviço é Ultra.
+
+A configuração consiste em quatro nós e quatro AGS. Todos os bancos de dados 21 (parte do Dynamic AX, SharePoint, agente de conexão RDS e serviços de indexação) são armazenados nos volumes Azure NetApp Files. Os bancos de dados são balanceados entre os nós AOAG para usar os recursos nos nós de forma eficaz. Quatro instâncias D32 v3 são adicionadas no WSFC, que participa da configuração AOAG. Esses quatro nós são provisionados na rede virtual do Azure e não são migrados do local.
+
+*Notas:*
+
+* Se os logs exigirem mais desempenho e taxa de transferência dependendo da natureza do aplicativo e das consultas executadas, os arquivos do banco de dados podem ser colocados no nível de serviço Premium e os logs podem ser armazenados no nível de serviço Ultra.
+* Se os arquivos tempdb foram colocados no Azure NetApp Files, o volume Azure NetApp Files deve ser separado dos arquivos do banco de dados do usuário. Aqui está um exemplo de distribuição dos arquivos de banco de dados no AOAG.
+
+
+*Notas:*
+
+* Para manter os benefícios da proteção de dados baseada em cópias Snapshot, a NetApp recomenda não combinar dados e dados de log no mesmo volume.
+* Uma operação de add-file executada na réplica primária pode falhar nos bancos de dados secundários se o caminho do arquivo de um banco de dados secundário diferir do caminho do banco de dados principal correspondente. Isso pode acontecer se o caminho de compartilhamento for diferente em nós primários e secundários (devido a diferentes contas de computador). Essa falha pode fazer com que os bancos de dados secundários sejam suspensos. Se o padrão de crescimento ou desempenho não puder ser previsto e o plano for adicionar arquivos mais tarde, um cluster de failover do SQL Server com Azure NetApp Files é uma solução aceitável. Na maioria das implantações, o Azure NetApp Files atende aos requisitos de performance.
+
+
+
+
+=== Migração
+
+Existem várias maneiras de migrar um banco de dados de usuários do SQL Server local para o SQL Server em uma máquina virtual do Azure. A migração pode ser online ou offline. As opções escolhidas dependem da versão do SQL Server, dos requisitos empresariais e dos SLAs definidos na organização. Para minimizar o tempo de inatividade durante o processo de migração do banco de dados, o NetApp recomenda o uso da opção AlwaysOn ou da opção de replicação transacional. Se não for possível usar esses métodos, você pode migrar o banco de dados manualmente.
+
+A abordagem mais simples e bem testada para mover bancos de dados entre máquinas é o backup e a restauração. Normalmente, você pode começar com um backup de banco de dados seguido de uma cópia do backup do banco de dados para o Azure. Em seguida, você pode restaurar o banco de dados. Para obter o melhor desempenho de transferência de dados, migre os arquivos de banco de dados para a VM do Azure usando um arquivo de backup compactado. O design de alto nível mencionado neste documento usa a abordagem de backup para o armazenamento de arquivos do Azure com sincronização de arquivos do Azure e, em seguida, restauração para o Azure NetApp Files.
+
+
+NOTE: O Azure Migrate pode ser usado para descobrir, avaliar e migrar cargas de trabalho do SQL Server.
+
+Para executar uma migração, execute as seguintes etapas de alto nível:
+
+. Com base nos seus requisitos, configure a conetividade.
+. Faça um backup completo do banco de dados em um local de compartilhamento de arquivos no local.
+. Copie os arquivos de backup para um compartilhamento de arquivos do Azure com a sincronização de arquivos do Azure.
+. Provisione a VM com a versão desejada do SQL Server.
+. Copie os arquivos de backup para a VM usando o `copy` comando de um prompt de comando.
+. Restaure os bancos de dados completos para o SQL Server em máquinas virtuais do Azure.
+
+
+
+NOTE: Para restaurar bancos de dados 21, demorou aproximadamente nove horas. Esta abordagem é específica para este cenário. No entanto, outras técnicas de migração listadas abaixo podem ser usadas com base em sua situação e requisitos.
+
+Outras opções de migração para mover dados de um SQL Server local para o Azure NetApp Files incluem o seguinte:
+
+* Separe os dados e os arquivos de log, copie-os para o storage Azure Blob e anexe-os ao SQL Server na VM do Azure com um compartilhamento de arquivos ANF montado no URL.
+* Se você estiver usando a implantação do grupo sempre em disponibilidade on-premises, use o https://docs.microsoft.com/en-us/previous-versions/azure/virtual-machines/windows/sqlclassic/virtual-machines-windows-classic-sql-onprem-availability["Adicionar Assistente de réplica do Azure"^] para criar uma réplica no Azure e, em seguida, executar o failover.
+* Use o SQL https://docs.microsoft.com/en-us/sql/relational-databases/replication/transactional/transactional-replication["replicação transacional"^] Server para configurar a instância do Azure SQL Server como assinante, desabilitar a replicação e apontar os usuários para a instância do banco de dados do Azure.
+* Envie o disco rígido usando o Serviço de importação/exportação do Windows.
+
+
+
+
+=== Backup e recuperação
+
+Backup e recuperação são um aspeto importante de qualquer implantação do SQL Server. É obrigatório ter a rede de segurança adequada para recuperar rapidamente de vários cenários de falha e perda de dados em conjunto com soluções de alta disponibilidade, como AOAG. SQL Server Database quiesce Tool, Azure Backup (streaming), ou qualquer ferramenta de backup de terceiros, como o CommVault, podem ser usados para executar um backup consistente com os aplicativos dos bancos de dados, ou para fazer um backup consistente com os aplicativos.
+
+A tecnologia Azure NetApp Files Snapshot permite criar facilmente uma cópia pontual (pit) dos bancos de dados do usuário sem afetar o desempenho ou a utilização da rede. Essa tecnologia também permite restaurar uma cópia Snapshot para um novo volume ou reverter rapidamente o volume afetado para o estado em que estava quando essa cópia Snapshot foi criada usando a função Reverter volume. O processo de snapshot do Azure NetApp Files é muito rápido e eficiente, o que permite vários backups diários, ao contrário do backup de streaming oferecido pelo backup do Azure. Com várias cópias Snapshot possíveis em um determinado dia, o tempo de RPO e rto pode ser significativamente reduzido. Para adicionar consistência de aplicativos de modo que os dados estejam intactos e corretamente lavados no disco antes que a cópia Snapshot seja feita, use a ferramenta quiesce de banco de dados SQL Server (https://mysupport.netapp.com/site/tools/tool-eula/scsqlapi["Ferramenta SCSQLAPI"^]; o acesso a esse link requer credenciais de login SSO do NetApp). Essa ferramenta pode ser executada a partir do PowerShell, que desativa o banco de dados SQL Server e, por sua vez, pode fazer a cópia Snapshot de armazenamento consistente com aplicativos para backups.
+
+* Notas: *
+
+* A ferramenta SCSQLAPI suporta apenas as versões 2016 e 2017 do SQL Server.
+* A ferramenta SCSQLAPI só funciona com um banco de dados de cada vez.
+* Isole os arquivos de cada banco de dados colocando-os em um volume Azure NetApp Files separado.
+
+
+Devido às vastas limitações da API SCSQL, https://docs.microsoft.com/en-us/azure/backup/backup-azure-sql-database["Backup do Azure"^] foi usado para proteção de dados para atender aos requisitos de SLA. Ele oferece um backup baseado em fluxo do SQL Server executado em máquinas virtuais do Azure e Azure NetApp Files. O Azure Backup permite um RPO de 15 minutos com backups de log frequentes e recuperação de pit em até um segundo.
+
+
+
+=== Monitorização
+
+O Azure NetApp Files é integrado ao Azure Monitor para os dados da série temporal e fornece métricas sobre armazenamento alocado, uso real do storage, IOPS de volume, taxa de transferência, bytes de leitura de disco/seg, bytes de gravação de disco/seg, leituras de disco/seg e gravações de disco/seg e latência associada. Esses dados podem ser usados para identificar gargalos com alertas e para executar verificações de integridade para verificar se a implantação do SQL Server está sendo executada em uma configuração ideal.
+
+Neste HLD, o ScienceLogic é usado para monitorar o Azure NetApp Files, expondo as métricas usando o principal de serviço apropriado. A imagem a seguir é um exemplo da opção métrica Azure NetApp Files.
+
+image:sql-srv-anf_image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== DevTest usando clones espessos
+
+Com o Azure NetApp Files, você pode criar cópias instantâneas de bancos de dados para testar a funcionalidade que deve ser implementada usando a estrutura e o conteúdo atuais do banco de dados durante os ciclos de desenvolvimento do aplicativo, usar as ferramentas de extração e manipulação de dados ao preencher data warehouses ou até mesmo recuperar dados que foram excluídos ou alterados erroneamente. Esse processo não envolve a cópia de dados de contentores Blob do Azure, o que o torna muito eficiente. Depois que o volume é restaurado, ele pode ser usado para operações de leitura/gravação, o que reduz significativamente a validação e o tempo de comercialização. Isso precisa ser usado em conjunto com o SCSQLAPI para consistência de aplicativos. Essa abordagem fornece mais uma técnica de otimização contínua de custos, juntamente com o Azure NetApp Files aproveitando a opção Restaurar para novo volume.
+
+*Notas:*
+
+* O volume criado a partir da cópia Snapshot usando a opção Restaurar novo volume consome a capacidade do pool de capacidade.
+* Você pode excluir os volumes clonados usando A CLI REST ou Azure para evitar custos adicionais (caso o pool de capacidade precise ser aumentado).
+
+
+
+
+=== Opções de armazenamento híbrido
+
+Embora o NetApp recomende usar o mesmo storage para todos os nós nos grupos de disponibilidade do SQL Server, há cenários nos quais várias opções de storage podem ser usadas. Esse cenário é possível para o Azure NetApp Files no qual um nó no AOAG está conetado a um compartilhamento de arquivos Azure NetApp Files SMB e o segundo nó é conetado a um disco Premium do Azure. Nesses casos, certifique-se de que o compartilhamento SMB do Azure NetApp Files esteja segurando a cópia primária dos bancos de dados do usuário e que o disco Premium seja usado como cópia secundária.
+
+*Notas:*
+
+* Em tais implantações, para evitar problemas de failover, certifique-se de que a disponibilidade contínua esteja habilitada no volume SMB. Sem atributo continuamente disponível, o banco de dados pode falhar se houver alguma manutenção em segundo plano na camada de armazenamento.
+* Mantenha a cópia primária do banco de dados no compartilhamento de arquivos SMB do Azure NetApp Files.
+
+
+
+
+=== Continuidade dos negócios
+
+A recuperação de desastres geralmente é uma reflexão posterior em qualquer implantação. No entanto, a recuperação de desastres deve ser resolvida durante a fase inicial de projeto e implantação para evitar qualquer impacto nos negócios. Com o Azure NetApp Files, a funcionalidade de replicação entre regiões (CRR) pode ser usada para replicar os dados de volume no nível do bloco para a região emparelhada para lidar com qualquer interrupção regional inesperada. O volume de destino habilitado para CRR pode ser usado para operações de leitura, o que o torna um candidato ideal para simulações de recuperação de desastres. Além disso, o destino CRR pode ser atribuído com o nível de serviço mais baixo (por exemplo, Standard) para reduzir o TCO geral. No caso de um failover, a replicação pode ser quebrada, o que torna o respetivo volume de leitura/gravação capaz. Além disso, o nível de serviço do volume pode ser alterado usando a funcionalidade dinâmica de nível de serviço para reduzir significativamente o custo de recuperação de desastres. Esse é outro recurso exclusivo do Azure NetApp Files com replicação de blocos no Azure.
+
+
+
+=== Arquivamento de cópias Snapshot de longo prazo
+
+Muitas organizações precisam realizar a retenção a longo prazo de dados snapshot de arquivos de banco de dados como um requisito de conformidade obrigatório. Embora esse processo não seja usado neste HLD, ele pode ser facilmente realizado usando um script de lote simples usando https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10["AzCopy"^] para copiar o diretório instantâneo para o contentor Blob do Azure. O script de lote pode ser acionado com base em uma programação específica usando tarefas agendadas. O processo é simples: Inclui as seguintes etapas:
+
+. Baixe o arquivo executável AzCopy V10. Não há nada para instalar porque é um `exe` arquivo.
+. Autorize o AzCopy usando um token SAS no nível do contentor com as permissões apropriadas.
+. Após a autorização do AzCopy, a transferência de dados começa.
+
+
+*Notas:*
+
+* Em arquivos em lote, certifique-se de escapar dos % carateres que aparecem em tokens SAS. Isso pode ser feito adicionando um caractere % adicional ao lado de carateres % existentes na cadeia de token SAS.
+* A https://docs.microsoft.com/en-us/azure/storage/common/storage-require-secure-transfer["Transferência segura necessária"^] configuração de uma conta de armazenamento determina se a conexão com uma conta de armazenamento é protegida com TLS (Transport Layer Security). Esta definição está ativada por predefinição. O exemplo de script em lote a seguir copia recursivamente os dados do diretório de cópia Snapshot para um contentor Blob designado:
+
+
+....
+SET source="Z:\~snapshot"
+echo %source%
+SET dest="https://testanfacct.blob.core.windows.net/azcoptst?sp=racwdl&st=2020-10-21T18:41:35Z&se=2021-10-22T18:41:00Z&sv=2019-12-12&sr=c&sig=ZxRUJwFlLXgHS8As7HzXJOaDXXVJ7PxxIX3ACpx56XY%%3D"
+echo %dest%
+....
+O exemplo a seguir cmd é executado no PowerShell:
+
+....
+ –recursive
+....
+....
+INFO: Scanning...
+INFO: Any empty folders will not be processed, because source and/or destination doesn't have full folder support
+Job b3731dd8-da61-9441-7281-17a4db09ce30 has started
+Log file is located at: C:\Users\niyaz\.azcopy\b3731dd8-da61-9441-7281-17a4db09ce30.log
+0.0 %, 0 Done, 0 Failed, 2 Pending, 0 Skipped, 2 Total,
+INFO: azcopy.exe: A newer version 10.10.0 is available to download
+0.0 %, 0 Done, 0 Failed, 2 Pending, 0 Skipped, 2 Total,
+Job b3731dd8-da61-9441-7281-17a4db09ce30 summary
+Elapsed Time (Minutes): 0.0333
+Number of File Transfers: 2
+Number of Folder Property Transfers: 0
+Total Number of Transfers: 2
+Number of Transfers Completed: 2
+Number of Transfers Failed: 0
+Number of Transfers Skipped: 0
+TotalBytesTransferred: 5
+Final Job Status: Completed
+....
+*Notas:*
+
+* Um recurso de backup semelhante para retenção de longo prazo estará disponível em breve no Azure NetApp Files.
+* O script de lote pode ser usado em qualquer cenário que exija que os dados sejam copiados para o contentor Blob de qualquer região.
+
+
+
+
+=== Otimização dos custos
+
+Com a reformulação do volume e a alteração dinâmica do nível de serviço, que é completamente transparente para o banco de dados, o Azure NetApp Files permite otimizações contínuas de custos no Azure. Essa funcionalidade é usada extensivamente nesse HLD para evitar o provisionamento excessivo de storage adicional para lidar com picos de workload.
+
+O redimensionamento do volume pode ser facilmente realizado criando uma função Azure em conjunto com os logs de alerta do Azure.

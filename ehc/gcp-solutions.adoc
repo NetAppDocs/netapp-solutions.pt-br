@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-solutions.html 
+keywords: NetApp Solutions, google cloud, gcp, gcve, vmware managed cloud, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Soluções da NetApp para o Google Cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba mais sobre as soluções que o NetApp traz para o GCP.
+
+A VMware define os workloads de nuvem em uma de três categorias:
+
+* Proteger (incluindo recuperação de desastres e backup / restauração)
+* Migrar
+* Estender
+
+
+Navegue pelas soluções disponíveis nas seções a seguir.
+
+[role="tabbed-block"]
+====
+.Proteger
+--
+* link:gcp-app-dr-sc-cvo-veeam.html["Recuperação de desastres de aplicações com SnapCenter, Cloud Volumes ONTAP e Veeam Replication"]
+* link:gcp-app-dr-sc-cvs-veeam.html["Recuperação de desastres consistente com aplicativos com o NetApp SnapCenter e o Veeam Replication para o NetApp CVS no GCVE"]
+
+
+--
+.Migrar
+--
+* link:gcp-migrate-vmware-hcx.html["Migração de workload usando o VMware HCX para o armazenamento de dados NFS do NetApp Cloud volume Service"]
+* link:gcp-migrate-veeam.html["Replicação de VM usando o armazenamento de dados NFS do NetApp Cloud volume Service"]
+
+
+--
+.Estender
+--
+EM BREVE!
+
+--
+====

@@ -1,0 +1,53 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-migration-workflow-overview.html 
+keywords: migration, workflow, nas, shares, copy, sync, truck, azure, expressroute 
+summary: A migração tem diferentes fases a seguir para um melhor Planejamento e conclusão da migração. Para migrar dados de armazenamento nas de terceiros ou armazenamento exportado nas diretamente anexado usando o NetApp XCP, siga as diretrizes de migração fornecidas nesta seção. 
+---
+= Fluxo de trabalho de migração
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A migração tem diferentes fases a seguir para um melhor Planejamento e conclusão da migração. Para migrar dados de armazenamento nas de terceiros ou armazenamento exportado nas diretamente anexado usando o NetApp XCP, siga as diretrizes de migração fornecidas nesta seção.
+
+A figura a seguir ilustra o fluxo de trabalho de migração de qualquer nas para NetApp nas.
+
+image:xcp-bp_image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== On-premises
+
+O fluxo de trabalho de migração de qualquer nas para o NetApp nas inclui as seguintes etapas:
+
+. Descubra os compartilhamentos e os dados do nas.
+. Digitalize os dados e produza um relatório para encontrar o layout dos dados.
+. Crie uma linha de base executando o comando XCP Copy. Para migrações mais rápidas, selecione mais instâncias XCP e divida a carga de trabalho no nível da subpasta para iniciar trabalhos de migração paralela.
+. Para atualizações incrementais, use a sincronização XCP até que a taxa de alteração seja baixa para a janela de transição.
+. Marque a fonte como somente leitura para executar uma sincronização final executando o comando XCP SYNC para concluir a migração.
+. Para verificar se os dados foram transferidos corretamente, compare a origem e o destino executando o `xcp verify` comando.
+
+
+
+
+== Nuvem
+
+Para a nuvem, você pode seguir um fluxo de trabalho de migração local semelhante se a conetividade entre o local e a nuvem for Direct Connect (AWS), ExpressRoute (Azure) ou interconexão de nuvem (GCP).
+
+A figura a seguir ilustra o fluxo de trabalho de migração do local para a nuvem.
+
+image:xcp-bp_image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Se não houver conexão direta à Internet entre o local e a nuvem, você deverá transferir os dados do local para a nuvem por meio de um método de transporte de dados off-line, como o Truck. Cada fornecedor de serviços de nuvem tem um método diferente com terminologia diferente para mover os dados para o data center.
+
+A figura a seguir mostra a solução de movimentação de dados para o Azure no local sem o ExpressRoute.
+
+image:xcp-bp_image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Você pode usar uma arquitetura semelhante com os respetivos componentes dos vários provedores de serviços de nuvem.

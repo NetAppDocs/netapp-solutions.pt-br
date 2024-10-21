@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_basic_resource_allocation_fairness.html 
+keywords:  
+summary:  
+---
+= Equidade na alocação básica de recursos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesta seção, mostramos que, quando `team-d` solicita mais GPUs (elas estão abaixo da cota), o sistema pausa as cargas de trabalho `team-b` e `team-c` as move para um estado pendente de forma justa.
+
+Para obter detalhes, incluindo envios de trabalhos, imagens de contentores usadas e sequências de comandos executadas, consulte a secção link:osrunai_testing_details_for_section_49.html["Detalhes de teste para a Seção 4,9"].
+
+A figura a seguir mostra a utilização de cluster resultante, GPUs alocadas por equipe e tarefas pendentes devido ao balanceamento de carga automático e agendamento preventivo. Podemos observar que quando o número total de GPUs solicitadas por todas as cargas de trabalho da equipe excede o total de GPUs disponíveis no cluster, o algoritmo de equidade interno do Run:AI pausa uma tarefa cada `team-b` e `team-c` porque elas atingiram sua cota de projeto. Isso fornece alta utilização geral de cluster, enquanto as equipes de ciência de dados ainda trabalham sob restrições de recursos definidas por um administrador.
+
+image:osrunai_image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os resultados deste cenário de teste demonstram o seguinte:
+
+* * Balanceamento de carga automático.* O sistema equilibra automaticamente a cota das GPUs, de modo que cada equipe esteja usando sua cota. As cargas de trabalho que foram pausadas pertencem a equipes que estavam acima de sua cota.
+* *Fair share pause.* O sistema escolhe parar a carga de trabalho de uma equipe que estava acima da cota e, em seguida, parar a carga de trabalho da outra equipe. Run:AI tem algoritmos internos de justiça.
+

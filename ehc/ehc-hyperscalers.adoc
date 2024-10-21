@@ -1,0 +1,168 @@
+---
+sidebar: sidebar 
+permalink: ehc/ehc-hyperscalers.html 
+keywords: NetApp Solutions, hyperscalers, amazon, vmc, vmware managed cloud, microsoft, azure, avs, azure vmware solution, google cloud platform, gcp, google cloud virtualization engine, gcve, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Soluções da NetApp para VMware em hiperescala
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Saiba mais sobre os recursos que o NetApp oferece aos três (3) hyperscalers primários: Do NetApp como um dispositivo de storage conectado ao convidado ou um armazenamento de dados NFS complementar à migração de fluxos de trabalho, estendendo/aumentando para a nuvem, backup/restauração e recuperação de desastres.
+
+Escolha sua nuvem e deixe o NetApp fazer o resto!
+
+image:netapp-cloud.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+NOTE: Para ver as funcionalidades de um hyperscaler específico, clique na guia apropriada para esse hyperscaler.
+
+Vá para a seção para o conteúdo desejado selecionando as seguintes opções:
+
+* link:#config["VMware na configuração de Hyperscalers"]
+* link:#datastore["Opções de armazenamento do NetApp"]
+* link:#solutions["Soluções de nuvem da NetApp/VMware"]
+
+
+
+
+== VMware na configuração de Hyperscalers
+
+Assim como no local, Planejar um ambiente de virtualização baseado na nuvem é essencial para um ambiente pronto para a produção bem-sucedido para a criação de VMs e migração.
+
+[role="tabbed-block"]
+====
+.AWS/VMC
+--
+Esta seção descreve como configurar e gerenciar o VMware Cloud no AWS SDDC e usá-lo em combinação com as opções disponíveis para conetar o armazenamento NetApp.
+
+
+NOTE: O storage in-Guest é o único método com suporte para conetar o Cloud Volumes ONTAP ao AWS VMC.
+
+O processo de configuração pode ser dividido nas seguintes etapas:
+
+* Implante e configure o VMware Cloud para AWS
+* Conete o VMware Cloud ao FSX ONTAP
+
+
+Veja o detalhado link:aws-setup.html["Etapas de configuração para VMC"].
+
+--
+.Azure/AVS
+--
+Esta seção descreve como configurar e gerenciar a solução VMware Azure e usá-la em combinação com as opções disponíveis para conexão do storage NetApp.
+
+
+NOTE: O storage in-Guest é o único método com suporte para conetar o Cloud Volumes ONTAP à solução Azure VMware.
+
+O processo de configuração pode ser dividido nas seguintes etapas:
+
+* Registre o provedor de recursos e crie uma nuvem privada
+* Conete-se a um gateway de rede virtual ExpressRoute novo ou existente
+* Valide a conetividade de rede e acesse a nuvem privada
+
+
+Veja o detalhado link:azure-setup.html["Etapas de configuração para AVS"].
+
+--
+.GCP / GCVE
+--
+Esta seção descreve como configurar e gerenciar o GCVE e usá-lo em combinação com as opções disponíveis para conetar o armazenamento do NetApp.
+
+
+NOTE: O storage in-Guest é o único método com suporte para conetar o Cloud Volumes ONTAP e o Cloud volumes Services ao GCVE.
+
+O processo de configuração pode ser dividido nas seguintes etapas:
+
+* Implantar e configurar o GCVE
+* Ative o acesso privado ao GCVE
+
+
+Veja o detalhado link:gcp-setup.html["Etapas de configuração para o GCVE"].
+
+--
+====
+
+
+== Opções de armazenamento do NetApp
+
+O storage do NetApp pode ser utilizado de várias maneiras, seja como hóspede conectado ou como um armazenamento de dados NFS complementar, em cada um dos 3 principais hyperscalers.
+
+Visite link:ehc-support-configs.html["Opções de armazenamento NetApp suportadas"] para obter mais informações.
+
+[role="tabbed-block"]
+====
+.AWS/VMC
+--
+A AWS oferece suporte ao storage NetApp nas seguintes configurações:
+
+* FSX ONTAP como armazenamento conetado ao hóspede
+* Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
+* O FSX ONTAP como um armazenamento de dados NFS complementar
+
+
+Veja o detalhado link:aws-guest.html["Opções de armazenamento Guest Connect para VMC"]. Veja o detalhado link:aws-native-nfs-datastore-option.html["Opções suplementares de armazenamento de dados NFS para VMC"].
+
+--
+.Azure/AVS
+--
+O Azure é compatível com o storage NetApp nas seguintes configurações:
+
+* Azure NetApp Files (ANF) como storage conectado aos hóspedes
+* Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
+* O Azure NetApp Files (ANF) como um armazenamento de dados complementar de NFS
+
+
+Veja o detalhado link:azure-guest.html["Opções de armazenamento Guest Connect para AVS"]. Veja o detalhado link:azure-native-nfs-datastore-option.html["Opções suplementares de armazenamento de dados NFS para AVS"].
+
+--
+.GCP / GCVE
+--
+O Google Cloud é compatível com o storage NetApp nas seguintes configurações:
+
+* Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
+* Cloud Volumes Service (CVS) como armazenamento conetado ao convidado
+* Cloud Volumes Service (CVS) como um armazenamento de dados NFS complementar
+
+
+Veja o detalhado link:gcp-guest.html["Opções de armazenamento Guest Connect para GCVE"].
+
+Leia mais sobre link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Suporte ao armazenamento de dados do NetApp Cloud Volumes Service para o Google Cloud VMware Engine (blog do NetApp)"^] ou link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Como usar o NetApp CVS como datastores para o Google Cloud (blog do Google)"^]
+
+--
+====
+
+
+== Soluções de nuvem da NetApp/VMware
+
+Com as soluções de nuvem da NetApp e da VMware, muitos casos de uso são simples de implantar no seu hyperscaler de sua preferência. A VMware define os casos de uso de workloads da nuvem primária como:
+
+* Proteger (inclui recuperação de desastres e backup / restauração)
+* Migrar
+* Estender
+
+
+[role="tabbed-block"]
+====
+.AWS/VMC
+--
+link:aws/aws-solutions.html["Navegue pelas soluções da NetApp para AWS/VMC"]
+
+--
+.Azure/AVS
+--
+link:azure/azure-solutions.html["Navegue pelas soluções NetApp para Azure / AVS"]
+
+--
+.GCP / GCVE
+--
+link:gcp/gcp-solutions.html["Navegue pelas soluções da NetApp para o Google Cloud Platform (GCP) / GCVE"]
+
+--
+====

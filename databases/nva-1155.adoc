@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: databases/nva-1155.html 
+keywords:  
+summary:  
+---
+= NVA-1155: Bancos de dados Oracle 19Ci RAC no data center FlexPod com Cisco UCS e NetApp AFF A800 sobre FC - Guia de projeto e implantação
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Allen Cao, NetApp
+
+[role="lead"]
+Este guia de design e implantação para bancos de dados Oracle 19Ci RAC no FlexPod Datacenter com Cisco UCS e NetApp AFF A800 over FC fornece detalhes sobre o design da solução, bem como processos de implantação passo a passo para hospedar bancos de dados Oracle RAC na mais recente infraestrutura de datacenter FlexPod com o sistema operacional Oracle Linux 8,2 e um kernel compatível com Red Hat.
+
+link:https://www.netapp.com/pdf.html?item=/media/25782-nva-1155.pdf["NVA-1155: Bancos de dados Oracle 19Ci RAC no data center FlexPod com Cisco UCS e NetApp AFF A800 sobre FC"^]

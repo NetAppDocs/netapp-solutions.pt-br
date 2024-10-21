@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_achieving_high_cluster_utilization.html 
+keywords:  
+summary:  
+---
+= Alcançar a alta utilização de clusters
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesta seção, emulamos um cenário realista no qual quatro equipes de ciência de dados enviam suas próprias cargas de trabalho para demonstrar a solução de orquestração Run:AI que atinge alta utilização do cluster, mantendo a priorização e o balanceamento dos recursos da GPU. Começamos usando o benchmark ResNet-50 descrito na link:osrunai_resnet-50_with_imagenet_dataset_benchmark_summary.html["ResNet-50 com Resumo da Referência de Dataset IMAGEnet"]seção :
+
+....
+$ runai submit netapp1 -i netapp/tensorflow-tf1-py3:20.01.0 --local-image --large-shm  -v /mnt:/mnt -v /tmp:/tmp --command python --args "/netapp/scripts/run.py" --args "--dataset_dir=/mnt/mount_0/dataset/imagenet/imagenet_original/" --args "--num_mounts=2"  --args "--dgx_version=dgx1" --args "--num_devices=1" -g 1
+....
+Nós executamos o mesmo benchmark ResNet-50 que no https://www.netapp.com/pdf.html?item=/media/7677-nva1121designpdf.pdf["NVA-1121"^]. usamos o sinalizador `--local-image` para containers que não residem no repositório público do docker. Nós montamos os `/mnt` diretórios e `/tmp` o nó do host DGX-1 para `/mnt` e `/tmp` no contêiner, respetivamente. O conjunto de dados está no NetApp AFFA800 com o `dataset_dir` argumento apontando para o diretório. Ambos `--num_devices=1` e `-g 1` significa que alocamos uma GPU para esse trabalho. O primeiro é um argumento para o `run.py` script, enquanto o último é uma bandeira para o `runai submit` comando.
+
+A figura a seguir mostra um painel de visão geral do sistema com 97% de utilização de GPU e todas as 16 GPUs disponíveis alocadas. Você pode ver facilmente quantas GPUs são alocadas para cada equipe no gráfico de barras GPUs/Project. O painel tarefas em execução mostra os nomes de tarefas em execução atuais, o projeto, o usuário, o tipo, o nó, as GPUs consumidas, o tempo de execução, o progresso e os detalhes da utilização. Uma lista de cargas de trabalho na fila com seu tempo de espera é mostrada em trabalhos pendentes. Por fim, a caixa nós oferece números de GPU e utilização de nós DGX-1 individuais no cluster.
+
+image:osrunai_image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

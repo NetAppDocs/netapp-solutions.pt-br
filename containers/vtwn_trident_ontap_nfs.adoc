@@ -1,0 +1,128 @@
+---
+sidebar: sidebar 
+permalink: containers/vtwn_trident_ontap_nfs.html 
+keywords: Trident, Trident, ONTAP, AFF, FAS, NFS, VMware Tanzu 
+summary: Para habilitar a integração com o Trident ao sistema de storage NetApp ONTAP, você precisa criar um back-end que permita a comunicação com o sistema de storage. 
+---
+= Configuração de NFS do NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para habilitar a integração do Trident ao sistema de storage NetApp ONTAP por meio de NFS, é necessário criar um back-end que permita a comunicação com o sistema de storage. Configuramos um backend básico nesta solução, mas se você estiver procurando opções mais personalizadas, visite a documentação link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["aqui"^].
+
+
+
+== Criar um SVM no ONTAP
+
+. Faça login no Gerenciador de sistemas do ONTAP, navegue até armazenamento > armazenamento de VMs e clique em Adicionar.
+. Insira um nome para o SVM, ative o protocolo NFS, marque a caixa de seleção permitir acesso ao cliente NFS e adicione as sub-redes em que seus nós de trabalho estão nas regras de política de exportação para permitir que os volumes sejam montados como PVS em seus clusters de carga de trabalho.
++
+image:vtwn_image06.jpg["O SVM cria com o NFS"]
+
++
+
+NOTE: Se você estiver usando a implantação NAT'ed de clusters de usuários ou clusters de carga de trabalho com NSX-T, será necessário adicionar a sub-rede Egress (no caso de TKGS0 ou a sub-rede IP flutuante (no caso de TKGI) às regras de política de exportação.
+
+. Forneça os detalhes das LIFs de dados e os detalhes da conta de administração do SVM e clique em Salvar.
++
+image:vtwn_image07.jpg["SVM Data LIFs e administração de SVM"]
+
+. Atribua os agregados a um SVM. Navegue até Storage > Storage VMs, clique na elipse ao lado do recém-criado SVM e clique em Edit. Marque a caixa de seleção limitar criação de volume aos níveis locais preferidos e anexe os agregados necessários a ele.
++
+image:vtwn_image08.jpg["Alocação de agregados SVM"]
+
+. No caso de implantações NAT'ed de clusters de usuário ou carga de trabalho em que o Trident deve ser instalado, a solicitação de montagem de armazenamento pode chegar a partir de uma porta não padrão devido ao SNAT. Por padrão, o ONTAP só permite as solicitações de montagem de volume quando originadas da porta raiz. Assim, faça login na CLI do ONTAP e modifique a configuração para permitir solicitações de montagem de portas não padrão.
++
+[listing]
+----
+ontap-01> vserver nfs modify -vserver tanzu_svm -mount-rootonly disabled
+----
+
+
+
+
+== Crie backends e StorageClasses
+
+. Para sistemas NetApp ONTAP que atendem NFS, crie um arquivo de configuração de back-end no jumphost com backendName, managementLIF, dataLIF, svm, nome de usuário, senha e outros detalhes.
++
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "ontap-nas",
+    "backendName": "ontap-nas+10.61.181.221",
+    "managementLIF": "172.21.224.201",
+    "dataLIF": "10.61.181.221",
+    "svm": "trident_svm",
+    "username": "admin",
+    "password": "password"
+}
+----
++
+
+NOTE: É uma prática recomendada definir o valor backendName personalizado como uma combinação do storageDriverName e do dataLIF que está servindo NFS para fácil identificação.
+
+. Crie o back-end do Trident executando o seguinte comando.
++
+[listing]
+----
+[netapp-user@rhel7]$ ./tridentctl -n trident create backend -f backend-ontap-nas.json
++-------------------------+----------------+--------------------------------------+--------+---------+
+|          NAME           | STORAGE DRIVER |                 UUID                 | STATE  | VOLUMES |
++-------------------------+----------------+--------------------------------------+--------+---------+
+| ontap-nas+10.61.181.221 | ontap-nas      | be7a619d-c81d-445c-b80c-5c87a73c5b1e | online |       0 |
++-------------------------+----------------+--------------------------------------+--------+---------+
+----
+. Com o back-end criado, você deve criar uma classe de storage. A seguinte definição de classe de armazenamento de amostra destaca os campos obrigatórios e básicos. O parâmetro `backendType` deve refletir o driver de armazenamento do backend Trident recém-criado.
++
+[listing]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ontap-nfs
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-nas"
+----
+. Crie a classe de armazenamento executando o comando kubectl.
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ kubectl create -f storage-class-nfs.yaml
+storageclass.storage.k8s.io/ontap-nfs created
+----
+. Com a classe de storage criada, é necessário criar a primeira reivindicação de volume persistente (PVC). Uma definição de PVC de amostra é dada abaixo. Certifique-se de que o `storageClassName` campo corresponde ao nome da classe de armazenamento criada. A definição de PVC pode ser ainda mais personalizada, conforme necessário, dependendo da carga de trabalho a ser provisionada.
++
+[listing]
+----
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: basic
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ontap-nfs
+----
+. Crie o PVC emitindo o comando kubectl. A criação pode demorar algum tempo dependendo do tamanho do volume de apoio que está sendo criado, para que você possa assistir ao processo à medida que ele for concluído.
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ kubectl create -f pvc-basic.yaml
+persistentvolumeclaim/basic created
+
+[netapp-user@rhel7 trident-installer]$ kubectl get pvc
+NAME    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+basic   Bound    pvc-b4370d37-0fa4-4c17-bd86-94f96c94b42d   1Gi        RWO            ontap-nfs      7s
+----
+

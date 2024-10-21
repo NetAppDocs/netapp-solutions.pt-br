@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-vcf-overview.html 
+keywords: netapp, vmware, cloud, foundation, vcf, flexpod 
+summary:  
+---
+= Base do VMware Cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O VMware Cloud Foundation (VCF) é um conjunto de tecnologias que fornece um caminho direto para acessar uma experiência de nuvem híbrida. Na solução VCF, há suporte para workloads nativos baseados em Kubernetes e máquina virtual. Serviços essenciais como VMware vSphere, VMware VSAN, VMware NSX-T Data Center e VMware vRealize Cloud Management são componentes integrais do pacote VCF. Quando combinados, esses serviços estabelecem uma infraestrutura definida por software capaz de gerenciar computação, storage, rede, segurança e gerenciamento de nuvem. Essa infraestrutura coletiva fornece uma experiência híbrida, na qual a estrutura do VCF estende o ambiente do data center no local para a Amazon Web Services (AWS), o Azure e o Google Cloud.
+
+
+
+== Recursos de documentação
+
+Para obter informações detalhadas sobre as ofertas do NetApp para o VMware Cloud Foundation, consulte a seguinte série de quatro (4) partes do blog:
+
+* link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-getting-started/["NetApp e VMware Cloud Foundation simplificados parte 1: Primeiros passos"]
+* link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-ontap-principal-storage/["NetApp e VMware Cloud Foundation simplificados parte 2: Storage principal do VCF e do ONTAP"]
+* link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-element-principal-storage/["NetApp e VMware Cloud Foundation simplificados parte 3: Storage principal do VCF e do Element"]
+* link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-supplemental-storage/["NetApp e VMware Cloud Foundation simplificados - parte 4: Ferramentas ONTAP para VMware e armazenamento suplementar"]
+
+
+*VMware Cloud Foundation com arrays SAN all-flash NetApp*
+
+* link:vmware_vcf_asa_overview.html["VCF com arrays NetApp ASA, Introdução e Visão Geral da tecnologia"]
+* link:vmware_vcf_asa_supp_mgmt_iscsi.html["Use as Ferramentas do ONTAP para implantar armazenamentos de dados iSCSI em um domínio de gerenciamento VCF"]
+* link:vmware_vcf_asa_supp_wkld_vvols.html["Use as Ferramentas do ONTAP para implantar armazenamentos de dados vVols (iSCSI) em um domínio de workload do VI"]
+* link:vmware_vcf_asa_supp_wkld_nvme.html["Configurar o NVMe em armazenamentos de dados TCP para uso em um domínio de workload do VI"]
+* link:vmware_vcf_asa_scv_wkld.html["Implante e use o plug-in do SnapCenter para VMware vSphere para proteger e restaurar VMs em um domínio de workload do VI"]
+
+
+*VMware Cloud Foundation com arrays AFF all-flash NetApp*
+
+* link:vmware_vcf_aff_overview.html["VCF com arrays NetApp AFF, Introdução e Visão Geral da tecnologia"]
+* link:vmware_vcf_aff_principal_nfs.html["Use o ONTAP com NFS como storage principal para domínios de workload do VI"]
+* link:vmware_vcf_aff_supp_wkld_nfs.html["Use as ferramentas do ONTAP para implantar armazenamentos de dados NFS em um domínio de workload do VI"]
+
+
+*Soluções NetApp FlexPod para o VMware Cloud Foundation*
+
+* link:https://www.netapp.com/blog/expanding-flexpod-hybrid-cloud-with-vmware-cloud-foundation/["Expansão da nuvem híbrida da FlexPod com o VMware Cloud Foundation"]
+* link:https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flexpod_vcf.html["FlexPod como um domínio de carga de trabalho para o VMware Cloud Foundation"]
+* link:https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flexpod_vcf_design.html["Guia de design do FlexPod como um domínio de workload para o VMware Cloud Foundation"]
+

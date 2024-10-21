@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-architecture-sizing-options.html 
+keywords: architecture, sizing, computer server, shared storage 
+summary: Você pode ajustar a configuração usada para a validação para se adequar a outros casos de uso. 
+---
+= Opções de dimensionamento da arquitetura
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Você pode ajustar a configuração usada para a validação para se adequar a outros casos de uso.
+
+
+
+== Servidor de computação
+
+Usamos uma CPU Intel Xeon D-2123IT, que é o nível mais baixo de CPU suportado em SE350, com quatro núcleos físicos e 60W TDP. Embora o servidor não suporte a substituição de CPUs, ele pode ser encomendado com uma CPU mais poderosa. A CPU superior suportada é o Intel Xeon D-2183IT com 16 núcleos, 100W rodando a 2,20GHz GHz. Isso aumenta consideravelmente a capacidade computacional da CPU. Embora a CPU não fosse um gargalo para executar as próprias cargas de trabalho de inferência, ela ajuda com o Data Processing e outras tarefas relacionadas à inferência. Atualmente, o NVIDIA T4 é a única GPU disponível para casos de uso de borda; portanto, atualmente, não há capacidade de atualizar ou fazer downgrade da GPU.
+
+
+
+== Armazenamento compartilhado
+
+Para teste e validação, o sistema NetApp AFF C190, que tem capacidade máxima de storage de 50,5TB TB, taxa de transferência de 4,4GBps Gbps para leituras sequenciais e IOPS de 230K Gbps para pequenas leituras aleatórias, foi usado para os fins deste documento e provou ser adequado para workloads de inferência de borda.
+
+No entanto, se você precisar de mais capacidade de storage ou velocidades de rede mais rápidas, use os sistemas de storage NetApp AFF A220 ou NetApp AFF A250. Além disso, o sistema NetApp EF280, que tem uma capacidade máxima de 1,5PB GB, largura de banda 10Gbps também foi usado para a validação desta solução. Se você preferir mais capacidade de armazenamento com maior largura de banda https://www.netapp.com/pdf.html?item=/media/19339-DS-4082.pdf&v=2021691654["NetApp EF300"^], pode ser usado.

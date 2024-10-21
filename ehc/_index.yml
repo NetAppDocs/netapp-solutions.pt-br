@@ -1,0 +1,95 @@
+---
+indexpage:
+  title: Multiclouds híbridas da NetApp com as soluções VMware
+  summary: A multicloud híbrida da NetApp com as soluções VMware são um conjunto de
+    recursos estratégicos e tecnológicos que demonstram as funcionalidades do storage
+    NetApp nos principais hyperscalers de nuvem pública.
+  lead: A multicloud híbrida da NetApp com as soluções VMware são um conjunto de recursos
+    estratégicos e tecnológicos que demonstram as funcionalidades do storage NetApp
+    nos principais hyperscalers de nuvem pública.
+  tiles:
+  - title: Como começar
+    links:
+    - title: Visão geral
+      url: "/ehc-overview.html"
+    - title: Soluções da NetApp para VMware em nuvens de hiperescala
+      url: "/ehc-hyperscalers.html"
+    - title: Opções de armazenamento suportadas
+      url: "/ehc-support-configs.html"
+    - title: Soluções compatíveis
+      url: "/ehc-solutions.html"
+    - title: Resumo
+      url: "../videos.html#hmc"
+  - title: NetApp na AWS (VMC)
+    links:
+    - title: Multicloud híbrida da NetApp com VMware para VMC
+      url: "/aws-vmc.html"
+    - title: Configure o ambiente de virtualização
+      url: "/aws-setup.html"
+    - title: 'FSX ONTAP como um armazenamento de dados NFS suplementar: Visão geral'
+      url: "/aws-native-overview.html"
+    - title: FSX ONTAP como armazenamento conetado ao convidado
+      url: "/aws-guest.html#fsx-ontap"
+    - title: CVO como storage conectado ao convidado
+      url: "/aws-guest.html#aws-cvo"
+    - title: Soluções de multicloud híbrida para VMC
+      url: "/aws-solutions.html"
+  - title: NetApp no Azure (AVS)
+    links:
+    - title: Multicloud híbrida da NetApp com VMware para AVS
+      url: "/azure-avs.html"
+    - title: Configure o ambiente de virtualização
+      url: "/azure-setup.html"
+    - title: 'ANF como um armazenamento de dados NFS suplementar: Visão geral'
+      url: "/azure-native-overview.html"
+    - title: ANF como storage conectado ao convidado
+      url: "/azure-guest.html#anf"
+    - title: CVO como storage conectado ao convidado
+      url: "/azure-guest.html#azure-cvo"
+    - title: Soluções de multicloud híbrida para AVS
+      url: "/azure-solutions.html"
+  - title: NetApp na plataforma Google Cloud (GCVE)
+    links:
+    - title: NetApp Hybrid Multicloud com VMware para GCVE
+      url: "/gcp-gcve.html"
+    - title: Configure o ambiente de virtualização
+      url: "/gcp-setup.html"
+    - title: CVO como storage conectado ao convidado
+      url: "/gcp-guest.html#gcp-cvo"
+    - title: Soluções de multicloud híbrida para GCVE
+      url: "/gcp-solutions.html"
+    - title: Visão geral de segurança - NetApp CVS no Google Cloud
+      url: "/ncvs-gc-overview.html"
+  - title: Simuladores
+    links:
+    - title: O ONTAP é um simulador de VMC
+      url: https://netapp-automation.github.io/FSx-VMC-Simulator
+    - title: ANF e AVS Simulator
+      url: https://netapp-automation.github.io/ANF-AVS-Simulator
+    - title: DRO para AWS com VMC Simulator
+      url: https://netapp-automation.github.io/dro-simulator/?intro-1
+    - title: DRO para ANF com simulador AVS
+      url: https://netapp-automation.github.io/dro-simulator-avs-anf/?intro-1
+    - title: Simulador BlueXP  DRaaS
+      url: https://netapp-automation.github.io/DRaaS_Simulator/?0.1
+    - title: BlueXP  - Backup e recuperação para o simulador de VMs
+      url: https://netapp-automation.github.io/Backup_and_Recovery_for_VMs_Simulator/?0.1
+  - title: Calculadoras TCO
+    links:
+    - title: Calculadora de TCO do FSX ONTAP
+      url: https://cloud.netapp.com/vmc-aws-fsx-ontap/roi
+    - title: CALCULADORA DE TCO DE ANF E AVS
+      url: https://bluexp.netapp.com/anf-avs/tcoestimator
+    - title: INDICADOR DE TCO DO GCVE E CVS
+      url: https://bluexp.netapp.com/gcve-cvs/roi
+  - title: Recuperação de desastres do BlueXP 
+    links:
+    - title: Proteção de dados 3-2-1 para VMware com plug-in SnapCenter e backup e
+        recuperação de BlueXP  para VMs
+      url: "/bxp-scv-hybrid-solution.html"
+    - title: Recuperação de desastres usando BlueXP  DRaaS - Visão geral
+      url: "/dr-draas-overview.html"
+    - title: DR usando o BlueXP  DRaaS para datastores NFS
+      url: "/dr-draas-nfs.html"
+    - title: DR usando BlueXP  DRaaS para datastores VMFS
+      url: "/dr-draas-vmfs.html"

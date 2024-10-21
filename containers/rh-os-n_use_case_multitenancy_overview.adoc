@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_multitenancy_overview.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: Configuração de alocação a vários clientes no Red Hat OpenShift com NetApp 
+---
+= Configuração de alocação a vários clientes no Red Hat OpenShift com NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Muitas organizações que executam vários aplicativos ou cargas de trabalho em contêineres tendem a implantar um cluster do Red Hat OpenShift por aplicativo ou carga de trabalho. Isso permite que eles implementem isolamento estrito para o aplicativo ou workload, otimizem o desempenho e reduzam vulnerabilidades de segurança. No entanto, a implantação de um cluster Red Hat OpenShift separado para cada aplicativo apresenta seu próprio conjunto de problemas. Isso aumenta a sobrecarga operacional ter que monitorar e gerenciar cada cluster por conta própria, aumenta os custos devido a recursos dedicados para diferentes aplicativos e dificulta a escalabilidade eficiente.
+
+Para superar esses problemas, pode-se considerar a execução de todos os aplicativos ou cargas de trabalho em um único cluster do Red Hat OpenShift. Mas em tal arquitetura, o isolamento de recursos e as vulnerabilidades de segurança de aplicativos são um dos principais desafios. Qualquer vulnerabilidade de segurança em uma carga de trabalho pode, naturalmente, se espalhar para outra carga de trabalho, aumentando assim a zona de impactos. Além disso, qualquer utilização abrupta de recursos não controlada por um aplicativo pode afetar o desempenho de outro aplicativo, porque não há política de alocação de recursos por padrão.
+
+Portanto, as organizações buscam soluções que captem o melhor em ambos os mundos, por exemplo, permitindo que elas executem todas as suas cargas de trabalho em um único cluster e, ao mesmo tempo, oferecendo os benefícios de um cluster dedicado para cada carga de trabalho.
+
+Uma solução tão eficaz é configurar multilocação no Red Hat OpenShift. A alocação a vários clientes é uma arquitetura que permite que vários locatários coexistam no mesmo cluster com isolamento adequado de recursos, segurança e assim por diante. Nesse contexto, um locatário pode ser visto como um subconjunto dos recursos do cluster configurados para serem usados por um determinado grupo de usuários para um propósito exclusivo. A configuração da alocação a vários clientes em um cluster Red Hat OpenShift oferece as seguintes vantagens:
+
+* Redução de CapEx e OpEx ao permitir que os recursos do cluster sejam compartilhados
+* Reduzir a sobrecarga operacional e de gerenciamento
+* Proteger as cargas de trabalho contra contaminação cruzada de violações de segurança
+* Proteção de workloads contra degradação inesperada do desempenho devido à contenção de recursos
+
+
+Para um cluster OpenShift de vários clientes totalmente realizado, as cotas e restrições devem ser configuradas para recursos de cluster pertencentes a diferentes buckets de recursos: Computação, armazenamento, rede, segurança e assim por diante. Embora abordemos certos aspectos de todos os buckets de recursos nesta solução, nos concentramos nas práticas recomendadas para isolar e proteger os dados servidos ou consumidos por vários workloads no mesmo cluster do Red Hat OpenShift ao configurar a alocação a vários clientes em recursos de storage que são alocados dinamicamente pelo Trident com suporte do NetApp ONTAP.

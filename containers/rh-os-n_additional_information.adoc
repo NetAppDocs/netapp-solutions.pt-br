@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_additional_information.html 
+keywords:  
+summary:  
+---
+= Informações adicionais: Red Hat OpenShift com NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes sites:
+
+* Documentação do NetApp
++
+https://docs.netapp.com/["https://docs.netapp.com/"^]
+
+* Documentação do Trident
++
+https://docs.netapp.com/us-en/trident/index.html["https://docs.netapp.com/us-en/trident/index.html"]
+
+* Documentação do Centro de Controle NetApp Astra
++
+https://docs.netapp.com/us-en/astra-control-center/["https://docs.netapp.com/us-en/astra-control-center/"^]
+
+* Documentação do Red Hat OpenShift
++
+https://access.redhat.com/documentation/en-us/openshift_container_platform/4.7/["https://access.redhat.com/documentation/en-us/openshift_container_platform/4.7/"^]
+
+* Documentação da Red Hat OpenStack Platform
++
+https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/16.1/["https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/16.1/"^]
+
+* Documentação da Red Hat Virtualization
++
+https://access.redhat.com/documentation/en-us/red_hat_virtualization/4.4/["https://access.redhat.com/documentation/en-us/red_hat_virtualization/4.4/"^]
+
+* Documentação do VMware vSphere
++
+https://docs.vmware.com["https://docs.vmware.com/"^]
+
+

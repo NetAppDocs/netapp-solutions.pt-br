@@ -1,0 +1,128 @@
+---
+sidebar: sidebar 
+permalink: containers/vtwn_trident_ontap_iscsi.html 
+keywords: Trident, Trident, ONTAP, AFF, FAS, iSCSI, Tanzu, TKG, TKGS, TKGI 
+summary: Para integrar o sistema de storage NetApp ONTAP a clusters do Kubernetes do VMware Tanzu para volumes persistentes via iSCSI, a primeira etapa é preparar os nós fazendo login em cada nó e configurando os utilitários ou pacotes iSCSI para montar volumes iSCSI. 
+---
+= Configuração iSCSI NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para integrar o sistema de storage NetApp ONTAP a clusters do Kubernetes do VMware Tanzu para volumes persistentes via iSCSI, a primeira etapa é preparar os nós fazendo login em cada nó e configurando os utilitários ou pacotes iSCSI para montar volumes iSCSI. Para o fazer, siga o procedimento previsto neste link:https://docs.netapp.com/us-en/trident/trident-use/worker-node-prep.html#iscsi-volumes["link"^].
+
+
+NOTE: O NetApp não recomenda este procedimento para implantações NAT'ed de clusters de Kubernetes do VMware Tanzu.
+
+
+NOTE: O TKGI usa VMs Bosh como nós para clusters do Kubernetes da Tanzu que executam imagens de configuração imutáveis, e quaisquer alterações manuais de pacotes iSCSI nas VMs Bosh não permanecem persistentes nas reinicializações. Portanto, a NetApp recomenda o uso de volumes NFS para storage persistente para clusters de Kubernetes da Tanzânia implantados e operados por TKGI.
+
+Depois que os nós de cluster estiverem preparados para volumes iSCSI, você deverá criar um back-end que permita a comunicação com o sistema de storage. Configuramos um backend básico nesta solução, mas, se você estiver procurando opções mais personalizadas, visite a documentação link:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["aqui"^].
+
+
+
+== Criar um SVM no ONTAP
+
+Para criar um SVM no ONTAP, siga estas etapas:
+
+. Faça login no Gerenciador de sistemas do ONTAP, navegue até armazenamento > armazenamento de VMs e clique em Adicionar.
+. Introduza um nome para o SVM, ative o protocolo iSCSI e, em seguida, forneça detalhes para os LIFs de dados.
++
+image:vtwn_image25.jpg["ISCSI SVM Data LIFs"]
+
+. Insira os detalhes da conta de administração SVM e clique em Salvar.
++
+image:vtwn_image26.jpg["Administração do iSCSI SVM"]
+
+. Para atribuir os agregados ao SVM, navegue até Storage > Storage VMs, clique na elipse ao lado do SVM recém-criado e clique em Edit (Editar). Marque a caixa de seleção limitar criação de volume aos níveis locais preferidos e anexe os agregados necessários a ele.
++
+image:vtwn_image27.jpg["Alocação de agregados SVM"]
+
+
+
+
+
+== Crie backends e StorageClasses
+
+. Para sistemas NetApp ONTAP que atendem NFS, crie um arquivo de configuração de back-end no jumphost com backendName, managementLIF, dataLIF, svm, nome de usuário, senha e outros detalhes.
++
+[listing]
+----
+{
+  "version": 1,
+  "storageDriverName": "ontap-san",
+  "backendName": "ontap-san+10.61.181.231",
+  "managementLIF": "172.21.224.201",
+  "dataLIF": "10.61.181.231",
+  "svm": "trident_svm_iscsi",
+  "username": "admin",
+  "password": "password"
+}
+----
+. Crie o back-end do Trident executando o seguinte comando.
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ ./tridentctl -n trident create backend -f backend-ontap-san.json
++------------------------+----------------+--------------------------------------+--------+---------+
+|          NAME          | STORAGE DRIVER |                 UUID                 | STATE  | VOLUMES |
++------------------------+----------------+--------------------------------------+--------+---------+
+| ontap-san+10.61.181.231 | ontap-san      | 6788533c-7fea-4a35-b797-fb9bb3322b91 | online |       0 |
++------------------------+----------------+--------------------------------------+--------+---------+
+----
+. Depois de criar um back-end, você deve criar uma classe de storage. A seguinte definição de classe de armazenamento de amostra destaca os campos obrigatórios e básicos. O parâmetro `backendType` deve refletir o driver de armazenamento do backend Trident recém-criado. Observe também o valor name-field, que deve ser referenciado em uma etapa posterior.
++
+[listing]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ontap-iscsi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"
+----
++
+
+NOTE: Há um campo opcional chamado `fsType` que é definido neste arquivo. Nos backends iSCSI, esse valor pode ser definido para um tipo específico de sistema de arquivos Linux (XFS, ext4, etc.) ou pode ser excluído para permitir que clusters Tanzu Kubernetes decidam qual sistema de arquivos usar.
+
+. Crie a classe de armazenamento executando o comando kubectl.
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ kubectl create -f storage-class-iscsi.yaml
+storageclass.storage.k8s.io/ontap-iscsi created
+----
+. Com a classe de storage criada, é necessário criar a primeira reivindicação de volume persistente (PVC). Uma definição de PVC de amostra é dada abaixo. Certifique-se de que o `storageClassName` campo corresponde ao nome da classe de armazenamento criada. A definição de PVC pode ser ainda mais personalizada, conforme necessário, dependendo da carga de trabalho a ser provisionada.
++
+[listing]
+----
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: basic
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ontap-iscsi
+----
+. Crie o PVC emitindo o comando kubectl. A criação pode demorar algum tempo dependendo do tamanho do volume de apoio que está sendo criado, para que você possa assistir ao processo à medida que ele for concluído.
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ kubectl create -f pvc-basic.yaml
+persistentvolumeclaim/basic created
+
+[netapp-user@rhel7 trident-installer]$ kubectl get pvc
+NAME    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+basic   Bound    pvc-7ceac1ba-0189-43c7-8f98-094719f7956c   1Gi        RWO            ontap-iscsi      3s
+----
+

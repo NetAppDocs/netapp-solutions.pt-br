@@ -1,0 +1,188 @@
+---
+sidebar: sidebar 
+permalink: ai/wp-genai.html 
+keywords: NetApp AI, AI, Artificial Intelligence, Generative AI 
+summary: Recursos de AI do NetApp que permitem o gerenciamento otimizado de dados e a movimentação de dados pelo pipeline de AI para treinamento, treinamento, ajuste fino, inferência e monitoramento de modelos generativos de AI. 
+---
+= Valor generativo de IA e NetApp
+:allow-uri-read: 
+
+
+[role="lead"]
+A demanda por inteligência artificial generativa (IA) está impulsionando a disrupção em todos os setores, aprimorando a criatividade dos negócios e a inovação de produtos.
+
+Autor: Sathish Thyagarajan, NetApp
+
+
+
+== Resumo
+
+Muitas organizações estão usando a IA generativa para criar novos recursos de produtos, melhorar a produtividade da engenharia e criar protótipos de aplicativos baseados em IA que oferecem melhores resultados e experiências para o consumidor. A IA generativa, como os Transformers Pré-treinados generativos (GPT), utiliza redes neurais para criar novos conteúdos, tão diversos como texto, áudio e vídeo. Considerando a escala extrema e os conjuntos de dados massivos envolvidos com grandes modelos de linguagem (LLMs), é fundamental arquitetar uma infraestrutura de AI robusta que aproveite os atraentes recursos de storage de dados das opções de implantação no local, híbrida e multicloud, e reduzir os riscos associados à mobilidade de dados, proteção de dados e governança antes que as empresas possam projetar soluções de AI. Este documento descreve essas considerações e as funcionalidades correspondentes do NetApp AI que permitem o gerenciamento otimizado de dados e a movimentação de dados pelo pipeline de dados de AI para modelos de AI de treinamento, treinamento, ajuste fino e inferência generativa.
+
+
+
+== Resumo executivo
+
+Mais recentemente, após o lançamento do ChatGPT, spin-off do GPT-3 em novembro de 2022, novas ferramentas de IA usadas para gerar texto, código, imagem ou até mesmo proteínas terapêuticas em resposta às solicitações do usuário ganharam fama significativa. Isso indica que os usuários podem fazer uma solicitação usando linguagem natural e a IA interpretará e gerará texto, como artigos de notícias ou descrições de produtos que refletem a solicitação do usuário ou produzem código, música, fala, efeitos visuais e ativos 3D usando algoritmos treinados em dados já existentes. Como resultado, frases como difusão estável, alucinações, Engenharia rápida e alinhamento de valor estão surgindo rapidamente no projeto de sistemas de IA. Esses modelos de aprendizado de máquina (ML) auto-supervisionados ou semi-supervisionados estão se tornando amplamente disponíveis como modelos de fundação pré-treinados (FM) por meio de provedores de serviços em nuvem e outros fornecedores de firmadores de IA, que estão sendo adotados por vários estabelecimentos de negócios em todos os setores para uma ampla gama de tarefas de NLP (processamento de linguagem natural). Como afirmado por empresas de análise de pesquisa como McKinsey - "o impactos da IA generativa na produtividade poderia adicionar trilhões de dólares em valor à economia global". Embora as empresas estejam reimaginando a IA como parceiros de pensamento para humanos e o FMS estejam se expandindo simultaneamente ao que empresas e instituições podem fazer com a IA generativa, as oportunidades de gerenciar volumes massivos de dados continuarão crescendo. Este documento apresenta informações introdutórias sobre IA generativa e os conceitos de design em relação aos recursos do NetApp que agregam valor aos clientes da NetApp, tanto em ambientes locais quanto híbridos ou multicloud.
+
+*Então, o que há para os clientes usarem o NetApp em seus ambientes de IA?* O NetApp ajuda as organizações a superar as complexidades geradas pelo rápido crescimento de dados e nuvem, pelo gerenciamento de várias nuvens e pela adoção de tecnologias de nova geração, como a AI. A NetApp combinou várias funcionalidades de software de gerenciamento de dados inteligente e infraestrutura de storage que foram bem equilibradas com alta performance otimizada para workloads de AI. As soluções generativas de AI, como LLMs, precisam ler e processar seus conjuntos de dados de origem do storage para a memória várias vezes para promover a inteligência. A NetApp é líder em tecnologias de mobilidade de dados, governança de dados e segurança de dados no ecossistema da borda para o centro e para a nuvem, atendendo clientes empresariais a criarem soluções de AI em escala. A NetApp, com uma forte rede de parceiros, tem ajudado diretores-executivos de dados, engenheiros de AI, arquitetos empresariais e cientistas de dados no design de um pipeline de dados em fluxo livre para responsabilidades de preparação, proteção e gerenciamento estratégico de dados do treinamento e inferência em modelos de AI, otimizando a performance e a escalabilidade do ciclo de vida da AI/ML. As tecnologias e recursos de dados da NetApp, como o NetApp ONTAP AI, para o transporte de dados de deep learning, o NetApp SnapMirror, para o transporte de dados de forma otimizada e eficiente entre pontos de extremidade de armazenamento, e o NetApp FlexCache, para renderização em tempo real, quando o fluxo de dados muda de lote para tempo real, e a engenharia de dados acontece no momento imediato, agregam valor à implantação de modelos de IA generativos em tempo real. À medida que empresas de todos os tipos adotam novas ferramentas de AI, elas enfrentam desafios de dados da borda até o data center e a nuvem que exigem soluções de AI escaláveis, responsáveis e explicáveis. Como autoridade em dados em nuvens híbridas e multicloud, a NetApp tem o compromisso de criar uma rede de parceiros e soluções conjuntas que possam ajudar com todos os aspectos da construção de um pipeline de dados e data Lakes para treinamento generativo em modelo de IA (pré-treinamento), ajuste fino, inferência baseada em contexto e monitoramento de decaimento de modelos de LLMs.
+
+
+
+== O que é IA generativa?
+
+A IA generativa está mudando a forma como criamos conteúdo, geramos novos conceitos de design e exploramos novas composições. Ele ilustra frameworks de rede neural como a generativa adversarial Network (GAN), os autocodificadores variacionais (VAE) e os transformadores pré-treinados generativos (GPT), que podem gerar novos conteúdos como texto, código, imagens, áudio, vídeo e dados sintéticos. Modelos baseados em transformadores, como o Chat-GPT da OpenAI, o Bard do Google, a FLORAÇÃO da face abraçando, e a lhama da Meta, surgiram como a tecnologia fundamental que sustenta muitos avanços em modelos de linguagem de grande porte. Da mesma forma, o Dall-e do OpenAI, o CM3leon do Meta e o Google Imagen são exemplos de modelos de difusão texto-imagem que oferecem aos clientes um grau inédito de fotorrealismo para criar imagens novas e complexas do zero ou editar imagens existentes para gerar imagens de alta qualidade com reconhecimento de contexto usando aumento de conjuntos de dados e síntese de texto-imagem ligando semântica textual e visual. Os artistas digitais estão começando a aplicar uma combinação de tecnologias de renderização como NeRF (neural Radiance Field) com IA generativa para converter imagens 2DD estáticas em cenas 3DD imersivas. Em geral, as LLMs são amplamente caraterizadas por quatro parâmetros: (1) tamanho do modelo (tipicamente em bilhões de parâmetros); (2) tamanho do conjunto de dados de treinamento; (3) custo do treinamento e (4) desempenho do modelo após o treinamento. LLMs também caem principalmente em três arquiteturas de transformadores. (i) modelos apenas codificadores. Por exemplo, BERT (Google, 2018); (ii) codificador-decodificador, por exemplo, modelos BART (Meta, 2020) e (III) apenas descodificadores. Por exemplo, lhama (Meta, 2023), Palm-e (Google, 2023). Dependendo do requisito de negócios, independentemente de qual arquitetura uma empresa escolhe o número de parâmetros do modelo (N) e o número de tokens (D) no conjunto de dados de treinamento geralmente determinam o custo inicial de treinamento (pré-treinamento) ou ajuste fino de um LLM.
+
+
+
+=== Casos de uso empresarial e tarefas de NLP downstream
+
+Empresas de todos os setores estão descobrindo cada vez mais o potencial da AI para extrair e produzir novas formas de valor dos dados existentes para operações de negócios, vendas, marketing e serviços jurídicos. De acordo com a inteligência de mercado da IDC (International Data Corporation) sobre casos de uso e investimentos globais de IA generativa, o gerenciamento de conhecimento em desenvolvimento de software e design de produtos deve ser o mais impactado, seguido pela criação de enredo para marketing e geração de código para desenvolvedores. Na área da saúde, as organizações de pesquisa clínica estão abrindo novos caminhos na medicina. Modelos pré-treinados como ProteinBERT incorporam anotações de Ontologia gênica (GO) para projetar rapidamente estruturas proteicas para medicamentos médicos, representando um marco significativo na descoberta de medicamentos, bioinformática e biologia molecular. As empresas de biotecnologia iniciaram estudos humanos para a medicina generativa descoberta pela IA, que visa tratar doenças como a fibrose pulmonar (FPI), uma doença pulmonar que causa cicatrizes irreversíveis do tecido pulmonar.
+
+Figura 1: Casos de uso que impulsionam a IA generativa
+
+image:gen-ai-image1.png["Figura 1: Casos de uso que impulsionam a IA generativa"]
+
+Os aumentos na adoção da automatização impulsionados pela IA generativa estão igualmente mudando a oferta e a procura das atividades do trabalho para muitas ocupações. De acordo com a McKinsey, o mercado de trabalho dos EUA (diagrama abaixo) passou por uma transição rápida, que só pode continuar ao considerar o impactos da IA.
+
+Fonte: McKinsey & Company
+
+image:gen-ai-image3.png["Figura 2: Fonte: McKinsey  empresa"]
+
+
+
+=== Papel do storage na IA generativa
+
+Os LLMs dependem, em grande parte, de deep learning, GPUs e computação. No entanto, quando o buffer da GPU é preenchido, os dados precisam ser gravados rapidamente no armazenamento. Embora alguns modelos de IA sejam pequenos o suficiente para serem executados na memória, os LLMs exigem IOPS alto e armazenamento de alto rendimento para fornecer acesso rápido a grandes conjuntos de dados, especialmente se envolver bilhões de tokens ou milhões de imagens. Para um requisito típico de memória GPU de um LLM, a memória necessária para treinar um modelo com 1 bilhões de parâmetros pode ir até 80GB a 32 bits de precisão total. Nesse caso, o Llama 2 da Meta, uma família de LLMs que variam em escala de 7 bilhões a 70 bilhões de parâmetros, pode exigir 70X80, aproximadamente 5600GBGB ou 5,6TBGB de RAM GPU. Além disso, a quantidade de memória que você precisa é diretamente proporcional ao número máximo de tokens que você deseja gerar. Por exemplo, se você quiser gerar saídas de até 512 tokens (cerca de 380 palavras), você precisa link:https://github.com/ray-project/llm-numbers#1-mb-gpu-memory-required-for-1-token-of-output-with-a-13b-parameter-model["512 MB"]do . Pode parecer inconsequente – mas, se você quiser executar lotes maiores, ele começa a se somar. Portanto, tornando-o muito caro para as organizações que treinam ou aperfeiçoam LLMs na memória, tornando o storage uma pedra angular para IA generativa.
+
+
+
+=== Três abordagens primárias para LLMs
+
+Para a maioria das empresas, com base nas tendências atuais, a abordagem para implantar LLMs pode ser condensada em 3 cenários básicos. Como descrito em um artigo recentelink:https://hbr.org/2023/07/how-to-train-generative-ai-using-your-companys-data[""Harvard Business Review""]: (1) Treinamento (pré-treinamento) um LLM do zero – caro e requer habilidades especializadas de IA/ML; (2) Ajuste fino de um modelo de base com dados corporativos – complexo, mas viável; (3) uso de geração aumentada de recuperação (RAG) para consultar repositórios de documentos, APIs e bancos de dados vetoriais que contêm dados da empresa. Cada um deles tem compensações entre o esforço, velocidade de iteração, custo-eficiência e precisão do modelo em suas implementações, usado para resolver diferentes tipos de problemas (diagrama abaixo).
+
+Figura 3: Tipos de problemas
+
+image:gen-ai-image4.png["Figura 3: Tipos de problemas"]
+
+
+
+=== Modelos de fundação
+
+Um modelo de base (FM) também conhecido como modelo base é um modelo de IA grande (LLM) treinado em grandes quantidades de dados não rotulados, usando auto-supervisão em escala, geralmente adaptado para uma ampla gama de tarefas de NLP downstream. Como os dados de treinamento não são rotulados por humanos, o modelo emerge em vez de ser explicitamente codificado. Isso significa que o modelo pode gerar histórias ou uma narrativa própria sem ser explicitamente programado para fazê-lo. Assim, uma caraterística importante da FM é a homogeneização, o que significa que o mesmo método é usado em muitos domínios. No entanto, com técnicas de personalização e ajuste fino, o FMS integrado aos produtos que aparecem hoje em dia não é apenas bom para gerar texto, texto para imagens e texto para código, mas também para explicar tarefas específicas de domínio ou código de depuração. Por exemplo, FMS como o Codex do OpenAI ou o Code Llama do Meta pode gerar código em várias linguagens de programação com base em descrições de linguagem natural de uma tarefa de programação. Esses modelos são proficientes em mais de uma dúzia de linguagens de programação, incluindo Python, C, JavaScript, Perl, Ruby e SQL. Eles entendem a intenção do usuário e geram código específico que realiza a tarefa desejada útil para o desenvolvimento de software, otimização de código e automação de tarefas de programação.
+
+
+
+=== Ajuste fino, especificidade de domínio e retreinamento
+
+Uma das práticas comuns com a implantação de LLM após a preparação de dados e pré-processamento de dados é selecionar um modelo pré-treinado que tenha sido treinado em um conjunto de dados grande e diversificado. No contexto do ajuste fino, isso pode ser um modelo de linguagem de código aberto, como link:https://ai.meta.com/llama/["Llama de Meta 2"] treinado em 70 bilhões de parâmetros e 2 trilhões de tokens. Uma vez selecionado o modelo pré-treinado, o próximo passo é ajustá-lo nos dados específicos do domínio. Isso envolve ajustar os parâmetros do modelo e treiná-lo sobre os novos dados para se adaptar a um domínio e tarefa específicos. Por exemplo, BloombergGPT, um LLM proprietário treinado em uma ampla gama de dados financeiros que servem a indústria financeira. Modelos específicos de domínio projetados e treinados para uma tarefa específica geralmente têm maior precisão e desempenho dentro de seu escopo, mas baixa transferibilidade em outras tarefas ou domínios. Quando o ambiente de negócios e os dados mudam ao longo de um período, a precisão de previsão do FM pode começar a diminuir quando comparado ao desempenho durante os testes. Isto é quando o retreinamento ou ajuste fino do modelo se torna crucial. O treinamento de modelos em AI/ML tradicional refere-se à atualização de um MODELO DE ML implantado com novos dados, geralmente realizado para eliminar dois tipos de desvios que ocorrem. (1) desvio do conceito – quando o link entre as variáveis de entrada e as variáveis de destino muda ao longo do tempo, uma vez que a descrição do que queremos prever mudanças, o modelo pode produzir previsões imprecisas. (2) desvio de dados – ocorre quando as caraterísticas dos dados de entrada mudam, como mudanças nos hábitos ou comportamento do cliente ao longo do tempo e, portanto, a incapacidade do modelo de responder a tais mudanças. De forma semelhante, o retreinamento se aplica a FMS/LLMs, no entanto, pode ser muito mais caro (em milhões de dólares), portanto, não algo que a maioria das organizações possa considerar. Está sob pesquisa ativa, ainda emergindo no Reino dos LLMOps. Então, em vez de re-treinamento, quando o decaimento do modelo ocorre em FMS ajustado, as empresas podem optar por ajustar novamente (muito mais barato) com um novo conjunto de dados. Para uma perspetiva de custo, listado abaixo é um exemplo de uma tabela de preços de modelo do Azure-OpenAI Services. Para cada categoria de tarefa, os clientes podem ajustar e avaliar modelos em conjuntos de dados específicos.
+
+Fonte: Microsoft Azure
+
+image:gen-ai-image5.png["Fonte: Microsoft Azure"]
+
+
+
+=== Prompt de engenharia e inferência
+
+Engenharia de prompt refere-se aos métodos eficazes de como se comunicar com LLMs para executar as tarefas desejadas sem atualizar os pesos do modelo. Tão importante quanto o treinamento e o ajuste fino do modelo de AI é para aplicações de NLP, a inferência é igualmente importante, onde os modelos treinados respondem às solicitações do usuário. Em geral, os requisitos do sistema para inferência estão muito mais na performance de leitura do sistema de storage de AI que alimenta dados de LLMs para as GPUs, pois precisa aplicar bilhões de parâmetros do modelo armazenados para produzir a melhor resposta.
+
+
+
+=== LLMOps, Model Monitoring e Vectorstores
+
+Assim como as operações tradicionais de Machine Learning Ops (MLOps), as operações de modelo de linguagem grande (LLMOps) também exigem a colaboração de cientistas de dados e engenheiros de DevOps com ferramentas e práticas recomendadas para o gerenciamento de LLMs em ambientes de produção. No entanto, o fluxo de trabalho e a pilha técnica para LLMs podem variar de algumas maneiras. Por exemplo, pipelines LLM construídos usando frameworks como LangChain string juntos várias chamadas de API LLM para endpoints de incorporação externos, como vectorstores ou bancos de dados vetoriais. O uso de um endpoint de incorporação e vectorstore para conetores downstream (como um banco de dados vetorial) representa um desenvolvimento significativo na forma como os dados são armazenados e acessados. Ao contrário dos MODELOS TRADICIONAIS DE ML que são desenvolvidos do zero, os LLMs geralmente dependem do aprendizado de transferência, uma vez que esses modelos começam com FMS que são ajustados com novos dados para melhorar o desempenho em um domínio mais específico. Portanto, é crucial que os LLMOps ofereçam as capacidades de gerenciamento de risco e monitoramento de decaimento de modelos.
+
+
+
+=== Riscos e Ética na era da IA generativa
+
+"ChatGPT - é liso, mas ainda lança disparates."– MIT Tech Review. Lixo dentro-lixo fora, sempre foi o caso desafiador com a computação. A única diferença com a IA generativa é que ela se destaca em tornar o lixo altamente credível, levando a resultados imprecisos. LLMs são propensos a inventar fatos para se encaixar na narrativa que está construindo. Portanto, as empresas que veem a IA generativa como uma ótima oportunidade de reduzir seus custos com equivalentes de IA precisam detetar com eficiência falsificações profundas, reduzir preconceitos e reduzir riscos para manter os sistemas honestos e éticos. Um pipeline de dados em fluxo livre com uma infraestrutura de AI robusta que dá suporte à mobilidade de dados, qualidade dos dados, governança de dados e proteção de dados por meio de criptografia de ponta a ponta e guardas de AI é eminente no design de modelos de IA generativos responsáveis e explicáveis.
+
+
+
+== Cenário do cliente e NetApp
+
+Figura 3: Fluxo de trabalho de modelo de aprendizado de máquina/grande linguagem
+
+image:gen-ai-image6.png["Figura 3: Fluxo de trabalho de modelo de aprendizado de máquina/grande linguagem"]
+
+*Estamos treinando ou ajustando?* A questão de (a) treinar um modelo LLM do zero, ajustar um FM pré-treinado ou usar o RAG para recuperar dados de repositórios de documentos fora de um modelo de fundação e aumentar prompts, e (b) aproveitar LLMs de código aberto (por exemplo, Llama 2) ou FMS proprietário (por exemplo, ChatGPT, Bard, bedrock) é uma decisão estratégica para as organizações da AWS. Cada abordagem tem um trade-off entre economia, gravidade de dados, operações, precisão do modelo e gerenciamento de LLMs.
+
+A NetApp, como empresa, adota a IA internamente em sua cultura de trabalho e em sua abordagem aos esforços de design de produtos e engenharia. Por exemplo, a proteção autônoma contra ransomware do NetApp foi desenvolvida com uso de AI e aprendizado de máquina. Ele fornece detecção antecipada de anomalias no sistema de arquivos para ajudar a identificar ameaças antes que elas afetem as operações. Em segundo lugar, a NetApp usa IA preditiva para suas operações de negócios, como previsão de vendas e inventário e chatbots para ajudar os clientes em serviços de suporte a produtos de call center, especificações técnicas, garantia, manuais de serviço e muito mais. Terceiro, a NetApp NetApp traz valor ao cliente para o pipeline de dados de IA e fluxo de trabalho ML/LLM por meio de produtos e soluções que atendem clientes que criam soluções preditivas de IA, como previsão de demanda, imagens médicas, análise de sentimentos e soluções de IA generativas, como Gans, para deteção de anomalias de imagens industriais no setor de manufatura e deteção de fraude e lavagem de dinheiro em serviços bancários e financeiros com produtos e recursos da NetApp FlexCache, como NetApp SnapMirror, como ONTAP AI, NetApp.
+
+
+
+== Funcionalidades do NetApp
+
+A movimentação e o gerenciamento de dados em aplicações generativas de AI, como chatbot, geração de código, geração de imagem ou expressão de modelo de genoma, podem se estender na borda, no data center privado e no ecossistema de multicloud híbrida. Por exemplo, um AI-bot em tempo real que ajuda um passageiro a atualizar o seu bilhete de avião para a classe executiva a partir de um aplicativo de usuário final exposto através de APIs de modelos pré-treinados, como o ChatGPT, não pode alcançar essa tarefa por si só, uma vez que as informações dos passageiros não estão disponíveis publicamente na internet. A API requer acesso às informações pessoais do passageiro e informações sobre bilhetes da companhia aérea que podem existir em um ecossistema híbrido ou multicloud. Um cenário semelhante pode aplicar-se aos cientistas que partilham uma molécula de droga e dados do paciente através de uma aplicação de utilizador final que utiliza LLMs para realizar ensaios clínicos através da descoberta de medicamentos envolvendo instituições de investigação biomédica um-para-muitos. Os dados confidenciais que são passados para FMS ou LLMs podem incluir PII, informações financeiras, informações de saúde, dados biométricos, dados de localização, dados de comunicações, comportamento on-line e informações legais. Nesse caso de renderização em tempo real, execução imediata e inferência de borda, há movimentação de dados do aplicativo do usuário final para pontos de extremidade de storage por meio de modelos LLM proprietários ou de código aberto para um data center no local ou em plataformas de nuvem pública. Em todos esses cenários, a mobilidade e a proteção de dados são essenciais para as operações de AI que envolvem LLMs, que dependem de grandes conjuntos de dados de treinamento e da movimentação desses dados.
+
+Figura 4: Inteligência artificial generativa - LLM Data Pipeline
+
+image:gen-ai-image7.png["Figura 4: Pipeline de dados generativo AI-LLM"]
+
+O portfólio de serviços de infraestrutura de storage, dados e nuvem da NetApp é baseado em software de gerenciamento de dados inteligente.
+
+* Preparação de dados *: O primeiro pilar da pilha de tecnologia LLM é amplamente intocado da pilha DE ML tradicional mais antiga. O pré-processamento de dados no pipeline de AI é necessário para normalizar e limpar os dados antes do treinamento ou ajuste fino. Essa etapa inclui conetores para obter dados onde quer que eles estejam na forma de uma categoria Amazon S3 ou em sistemas de storage no local, como um armazenamento de arquivos ou um armazenamento de objetos, como o NetApp StorageGRID.
+
+*O NetApp ONTAP* é a tecnologia fundamental que sustenta as soluções de armazenamento críticas da NetApp no data center e na nuvem. O ONTAP inclui vários recursos e recursos de proteção e gerenciamento de dados, incluindo proteção automática de ransomware contra ataques cibernéticos, recursos de transporte de dados incorporados e recursos de eficiência de storage para uma variedade de arquiteturas no local, híbridas e multicloud em situações de nas, SAN, objeto e storage definido por software (SDS) de implantações LLM.
+
+*NetApp ONTAP AI* para treinamento de modelos de aprendizagem profunda. O NetApp ONTAP oferece suporte ao armazenamento direto de GPU NVIDIA com o uso de NFS em RDMA para clientes NetApp com cluster de storage ONTAP e nós de computação NVIDIA DGX . Ele oferece uma performance econômica para ler e processar conjuntos de dados de origem do storage para a memória várias vezes para incentivar a inteligência, permitindo que as organizações tenham acesso a treinamento, ajuste fino e dimensionamento a LLMs.
+
+O NetApp FlexCache* é um recurso de armazenamento em cache remoto que simplifica a distribuição de arquivos e armazena em cache apenas os dados de leitura ativa. Isso pode ser útil para treinamento LLM, re-treinamento e ajuste fino, trazendo valor para os clientes com requisitos de negócios, como renderização em tempo real e inferência LLM.
+
+*O NetApp SnapMirror* é um recurso ONTAP que replica instantâneos de volume entre quaisquer dois sistemas ONTAP. Esse recurso transfere de forma otimizada os dados na borda para o data center no local ou para a nuvem. O SnapMirror pode ser usado para mover dados com segurança e eficiência entre nuvens no local e em hiperescala, quando os clientes quiserem desenvolver AI generativa nas nuvens com o RAG que contém dados empresariais. Ele transfere com eficiência apenas mudanças, economizando largura de banda e acelerando a replicação, trazendo recursos essenciais de mobilidade de dados durante as operações de treinamento, treinamento e ajuste fino de FMS ou LLMs.
+
+*O NetApp SnapLock* traz capacidade de disco imutável em sistemas de armazenamento baseados em ONTAP para controle de versão de conjuntos de dados. A arquitetura microcore foi projetada para proteger os dados do cliente com o mecanismo Zero Trust da FPolicy. O NetApp garante que os dados do cliente estejam disponíveis resistindo a ataques de negação de serviço (dos) quando um invasor interage com um LLM de uma maneira particularmente consumidora de recursos.
+
+*O NetApp* ajuda a identificar, mapear e classificar informações pessoais presentes em conjuntos de dados empresariais, promulgar políticas, atender aos requisitos de privacidade no local ou na nuvem, ajudar a melhorar a postura de segurança e cumprir com os regulamentos.
+
+*Classificação NetApp BlueXP *, baseada no Cloud Data Sense. Os clientes podem Escanear, analisar, categorizar e agir automaticamente sobre os dados no data Estate, detectar riscos à segurança, otimizar o storage e acelerar as implantações de nuvem. Ele combina serviços de armazenamento e dados por meio de seu plano de controle unificado, os clientes podem usar instâncias de GPU para computação e ambientes de multinuvem híbridos para disposição em camadas de armazenamento frio e para arquivos e backups.
+
+*Dualidade ficheiro-Objeto NetApp*. O NetApp ONTAP permite acesso a protocolo duplo para NFS e S3. Com essa solução, os clientes podem acessar dados NFS de notebooks Amazon AWS SageMaker por meio de buckets do S3 no NetApp Cloud Volumes ONTAP. Isso oferece flexibilidade para clientes que precisam de fácil acesso a fontes de dados heterogêneas com a capacidade de compartilhar dados de NFS e S3. Por exemplo, ajustar FMS como modelos de geração de texto Llama 2 da Meta no SageMaker com acesso a buckets de arquivo-objeto.
+
+*O serviço NetApp Cloud Sync* oferece uma maneira simples e segura de migrar dados para qualquer destino, na nuvem ou no local. O Cloud Sync transfere e sincroniza dados de forma otimizada entre storage de nuvem ou no local, nas e armazenamentos de objetos.
+
+*O NetApp XCP* é um software cliente que permite migrações de dados de qualquer tipo para NetApp e NetApp para NetApp rápidas e confiáveis. O XCP também fornece a capacidade de mover dados em massa de forma eficiente de sistemas de arquivos Hadoop HDFS para o ONTAP NFS, S3 ou StorageGRID e a análise de arquivos XCP fornece visibilidade sobre o sistema de arquivos.
+
+*O NetApp* é uma biblioteca Python que simplifica a execução de várias tarefas de gerenciamento de dados por cientistas de dados, DevOps e engenheiros de dados, como provisionamento, clonagem ou captura de um volume de dados ou um espaço de trabalho do JupyterLab com suporte de armazenamento NetApp de alta performance com escalabilidade horizontal.
+
+*Segurança do produto da NetApp*. Os LLMs podem revelar inadvertidamente dados confidenciais em suas respostas, portanto, uma preocupação para os CISOs que estudam as vulnerabilidades associadas a aplicativos de IA que utilizam LLMs. Conforme descrito pelo OWASP (Open Worldwide Application Security Project), problemas de segurança como envenenamento de dados, vazamento de dados, negação de serviço e injeções imediatas dentro dos LLMs podem afetar as empresas da exposição a dados a acessos não autorizados que servem invasores. Os requisitos de storage de dados devem incluir verificações de integridade e snapshots imutáveis para dados estruturados, semi-estruturados e não estruturados. Os snapshots NetApp e o SnapLock estão sendo usados para o controle de versão do conjunto de dados. Ele traz controles de acesso baseados em função (RBAC) rigorosos, além de protocolos seguros e criptografia padrão do setor para proteger dados em repouso e em trânsito. O Cloud Insights e o Cloud Data Sense juntos oferecem recursos para ajudar você a identificar forensicamente a origem da ameaça e priorizar quais dados restaurar.
+
+
+
+=== *ONTAP AI com DGX BasePOD*
+
+A arquitetura de referência do NetApp ONTAP com o NVIDIA DGX BasePOD é uma arquitetura dimensionável para workloads de aprendizado de máquina (ML) e inteligência artificial (IA). Para a fase crítica de treinamento dos LLMs, os dados são normalmente copiados do armazenamento de dados para o cluster de treinamento em intervalos regulares. Os servidores usados nesta fase usam GPUs para paralelizar computações, criando um enorme apetite por dados. Atender às necessidades de largura de banda bruta de e/S é crucial para manter a alta utilização da GPU.
+
+
+
+=== *ONTAP AI com NVIDIA AI Enterprise*
+
+O NVIDIA AI Enterprise é um pacote completo e nativo da nuvem de software de AI e análise de dados que é otimizado, certificado e compatível com o NVIDIA para ser executado no VMware vSphere com sistemas certificados pela NVIDIA. Esse software facilita a implantação, o gerenciamento e o dimensionamento simples e rápido de workloads de AI no ambiente de nuvem híbrida moderno. O NVIDIA AI Enterprise, com tecnologia NetApp e VMware, oferece gerenciamento de dados e workload de IA de classe empresarial em um pacote simplificado e familiar.
+
+
+
+=== *1P plataformas Cloud*
+
+As ofertas de armazenamento em nuvem totalmente gerenciado estão disponíveis nativamente no Microsoft Azure como Azure NetApp Files (ANF), na AWS como Amazon FSX for NetApp ONTAP (FSX ONTAP) e no Google como Google Cloud NetApp volumes (GNCV). O 1P é um sistema de arquivos gerenciado e de alta performance que permite que os clientes executem workloads de IA altamente disponíveis com segurança de dados aprimorada em nuvens públicas, para ajustar LLMs/FMS com plataformas DE ML nativas da nuvem, como AWS SageMaker, Azure-OpenAI Services e Vertex AI do Google.
+
+
+
+== Pacote de soluções para parceiros da NetApp
+
+Além de seus principais produtos, tecnologias e recursos de dados, a NetApp também colabora com uma rede robusta de parceiros de AI para agregar valor aos clientes.
+
+*Os corrimões NVIDIA* em sistemas de IA servem como salvaguardas para garantir o uso ético e responsável das tecnologias de IA. Os desenvolvedores de IA podem escolher definir o comportamento de aplicativos baseados em LLM em tópicos específicos e impedi-los de se envolver em discussões sobre tópicos indesejados. O Guardrails, um kit de ferramentas de código aberto, fornece a capacidade de conetar um LLM a outros serviços, de forma perfeita e segura para a construção de sistemas de conversação LLM confiáveis, seguros e seguros.
+
+*O Domino Data Lab* fornece ferramentas versáteis de nível empresarial para criar e produzir IA generativa - rápida, segura e econômica, onde quer que você esteja em sua jornada de IA. Com a plataforma Enterprise MLOps da Domino, os cientistas de dados podem usar ferramentas preferidas e todos os seus dados, treinar e implementar modelos facilmente em qualquer lugar e gerenciar riscos e de forma econômica - tudo em um único centro de controle.
+
+*Modzy para Edge AI*. A NetApp e a Modzy se uniram para oferecer IA em escala para qualquer tipo de dados, incluindo imagens, áudio, texto e tabelas. Modzy é uma plataforma MLOps para implantar, integrar e executar modelos de IA, oferece aos cientistas de dados as capacidades de monitoramento de modelos, deteção de desvios e explicabilidade, com uma solução integrada para inferência LLM contínua.
+
+*O Run:AI* e o NetApp fizeram uma parceria para demonstrar os recursos exclusivos da solução de AI da NetApp ONTAP com a plataforma de gerenciamento de clusters Run:AI para simplificar a orquestração de workloads de AI. Ele divide e une automaticamente recursos de GPU, projetado para escalar seus pipelines Data Processing para centenas de máquinas com estruturas de integração integradas para Spark, Ray, Dask e Rapids.
+
+
+
+== Conclusão
+
+A IA generativa só pode produzir resultados eficazes quando o modelo é treinado em resmas de dados de qualidade. Embora os LLMs tenham alcançado marcos notáveis, é fundamental reconhecer suas limitações, desafios de design e riscos associados à mobilidade de dados e qualidade dos dados. Os LLMs dependem de conjuntos de dados de treinamento grandes e díspares de fontes de dados heterogêneas. Resultados imprecisos ou resultados tendenciosos gerados pelos modelos podem colocar as empresas e os consumidores em risco. Esses riscos podem corresponder a restrições para LLMs emergentes potencialmente de desafios de gerenciamento de dados associados à qualidade dos dados, segurança dos dados e mobilidade de dados. O NetApp ajuda as organizações a superar as complexidades geradas pelo rápido crescimento de dados, mobilidade de dados, gerenciamento de várias nuvens e adoção de AI. A infraestrutura de AI em escala e o gerenciamento eficiente de dados são cruciais para definir o sucesso de aplicações de AI, como IA generativa. Os clientes de TI são essenciais para cobrir todos os cenários de implantação sem comprometer a capacidade de expansão conforme as empresas precisam, ao mesmo tempo em que mantêm controle de eficiência de custo, governança de dados e práticas éticas de IA. A NetApp está trabalhando constantemente para ajudar os clientes a simplificar e acelerar as implantações de AI.

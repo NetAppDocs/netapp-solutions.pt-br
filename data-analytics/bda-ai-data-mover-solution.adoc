@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-data-mover-solution.html 
+keywords: data, mover, hdfs, mapr-fs, s3, spark 
+summary: Em um cluster de big data, os dados são armazenados em HDFS ou HCFS, como MAPR-FS, Windows Azure Storage Blob, S3 ou o sistema de arquivos Google. Realizamos testes com HDFS, MAPR-FS e S3 como a fonte para copiar dados para exportação NetApp ONTAP NFS com a ajuda do NIPAM usando o comando hadoop distcp da fonte. 
+---
+= Solução de movimentação de dados
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Em um cluster de big data, os dados são armazenados em HDFS ou HCFS, como MAPR-FS, Windows Azure Storage Blob, S3 ou o sistema de arquivos Google. Realizamos testes com HDFS, MAPR-FS e S3 como a fonte para copiar dados para exportação NetApp ONTAP NFS com a ajuda do NIPAM usando o `hadoop distcp` comando da fonte.
+
+O diagrama a seguir ilustra a movimentação típica de dados de um cluster do Spark executado com storage HDFS para um volume NetApp ONTAP NFS, de modo que o NVIDIA possa processar operações de AI.
+
+image:bda-ai-image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O `hadoop distcp` comando usa o programa MapReduce para copiar os dados. O NIPAM trabalha com o MapReduce para atuar como um driver para o cluster Hadoop ao copiar dados. O NIPAM pode distribuir uma carga entre várias interfaces de rede para uma única exportação. Este processo maximiza a taxa de transferência da rede, distribuindo os dados através de várias interfaces de rede quando copia os dados do HDFS ou HCFS para o NFS.
+
+
+NOTE: O NIPAM não é suportado ou certificado com o MAPR.

@@ -1,0 +1,87 @@
+---
+sidebar: sidebar 
+permalink: virtualization/virt-overview.html 
+keywords: virtualization, overview, compute, storage, vmware, openshift, hyper-v 
+summary: O documento fornece uma visão geral da virtualização do ponto de vista da computação, da rede e do storage. 
+---
+= Uma introdução rápida à virtualização
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A prevalência da virtualização tem impulsionado os resultados de negócios por décadas. Desde os primeiros dias de mainframes até a atual era de casos de uso intensivo de armazenamento e as necessidades de sistemas prontos para IA, a virtualização tornou-se um componente integral de cada ambiente de cliente.
+
+
+
+== Visão geral
+
+Tradicionalmente, os datacenters consistiam em servidores físicos, redes e armazenamento, cada um dedicado a tarefas específicas. Essa abordagem criou silos de recursos que muitas vezes eram muito subutilizados. No centro, a virtualização envolve a dissociação dos recursos físicos dos requisitos e funções da organização. Isto é conseguido através da criação de representações virtuais dos três principais componentes de infra-estrutura: *Network*, *Compute* e *storage*. A implantação da infraestrutura virtual permite que as organizações alcancem maior utilização dos recursos físicos subjacentes por meio dessas construções lógicas.
+
+image:virt-overview-image1.png["\"Diagrama dos componentes de virtualização para computação, rede e storage\", com largura de 40%"]
+
+A virtualização é um caso em que o todo é maior do que a soma das peças por meio de automação, fluxos de trabalho orientados por políticas e escalabilidade. Ao melhorar a eficiência, a flexibilidade e, ao mesmo tempo, reduzir o TCO da infraestrutura DE TI, a virtualização capacita as organizações a otimizar seus recursos tecnológicos em maior medida. Uma infraestrutura virtual alimentada pelo NetApp herda os principais benefícios do ONTAP:
+
+* Provisionamento, backup e proteção de dados com plug-ins e integrações líderes do setor
+* Eficiência de storage de nível empresarial
+* Suporte a vários protocolos para diferentes necessidades de workload
+* Configuração de storage voltado a políticas e QoS adaptável
+* Suporte a aplicações e workloads no local ou nas nuvens públicas com um único sistema operacional de storage
+
+
+Para saber mais sobre o NetApp ONTAP, consulte o seguinte:
+
+* link:https://www.netapp.com/data-management/ontap-data-management-software/["ONTAP: O principal sistema operacional de storage unificado"]
+
+
+
+
+== Virtualização de rede
+
+Virtualização de rede refere-se à abstração dos componentes físicos de rede (switches, roteadores, firewalls, interfaces, etc.) em construções lógicas. Essas construções lógicas, operando independentemente da infraestrutura física subjacente, fornecem comunicação segura entre clientes, armazenamento e outros componentes da rede. A virtualização de rede é a chave para executar a empresa, pois permite o compartilhamento de recursos, ao mesmo tempo em que permite a restrição do tráfego de rede de acordo com as políticas.
+
+A virtualização de rede pode combinar várias redes físicas em uma malha virtual, ou pode facilitar a divisão de uma rede física em redes virtuais separadas e discretas. As redes múltiplas podem ser criadas e personalizadas para atender a requisitos específicos DE TI. Muitas vezes, a virtualização de rede se refere a casos de uso baseados em Ethernet, mas em muitos casos as malhas virtuais podem ser configuradas dependendo dos recursos da manufatura do switch. Seja empregando LANs virtuais ou SANs virtuais, as organizações obtêm maior eficiência operacional e melhor desempenho geral da rede por meio da virtualização de rede.
+
+Para obter mais informações sobre virtualização de rede, consulte o seguinte:
+
+* link:https://www.cisco.com/c/en/us/products/switches/virtual-networking/index.html["Rede virtual Cisco"]
+* link:https://www.vmware.com/topics/glossary/content/virtual-networking.html["Rede virtual VMware"]
+
+
+
+
+== Virtualização de computação
+
+A virtualização de computação ou servidor talvez seja a forma mais conhecida de virtualização. Com a virtualização de computação, os hipervisores imitam as funções dos servidores físicos, permitindo que as equipes de operação executem várias máquinas virtuais em um único nó físico. Com a virtualização de computação, recursos como memória de servidor e CPU são compartilhados. Esse compartilhamento permite que os recursos subjacentes fiquem disponíveis no nível aceitável para as cargas de trabalho e aplicações implantadas.
+
+Com a virtualização de computação, cada máquina virtual tem seu próprio sistema operacional e aplicativos e recursos instalados, funcionando independentemente um do outro. Entre as inúmeras vantagens com a virtualização de computação incluem-se o aumento da utilização do servidor, redução das despesas de hardware, gerenciamento simplificado usando a interface de usuário (UI) do hipervisor e funcionalidade melhorada de recuperação de desastres. Além disso, com plug-ins do hipervisor, é possível configurar a administração de storage, os backups e as relações de proteção para simplificar ainda mais as tarefas operacionais.
+
+Para obter mais informações sobre virtualização de computação, consulte o seguinte:
+
+* link:https://www.vmware.com/solutions/virtualization.html["VMware vSphere"]
+* link:https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization["Virtualização Red Hat OpenShift"]
+* link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/hyper-v-on-windows-server["Microsoft Hyper-V"]
+
+
+
+
+== Virtualização de storage
+
+Assim como a virtualização de rede e computação, a virtualização de armazenamento é importante para um datacenter moderno. O NetApp ONTAP facilita a virtualização do storage por meio de máquinas virtuais de armazenamento (SVMs), que fornecem dados para clientes e hosts. Os SVMs são entidades lógicas que permitem que os recursos de storage não fiquem vinculados à Mídia física. Os SVMs podem ser implantados com base no tipo de workload, nas necessidades de aplicativos e nos grupos de organização para acesso.
+
+Existem vários tipos de SVMs que auxiliam nas tarefas de acesso, administração e cluster e no nível do sistema de dados. Os SVMs de dados fornecem dados a clientes e hosts de um ou mais volumes, por meio de uma ou mais interfaces lógicas de rede (LIFs). Esses volumes e LIFs são construções lógicas e mapeadas para agregados de storage e portas de rede física ou lógica. Esse acesso lógico a dados permite a mobilidade de volumes ou LIFs durante cenários de manutenção ou rebalanceamento de recursos, como máquinas virtuais de computação.
+
+Para obter mais informações sobre virtualização de armazenamento, consulte o seguinte:
+
+* link:https://docs.netapp.com/us-en/ontap/concepts/storage-virtualization-concept.html["Visão geral da virtualização de storage da ONTAP"]
+
+
+
+
+== Fechar
+
+Os componentes da infraestrutura virtual descritos aqui: Rede, computação e storage fornecem a mesma funcionalidade que os recursos físicos típicos, mas por meio de software. A alocação de recursos virtuais sobre recursos físicos acelera o tempo de retorno do investimento e permite a configuração de recursos orientada por políticas. O emparelhamento do ONTAP com a virtualização de rede e computação permite que clientes e hosts acessem recursos por meio de uma infraestrutura virtual definida por software.

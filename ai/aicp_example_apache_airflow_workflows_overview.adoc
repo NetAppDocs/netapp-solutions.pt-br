@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_example_apache_airflow_workflows_overview.html 
+keywords: Apache Airflow 
+summary: MLOps de código aberto com NetApp - Use o kit de ferramentas de DataOps do NetApp com fluxo de ar 
+---
+= Use o kit de ferramentas de DataOps do NetApp com fluxo de ar
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["Toolkit DataOps do NetApp para Kubernetes"] pode ser utilizado em conjunto com o fluxo de ar. Com o uso do Toolkit DataOps do NetApp com Airflow, você incorpora operações de gerenciamento de dados do NetApp, como a criação de snapshots e clones, em workflows automatizados orquestrados pelo Airflow.
+
+Consulte https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s/Examples/Airflow["Exemplos de fluxo de ar"] a seção no repositório do GitHub do NetApp DataOps para obter detalhes sobre como usar o kit de ferramentas com fluxo de ar.

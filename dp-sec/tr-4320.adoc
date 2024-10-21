@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: dp-sec/tr-4320.html 
+keywords:  
+summary:  
+---
+= TR-4320: NetApp e-Series e CommVault Data Platform V11 - práticas recomendadas de storage e arquitetura de referência
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Akash Gupta, NetApp Girish Chanchlani, CommVault
+
+[role="lead"]
+TR-4320 descreve a arquitetura de referência e as práticas recomendadas ao usar o storage NetApp e-Series em um ambiente CommVault Data Platform V11. Em conjunto, a CommVault e a NetApp desenvolveram essa arquitetura de referência para fornecer orientações para implantações do CommVault Data Platform V11 com o storage NetApp e-Series, o que acelera o tempo para a aplicação dessa solução.
+
+link:https://www.netapp.com/pdf.html?item=/media/17042-tr4320pdf.pdf["TR-4320: NetApp e-Series e CommVault Data Platform V11 - arquitetura de referência e práticas recomendadas de storage"^]

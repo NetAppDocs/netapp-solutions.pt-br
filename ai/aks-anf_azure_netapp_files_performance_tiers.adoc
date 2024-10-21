@@ -1,0 +1,58 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_azure_netapp_files_performance_tiers.html 
+keywords: azure, service level, capacity pool, tier, standard, premium, 
+summary: Você pode alterar o nível de serviço de um volume existente movendo o volume para outro pool de capacidade que usa o nível de serviço desejado para o volume. Essa solução permite que os clientes comecem com um conjunto de dados pequeno e um pequeno número de GPUs na categoria padrão e façam escalabilidade horizontal ou vertical na categoria Premium à medida que a quantidade de dados e GPUs aumenta. 
+---
+= Categorias de performance do Azure NetApp Files
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Você pode alterar o nível de serviço de um volume existente movendo o volume para outro pool de capacidade que usa o nível de serviço desejado para o volume. Essa solução permite que os clientes comecem com um conjunto de dados pequeno e um pequeno número de GPUs na categoria padrão e façam escalabilidade horizontal ou vertical na categoria Premium à medida que a quantidade de dados e GPUs aumenta. O nível Premium oferece quatro vezes o throughput por terabyte como o nível padrão, e a escalabilidade vertical é realizada sem a necessidade de mover dados para alterar o nível de serviço de um volume.
+
+
+
+== Altere dinamicamente o nível de serviço de um volume
+
+Para alterar dinamicamente o nível de serviço de um volume, execute as seguintes etapas:
+
+. Na página volumes, clique com o botão direito do rato no volume cujo nível de serviço pretende alterar. Selecione alterar conjunto.
++
+image:aks-anf_image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na janela alterar pool, selecione o pool de capacidade para o qual você deseja mover o volume.
++
+image:aks-anf_image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em OK.
+
+
+
+
+== Automatize a mudança de nível de performance
+
+As opções a seguir estão disponíveis para automatizar alterações de nível de desempenho:
+
+* A mudança dinâmica de nível de serviço ainda está em visualização pública neste momento e não está ativada por padrão. Para habilitar esse recurso na assinatura do Azure, consulte esta documentação sobre como https://docs.microsoft.com/azure/azure-netapp-files/dynamic-change-volume-service-level["Altere dinamicamente o nível de serviço de um volume"^] .
+* Os comandos de alteração do pool de volume CLI do Azure são fornecidos no https://docs.microsoft.com/en-us/cli/azure/netappfiles/volume?view=azure-cli-latest&viewFallbackFrom=azure-cli-latest%20-%20az_netappfiles_volume_pool_change["documentação de alteração do conjunto de volumes"^] exemplo a seguir:
++
+....
+az netappfiles volume pool-change -g mygroup --account-name myaccname --pool-name mypoolname --name myvolname --new-pool-resource-id mynewresourceid
+....
+* PowerShell: O https://docs.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilesvolumepool?view=azps-5.8.0["Cmdlet Set-AzNetAppFilesVolumePool"^] altera o pool de um volume Azure NetApp Files e é mostrado no exemplo a seguir:
++
+....
+Set-AzNetAppFilesVolumePool
+-ResourceGroupName "MyRG"
+-AccountName "MyAnfAccount"
+-PoolName "MyAnfPool"
+-Name "MyAnfVolume"
+-NewPoolResourceId 7d6e4069-6c78-6c61-7bf6-c60968e45fbf
+....
+

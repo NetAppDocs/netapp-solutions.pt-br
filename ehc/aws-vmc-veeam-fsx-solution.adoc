@@ -1,0 +1,463 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws-vmc-veeam-fsx-solution.html 
+keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, nfs datastore, fsxn, FSx ONTAP, FSx ONTAP, backup, restore, sql server, oracle 
+summary:  
+---
+= Faça o backup e restauração do Veeam no VMware Cloud, com o Amazon FSX ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O Veeam Backup & Replication é uma solução eficaz e confiável para proteger os dados no VMware Cloud. Essa solução demonstra a configuração e a configuração adequadas para o uso do Veeam Backup and Replication para fazer backup e restauração de VMs de aplicação residentes nos datastores NFS do FSX ONTAP no VMware Cloud.
+
+Autor: NetApp - Engenharia de soluções
+
+
+
+== Visão geral
+
+O VMware Cloud (na AWS) é compatível com o uso de datastores NFS como armazenamento complementar, e o FSX ONTAP é uma solução segura para clientes que precisam armazenar grandes quantidades de dados para seus aplicativos em nuvem que podem ser dimensionados independentemente do número de hosts ESXi no cluster SDDC. Esse serviço de storage integrado da AWS oferece storage altamente eficiente com todas as funcionalidades tradicionais da NetApp ONTAP.
+
+
+
+=== Casos de uso
+
+Esta solução aborda os seguintes casos de uso:
+
+* Backup e restauração de máquinas virtuais Windows e Linux hospedadas no VMC usando o FSX ONTAP como um repositório de backup.
+* Backup e restauração de dados de aplicativos do Microsoft SQL Server usando o FSX ONTAP como um repositório de backup.
+* Backup e restauração de dados de aplicativos Oracle usando o FSX ONTAP como um repositório de backup.
+
+
+
+
+=== Armazenamentos de dados NFS usando o Amazon FSX ONTAP
+
+Todas as máquinas virtuais dessa solução residem nos datastores NFS suplementares do FSX ONTAP. Usar o FSX ONTAP como um datastore NFS suplementar tem vários benefícios. Por exemplo, ele permite:
+
+* Crie um sistema de arquivos escalável e altamente disponível na nuvem sem a necessidade de configuração e gerenciamento complexos.
+* Integre-se ao seu ambiente VMware existente, permitindo que você use ferramentas e processos familiares para gerenciar seus recursos de nuvem.
+* Beneficie-se dos recursos avançados de gerenciamento de dados fornecidos pela ONTAP, como snapshots e replicação, para proteger seus dados e garantir a disponibilidade.
+
+
+.Visão geral da implantação da solução
+[%collapsible]
+====
+Esta lista fornece as etapas de alto nível necessárias para configurar o Veeam Backup & Replication, executar tarefas de backup e restauração usando o FSX ONTAP como um repositório de backup e executar restaurações de VMs e bancos de dados SQL Server e Oracle:
+
+. Crie o sistema de arquivos FSX ONTAP para ser usado como repositório de backup iSCSI para o Veeam Backup & Replication.
+. Implante o Veeam Proxy para distribuir cargas de trabalho de backup e montar repositórios de backup iSCSI hospedados no FSX ONTAP.
+. Configure as tarefas do Veeam Backup para fazer backup de máquinas virtuais SQL Server, Oracle, Linux e Windows.
+. Restaure máquinas virtuais do SQL Server e bancos de dados individuais.
+. Restaure máquinas virtuais Oracle e bancos de dados individuais.
+
+
+====
+.Pré-requisitos
+[%collapsible]
+====
+O objetivo desta solução é demonstrar a proteção de dados de máquinas virtuais executadas no VMware Cloud e localizadas em datastores NFS hospedados pelo FSX ONTAP. Esta solução assume que os seguintes componentes estão configurados e prontos para uso:
+
+. Sistema de arquivos FSX ONTAP com um ou mais datastores NFS conetados ao VMware Cloud.
+. VM do Microsoft Windows Server com o software Veeam Backup & Replication instalado.
++
+** O servidor do vCenter foi descoberto pelo servidor Veeam Backup & Replication usando seu endereço IP ou nome de domínio totalmente qualificado.
+
+
+. VM do Microsoft Windows Server a ser instalada com os componentes do Veeam Backup Proxy durante a implantação da solução.
+. VMs do Microsoft SQL Server com VMDKs e dados de aplicações residentes nos datastores NFS do FSX ONTAP. Para esta solução, tivemos dois bancos de dados SQL em dois VMDKs separados.
++
+** Nota: Como um banco de dados de melhores práticas e arquivos de log de transações são colocados em unidades separadas, pois isso melhorará o desempenho e a confiabilidade. Isso se deve, em parte, ao fato de que os logs de transações são escritos sequencialmente, enquanto os arquivos de banco de dados são gravados aleatoriamente.
+
+
+. VMs de banco de dados Oracle com VMDKs e dados de aplicações residentes nos datastores NFS do FSX ONTAP.
+. VMs de servidores de arquivos Linux e Windows com VMDKs residentes em datastores NFS do FSX ONTAP.
+. A Veeam requer portas TCP específicas para comunicação entre servidores e componentes no ambiente de backup. Nos componentes da infraestrutura de backup da Veeam, as regras de firewall necessárias são criadas automaticamente. Para obter uma lista completa dos requisitos da porta de rede, consulte a seção portas do https://helpcenter.veeam.com/docs/backup/vsphere/used_ports.html?zoom_highlight=network+ports&ver=120["Guia do usuário do Veeam Backup and Replication para VMware vSphere"].
+
+
+====
+
+
+== Arquitetura de alto nível
+
+O teste / validação desta solução foi realizado em um laboratório que pode ou não corresponder ao ambiente de implantação final. Para obter mais informações, consulte as seções a seguir.
+
+image:aws-vmc-veeam-00.png["Diagrama da arquitetura da solução"]
+
+.Componentes de hardware / software
+[%collapsible]
+====
+O objetivo desta solução é demonstrar a proteção de dados de máquinas virtuais executadas no VMware Cloud e localizadas em datastores NFS hospedados pelo FSX ONTAP. Esta solução pressupõe que os seguintes componentes já estejam configurados e prontos para uso:
+
+* VMs do Microsoft Windows localizadas em um datastore NFS do FSX ONTAP
+* VMs Linux (CentOS) localizadas em um datastore NFS do FSX ONTAP
+* VMs do Microsoft SQL Server localizadas em um datastore NFS do FSX ONTAP
++
+** Dois bancos de dados hospedados em VMDK separados
+
+
+* VMs Oracle localizadas em um datastore NFS do FSX ONTAP
+
+
+====
+
+
+== Implantação de soluções
+
+Nesta solução, fornecemos instruções detalhadas para implantar e validar uma solução utilizando o software Veeam Backup and Replication para executar backup e recuperação de máquinas virtuais de servidor de arquivos SQL Server, Oracle e Windows e Linux em um VMware Cloud SDDC na AWS. As máquinas virtuais dessa solução residem em um datastore NFS suplementar hospedado pelo FSX ONTAP. Além disso, um sistema de arquivos FSX ONTAP separado é usado para hospedar volumes iSCSI que serão usados para repositórios de backup da Veeam.
+
+Vamos analisar a criação do sistema de arquivos FSX ONTAP, montando volumes iSCSI para serem usados como repositórios de backup, criando e executando tarefas de backup e realizando restaurações de VM e banco de dados.
+
+Para obter informações detalhadas sobre o FSX ONTAP, consulte o https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["Guia do Usuário do FSX ONTAP"^].
+
+Para obter informações detalhadas sobre o Veeam Backup and Replication, consulte o https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Documentação técnica do Veeam Help Center"^] site.
+
+Para considerações e limitações ao usar o Veeam Backup and Replication with VMware Cloud on AWS, https://www.veeam.com/kb2414["VMware Cloud na AWS e VMware Cloud no suporte Dell EMC. Considerações e limitações"] consulte .
+
+
+
+=== Implante o servidor Veeam Proxy
+
+Um servidor proxy da Veeam é um componente do software Veeam Backup & Replication que atua como um intermediário entre a origem e o destino de backup ou replicação. O servidor proxy ajuda a otimizar e acelerar a transferência de dados durante tarefas de backup, processando dados localmente e pode usar diferentes modos de transporte para acessar dados usando APIs do VMware vStorage para proteção de dados ou por meio de acesso direto ao armazenamento.
+
+Ao escolher um design de servidor proxy da Veeam, é importante considerar o número de tarefas simultâneas e o modo de transporte ou o tipo de acesso de storage desejado.
+
+Para dimensionar o número de servidores proxy e os requisitos do sistema, consulte o https://bp.veeam.com/vbr/2_Design_Structures/D_Veeam_Components/D_backup_proxies/vmware_proxies.html["Guia de melhores práticas do Veeam VMware vSphere"].
+
+O Veeam Data Mover é um componente do Veeam Proxy Server e utiliza um modo de Transporte como método para obter dados de VM da origem e transferi-los para o destino. O modo de transporte é especificado durante a configuração do trabalho de cópia de segurança. É possível aumentar os backups de eficiência de armazenamentos de dados NFS usando o acesso direto ao storage.
+
+Para obter mais informações sobre os modos de transporte, consulte https://helpcenter.veeam.com/docs/backup/vsphere/transport_modes.html?ver=120["Guia do usuário do Veeam Backup and Replication para VMware vSphere"]a .
+
+Na etapa a seguir, abordamos a implantação do Veeam Proxy Server em uma VM Windows no VMware Cloud SDDC.
+
+.Implante o Veeam Proxy para distribuir cargas de trabalho de backup
+[%collapsible]
+====
+Nesta etapa, o Veeam Proxy é implantado em uma VM Windows existente. Isso permite que as tarefas de backup sejam distribuídas entre o Veeam Backup Server primário e o Veeam Proxy.
+
+. No servidor Veeam Backup and Replication, abra o console de administração e selecione *infraestrutura de backup* no menu inferior esquerdo.
+. Clique com o botão direito em *Backup Proxies* e clique em *Add VMware backup proxy...* para abrir o assistente.
++
+image:aws-vmc-veeam-04.png["Abra o assistente Adicionar proxy de backup Veeam"]
+
+. No assistente *Add VMware Proxy*, clique no botão *Add New...* para adicionar um novo servidor proxy.
++
+image:aws-vmc-veeam-05.png["Selecione para adicionar um novo servidor"]
+
+. Selecione para adicionar o Microsoft Windows e siga as instruções para adicionar o servidor:
++
+** Preencha o nome DNS ou o endereço IP
+** Selecione uma conta a ser usada para credenciais no novo sistema ou adicione novas credenciais
+** Revise os componentes a serem instalados e clique em *Apply* para iniciar a implantação
++
+image:aws-vmc-veeam-06.png["Preenche prompts para adicionar novo servidor"]
+
+
+
+. De volta ao assistente *New VMware Proxy*, escolha um modo de transporte. No nosso caso, escolhemos *seleção automática*.
++
+image:aws-vmc-veeam-07.png["Selecione o modo de transporte"]
+
+. Selecione os datastores conetados aos quais você deseja que o VMware Proxy tenha acesso direto.
++
+image:aws-vmc-veeam-08.png["Selecione um servidor para o VMware Proxy"]
+
++
+image:aws-vmc-veeam-09.png["Selecione datastores para acessar"]
+
+. Configure e aplique todas as regras específicas de tráfego de rede, como criptografia ou limitação de velocidade desejadas. Quando terminar, clique no botão *Apply* para concluir a implementação.
++
+image:aws-vmc-veeam-10.png["Configurar regras de tráfego de rede"]
+
+
+
+====
+
+
+=== Configurar repositórios de backup e storage
+
+O servidor principal do Veeam Backup e o servidor Veeam Proxy têm acesso a um repositório de backup na forma de armazenamento conetado direto. Nesta seção, abordamos a criação de um sistema de arquivos FSX ONTAP, a montagem de LUNs iSCSI para os servidores Veeam e a criação de repositórios de backup.
+
+.Crie o sistema de arquivos FSX ONTAP
+[%collapsible]
+====
+Crie um sistema de arquivos FSX ONTAP que será usado para hospedar os volumes iSCSI para os repositórios do Veeam Backup.
+
+. No console da AWS, vá para FSX e depois *Create file system*
++
+image:aws-vmc-veeam-01.png["Crie o sistema de arquivos FSX ONTAP"]
+
+. Selecione *Amazon FSX ONTAP* e, em seguida, *Next* para continuar.
++
+image:aws-vmc-veeam-02.png["Selecione Amazon FSX ONTAP"]
+
+. Preencha o nome do sistema de arquivos, o tipo de implantação, a capacidade de armazenamento SSD e a VPC na qual o cluster do FSX ONTAP residirá. Ela deve ser uma VPC configurada para se comunicar com a rede da máquina virtual no VMware Cloud. Clique em *seguinte*.
++
+image:aws-vmc-veeam-03.png["Preencha as informações do sistema de ficheiros"]
+
+. Revise as etapas de implantação e clique em *Create File System* para iniciar o processo de criação do sistema de arquivos.
+
+
+====
+.Configurar e montar iSCSI LUNs
+[%collapsible]
+====
+Crie e configure os iSCSI LUNs no FSX ONTAP e monte nos servidores de backup e proxy da Veeam. Esses LUNs serão usados posteriormente para criar repositórios de backup da Veeam.
+
+
+NOTE: Criar um iSCSI LUN no FSX ONTAP é um processo de várias etapas. A primeira etapa da criação dos volumes pode ser realizada no console do Amazon FSX ou com a CLI do NetApp ONTAP.
+
+
+NOTE: Para obter mais informações sobre como usar o FSX ONTAP, consulte https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["Guia do Usuário do FSX ONTAP"^].
+
+. Na CLI do NetApp ONTAP, crie os volumes iniciais usando o seguinte comando:
++
+....
+FSx-Backup::> volume create -vserver svm_name -volume vol_name -aggregate aggregate_name -size vol_size -type RW
+....
+. Crie LUNs usando os volumes criados na etapa anterior:
++
+....
+FSx-Backup::> lun create -vserver svm_name -path /vol/vol_name/lun_name -size size -ostype windows -space-allocation enabled
+....
+. Conceda acesso aos LUNs criando um grupo de iniciadores contendo o IQN iSCSI dos servidores de backup e proxy da Veeam:
++
+....
+FSx-Backup::> igroup create -vserver svm_name -igroup igroup_name -protocol iSCSI -ostype windows -initiator IQN
+....
++
+
+NOTE: Para concluir a etapa anterior, você precisará primeiro recuperar o IQN das propriedades do iniciador iSCSI nos servidores Windows.
+
+. Por fim, mapeie os LUNs para o grupo de iniciadores que acabou de criar:
++
+....
+FSx-Backup::> lun mapping create -vserver svm_name -path /vol/vol_name/lun_name igroup igroup_name
+....
+. Para montar os iSCSI LUNs, inicie sessão no Veeam Backup & Replication Server e abra as Propriedades do iniciador iSCSI. Aceda ao separador *Discover* e introduza o endereço IP de destino iSCSI.
++
+image:aws-vmc-veeam-11.png["Descoberta do iniciador iSCSI"]
+
+. Na guia *Targets*, realce o LUN inativo e clique em *Connect*. Marque a caixa *Ativar multi-path* e clique em *OK* para se conetar ao LUN.
++
+image:aws-vmc-veeam-12.png["Conete o iniciador iSCSI ao LUN"]
+
+. No utilitário Gerenciamento de disco, inicialize o novo LUN e crie um volume com o nome e a letra da unidade desejados. Marque a caixa *Ativar multi-path* e clique em *OK* para se conetar ao LUN.
++
+image:aws-vmc-veeam-13.png["Gerenciamento de disco do Windows"]
+
+. Repita estas etapas para montar os volumes iSCSI no servidor Veeam Proxy.
+
+
+====
+.Crie repositórios do Veeam Backup
+[%collapsible]
+====
+No console do Veeam Backup and Replication, crie repositórios de backup para os servidores Veeam Backup e Veeam Proxy. Esses repositórios serão usados como destinos de backup para os backups de máquinas virtuais.
+
+. No console do Veeam Backup and Replication, clique em *Backup Infrastructure* no canto inferior esquerdo e selecione *Adicionar Repositório*
++
+image:aws-vmc-veeam-14.png["Crie um novo Repositório de Backup"]
+
+. No assistente novo Repositório de Backup, insira um nome para o repositório e selecione o servidor na lista suspensa e clique no botão *preencher* para escolher o volume NTFS que será usado.
++
+image:aws-vmc-veeam-15.png["Selecione Backup Repository Server"]
+
+. Na próxima página, escolha um servidor Mount que será usado para montar backups ao realizar restaurações avançadas. Por padrão, este é o mesmo servidor que tem o armazenamento do repositório conetado.
+. Revise suas seleções e clique em *Apply* para iniciar a criação do repositório de backup.
++
+image:aws-vmc-veeam-16.png["Escolha montar servidor"]
+
+. Repita estas etapas para quaisquer servidores proxy adicionais.
+
+
+====
+
+
+=== Configurar tarefas de backup da Veeam
+
+Os trabalhos de cópia de segurança devem ser criados utilizando os repositórios de cópia de segurança na secção anterior. Criar tarefas de backup é uma parte normal do repertório de qualquer administrador de armazenamento e não abordamos todas as etapas aqui. Para obter informações mais completas sobre a criação de tarefas de backup na Veeam, consulte https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Documentação técnica do Veeam Help Center"^].
+
+Nesta solução foram criadas tarefas de cópia de segurança separadas para:
+
+* Microsoft Windows SQL Servers
+* Servidores de banco de dados Oracle
+* Servidores de arquivos do Windows
+* Servidores de arquivos Linux
+
+
+.Considerações gerais ao configurar tarefas de backup da Veeam
+[%collapsible]
+====
+. Habilite o processamento com reconhecimento de aplicativos para criar backups consistentes e executar o processamento de log de transações.
+. Depois de ativar o processamento com reconhecimento de aplicativos, adicione as credenciais corretas com o admin Privileges ao aplicativo, pois isso pode ser diferente das credenciais do SO convidado.
++
+image:aws-vmc-veeam-17.png["Definições de processamento da aplicação"]
+
+. Para gerenciar a política de retenção para o backup, verifique o *mantenha certos backups completos por mais tempo para fins de arquivamento* e clique no botão *Configurar...* para configurar a política.
++
+image:aws-vmc-veeam-18.png["Política de retenção de longo prazo"]
+
+
+
+====
+
+
+=== Restaure VMs de aplicação com a restauração completa da Veeam
+
+Executar uma restauração completa com a Veeam é o primeiro passo para executar uma restauração de aplicativos. Validamos que as restaurações completas de nossas VMs ativadas e todos os serviços estavam sendo executados normalmente.
+
+Restaurar servidores é uma parte normal do repertório de qualquer administrador de armazenamento e não cobrimos todas as etapas aqui. Para obter informações mais completas sobre a realização de restaurações completas na Veeam, consulte https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Documentação técnica do Veeam Help Center"^].
+
+
+
+=== Restaure bancos de dados do SQL Server
+
+O Veeam Backup & Replication oferece várias opções para restaurar bancos de dados do SQL Server. Para essa validação, usamos o Veeam Explorer para SQL Server com recuperação instantânea para executar restaurações de nossos bancos de dados SQL Server. SQL Server Instant Recovery é um recurso que permite restaurar rapidamente bancos de dados SQL Server sem ter que esperar por uma restauração completa do banco de dados. Esse processo de recuperação rápida minimiza o tempo de inatividade e garante a continuidade dos negócios. Veja como funciona:
+
+* Veeam Explorer *monta o backup* que contém o banco de dados do SQL Server a ser restaurado.
+* O software *publica o banco de dados* diretamente dos arquivos montados, tornando-o acessível como um banco de dados temporário na instância do SQL Server de destino.
+* Embora o banco de dados temporário esteja em uso, o Veeam Explorer *redireciona as consultas de usuário* para esse banco de dados, garantindo que os usuários possam continuar acessando e trabalhando com os dados.
+* Em segundo plano, a Veeam *executa uma restauração completa do banco de dados*, transferindo dados do banco de dados temporário para o local do banco de dados original.
+* Quando a restauração completa do banco de dados estiver concluída, o Veeam Explorer *alterna as consultas de usuário de volta para o banco de dados original* e remove o banco de dados temporário.
+
+
+.Restaure o banco de dados do SQL Server com o Veeam Explorer Instant Recovery
+[%collapsible]
+====
+. No console do Veeam Backup and Replication, navegue até a lista de backups do SQL Server, clique com o botão direito em um servidor e selecione *Restaurar itens de aplicativo* e, em seguida, *bancos de dados do Microsoft SQL Server...*.
++
+image:aws-vmc-veeam-19.png["Restaure bancos de dados do SQL Server"]
+
+. No Microsoft SQL Server Database Restore Wizard, selecione um ponto de restauração na lista e clique em *Next*.
++
+image:aws-vmc-veeam-20.png["Selecione um ponto de restauração na lista"]
+
+. Digite um *motivo de restauração* se desejado e, na página Resumo, clique no botão *Procurar* para iniciar o Veeam Explorer para Microsoft SQL Server.
++
+image:aws-vmc-veeam-21.png["Clique em Procurar para iniciar o Veeam Explorer"]
+
+. No Veeam Explorer expanda a lista de instâncias de banco de dados, clique com o botão direito do Mouse e selecione *recuperação instantânea* e, em seguida, o ponto de restauração específico para recuperar.
++
+image:aws-vmc-veeam-22.png["Selecione o ponto de restauração de recuperação instantânea"]
+
+. No Assistente de recuperação instantânea, especifique o tipo de switchover. Isso pode ser automaticamente com o mínimo de tempo de inatividade, manualmente ou em um horário especificado. Em seguida, clique no botão *Recover* para iniciar o processo de restauração.
++
+image:aws-vmc-veeam-23.png["Selecione o tipo de comutação"]
+
+. O processo de recuperação pode ser monitorado pelo Veeam Explorer.
++
+image:aws-vmc-veeam-24.png["monitore o processo de recuperação do servidor sql"]
+
+
+
+====
+Para obter informações mais detalhadas sobre a execução de operações de restauração do SQL Server com o Veeam Explorer, consulte a seção Microsoft SQL Server no https://helpcenter.veeam.com/docs/backup/explorers/vesql_user_guide.html?ver=120["Guia do Usuário do Veeam Explorers"].
+
+
+
+=== Restaure bancos de dados Oracle com o Veeam Explorer
+
+O banco de dados Veeam Explorer para Oracle oferece a capacidade de executar uma restauração padrão de banco de dados Oracle ou uma restauração ininterrupta usando recuperação instantânea. Ele também suporta a publicação de bancos de dados para acesso rápido, recuperação de bancos de dados do Data Guard e restaurações de backups RMAN.
+
+Para obter informações mais detalhadas sobre a execução de operações de restauração de banco de dados Oracle com o Veeam Explorer, consulte a seção Oracle no https://helpcenter.veeam.com/docs/backup/explorers/veor_user_guide.html?ver=120["Guia do Usuário do Veeam Explorers"].
+
+.Restaure o banco de dados Oracle com o Veeam Explorer
+[%collapsible]
+====
+Nesta seção, uma restauração de banco de dados Oracle para um servidor diferente é coberta usando o Veeam Explorer.
+
+. No console do Veeam Backup and Replication, navegue até a lista de backups Oracle, clique com o botão direito do Mouse em um servidor e selecione *Restaurar itens de aplicativo* e, em seguida, *bancos de dados Oracle...*.
++
+image:aws-vmc-veeam-25.png["Restaure bancos de dados Oracle"]
+
+. No Assistente de restauração de banco de dados Oracle, selecione um ponto de restauração na lista e clique em *Next*.
++
+image:aws-vmc-veeam-26.png["Selecione um ponto de restauração na lista"]
+
+. Insira um *motivo de restauração* se desejado e, na página Resumo, clique no botão *Procurar* para iniciar o Veeam Explorer for Oracle.
++
+image:aws-vmc-veeam-27.png["Clique em Procurar para iniciar o Veeam Explorer"]
+
+. No Veeam Explorer expanda a lista de instâncias de banco de dados, clique no banco de dados a ser restaurado e, em seguida, no menu suspenso *Restaurar banco de dados* na parte superior, selecione *Restaurar para outro servidor...*.
++
+image:aws-vmc-veeam-28.png["Selecione restaurar para outro servidor"]
+
+. No Assistente de restauração, especifique o ponto de restauração a ser restaurado e clique em *Avançar*.
++
+image:aws-vmc-veeam-29.png["Selecione o ponto de restauração"]
+
+. Especifique o servidor de destino para o qual o banco de dados será restaurado e as credenciais da conta e clique em *Next*.
++
+image:aws-vmc-veeam-30.png["Especifique as credenciais do servidor de destino"]
+
+. Finalmente, especifique o local de destino dos arquivos de banco de dados e clique no botão *Restore* para iniciar o processo de restauração.
++
+image:aws-vmc-veeam-31.png["Local de destino especializado"]
+
+. Quando a recuperação do banco de dados estiver concluída, verifique se o banco de dados Oracle é iniciado corretamente no servidor.
+
+
+====
+.Publicar banco de dados Oracle no servidor alternativo
+[%collapsible]
+====
+Nesta seção, um banco de dados é publicado em um servidor alternativo para acesso rápido sem iniciar uma restauração completa.
+
+. No console do Veeam Backup and Replication, navegue até a lista de backups Oracle, clique com o botão direito do Mouse em um servidor e selecione *Restaurar itens de aplicativo* e, em seguida, *bancos de dados Oracle...*.
++
+image:aws-vmc-veeam-32.png["Restaure bancos de dados Oracle"]
+
+. No Assistente de restauração de banco de dados Oracle, selecione um ponto de restauração na lista e clique em *Next*.
++
+image:aws-vmc-veeam-33.png["Selecione um ponto de restauração na lista"]
+
+. Insira um *motivo de restauração* se desejado e, na página Resumo, clique no botão *Procurar* para iniciar o Veeam Explorer for Oracle.
+. No Veeam Explorer expanda a lista de instâncias de banco de dados, clique no banco de dados a ser restaurado e, em seguida, no menu suspenso *publicar banco de dados* na parte superior, selecione *publicar em outro servidor...*.
++
+image:aws-vmc-veeam-34.png["Selecione um ponto de restauração na lista"]
+
+. No assistente publicar, especifique o ponto de restauração no qual publicar o banco de dados e clique em *Next*.
+. Finalmente, especifique o local do sistema de arquivos linux de destino e clique em *publicar* para iniciar o processo de restauração.
++
+image:aws-vmc-veeam-35.png["Selecione um ponto de restauração na lista"]
+
+. Uma vez que a publicação tenha concluído o login no servidor de destino e execute os seguintes comandos para garantir que o banco de dados esteja sendo executado:
++
+....
+oracle@ora_srv_01> sqlplus / as sysdba
+....
++
+....
+SQL> select name, open_mode from v$database;
+....
++
+image:aws-vmc-veeam-36.png["Selecione um ponto de restauração na lista"]
+
+
+
+====
+
+
+== Conclusão
+
+O VMware Cloud é uma plataforma poderosa para executar aplicativos essenciais aos negócios e armazenar dados confidenciais. Uma solução de proteção de dados segura é essencial para as empresas que confiam no VMware Cloud para garantir a continuidade dos negócios e ajudar a proteger contra ameaças cibernéticas e perda de dados. Ao escolher uma solução de proteção de dados confiável e robusta, as empresas podem ter certeza de que seus dados essenciais estão seguros e protegidos, independentemente do que aconteça.
+
+O caso de uso apresentado nesta documentação se concentra em tecnologias comprovadas de proteção de dados que destacam a integração entre NetApp, VMware e Veeam. O FSX ONTAP é compatível com datastores NFS suplementares para VMware Cloud na AWS e é usado para todos os dados de máquina virtual e aplicações. O Veeam Backup & Replication é uma solução abrangente de proteção de dados projetada para ajudar as empresas a melhorar, automatizar e otimizar seus processos de backup e recuperação. A Veeam é usada em conjunto com volumes de destino de backup iSCSI, hospedados no FSX ONTAP, para fornecer uma solução de proteção de dados segura e fácil de gerenciar para dados de aplicações que residem no VMware Cloud.
+
+
+
+== Informações adicionais
+
+Para saber mais sobre as tecnologias apresentadas nesta solução, consulte as seguintes informações adicionais.
+
+* https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["Guia do Usuário do FSX ONTAP"^]
+* https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Documentação técnica do Veeam Help Center"^]
+* https://www.veeam.com/kb2414["VMware Cloud no AWS Support. Considerações e limitações"]
+

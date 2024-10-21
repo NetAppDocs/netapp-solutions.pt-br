@@ -1,0 +1,360 @@
+---
+sidebar: sidebar 
+permalink: ai/mlops_fsxn_sagemaker_integration_training.html 
+keywords: FSx ONTAP, MLOps, NetApp ONTAP, SageMaker, AWS S3, Computer Vision, PyTorch 
+summary: 'O artigo é um tutorial sobre como usar o Amazon FSX for NetApp ONTAP (FSX ONTAP) para treinar modelos PyTorch no SageMaker, especificamente para um projeto de classificação de qualidade de pneu.' 
+---
+= Parte 2 - aproveitando o AWS FSX for NetApp ONTAP (FSX ONTAP) como fonte de dados para treinamento de modelo no SageMaker
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+este artigo é um tutorial sobre como usar o Amazon FSX for NetApp ONTAP (FSX ONTAP) para treinar modelos PyTorch no SageMaker, especificamente para um projeto de classificação de qualidade de pneu.
+
+*Autor(es):* Jian Jian (Ken), cientista Sênior de dados e aplicado, NetApp
+
+
+
+== Introdução
+
+Este tutorial oferece um exemplo prático de um projeto de classificação de visão computacional, fornecendo experiência prática na construção de modelos DE ML que utilizam o FSX ONTAP como a fonte de dados dentro do ambiente SageMaker. O projeto se concentra em usar o PyTorch, uma estrutura de aprendizagem profunda, para classificar a qualidade dos pneus com base em imagens de pneus. Ele enfatiza o desenvolvimento de modelos de aprendizado de máquina usando o FSX ONTAP como a fonte de dados no Amazon SageMaker.
+
+
+
+== O que é o FSX ONTAP
+
+O Amazon FSX ONTAP é, de fato, uma solução de armazenamento totalmente gerenciada oferecida pela AWS. Ele utiliza o sistema de arquivos ONTAP do NetApp para fornecer storage confiável e de alta performance. Com suporte a protocolos como NFS, SMB e iSCSI, ele permite o acesso otimizado a partir de diferentes instâncias de computação e contêineres. O serviço foi desenvolvido para fornecer performance excepcional, garantindo operações de dados rápidas e eficientes. Ele também oferece alta disponibilidade e durabilidade, garantindo que seus dados permaneçam acessíveis e protegidos. Além disso, a capacidade de armazenamento do Amazon FSX ONTAP é escalável, permitindo que você ajustá-lo facilmente de acordo com suas necessidades.
+
+
+
+== Pré-requisito
+
+
+
+=== Ambiente de rede
+
+image:mlops_fsxn_sagemaker_integration_training_0.png["Ambiente de rede"]
+
+O FSX ONTAP (Amazon FSX ONTAP) é um serviço de armazenamento da AWS. Ele inclui um sistema de arquivos executado no sistema NetApp ONTAP e uma máquina virtual de sistema gerenciado pela AWS (SVM) que se conecta a ele. No diagrama fornecido, o servidor NetApp ONTAP gerenciado pela AWS está localizado fora da VPC. O SVM serve como intermediário entre o SageMaker e o sistema NetApp ONTAP, recebendo solicitações de operação do SageMaker e encaminhando-as para o storage subjacente. Para acessar o FSX ONTAP, o SageMaker deve ser colocado na mesma VPC da implantação do FSX ONTAP. Essa configuração garante comunicação e acesso aos dados entre o SageMaker e o FSX ONTAP.
+
+
+
+=== Acesso a dados
+
+Em cenários reais, os cientistas de dados normalmente utilizam os dados existentes armazenados no FSX ONTAP para criar seus modelos de aprendizado de máquina. No entanto, para fins de demonstração, como o sistema de arquivos FSX ONTAP está inicialmente vazio após a criação, é necessário fazer o upload manual dos dados de treinamento. Isso pode ser alcançado com a montagem do FSX ONTAP como um volume para o SageMaker. Uma vez que o sistema de arquivos é montado com sucesso, você pode carregar seu conjunto de dados para o local montado, tornando-o acessível para treinar seus modelos dentro do ambiente SageMaker. Essa abordagem permite que você aproveite a capacidade de armazenamento e os recursos do FSX ONTAP enquanto trabalha com o SageMaker para desenvolvimento de modelos e treinamento.
+
+O processo de leitura de dados envolve a configuração do FSX ONTAP como um bucket privado do S3. Para saber as instruções de configuração detalhadas, consulte link:./mlops_fsxn_s3_integration.html["Parte 1 - integração do Amazon FSX for NetApp ONTAP (FSX ONTAP) como um bucket privado do S3 no AWS SageMaker"]
+
+
+
+== Visão geral da integração
+
+image:mlops_fsxn_sagemaker_integration_training_1.png["Fluxo de trabalho de treinamento"]
+
+O fluxo de trabalho de usar dados de treinamento no FSX ONTAP para criar um modelo de deep learning no SageMaker pode ser resumido em três etapas principais: Definição de Data Loader, treinamento de modelo e implantação. Em um alto nível, essas etapas formam a base de um pipeline MLOps. No entanto, cada etapa envolve várias subetapas detalhadas para uma implementação abrangente. Essas subetapas abrangem várias tarefas, como pré-processamento de dados, divisão de conjuntos de dados, configuração de modelo, ajuste de hiperparâmetros, avaliação de modelo e implantação de modelo. Essas etapas garantem um processo completo e eficaz para criar e implantar modelos de deep learning usando dados de treinamento do FSX ONTAP no ambiente do SageMaker.
+
+
+
+== Integração passo a passo
+
+
+
+=== Data Loader
+
+A fim de treinar uma rede de deep learning PyTorch com dados, um data Loader é criado para facilitar a alimentação de dados. O data Loader não só define o tamanho do lote, mas também determina o procedimento para leitura e pré-processamento de cada Registro dentro do lote. Ao configurar o Data Loader, podemos lidar com o processamento de dados em lotes, permitindo o treinamento da rede de deep learning.
+
+O data Loader é composto por 3 partes.
+
+
+
+==== Função de pré-processamento
+
+[source, python]
+----
+from torchvision import transforms
+
+preprocess = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Resize((224,224)),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
+])
+----
+O snippet de código acima demonstra a definição de transformações de pré-processamento de imagens usando o módulo *torchvision.transforms*. Neste turtorial, o objeto de pré-processo é criado para aplicar uma série de transformações. Em primeiro lugar, a transformação *ToTensor()* converte a imagem em uma representação de tensor. Posteriormente, a transformação *Resize((224.224))* redimensiona a imagem para um tamanho fixo de 224x224 pixels. Finalmente, a transformação *normalize()* normaliza os valores tensores subtraindo a média e dividindo pelo desvio padrão ao longo de cada canal. Os valores de média e desvio padrão usados para normalização são comumente empregados em modelos de redes neurais pré-treinados. No geral, esse código prepara os dados da imagem para processamento adicional ou entrada em um modelo pré-treinado convertendo-os em um tensor, redimensionando-os e normalizando os valores de pixel.
+
+
+
+==== A classe de Dataset PyTorch
+
+[source, python]
+----
+import torch
+from io import BytesIO
+from PIL import Image
+
+
+class FSxNImageDataset(torch.utils.data.Dataset):
+    def __init__(self, bucket, prefix='', preprocess=None):
+        self.image_keys = [
+            s3_obj.key
+            for s3_obj in list(bucket.objects.filter(Prefix=prefix).all())
+        ]
+        self.preprocess = preprocess
+
+    def __len__(self):
+        return len(self.image_keys)
+
+    def __getitem__(self, index):
+        key = self.image_keys[index]
+        response = bucket.Object(key)
+
+        label = 1 if key[13:].startswith('defective') else 0
+
+        image_bytes = response.get()['Body'].read()
+        image = Image.open(BytesIO(image_bytes))
+        if image.mode == 'L':
+            image = image.convert('RGB')
+
+        if self.preprocess is not None:
+            image = self.preprocess(image)
+        return image, label
+----
+Esta classe fornece funcionalidade para obter o número total de Registros no conjunto de dados e define o método de leitura de dados para cada Registro. Dentro da função *__getitem__*, o código utiliza o objeto bucket boto3 S3 para recuperar os dados binários do FSX ONTAP. O estilo de código para acessar dados do FSX ONTAP é semelhante à leitura de dados do Amazon S3. A explicação subsequente mergulha no processo de criação do objeto S3 privado *bucket*.
+
+
+
+==== FSX ONTAP como um repositório privado S3
+
+[source, python]
+----
+seed = 77                                                   # Random seed
+bucket_name = '<Your ONTAP bucket name>'                    # The bucket name in ONTAP
+aws_access_key_id = '<Your ONTAP bucket key id>'            # Please get this credential from ONTAP
+aws_secret_access_key = '<Your ONTAP bucket access key>'    # Please get this credential from ONTAP
+fsx_endpoint_ip = '<Your FSx ONTAP IP address>'                  # Please get this IP address from FSXN
+----
+[source, python]
+----
+import boto3
+
+# Get session info
+region_name = boto3.session.Session().region_name
+
+# Initialize Fsxn S3 bucket object
+# --- Start integrating SageMaker with FSXN ---
+# This is the only code change we need to incorporate SageMaker with FSXN
+s3_client: boto3.client = boto3.resource(
+    's3',
+    region_name=region_name,
+    aws_access_key_id=aws_access_key_id,
+    aws_secret_access_key=aws_secret_access_key,
+    use_ssl=False,
+    endpoint_url=f'http://{fsx_endpoint_ip}',
+    config=boto3.session.Config(
+        signature_version='s3v4',
+        s3={'addressing_style': 'path'}
+    )
+)
+# s3_client = boto3.resource('s3')
+bucket = s3_client.Bucket(bucket_name)
+# --- End integrating SageMaker with FSXN ---
+----
+Para ler dados do FSX ONTAP no SageMaker, um manipulador é criado que aponta para o armazenamento do FSX ONTAP usando o protocolo S3. Isso permite que o FSX ONTAP seja Tratado como um bucket privado do S3. A configuração do manipulador inclui especificar o endereço IP do FSX ONTAP SVM, o nome do bucket e as credenciais necessárias. Para obter uma explicação abrangente sobre a obtenção destes itens de configuração, consulte o documento em link:mlops_fsxn_s3_integration.html["Parte 1 - integração do Amazon FSX for NetApp ONTAP (FSX ONTAP) como um bucket privado do S3 no AWS SageMaker"].
+
+No exemplo mencionado acima, o objeto bucket é usado para instanciar o objeto de conjunto de dados PyTorch. O objeto do conjunto de dados será explicado mais detalhadamente na secção seguinte.
+
+
+
+==== O Loader de dados PyTorch
+
+[source, python]
+----
+from torch.utils.data import DataLoader
+torch.manual_seed(seed)
+
+# 1. Hyperparameters
+batch_size = 64
+
+# 2. Preparing for the dataset
+dataset = FSxNImageDataset(bucket, 'dataset/tyre', preprocess=preprocess)
+
+train, test = torch.utils.data.random_split(dataset, [1500, 356])
+
+data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+----
+No exemplo fornecido, um tamanho de lote de 64 é especificado, indicando que cada lote conterá 64 Registros. Ao combinar a classe PyTorch *Dataset*, a função de pré-processamento e o tamanho do lote de treinamento, obtemos o data Loader para treinamento. Esse data Loader facilita o processo de iterar pelo conjunto de dados em lotes durante a fase de treinamento.
+
+
+
+=== Treinamento de modelo
+
+[source, python]
+----
+from torch import nn
+
+
+class TyreQualityClassifier(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.model = nn.Sequential(
+            nn.Conv2d(3,32,(3,3)),
+            nn.ReLU(),
+            nn.Conv2d(32,32,(3,3)),
+            nn.ReLU(),
+            nn.Conv2d(32,64,(3,3)),
+            nn.ReLU(),
+            nn.Flatten(),
+            nn.Linear(64*(224-6)*(224-6),2)
+        )
+    def forward(self, x):
+        return self.model(x)
+----
+[source, python]
+----
+import datetime
+
+num_epochs = 2
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+model = TyreQualityClassifier()
+fn_loss = torch.nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+
+model.to(device)
+for epoch in range(num_epochs):
+    for idx, (X, y) in enumerate(data_loader):
+        X = X.to(device)
+        y = y.to(device)
+
+        y_hat = model(X)
+
+        loss = fn_loss(y_hat, y)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"Current Time: {current_time} - Epoch [{epoch+1}/{num_epochs}]- Batch [{idx + 1}] - Loss: {loss}", end='\r')
+----
+Este código implementa um processo de treinamento padrão PyTorch. Ele define um modelo de rede neural chamado *TyreQualityClassifier* usando camadas convolucionais e uma camada linear para classificar a qualidade dos pneus. O loop de treinamento itera sobre lotes de dados, calcula a perda e atualiza os parâmetros do modelo usando backpropagation e otimização. Além disso, ele imprime o tempo atual, a época, o lote e a perda para fins de monitoramento.
+
+
+
+=== Implantação de modelos
+
+
+
+==== Implantação
+
+[source, python]
+----
+import io
+import os
+import tarfile
+import sagemaker
+
+# 1. Save the PyTorch model to memory
+buffer_model = io.BytesIO()
+traced_model = torch.jit.script(model)
+torch.jit.save(traced_model, buffer_model)
+
+# 2. Upload to AWS S3
+sagemaker_session = sagemaker.Session()
+bucket_name_default = sagemaker_session.default_bucket()
+model_name = f'tyre_quality_classifier.pth'
+
+# 2.1. Zip PyTorch model into tar.gz file
+buffer_zip = io.BytesIO()
+with tarfile.open(fileobj=buffer_zip, mode="w:gz") as tar:
+    # Add PyTorch pt file
+    file_name = os.path.basename(model_name)
+    file_name_with_extension = os.path.split(file_name)[-1]
+    tarinfo = tarfile.TarInfo(file_name_with_extension)
+    tarinfo.size = len(buffer_model.getbuffer())
+    buffer_model.seek(0)
+    tar.addfile(tarinfo, buffer_model)
+
+# 2.2. Upload the tar.gz file to S3 bucket
+buffer_zip.seek(0)
+boto3.resource('s3') \
+    .Bucket(bucket_name_default) \
+    .Object(f'pytorch/{model_name}.tar.gz') \
+    .put(Body=buffer_zip.getvalue())
+----
+O código salva o modelo PyTorch no *Amazon S3* porque o SageMaker requer que o modelo seja armazenado no S3 para implantação. Ao fazer o upload do modelo para *Amazon S3*, ele se torna acessível ao SageMaker, permitindo a implantação e inferência no modelo implantado.
+
+[source, python]
+----
+import time
+from sagemaker.pytorch import PyTorchModel
+from sagemaker.predictor import Predictor
+from sagemaker.serializers import IdentitySerializer
+from sagemaker.deserializers import JSONDeserializer
+
+
+class TyreQualitySerializer(IdentitySerializer):
+    CONTENT_TYPE = 'application/x-torch'
+
+    def serialize(self, data):
+        transformed_image = preprocess(data)
+        tensor_image = torch.Tensor(transformed_image)
+
+        serialized_data = io.BytesIO()
+        torch.save(tensor_image, serialized_data)
+        serialized_data.seek(0)
+        serialized_data = serialized_data.read()
+
+        return serialized_data
+
+
+class TyreQualityPredictor(Predictor):
+    def __init__(self, endpoint_name, sagemaker_session):
+        super().__init__(
+            endpoint_name,
+            sagemaker_session=sagemaker_session,
+            serializer=TyreQualitySerializer(),
+            deserializer=JSONDeserializer(),
+        )
+
+sagemaker_model = PyTorchModel(
+    model_data=f's3://{bucket_name_default}/pytorch/{model_name}.tar.gz',
+    role=sagemaker.get_execution_role(),
+    framework_version='2.0.1',
+    py_version='py310',
+    predictor_cls=TyreQualityPredictor,
+    entry_point='inference.py',
+    source_dir='code',
+)
+
+timestamp = int(time.time())
+pytorch_endpoint_name = '{}-{}-{}'.format('tyre-quality-classifier', 'pt', timestamp)
+sagemaker_predictor = sagemaker_model.deploy(
+    initial_instance_count=1,
+    instance_type='ml.p3.2xlarge',
+    endpoint_name=pytorch_endpoint_name
+)
+----
+Este código facilita a implantação de um modelo PyTorch no SageMaker. Ele define um serializador personalizado, *TyreQualitySerializer*, que pré-processa e serializa dados de entrada como um tensor PyTorch. A classe *TyreQualityPredictor* é um preditor personalizado que utiliza o serializador definido e um *JSONDeserializer*. O código também cria um objeto *PyTorchModel* para especificar a localização S3D do modelo, função IAM, versão da estrutura e ponto de entrada para inferência. O código gera um carimbo de data/hora e constrói um nome de ponto de extremidade com base no modelo e no carimbo de data/hora. Finalmente, o modelo é implantado usando o método deploy, especificando a contagem de instâncias, o tipo de instância e o nome do endpoint gerado. Isso permite que o modelo PyTorch seja implantado e acessível para inferência no SageMaker.
+
+
+
+==== Inferência
+
+[source, python]
+----
+image_object = list(bucket.objects.filter('dataset/tyre'))[0].get()
+image_bytes = image_object['Body'].read()
+
+with Image.open(with Image.open(BytesIO(image_bytes)) as image:
+    predicted_classes = sagemaker_predictor.predict(image)
+
+    print(predicted_classes)
+----
+Este é o exemplo de uso do endpoint implantado para fazer a inferência.

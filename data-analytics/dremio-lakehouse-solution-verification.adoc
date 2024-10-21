@@ -1,0 +1,120 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/dremio-lakehouse-solution-verification.html 
+keywords: performance, tests, dremio 
+summary: Realizamos os testes tpc-ds com cinco nós para workloads sql com o storage de objetos NetApp, como no ONTAP e no StorageGRID. 
+---
+= Visão geral da verificação da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesta seção, executamos consultas de teste SQL de várias fontes para verificar a funcionalidade, testar e verificar o spillover para o armazenamento NetApp.
+
+
+
+=== Consulta SQL no armazenamento de objetos
+
+. Defina a memória para 250GBMB por servidor em dremio.env
++
+....
+root@hadoopmaster:~# for i in hadoopmaster hadoopnode1 hadoopnode2 hadoopnode3 hadoopnode4; do ssh $i "hostname; grep -i  DREMIO_MAX_MEMORY_SIZE_MB /opt/dremio/conf/dremio-env; cat /proc/meminfo  | grep -i memtotal"; done
+hadoopmaster
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515760 kB
+hadoopnode1
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515860 kB
+hadoopnode2
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515864 kB
+hadoopnode3
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       264004556 kB
+node4
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515484 kB
+root@hadoopmaster:~#
+....
+. Verifique o vazamento sobre a localização (DREMIO_HOME) em detalhes de arquivo e armazenamento do dremio.conf.
++
+....
+paths: {
+  # the local path for dremio to store data.
+  local: ${DREMIO_HOME}"/dremiocache"
+
+  # the distributed path Dremio data including job results, downloads, uploads, etc
+  #dist: "hdfs://hadoopmaster:9000/dremiocache"
+  dist: "dremioS3:///dremioconf"
+}
+
+services: {
+  coordinator.enabled: true,
+  coordinator.master.enabled: true,
+  executor.enabled: false,
+  flight.use_session_service: false
+}
+
+zookeeper: "10.63.150.130:2181,10.63.150.153:2181,10.63.150.151:2181"
+services.coordinator.master.embedded-zookeeper.enabled: false
+....
+. Aponte o derramamento de Dremio para o local para o armazenamento NetApp NFS
++
+....
+root@hadoopnode1:~# ls -ltrh /dremiocache
+total 4.0K
+drwx------ 3 nobody nogroup 4.0K Sep 13 16:00 spilling_stlrx2540m4-12-10g_45678
+root@hadoopnode1:~# ls -ltrh /opt/dremio/dremiocache/
+total 8.0K
+drwxr-xr-x 3 dremio dremio 4.0K Aug 22 18:19 spill_old
+drwxr-xr-x 4 dremio dremio 4.0K Aug 22 18:19 cm
+lrwxrwxrwx 1 root   root     12 Aug 22 19:03 spill -> /dremiocache
+root@hadoopnode1:~# ls -ltrh /dremiocache
+total 4.0K
+drwx------ 3 nobody nogroup 4.0K Sep 13 16:00 spilling_stlrx2540m4-12-10g_45678
+root@hadoopnode1:~# df -h /dremiocache
+Filesystem                              Size  Used Avail Use% Mounted on
+10.63.150.159:/dremiocache_hadoopnode1  2.1T  209M  2.0T   1% /dremiocache
+root@hadoopnode1:~#
+....
+. Selecione o contexto. Em nosso teste, executamos o teste contra arquivos parquet gerados pelo TPCDS residentes no ONTAP S3. Dremio Dashboard -> SQL runner -> Context -> NetAppONTAPS3->Parquet1TB
+
+
+image:ontaps3-context.png["defina o contex para a pasta ontaps3 parquet"]
+
+. Execute o TPC-DS query67 a partir do tablier do Dremio
+
+
+image:TPCDS-Q67.png["Execute a consulta 67 que é uma das 99 consultas em TPC-DS"]
+
+. Verifique se o trabalho está em execução em todos os executores. Dremio dashboard -> trabalhos -> <jobid> -> Raw profile -> selecione EXTERNAL_SORT -> Nome do anfitrião
+
+
+image:node-in-query.png["Lista de nós na consulta Q67"]
+
+. Quando a consulta SQL é executada, você pode verificar a pasta dividida para armazenamento em cache de dados no controlador de armazenamento NetApp.
++
+....
+root@hadoopnode1:~# ls -ltrh /dremiocache
+total 4.0K
+drwx------ 3 nobody nogroup 4.0K Sep 13 16:00 spilling_stlrx2540m4-12-10g_45678
+root@hadoopnode1:~# ls -ltrh /dremiocache/spilling_stlrx2540m4-12-10g_45678/
+total 4.0K
+drwxr-xr-x 2 root daemon 4.0K Sep 13 16:23 1726243167416
+....
+. A consulta SQL foi concluída com derramamento image:spinover.png["derrame sobre detalhes quando a consulta 67 for concluída"]
+. Resumo da conclusão do trabalho. image:jobsummary.png["Resumo da tarefa da consulta concluída 67"]
+. Verifique o tamanho dos dados derramados image:splleddata.png["detalhes splleddata do resultado da consulta"]
+
+
+O mesmo procedimento aplicável ao storage de objetos nas e StorageGRID.

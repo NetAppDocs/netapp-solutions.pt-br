@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_over-quota_fairness.html 
+keywords:  
+summary:  
+---
+= Equidade de excesso de quota
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesta seção, expandimos o cenário em que várias equipes enviam cargas de trabalho e excedem sua cota. Desta forma, demonstramos como o algoritmo de equidade de Run:AI aloca recursos de cluster de acordo com a proporção de cotas predefinidas.
+
+Objetivos para este cenário de teste:
+
+* Mostrar mecanismo de enfileiramento quando várias equipes estão solicitando GPUs sobre sua cota.
+* Mostre como o sistema distribui uma parcela justa do cluster entre várias equipes que estão acima de sua cota de acordo com a proporção entre suas cotas, de modo que a equipe com a cota maior obtenha uma parcela maior da capacidade de reposição.
+
+
+No final link:osrunai_basic_resource_allocation_fairness.html["Equidade na alocação básica de recursos"]do , há duas cargas de trabalho enfileiradas: Uma para `team-b` e outra para `team-c`o . Nesta seção, colocamos cargas de trabalho adicionais em fila.
+
+Para obter detalhes, incluindo envios de trabalhos, imagens de contentores usadas e sequências de comandos executadas, link:osrunai_testing_details_for_section_410.html["Detalhes de teste para a seção 4,10"]consulte .
+
+Quando todos os trabalhos são enviados de acordo com a seção link:osrunai_testing_details_for_section_410.html["Detalhes de teste para a seção 4,10"], o painel do sistema mostra que `team-a`, `team-b` e `team-c` todos têm mais GPUs do que a cota predefinida. `team-a` Ocupa mais quatro GPUs do que sua cota de software predefinida (quatro), enquanto `team-b` que `team-c` cada uma ocupa mais duas GPUs do que sua cota de software (duas). A proporção de GPUs de cota excessiva alocadas é igual à de sua cota predefinida. Isso ocorre porque o sistema usou a cota predefinida como referência de prioridade e provisionada de acordo quando várias equipes solicitam mais GPUs, excedendo sua cota. Esse balanceamento de carga automático fornece justiça e priorização quando as equipes de ciência de dados empresariais estão ativamente envolvidas no desenvolvimento e produção de modelos de IA.
+
+image:osrunai_image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Os resultados deste cenário de teste mostram o seguinte:
+
+* O sistema começa a desfila as cargas de trabalho de outras equipes.
+* A ordem do desenfileiramento é decidida de acordo com algoritmos de justiça, de tal forma que `team-b` e `team-c` obtenha a mesma quantidade de GPUs de cota excessiva (uma vez que eles têm uma cota semelhante), e `team-a` recebe uma quantidade dupla de GPUs, uma vez que sua cota é duas vezes maior do que a cota `team-b` de e `team-c`.
+* Toda a alocação é feita automaticamente.
+
+
+Portanto, o sistema deve estabilizar nos seguintes estados:
+
+|===
+| Projeto | GPUs alocadas | Comentário 
+
+
+| equipa a | 8/4 | Quatro GPUs sobre a cota. Fila vazia. 
+
+
+| equipa-b | 4/2 | Duas GPUs sobre a cota. Uma carga de trabalho na fila. 
+
+
+| equipa-c | 4/2 | Duas GPUs sobre a cota. Uma carga de trabalho na fila. 
+
+
+| equipa-d | 0/8 | Não usar GPUs, sem cargas de trabalho enfileiradas. 
+|===
+A figura a seguir mostra a alocação de GPU por projeto ao longo do tempo no painel Executar:AI Analytics para as seções link:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["Alcançar a alta utilização de cluster com alocação de GPU de cota excessiva"], link:osrunai_basic_resource_allocation_fairness.html["Equidade na alocação básica de recursos"]e link:osrunai_over-quota_fairness.html["Equidade de excesso de quota"]. Cada linha na figura indica o número de GPUs provisionadas para uma determinada equipe de ciência de dados a qualquer momento. Podemos ver que o sistema aloca GPUs dinamicamente de acordo com as cargas de trabalho enviadas. Isso permite que as equipes ultrapassem a cota quando há GPUs disponíveis no cluster e, em seguida, prefiram trabalhos de acordo com a justiça, antes de finalmente chegar a um estado estável para as quatro equipes.
+
+image:osrunai_image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_solution_overview.html 
+keywords:  
+summary:  
+---
+= Visão geral da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção fornece uma visão geral da solução Run:AI para ONTAP AI.
+
+
+
+== Plano de controle de AI e AI do NetApp ONTAP
+
+A arquitetura do NetApp ONTAP AI, desenvolvida e verificada pela NetApp e pela NVIDIA, é baseada nos sistemas DGX da NVIDIA e nos sistemas de storage conectados à nuvem da NetApp. Essa arquitetura de referência oferece às ORGANIZAÇÕES DE TI as seguintes vantagens:
+
+* Elimina complexidades de design
+* Possibilita o dimensionamento independente da computação e do storage
+* Permite que os clientes comecem aos poucos e escalem de forma otimizada
+* Oferece uma variedade de opções de armazenamento para vários pontos de desempenho e custo
+
+
+O NetApp ONTAP AI integra diretamente os sistemas DGX e os sistemas de storage da NetApp AFF A800 com redes de última geração. Os sistemas NetApp ONTAP AI e DGX simplificam as implantações de AI eliminando a complexidade do design e as suposições. Os clientes podem começar aos poucos e expandir seus sistemas de maneira ininterrupta, além de gerenciar dados de forma inteligente da borda para o centro e para a nuvem e vice-versa.
+
+O NetApp AI Control Plane é uma solução de gerenciamento de experimentos e dados de AI, ML e deep learning (DL) para cientistas de dados e engenheiros de dados. À medida que as organizações aumentam o uso da AI, elas enfrentam muitos desafios, incluindo escalabilidade de workload e disponibilidade de dados. O plano de controle de IA do NetApp soluciona esses desafios por meio de funcionalidades, como clonar rapidamente um namespace de dados, assim como um repositório Git, e definir e implementar fluxos de trabalho de treinamento de IA que incorporam a criação quase instantânea de dados e linhas de base de modelo para rastreabilidade e controle de versão. Com o plano de controle do NetApp AI, você replica dados de forma otimizada em locais e regiões e provisiona rapidamente espaços de trabalho do Jupyter notebook com acesso a conjuntos de dados massivos.
+
+
+
+== Execute: Plataforma AI para orquestração de workload de IA
+
+O Run:AI criou a primeira plataforma de orquestração e virtualização do mundo para a infraestrutura de IA. Ao abstrair cargas de trabalho do hardware subjacente, o Run:AI cria um pool compartilhado de recursos de GPU que podem ser provisionados dinamicamente, permitindo orquestração eficiente de cargas de trabalho de IA e uso otimizado de GPUs. Os cientistas de dados podem consumir continuamente grandes quantidades de energia da GPU para melhorar e acelerar suas pesquisas, enquanto as equipes DE TI retêm controle centralizado entre locais e visibilidade em tempo real sobre o provisionamento, a fila e a utilização de recursos. A plataforma Run:AI foi desenvolvida sobre o Kubernetes, permitindo a integração simples com workflows existentes DE TI e ciência de dados.
+
+A plataforma Run:AI oferece os seguintes benefícios:
+
+* *Tempo mais rápido para a inovação.* Ao usar o agrupamento de recursos Run:AI, o enfileiramento e os mecanismos de priorização em conjunto com um sistema de storage NetApp, os pesquisadores são removidos dos problemas de gerenciamento de infraestrutura e podem se concentrar exclusivamente na ciência de dados. Os clientes do Run:AI e NetApp aumentam a produtividade executando quantos workloads forem necessários sem gargalos de computação ou pipeline de dados.
+* *Aumento da produtividade da equipe.* Os algoritmos Run:AI Fairness garantem que todos os usuários e equipes recebam sua parcela justa de recursos. Políticas em torno de projetos prioritários podem ser predefinidas e a plataforma permite a alocação dinâmica de recursos de um usuário ou equipe para outro, ajudando os usuários a obter acesso oportuno a recursos de GPU cobiçados.
+* *Utilização melhorada da GPU.* O Run:AI Scheduler permite que os usuários façam uso fácil de GPUs fracionárias, GPUs inteiras e vários nós de GPUs para treinamento distribuído no Kubernetes. Dessa forma, os workloads de AI são executados de acordo com suas necessidades, não com capacidade. As equipes de ciência de dados podem executar mais experimentos de AI na mesma infraestrutura.
+

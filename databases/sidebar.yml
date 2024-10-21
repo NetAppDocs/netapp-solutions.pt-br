@@ -1,0 +1,189 @@
+---
+section: databases
+title: Bancos de dados
+url: "/databases/index.html"
+entries:
+- title: Banco de dados Oracle
+  entries:
+  - title: Nuvem da AWS
+    entries:
+    - title: Oracle HA no AWS EC2 com cluster de pacemaker e FSX ONTAP
+      url: "/databases/aws_ora_ha_pacemaker.html"
+    - title: Implantação Oracle simplificada e automatizada no Amazon FSX ONTAP com
+        iSCSI
+      url: "/databases/automation_ora_aws-fsx_iscsi.html"
+    - title: Oracle no VMware Cloud na AWS com o FSX ONTAP instalado no convidado
+      url: "/databases/aws_ora_fsx_vmc_guestmount.html"
+    - title: Redução de custos do Oracle ative Data Guard com o Amazon FSX ONTAP
+      url: "/databases/aws_ora_fsx_ec2_data_guard.html"
+    - title: Recuperação rápida e clone do Oracle VLDB com o Amazon FSX ONTAP
+      url: "/databases/aws_ora_fsx_ec2_inc_merge.html"
+    - title: Oracle 19Ci em reinicialização autônoma no AWS FSX/EC2 com NFS/ASM
+      url: "/databases/aws_ora_fsx_ec2_nfs_asm.html"
+    - title: Implantação e proteção de banco de dados Oracle no AWS FSX/EC2 com iSCSI/ASM
+      url: "/databases/aws_ora_fsx_ec2_iscsi_asm.html"
+    - title: Implantação do Oracle Database no AWS EC2 e nas melhores práticas do
+        FSX
+      entries:
+      - title: Caso de uso
+        url: "/databases/aws_ora_fsx_ec2_deploy_intro.html"
+      - title: Arquitetura da solução
+        url: "/databases/aws_ora_fsx_ec2_architecture.html"
+      - title: Fatores a considerar
+        url: "/databases/aws_ora_fsx_ec2_factors.html"
+      - title: Procedimentos de implantação
+        url: "/databases/aws_ora_fsx_ec2_procedures.html"
+      - title: Gerenciamento de banco de dados
+        url: "/databases/aws_ora_fsx_ec2_mgmt.html"
+      - title: Migração de banco de dados
+        url: "/databases/aws_ora_fsx_ec2_migration.html"
+  - title: Azure Cloud
+    entries:
+    - title: Recuperação rápida do Oracle VLDB com Incremental Merge no ANF
+      url: "/databases/azure_ora_anf_inc_merge.html"
+    - title: Implantação Oracle simplificada e automatizada no Azure NetApp Files
+        com NFS
+      url: "/databases/automation_ora_anf_nfs.html"
+    - title: Implantação e proteção de bancos de dados Oracle no Azure NetApp Files
+      entries:
+      - title: Caso de uso
+        url: "/databases/azure_ora_nfile_usecase.html"
+      - title: Arquitetura da solução
+        url: "/databases/azure_ora_nfile_architecture.html"
+      - title: Fatores a considerar
+        url: "/databases/azure_ora_nfile_factors.html"
+      - title: Procedimentos de implantação
+        url: "/databases/azure_ora_nfile_procedures.html"
+      - title: Proteção de banco de dados
+        url: "/databases/azure_ora_nfile_protection.html"
+      - title: Migração de banco de dados
+        url: "/databases/azure_ora_nfile_migration.html"
+  - title: Nuvem híbrida/no local
+    entries:
+    - title: Implantação e proteção do Oracle RAC no VCF com vVols
+      url: "/databases/vcf_ora_rac_vvol.html"
+    - title: Implantação e proteção do Oracle si no VCF com vVols
+      url: "/databases/vcf_ora_si_vvol.html"
+    - title: Implantação Oracle simplificada e automatizada no NetApp C-Series com
+        NFS
+      url: "/databases/automation_ora_c-series_nfs.html"
+    - title: Implantação Oracle simplificada e automatizada no NetApp ASA com iSCSI
+      url: "/databases/automation_ora_asa_iscsi.html"
+    - title: Bancos de dados Oracle 19Ci RAC no data center FlexPod com Cisco UCS
+        e NetApp AFF A800 sobre FC
+      url: "/databases/nva-1155.html"
+    - title: SAP com Oracle em UNIX e NFS com NetApp Clustered Data ONTAP
+      url: "/databases/tr-4250.html"
+    - title: Implantando o banco de dados Oracle no NetApp ONTAP
+      url: "/../../../ontap-apps-dbs/oracle/oracle-overview.html"
+    - title: Implantação automatizada do Oracle 19Ci para ONTAP em NFS
+      entries:
+      - title: Visão geral
+        url: "/databases/marketing_overview.html"
+      - title: Primeiros passos e requisitos
+        url: "/databases/getting_started_requirements.html"
+      - title: Implantação automatizada do Oracle 19C AWX/Tower
+        url: "/databases/awx_automation.html"
+      - title: Implantação automatizada da CLI do Oracle 19Cg.
+        url: "/databases/cli_automation.html"
+    - title: Proteção automatizada de dados Oracle
+      entries:
+      - title: Visão geral
+        url: "/databases/db_protection_overview.html"
+      - title: Primeiros passos e requisitos
+        url: "/databases/db_protection_getting_started.html"
+      - title: Proteção automatizada de dados Oracle para AWX/Tower
+        url: "/databases/db_protection_awx_automation.html"
+    - title: Bancos de dados Oracle no NetApp EF-Series
+      url: "/databases/tr-4794.html"
+- title: Microsoft SQL Server
+  entries:
+  - title: Backup e recuperação para o Microsoft SQL Server no AWS FSX ONTAP
+    url: "/databases/sqlsb-backup-restore-aws-fsxn.html"
+  - title: O SQL Server no AWS EC2 usa o Amazon FSX ONTAP
+    url: "/databases/sql-aws-ec2.html"
+  - title: SQL Server no Azure NetApp Files
+    entries:
+    - title: Visão geral
+      url: "/databases/sql-srv-anf_overview.html"
+    - title: Fatores a considerar
+      url: "/databases/sql-srv-anf_factors_to_consider.html"
+    - title: Design de referência (design de alto nível em tempo real)
+      url: "/databases/sql-srv-anf_reference_design_real-time_high-level_design.html"
+    - title: Conclusão
+      url: "/databases/sql-srv-anf_conclusion.html"
+    - title: Onde encontrar informações adicionais
+      url: "/databases/sql-srv-anf_where_to_find_additional_information.html"
+  - title: SAP com o Microsoft SQL Server no Windows usando o Clustered Data ONTAP
+    url: "/databases/tr-4467.html"
+  - title: Modernizando o Microsoft SQL Server
+    url: "/databases/na-446.html"
+  - title: Guia de práticas recomendadas para Microsoft SQL Server com ONTAP
+    url: "/databases/tr-4590.html"
+  - title: Guia de práticas recomendadas para Microsoft SQL Server com NetApp EF-Series
+    url: "/databases/tr-4764.html"
+- title: Bancos de dados de código aberto
+  entries:
+  - title: Implantação automatizada do PostgreSQL HA e DR no AWS FSX/EC2
+    url: "/databases/aws_postgres_fsx_ec2_hadr.html"
+  - title: Banco de dados MySQL no NetApp ONTAP
+    url: "/databases/tr-4722.html"
+- title: SnapCenter para bancos de dados
+  entries:
+  - title: Backup, recuperação e clone do PostgreSQL no ONTAP
+    url: "/databases/snapctr_psql_ontap.html"
+  - title: Ciclo de vida do clone do SnapCenter
+    url: "/databases/automation_ora_clone_lifecycle.html"
+  - title: Backup, recuperação e clone de banco de dados Oracle no ANF
+    url: "/databases/snapctr_ora_azure_anf.html"
+  - title: BlueXP  SaaS para Oracle - Azure
+    url: "/databases/snapctr_svcs_ora_azure.html"
+  - title: BlueXP  SaaS para Oracle – AWS
+    url: "/databases/snapctr_svcs_ora.html"
+  - title: Soluções de bancos de dados de nuvem híbrida com SnapCenter
+    entries:
+    - title: Introdução
+      url: "/databases/hybrid_dbops_snapcenter_usecases.html"
+    - title: Arquitetura da solução
+      url: "/databases/hybrid_dbops_snapcenter_architecture.html"
+    - title: Requisitos da solução
+      url: "/databases/hybrid_dbops_snapcenter_requirements.html"
+    - title: Pré-requisitos de configuração
+      entries:
+      - title: Visão geral
+        url: "/databases/hybrid_dbops_snapcenter_prerequisite.html"
+      - title: Pré-requisitos no local
+        url: "/databases/hybrid_dbops_snapcenter_prereq_onprem.html"
+      - title: Pré-requisitos para a nuvem pública
+        url: "/databases/hybrid_dbops_snapcenter_prereq_cloud.html"
+    - title: Visão geral dos primeiros passos
+      entries:
+      - title: Visão geral
+        url: "/databases/hybrid_dbops_snapcenter_getting_started.html\\"
+      - title: Primeiros passos no local
+        url: "/databases/hybrid_dbops_snapcenter_getting_started_onprem.html"
+      - title: Introdução à nuvem pública da AWS
+        url: "/databases/hybrid_dbops_snapcenter_getting_started_aws.html"
+    - title: Fluxo de trabalho para expansão de desenvolvimento/teste na nuvem
+      url: "/databases/hybrid_dbops_snapcenter_devtest.html"
+    - title: Fluxo de trabalho de recuperação de desastre
+      url: "/databases/hybrid_dbops_snapcenter_dr.html"
+- title: Estudos de caso de clientes do mundo real
+  entries:
+  - title: A empresa de produtos médicos migra a carga de trabalho SQL no local para
+      o Amazon FSX ONTAP para reduzir custos
+    url: "/databases/customer_usecase_mssql_fsx1.html"
+- title: Kits de ferramentas de automação DB
+  entries:
+  - title: Ciclo de vida do clone do SnapCenter
+    url: "/databases/automation_ora_clone_lifecycle.html"
+  - title: Migração Oracle
+    url: "/databases/automation_ora_migration.html"
+  - title: Oracle HA/DR com o AWS FSX ONTAP
+    url: "/databases/automation_ora_hadr_fsx.html"
+  - title: Provisionamento do AWS FSX ONTAP e do EC2
+    url: "/databases/automation_fsx_ec2_provision.html"
+- title: Kits de ferramentas de dimensionamento BD
+  entries:
+  - title: Orientação de dimensionamento Oracle para ANF
+    url: "/databases/db_sizing_ora_anf.html"

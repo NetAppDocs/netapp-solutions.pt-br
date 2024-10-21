@@ -1,0 +1,30 @@
+= 
+:allow-uri-read: 
+
+
+[.Underline]*Configuração do ONTAP e do CVO*
+
+*Configure e inicie o modelo de tarefa.*
+
+. Crie o modelo de trabalho.
++
+.. Navegue até recursos → modelos → Adicionar e clique em Adicionar modelo de tarefa.
+.. Introduza o nome ONTAP/CVO Setup (Configuração do CVO/CVO)
+.. Selecione o tipo de tarefa; Executar configura o sistema com base em um manual de estratégia.
+.. Selecione o inventário, projeto, manual de estratégia e credenciais correspondentes para o manual de estratégia.
+.. Selecione o manual de estratégia ONTAP_setup.yml para um ambiente local ou selecione cvo_setup.yml para replicação em uma instância do cvo.
+.. Cole variáveis globais copiadas da etapa 4 no campo variáveis do modelo na guia YAML.
+.. Clique em Guardar.
+
+
+. Inicie o modelo de trabalho.
++
+.. Navegue até recursos → modelos.
+.. Clique no modelo desejado e, em seguida, clique em Iniciar.
++
+
+NOTE: Vamos usar este modelo e copiá-lo para os outros playbooks.
+
+
+
+

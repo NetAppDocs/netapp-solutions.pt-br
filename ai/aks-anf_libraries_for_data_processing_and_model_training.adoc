@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_libraries_for_data_processing_and_model_training.html 
+keywords: libraries, cuml, cudf, dask, transform, load, subsetting, transformation, encoding, rapids, estimators 
+summary: Esta página lista as bibliotecas e frameworks que foram usados para construir esta tarefa. Todos esses componentes foram totalmente integrados aos controles de segurança e acesso baseados em função do Azure. 
+---
+= Bibliotecas para Data Processing e treinamento de modelos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+A tabela a seguir lista as bibliotecas e frameworks que foram usadas para construir essa tarefa. Todos esses componentes foram totalmente integrados aos controles de segurança e acesso baseados em função do Azure.
+
+|===
+| Bibliotecas/framework | Descrição 
+
+
+| Dask cuML | Para QUE O ML funcione na GPU, o https://github.com/rapidsai/cuml/tree/main/python/cuml/dask["Biblioteca cuML"^] fornece acesso ao pacote RAPIDS cuML com o Dask. O RAPIDS cuML implementa algoritmos DE ML populares, incluindo clustering, redução de dimensionalidade e abordagens de regressão, com implementações baseadas em GPU de alto desempenho, oferecendo velocidades de até 100xx em abordagens baseadas em CPU. 
+
+
+| Dask cuDF | O cuDF inclui várias outras funções que suportam extração acelerada por GPU, transformação, carga (ETL), como subconfiguração de dados, transformações, codificação one-hot e muito mais. A equipe RAPIDS mantém um https://github.com/rapidsai/cudf/tree/main/python/dask_cudf["dask-cudf biblioteca"^] que inclui métodos auxiliares para usar Dask e cuDF. 
+
+
+| Scikit Aprenda | O Scikit-learn fornece dezenas de algoritmos e modelos integrados de aprendizado de máquina, chamados estimadores. Cada um https://scikit-learn.org/stable/glossary.html#term-estimators["estimador"^] pode ser ajustado a alguns dados usando https://scikit-learn.org/stable/glossary.html#term-fit["ajuste"^] seu método. 
+|===
+Foram utilizados dois cadernos para construir os pipelines ML para comparação; um é a abordagem convencional PANDAS scikit-learn, e o outro é distribuído treinamento com RAPIDS e Dark. Cada notebook pode ser testado individualmente para ver o desempenho em termos de tempo e escala. Cobrimos cada caderno individualmente para demonstrar os benefícios do treinamento distribuído usando RAPIDS e Dask.

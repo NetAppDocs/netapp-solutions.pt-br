@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: rhhc/provider-managed/data-migration.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP, Ansible Automation Platform, BlueXP 
+summary:  
+---
+= Migração de dados
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Esta página mostra as opções de migração de dados para cargas de trabalho em clusters gerenciados do Red Hat OpenShift usando o FSX for NetApp ONTAP para armazenamento persistente.
+
+
+
+== Migração de dados
+
+O serviço Red Hat OpenShift na AWS, bem como o FSX for NetApp ONTAP (FSxN) fazem parte do portfólio de serviços da AWS. O FSxN está disponível nas opções Single AZ ou Multi-AZ. A opção Multi-AZ fornece proteção de dados contra falha de zona de disponibilidade. A FSxN pode ser integrada com o Astra Trident para fornecer armazenamento persistente para aplicativos em clusters ROSA.
+
+
+
+=== Integração do FSxN com o Trident usando o gráfico Helm
+
+.Integração de cluster ROSA com o Amazon FSX for ONTAP
+video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto,width=360]
+A migração de aplicativos de contêiner envolve:
+
+* Volumes persistentes: Isso pode ser feito usando o BlueXP . Outra opção é usar o Astra Control Center para lidar com migrações de aplicações de contêiner do ambiente local para a nuvem. A automação pode ser usada para o mesmo propósito.
+* Metadados de aplicativos: Isso pode ser feito usando OpenShift GitOps (Argo CD).
+
+
+
+
+=== Failover e failback de aplicativos no cluster ROSA usando FSxN para armazenamento persistente
+
+O vídeo a seguir é uma demonstração de cenários de failover e failback de aplicativos usando o BlueXP  e o CD Argo.
+
+video::e9a07d79-42a1-4480-86be-b01200fa62f5[panopto,width=360]
+
+
+=== Solução de migração e proteção de dados para workloads de contêiner do OpenShift
+
+image:rhhc-rosa-with-fsxn.png[""]

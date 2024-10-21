@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: ai/nva-1151-design.html 
+keywords:  
+summary:  
+---
+= DESIGN de NVA-1151: Guia de design de sistemas NetApp ONTAP AI com NVIDIA DGX A100
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp e Shiloh
+
+[role="lead"]
+O DESIGN do NVA-1151 descreve uma arquitetura verificada pela NetApp para workloads de inteligência artificial e aprendizado de máquina usando os sistemas de storage da NetApp AFF A800, os sistemas NVIDIA DGX A100 e os switches de rede NVIDIA Mellanox. Ele também inclui resultados de teste de benchmark para a arquitetura conforme implementado.
+
+link:https://www.netapp.com/pdf.html?item=/media/19432-nva-1151-design.pdf["DESIGN de NVA-1151: Guia de design de sistemas NetApp ONTAP AI com NVIDIA DGX A100"^]

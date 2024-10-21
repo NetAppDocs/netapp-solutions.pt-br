@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-for-ontap.html 
+keywords:  
+summary:  
+---
+= VMware vSphere com ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O ONTAP é uma solução de storage líder para ambientes VMware vSphere há quase duas décadas e continua adicionando recursos inovadores para simplificar o gerenciamento e reduzir custos. Este documento apresenta a solução ONTAP para vSphere, incluindo as informações mais recentes sobre produtos e as melhores práticas, para simplificar a implantação, reduzir riscos e simplificar o gerenciamento.
+
+Para obter mais informações, visite link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html["VMware vSphere com ONTAP"]

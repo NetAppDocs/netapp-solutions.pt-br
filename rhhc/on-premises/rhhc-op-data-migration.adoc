@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: rhhc/on-premises/rhhc-op-data-migration.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Migração de dados com o Astra Control Center
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Esta página mostra as opções de migração de dados para workloads de contêiner nos clusters do Red Hat OpenShift com Astra Control Center (ACC).
+
+Muitas vezes, é necessário migrar aplicações do Kubernetes de um ambiente para outro. Para migrar um aplicativo junto com seus dados persistentes, o NetApp ACC pode ser utilizado.
+
+
+
+== Migração de dados entre diferentes ambientes do Kubernetes
+
+O ACC é compatível com vários tipos de Kubernetes, incluindo Google Anthos, Red Hat OpenShift, Tanzu Kubernetes Grid, Rancher Kubernetes Engine, Upstream Kubernetes, etc. para obter detalhes adicionais, link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#supported-host-cluster-kubernetes-environments["aqui"]consulte .
+
+Para migrar a aplicação de um cluster para outro, pode utilizar uma das seguintes funcionalidades do ACC:
+
+* ** replicação **
+* ** backup e restauração **
+* ** clone **
+
+
+Consulte link:../data-protection["seção de proteção de dados"]a para obter as opções **replicação e backup e restauração**.
+
+link:https://docs.netapp.com/us-en/astra-control-center/use/clone-apps.html["aqui"]Consulte para obter detalhes adicionais sobre **clonagem**.
+
+
+NOTE: O recurso Astra Replication é compatível apenas com a Trident Container Storage Interface (CSI). No entanto, a replicação não é suportada por drivers nas-Economy e san-Economy.
+
+
+
+=== Executar a replicação de dados utilizando o ACC
+
+image:rhhc-onprem-dp-rep.png["Replicação do Astra Control Center"]

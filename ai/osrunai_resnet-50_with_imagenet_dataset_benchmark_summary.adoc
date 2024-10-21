@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_resnet-50_with_imagenet_dataset_benchmark_summary.html 
+keywords:  
+summary:  
+---
+= ResNet-50 com Resumo da Referência de Dataset IMAGEnet
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Validamos a operação e o desempenho deste sistema usando ferramentas de benchmark padrão do setor TensorFlow benchmarks. O conjunto de dados IMAGEnet usado para treinar o ResNet-50, que é um famoso modelo de rede neural convolucional (CNN) DL para classificação de imagens. O ResNet-50 oferece um resultado de treinamento preciso com um tempo de processamento mais rápido, o que nos permite gerar uma demanda suficiente no armazenamento.

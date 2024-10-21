@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_cloud_resource_requirements.html 
+keywords: configuration, configure, resource provider, dask, cloud, Requirements 
+summary: Esta página descreve a configuração de recursos de nuvem para o Azure NetApp Files. 
+---
+= Requisitos de recursos de nuvem
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta página descreve a configuração de recursos de nuvem para o Azure NetApp Files.
+
+
+
+== Configurar o Azure NetApp Files
+
+Configure o Azure NetApp Files conforme descrito em https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes?tabs=azure-portal["Início rápido: Configurar o Azure NetApp Files e criar um volume NFS"^].
+
+Você pode passar da seção "criar volume NFS para Azure NetApp Files" porque vai criar volumes por meio do Trident. Antes de continuar, execute as seguintes etapas:
+
+. Registre-se no provedor de recursos do Azure NetApp Files e do NetApp (por meio do shell do Azure) ( https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-register["link"^] ).
+. Crie uma conta no Azure NetApp Files ( https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["link"^] ).
+. Configure um pool de capacidade (um mínimo de 4TB Standard ou Premium, dependendo da sua necessidade) ( https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["link"^] ). A tabela a seguir lista os requisitos de configuração de rede para configuração na nuvem. O cluster de Dask e o Azure NetApp Files devem estar na mesma rede virtual do Azure (VNet) ou em uma rede virtual com peering.
+
+
+|===
+| Recursos | Tipo/versão 
+
+
+| Serviço Kubernetes do Azure | 1.18.14 
+
+
+| Nó do agente | 3x Standard_DS2_v2 
+
+
+| Nó de GPU | 3x Standard_NC6s_v3 
+
+
+| Azure NetApp Files | Pool de capacidade padrão 
+
+
+| Capacidade em TB | 4 
+|===

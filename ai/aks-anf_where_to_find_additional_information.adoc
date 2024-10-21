@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_where_to_find_additional_information.html 
+keywords:  
+summary:  
+---
+= Onde encontrar informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes recursos:
+
+* Azure NetApp Files -
++
+** Página de arquitetura de soluções para Azure NetApp Files
++
+https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-solution-architectures["https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-solution-architectures"^]
+
+
+
+* Storage persistente do Trident para contêineres:
++
+** Azure NetApp Files e Trident
++
+https://netapptrident.readthedocs.io/en/stablev20.07/kubernetes/operations/tasks/backends/anf.html["https://netapptrident.readthedocs.io/en/stablev20.07/kubernetes/operations/tasks/backends/anf.html"^]
+
+
+
+* Dask and RAPIDS -
++
+** Dask
++
+https://docs.dask.org/en/latest/["https://docs.dask.org/en/latest/"^]
+
+** Instale o Dask
++
+https://docs.dask.org/en/latest/install.html["https://docs.dask.org/en/latest/install.html"^]
+
+** Dask API
++
+https://docs.dask.org/en/latest/api.html["https://docs.dask.org/en/latest/api.html"^]
+
+** Dask Machine Learning
++
+https://examples.dask.org/machine-learning.html["https://examples.dask.org/machine-learning.html"^]
+
+** Diagnóstico distribuído Dask
++
+https://docs.dask.org/en/latest/diagnostics-distributed.html["https://docs.dask.org/en/latest/diagnostics-distributed.html"^]
+
+
+
+* Estrutura e ferramentas DO ML:
++
+** TensorFlow: Uma estrutura de aprendizado de máquina de código aberto para todos
++
+https://www.tensorflow.org/["https://www.tensorflow.org/"^]
+
+** Docker
++
+https://docs.docker.com/["https://docs.docker.com"^]
+
+** Kubernetes
++
+https://kubernetes.io/docs/home/["https://kubernetes.io/docs/home/"^]
+
+** Kubeflow
++
+http://www.kubeflow.org/["http://www.kubeflow.org/"^]
+
+** Servidor de notebook Jupyter
++
+http://www.jupyter.org/["http://www.jupyter.org/"^]
+
+
+
+

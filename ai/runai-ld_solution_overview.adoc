@@ -1,0 +1,107 @@
+---
+sidebar: sidebar 
+permalink: ai/runai-ld_solution_overview.html 
+keywords: azure, lane, detection, architecture, ai, run, machine learning 
+summary: 'Nesta arquitetura, o foco está na parte mais intensiva computacionalmente do processo de treinamento distribuído de IA ou aprendizado de máquina (ML) para deteção de faixas.' 
+---
+= Visão geral da solução
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesta arquitetura, o foco está na parte mais intensiva computacionalmente do processo de treinamento distribuído de IA ou aprendizado de máquina (ML) para deteção de faixas. A deteção de faixa de rodagem é uma das tarefas mais importantes na condução autónoma, o que ajuda a orientar os veículos através da localização das marcações de faixa de rodagem. Componentes estáticos, como marcações de faixa, guiam o veículo para conduzir na estrada de forma interativa e segura.
+
+As abordagens baseadas na rede neural convolucional (CNN) levaram a compreensão e a segmentação da cena a um novo nível. Embora não funcione bem para objetos com estruturas longas e regiões que podem ser ocluídas (por exemplo, postes, sombra na pista, e assim por diante). Rede neural convolucional Espacial (SCNN) generaliza a CNN para um nível espacial rico. Permite a propagação de informações entre neurônios na mesma camada, o que a torna mais adequada para objetos estruturados, como faixas, postes ou caminhões com oclusões. Essa compatibilidade ocorre porque a informação espacial pode ser reforçada e preserva a suavidade e a continuidade.
+
+Milhares de imagens de cena precisam ser injetadas no sistema para permitir que o modelo aprenda e distinga os vários componentes no conjunto de dados. Estas imagens incluem condições meteorológicas, diurnas ou noturnas, estradas com várias pistas e outras condições de trânsito.
+
+Para o treinamento, há uma necessidade de boa qualidade e quantidade de dados. Uma única GPU ou várias GPUs podem levar dias a semanas para concluir o treinamento. O treinamento distribuído por dados pode acelerar o processo usando várias GPUs e multinode. O Horovod é uma estrutura desse tipo que concede treinamento distribuído, mas a leitura de dados entre clusters de GPUs pode funcionar como um obstáculo. O Azure NetApp Files fornece taxa de transferência ultrarrápida, alta e latência baixa contínua para fornecer recursos de escalabilidade horizontal/vertical para que as GPUs sejam aproveitadas para o melhor de sua capacidade computacional. Nossos experimentos verificaram que todas as GPUs do cluster são usadas em média mais de 96% para treinar a deteção de faixas usando SCNN.
+
+
+
+== Público-alvo
+
+A ciência de dados incorpora várias disciplinas EM TI e negócios, portanto, várias personas fazem parte do nosso público-alvo:
+
+* Os cientistas de dados precisam da flexibilidade para usar as ferramentas e bibliotecas de sua escolha.
+* Os engenheiros de dados precisam saber como os dados fluem e onde residem.
+* Especialistas em casos de uso de direção autônoma.
+* Administradores e arquitetos de nuvem para configurar e gerenciar recursos da nuvem (Azure).
+* Um engenheiro de DevOps precisa de ferramentas para integrar novas aplicações de AI/ML a seus pipelines de integração e implantação contínua (CI/CD).
+* Os usuários empresariais querem ter acesso a aplicativos de IA/ML.
+
+
+Neste documento, descrevemos como o Azure NetApp Files, RUN: AI e Microsoft Azure ajudam cada uma dessas funções a agregar valor aos negócios.
+
+
+
+== Tecnologia da solução
+
+Esta seção abrange os requisitos de tecnologia para o caso de uso de deteção de faixa, implementando uma solução de treinamento distribuída em escala que é totalmente executada na nuvem do Azure. A figura abaixo fornece uma visão geral da arquitetura da solução.
+
+Os elementos utilizados nesta solução são:
+
+* Serviço Kubernetes do Azure (AKS)
+* SKUs de computação do Azure com GPUs NVIDIA
+* Azure NetApp Files
+* CORRIDA: AI
+* NetApp Trident
+
+
+Links para todos os elementos mencionados aqui estão listados na link:runai-ld_additional_information.html["Informações adicionais"] seção.
+
+image:runai-ld_image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Requisitos de serviços e recursos de nuvem
+
+A tabela a seguir lista os componentes de hardware necessários para implementar a solução. Os componentes de nuvem usados em qualquer implementação da solução podem variar de acordo com os requisitos do cliente.
+
+|===
+| Nuvem | Quantidade 
+
+
+| AKS | Mínimo de três nós de sistema e três nós de trabalho de GPU 
+
+
+| Nós do sistema de SKU da máquina virtual (VM) | Três Standard_DS2_v2 
+
+
+| VM SKU nós de trabalho GPU | Três Standard_NC6s_v3 
+
+
+| Azure NetApp Files | 4TB nível padrão 
+|===
+
+
+== Requisitos de software
+
+A tabela a seguir lista os componentes de software necessários para implementar a solução. Os componentes de software usados em qualquer implementação da solução podem variar de acordo com os requisitos do cliente.
+
+|===
+| Software | Versão ou outras informações 
+
+
+| AKS - versão do Kubernetes | 1.18.14 
+
+
+| EXECUTAR: AI CLI | v2.2.25 
+
+
+| EXECUTE:versão do operador do Kubernetes de orquestração AI | 1.0.109 
+
+
+| Horovod | 0.21.2 
+
+
+| NetApp Trident | 20.01.1 
+
+
+| Leme | 3.0.0 
+|===

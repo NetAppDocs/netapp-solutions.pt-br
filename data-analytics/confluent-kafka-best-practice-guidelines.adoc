@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-best-practice-guidelines.html 
+keywords: best practices, guidelines, nfs, san 
+summary: Esta seção apresenta as lições aprendidas com esta certificação. 
+---
+= Diretrizes de melhores práticas
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção apresenta as lições aprendidas com esta certificação.
+
+* Com base em nossa validação, o armazenamento de objetos S3 é o melhor para que a confluente mantenha os dados.
+* Podemos usar SAN de alta taxa de transferência (especificamente FC) para manter os dados ativos do corretor ou o disco local, porque, na configuração de armazenamento em camadas confluentes, o tamanho dos dados mantidos no diretório de dados dos corretores é baseado no tamanho do segmento e no tempo de retenção quando os dados são movidos para o armazenamento de objetos.
+* Os armazenamentos de objetos fornecem melhor desempenho quando o segment.bytes é maior; testamos 512MB.
+* No Kafka, o comprimento da chave ou valor (em bytes) para cada Registro produzido no tópico é controlado pelo `length.key.value` parâmetro. Para o StorageGRID, o desempenho de obtenção e recuperação de objetos S3 aumentou para valores mais altos. Por exemplo, 512 bytes forneceram uma recuperação de 5,8GBps, 1024 bytes forneceram uma recuperação de 7,5GBps S3 e 2048 bytes fornecidos perto de 10Gbps.
+
+
+A figura a seguir apresenta a ingestão e recuperação de objetos S3 com base `length.key.value` no .
+
+image:confluent-kafka-image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+* *Afinação de Kafka.* Para melhorar o desempenho do armazenamento em camadas, você pode aumentar TierFetcherNumThreads e TierArchiverNumThreads. Como diretriz geral, você deseja aumentar o TierFetcherNumThreads para corresponder ao número de núcleos físicos de CPU e aumentar o TierArchiverNumThreads para metade do número de núcleos de CPU. Por exemplo, nas propriedades do servidor, se você tiver uma máquina com oito núcleos físicos, defina confluent.Tier.fetcher.num.threads: 8 e confluent.Tier.archiver.num.threads: 4.
+* *Intervalo de tempo para exclusões de tópicos.* Quando um tópico é excluído, a exclusão dos arquivos de segmento de log no armazenamento de objetos não começa imediatamente. Em vez disso, há um intervalo de tempo com um valor padrão de 3 horas antes que a exclusão desses arquivos ocorra. Pode modificar a configuração, confluent.tier.topic.delete.check.interval.ms, para alterar o valor deste intervalo. Se você excluir um tópico ou cluster, também poderá excluir manualmente os objetos no respetivo bucket.
+* *ACLs em tópicos internos de armazenamento em camadas.* Uma prática recomendada para implantações locais é habilitar um autorizador de ACL nos tópicos internos usados para armazenamento em camadas. Defina regras ACL para limitar o acesso a esses dados apenas para o usuário do corretor. Isso protege os tópicos internos e impede o acesso não autorizado a dados e metadados de armazenamento em camadas.
+
+
+[listing]
+----
+kafka-acls --bootstrap-server localhost:9092 --command-config adminclient-configs.conf \
+--add --allow-principal User:<kafka> --operation All --topic "_confluent-tier-state"
+----
+
+NOTE: Substitua o usuário `<kafka>` pelo corretor principal real em sua implantação.
+
+Por exemplo, o comando `confluent-tier-state` define ACLs no tópico interno para armazenamento em camadas. Atualmente, há apenas um único tópico interno relacionado ao armazenamento em camadas. O exemplo cria uma ACL que fornece a permissão principal do Kafka para todas as operações no tópico interno.

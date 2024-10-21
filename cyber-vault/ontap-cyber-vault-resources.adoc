@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP 
+permalink: cyber-vault/ontap-cyber-vault-resources.html 
+summary: Recursos adicionais no cofre cibernético do ONTAP 
+---
+= Recursos do Cyber Vault
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para saber mais sobre as informações descritas nesta informação do Cyber Vault, consulte os seguintes conceitos de segurança e informações adicionais.
+
+* link:https://www.netapp.com/pdf.html?item=/media/108397-sb-4289-netapp-cyber-vaulting.pdf["Ciber Vault da NetApp: Resumo das soluções de proteção de dados multicamadas"^]
+* link:https://www.netapp.com/newsroom/press-releases/news-rel-20240626-477898/["A NetApp recebe classificação AAA para a primeira solução de deteção de ransomware on-box orientada por IA do setor"^]
+* link:https://www.netapp.com/blog/unified-data-storage-for-the-ai-era/#article3["Eleve a resiliência cibernética com o storage mais seguro do planeta"^]
+* link:https://docs.netapp.com/us-en/ontap/ontap-security-hardening/security-hardening-overview.html["Guia de proteção de segurança da ONTAP"^]
+* link:https://docs.netapp.com/us-en/ontap/zero-trust/zero-trust-overview.html["Confiança zero na NetApp"^]
+* link:https://www.netapp.com/cyber-resilience/["Resiliência cibernética da NetApp"^]
+* link:https://www.netapp.com/cyber-resilience/data-protection/["Proteção de dados da NetApp"^]
+* link:https://docs.netapp.com/us-en/ontap/peering/index.html["Visão geral do peering de cluster e SVM com a CLI"^]
+* link:https://docs.netapp.com/us-en/ontap/concepts/snapvault-archiving-concept.html["Arquivamento SnapVault"^]
+

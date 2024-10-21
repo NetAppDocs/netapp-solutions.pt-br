@@ -1,0 +1,88 @@
+---
+indexpage:
+  title: Soluções de Inteligência artificial da NetApp
+  summary: As soluções de inteligência artificial da NetApp são um conjunto de soluções
+    estratégicas e técnicas que demonstram as funcionalidades do storage da NetApp
+    no espaço de AI/ML.
+  lead: As soluções de inteligência artificial da NetApp são um conjunto de soluções
+    estratégicas e técnicas que demonstram as funcionalidades do storage da NetApp
+    no espaço de AI/ML.
+  tiles:
+  - title: Como começar
+    links:
+    - title: Vídeos e demonstrações
+      url: "/../videos.html#ai"
+    - title: Blogs
+      url: "/../blogs.html#ai"
+  - title: Infraestruturas convergentes para workloads de AI com o NVIDIA
+    links:
+    - title: NetApp AIPod com sistemas DGX da NVIDIA
+      url: aipod_nv_intro.html
+    - title: ONTAP AI com NVIDIA
+      url: ontap-ai-overview.html
+    - title: NVIDIA SuperPOD com NetApp EF-series
+      url: ef-series-ai-overview.html
+    - title: NetApp AIPod com NVIDIA DGX SuperPOD
+      url: ai-dgx-superpod.html
+  - title: Infraestruturas convergentes para workloads de AI com outros fornecedores
+    links:
+    - title: IBM Spectrum Scale com armazenamento NetApp e-Series
+      url: tr-4859.html
+    - title: Inferência de IA na borda - NetApp com Lenovo ThinkSystem
+      url: ai-edge-introduction.html
+    - title: NetApp ONTAP e Lenovo ThinkSystem SR670 para IA
+      url: a400-thinksystem-introduction.html
+    - title: NetApp AFF A800 e Fujitsu Server PRIMERGY GX2570 M5 para IA
+      url: tr-4815.html
+  - title: Data Lakes e pipelines de dados
+    links:
+    - title: Amazon FSX for NetApp ONTAP (FSX ONTAP) para MLOps
+      url: mlops_fsxn_intro.html
+    - title: Data Lake StorageGRID para workloads com condução autônoma
+      url: tr-4851.html
+    - title: Movimentação de dados com o e-Series e BeeGFS para AI
+      url: tr-4915.html
+    - title: AI da nuvem híbrida com armazenamento em cache de dados
+      url: hcaios_executive_summary.html
+    - title: Solução de banco de dados vetorial com NetApp
+      url: vector-database-solution-with-netapp.html
+  - title: Orquestração e gerenciamento
+    links:
+    - title: Toolkit DataOps do NetApp
+      url: https://github.com/NetApp/netapp-dataops-toolkit
+    - title: MLOPS de multicloud híbrida com o Domino Data Lab e o NetApp
+      url: ddlnexus_introduction.html
+    - title: NVIDIA AI Enterprise com NetApp e VMware
+      url: nvaie_introduction.html
+    - title: MLOps de código aberto com NetApp
+      url: aicp_introduction.html
+    - title: MLRun Pipeline com Iguazio
+      url: mlrun_introduction.html
+    - title: Solução de orquestração NetApp com Run:AI
+      url: osrunai_solution_overview.html
+  - title: Casos de uso
+    links:
+    - title: Análise de sentimento
+      url: ai-sent-support-center-analytics.html
+    - title: Inteligência artificial conversacional usando NVIDIA Jarvis
+      url: cainvidia_executive_summary.html
+    - title: Condução autónoma
+      url: tr-4799.html
+    - title: Saúde - Diagnóstico por imagem
+      url: tr-4811.html
+    - title: Detecção de fraude de cartão de crédito
+      url: tr-4807.html
+  - title: Casos de uso do Azure
+    links:
+    - title: Previsão de taxa de cliques - Treinamento distribuído no Azure
+      url: aks-anf_introduction.html
+    - title: Detecção de faixa - Treinamento distribuído no Azure
+      url: runai-ld_executive_summary.html
+  - title: 'SuperPOD: Uma solução NetApp e NVIDIA'
+    links:
+    - title: BeeGFS no NetApp (Guia de Design)
+      url: https://www.netapp.com/pdf.html?item=/media/71123-nva-1164-design.pdf
+    - title: BeeGFS no NetApp (Guia de implantação)
+      url: https://www.netapp.com/pdf.html?item=/media/71124-nva-1164-deploy.pdf
+    - title: NVIDIA DGX SuperPOD with NetApp (Guia de design)
+      url: https://www.netapp.com/pdf.html?item=/media/72718-nva-1167-DESIGN.pdf

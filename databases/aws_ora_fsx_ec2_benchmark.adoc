@@ -1,0 +1,102 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_ora_fsx_ec2_benchmark.html 
+summary: Esta seção fornece detalhes sobre validação de desempenho e resultados de benchmark de uma carga de trabalho OLTP simulada do Swingbench. 
+keywords: HA, DR, database, Oracle, RDS, AWS, SnapCenter 
+---
+= Validação de desempenho e resultados de benchmark
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O objetivo desta validação de desempenho não é definir nenhuma marca. Em vez disso, se você seguir os procedimentos de implantação e as práticas recomendadas, conforme descrito nesta documentação, poderá esperar métricas de desempenho semelhantes da implantação do banco de dados Oracle em uma nuvem pública.
+
+Usamos um módulo SOE (Sales Order Entry) do Swingbench para simular uma carga de trabalho do tipo OLTP e aplicamos a carga de trabalho em um banco de dados Oracle implantado em uma instância M5 EC2 com volumes de armazenamento FSX no protocolo NFS. O perfil padrão de e/S do Swingbench SOE está próximo a uma divisão de leitura/gravação 80/20, que é próxima de um perfil de carga de trabalho OLTP Oracle do mundo real.
+
+A carga de trabalho é incrementada aumentando o número de usuários simultâneos no lado do cliente que estão realizando entrada de pedidos de vendas, navegação, consultas de inventário e assim por diante. Os números testados foram 8, 16, 32, 64 e 128 usuários simultâneos. O algoritmo que o Swingbench usa é pesado no lado do servidor para enviar volumes de transação razoáveis e testar limites de servidor Oracle. Observamos que, em 128 usuários simultâneos, a utilização de CPU de EC2 instâncias atingiu aproximadamente 80-90% de capacidade.
+
+As seções a seguir fornecem detalhes dos resultados da configuração e do teste.
+
+
+
+== Configuração do ambiente de teste
+
+
+
+=== Computação
+
+Implantamos uma instância EC2 M5 com 8vCPU GB, 32G GB de RAM e 10Gps GB de largura de banda de rede.
+
+image:aws_ora_fsx_ec2_inst_10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== Armazenamento FSX
+
+Criamos três volumes de banco de dados e montamos os volumes com NFS em uma instância do EC2 da seguinte forma:
+
+* /u01 - Oracle binário
+* /u02 - arquivos de dados Oracle, arquivo de controle
+* /u03 - arquivos de log Oracle, arquivo de controle
+
+
+Mantivemos duas cópias de um arquivo de controle crítico para redundância.
+
+image:aws_ora_fsx_ec2_stor_15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O sistema de arquivos FSX é configurado com capacidade de 80.000 IOPS e taxa de transferência de e/S de 2GiBps Gbps.
+
+
+
+=== Configuração Oracle
+
+Instalamos o Oracle versão 19C com o patch RU 19,8. O DNFS foi habilitado no servidor.
+
+O banco de dados foi implantado como um banco de dados em contentor com três PDBs. Usamos uma instância PDB para testes de desempenho. A figura a seguir mostra o dimensionamento do armazenamento Oracle nos pontos de montagem NFS.
+
+image:aws_ora_fsx_ec2_inst_11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+=== Configuração do banco oscilante
+
+Implantamos o Swingbench 2,6 (a versão mais recente) em um host Windows com 8vCPU GB e 32G GB de RAM. Utilizamos o módulo de teste SOE plsql versão 2 para o benchmark. O perfil de carga padrão fornece uma taxa de leitura/gravação de 80/20 para simular a carga de trabalho de transação OLTP do mundo real.
+
+O fator de escala de esquema utilizado foi 50, o que proporcionou um tamanho inicial de carga de dados de 160G e 30G de alocação de espaço temporário. Neste fator de escala, o esquema SOE forneceu 1000 armazéns e 50 milhões de clientes para a simulação do processamento de pedidos online.
+
+A captura de tela a seguir demonstra o perfil de carga de trabalho e as métricas típicas de execução transacional da IU do Windows do Swingbench.
+
+image:aws_ora_fsx_ec2_swin_01.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Como este gráfico mostra, o nível de transação foi mantido no mesmo nível durante a execução do teste.
+
+
+
+== Análise dos resultados dos testes
+
+Nós capturamos os resultados do Swingbench para cada teste e obtivemos os relatórios correspondentes do Oracle AWR para análise de desempenho.
+
+Do lado do usuário final, analisamos as principais métricas, como o volume de transações e o tempo de resposta do usuário. Ambas as métricas mostram quantas transações os usuários podem executar a partir do sistema de entrada de pedidos de vendas, dado o número de usuários simultâneos que fazem login no sistema, bem como a rapidez com que os usuários podem concluir transações e receber resposta de volta depois que entraram em seu pedido.
+
+No final do servidor Oracle, analisamos o relatório AWR Oracle para determinar os principais eventos de espera que podem ter desacelerado as transações dos usuários. Os 10 principais eventos de espera do Oracle indicaram que, durante a execução do teste de transação simulada do Swingbench, o servidor Oracle é principalmente vinculado a e/S com até 50%-60% do tempo gasto no banco de dados `db file sequential read`. `log file sync` Também é um fator contribuinte porque os commits de transação fazem com que o processo de log Oracle flush e/S do cache de buffer para o arquivo de log no disco, embora seja um fator menor no nível de porcentagem de tempo do banco de dados.
+
+Nós mapeamos o volume da transação do usuário, o tempo de resposta do usuário e os eventos de espera superior do Oracle em relação ao número de usuários simultâneos durante uma execução de transação. Os resultados são mostrados abaixo:
+
+image:aws_ora_fsx_ec2_swin_02.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Esses resultados indicam que podemos aumentar constantemente os volumes de transações de usuários com um número maior de usuários simultâneos, mantendo uma latência de e/S consistentemente baixa e tempo de resposta do usuário, o que é o desempenho apropriado para um aplicativo Oracle.
+
+A latência de e/S e o tempo de resposta do usuário começaram a aumentar um pouco quando chegamos a 128 usuários simultâneos. Isso é esperado porque a instância EC2 está se aproximando da capacidade total do servidor, como mostrado no diagrama a seguir:
+
+image:aws_ora_fsx_ec2_swin_03.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Da mesma forma, o diagrama a seguir mostra o IOPS e a taxa de transferência correspondentes do FSX, enquanto preenche os volumes de transação do usuário no momento.
+
+image:aws_ora_fsx_ec2_swin_04.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"] image:aws_ora_fsx_ec2_swin_05.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Não alcançamos a capacidade de armazenamento FSX provisionada em IOPS ou taxa de transferência quando a instância do Oracle Server EC2 se tornou o fator limitante. Portanto, você deve dimensionar corretamente a computação e o storage com base no volume de transação no nível do aplicativo do usuário, como demonstramos na seção link:aws_ora_fsx_ec2_factors.html["Fatores a considerar para a implantação do banco de dados Oracle."]

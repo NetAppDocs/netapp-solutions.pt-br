@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_load_day_15_in_dask_and_train_a_dask_cuml_random_forest_model.html 
+keywords: dask, cuml, dataframe, criteo, click, logs, pandas, scikit, cudf 
+summary: Esta seção descreve o carregamento do Criteo Click Logs dia 15 no Pandas e o treinamento de um modelo de floresta aleatória scikit-learn. Neste exemplo, realizamos o carregamento do DataFrame com o DAK cuDF e treinamos um modelo de floresta aleatória no DAK cuML. 
+---
+= Carregue o dia 15 em Dask e treine um modelo de floresta aleatória Dask cuML
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+De uma maneira semelhante à seção anterior, carregue o Criteo Click Logs dia 15 no Pandas e treine um modelo de floresta aleatória scikit-learn. Neste exemplo, realizamos o carregamento do DataFrame com o DAK cuDF e treinamos um modelo de floresta aleatória no DAK cuML. Comparamos as diferenças de tempo e escala de treinamento na seção link:aks-anf_training_time_comparison.html[""Comparação de tempo de treinamento.""]
+
+
+
+== Criteo_dask_RF.ipynb
+
+Este caderno importa `numpy`, `cuml` e as bibliotecas necessárias `dask`, como mostrado no exemplo a seguir:
+
+....
+import cuml
+from dask.distributed import Client, progress, wait
+import dask_cudf
+import numpy as np
+import cudf
+from cuml.dask.ensemble import RandomForestClassifier as cumlDaskRF
+from cuml.dask.common import utils as dask_utils
+....
+Inicie o Dask Client().
+
+....
+client = Client()
+....
+Se o cluster estiver configurado corretamente, você poderá ver o status dos nós de trabalho.
+
+....
+client
+workers = client.has_what().keys()
+n_workers = len(workers)
+n_streams = 8 # Performance optimization
+....
+No nosso cluster AKS, é apresentado o seguinte estado:
+
+image:aks-anf_image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Observe que o Dask emprega o paradigma de execução preguiçosa: Em vez de executar o código de processamento instantaneamente, o Dask constrói um gráfico cíclico direcionado (DAG) de execução. O DAG contém um conjunto de tarefas e suas interações que cada trabalhador precisa executar. Este layout significa que as tarefas não são executadas até que o usuário diga ao Dask para executá-las de uma forma ou de outra. Com a Dask você tem três opções principais:
+
+* *Ligue para Compute() em um DataFrame.* Essa chamada processa todas as partições e retorna os resultados para o agendador para agregação final e conversão para cuDF DataFrame. Esta opção deve ser usada com moderação e apenas em resultados altamente reduzidos, a menos que o nó do agendador fique sem memória.
+* *Call persist() em um DataFrame.* Essa chamada executa o gráfico, mas, em vez de retornar os resultados ao nó do agendador, ele os mantém no cluster na memória para que o usuário possa reutilizar esses resultados intermediários no pipeline sem a necessidade de executar novamente o mesmo processamento.
+* *Call head() em um DataFrame.* Assim como no cuDF, esta chamada retorna 10 Registros de volta para o nó do agendador. Essa opção pode ser usada para verificar rapidamente se o DataFrame contém o formato de saída desejado ou se os Registros fazem sentido, dependendo do processamento e cálculo.
+
+
+Portanto, a menos que o usuário chame qualquer uma dessas ações, os trabalhadores ficam ociosos esperando que o agendador inicie o processamento. Esse paradigma de execução preguiçosa é comum em estruturas modernas de computação paralela e distribuída, como o Apache Spark.
+
+O parágrafo a seguir treina um modelo de floresta aleatória usando o Dask cuML para computação acelerada por GPU distribuída e calcula a precisão da previsão do modelo.
+
+....
+Adsf
+# Random Forest building parameters
+n_streams = 8 # optimization
+max_depth = 10
+n_bins = 16
+n_trees = 10
+cuml_model = cumlDaskRF(max_depth=max_depth, n_estimators=n_trees, n_bins=n_bins, n_streams=n_streams, verbose=True, client=client)
+cuml_model.fit(gdf_sliced_small, Y)
+# Model prediction
+pred_df = cuml_model.predict(gdf_test)
+# calculate accuracy
+cu_score = cuml.metrics.accuracy_score( test_y, pred_df )
+....

@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_configuring_kubernetes_cluster.html 
+keywords: NetApp, Kubernetes, Cluster, Configuring 
+summary:  
+---
+= Configurando o cluster do Kubernetes
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção é dividida em duas partes para implantação na nuvem e no local, respetivamente.
+
+
+
+== Configuração do Kubernetes para implantação na nuvem
+
+Por meio do NetApp Cloud Manager, você pode definir a conexão com o cluster do Iguazio Kubernetes. O Trident requer acesso a vários recursos no cluster para disponibilizar o volume.
+
+. Para habilitar o acesso, obtenha o arquivo de configuração do Kubernetes de um dos nós do Iguazio. O arquivo está localizado em `/home/Iguazio/.kube/config.` Baixar este arquivo para sua área de trabalho.
+. Vá para descobrir cluster para configurar.
++
+image:mlrun_image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Faça o upload do arquivo de configuração do Kubernetes. Veja a imagem a seguir.
++
+image:mlrun_image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Implante o Trident e associe um volume ao cluster. Veja a imagem a seguir sobre a definição e atribuição de um volume persistente ao cluster Iguazio.este processo cria um volume persistente (PV) no cluster Kubernetes do Iguazio. Antes de poder usá-lo, você deve definir uma reivindicação de volume persistente (PVC).
++
+image:mlrun_image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Configuração do Kubernetes de implantação no local
+
+Depois de configurar o cluster do Kubernetes e instalar o NetApp Trident, você pode conectar o Trident ao cluster do Iguazio para habilitar recursos de gerenciamento de dados do NetApp, como fazer cópias snapshot de seus dados e modelo.

@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-scv-overview.html 
+keywords: netapp, vmware, getting, started 
+summary:  
+---
+= Plug-in do SnapCenter para VMware vSphere
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O plug-in do SnapCenter para VMware vSphere oferece operações de backup e restauração rápidas, eficientes e consistentes com VM para máquinas virtuais (VMs), armazenamentos de dados e VMDKs. Ele funciona em conjunto com o servidor SnapCenter, habilitando a funcionalidade de backup e restauração baseada em aplicativos para plug-ins específicos de aplicativos do SnapCenter.
+
+
+
+== Recursos de documentação
+
+Consulte os recursos de documentação a seguir para obter informações detalhadas.
+
+* link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["Plug-in do SnapCenter para documentação do VMware vSphere"]
+
+
+
+
+== Recursos da solução
+
+Consulte a seguinte solução de backup 3-2-1 com plug-in SnapCenter para VMware vSphere e backup e recuperação BlueXP  para VMs.
+
+Relatório técnico: link:../ehc/bxp-scv-hybrid-solution.html["Proteção de dados 3-2-1 para VMware com plug-in SnapCenter e backup e recuperação de BlueXP  para VMs"]
+
+Blog do Tech OnTap: link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["Proteção de dados 3-2-1 para VMware com plug-in SnapCenter e backup e recuperação de BlueXP  para VMs"]
+
+
+
+== Recursos de vídeo
+
+.Plug-in do SnapCenter para VMware vSphere - Pré-requisitos da solução
+video::38881de9-9ab5-4a8e-a17d-b01200fade6a[panopto]
+.Plug-in do SnapCenter para VMware vSphere - implantação
+video::10cbcf2c-9964-41aa-ad7f-b01200faca01[panopto]
+.Plug-in do SnapCenter para VMware vSphere - fluxo de trabalho de backup
+video::b7272f18-c424-4cc3-bc0d-b01200faaf25[panopto]
+.Plug-in do SnapCenter para VMware vSphere - Restaurar fluxo de trabalho
+video::ed41002e-585c-445d-a60c-b01200fb1188[panopto]
+.SnapCenter - fluxo de trabalho de restauração SQL
+video::8df4ad1f-83ad-448b-9405-b01200fb2567[panopto]

@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_jarvis_deployment.html 
+keywords: Jarvis, Deployment, NVIDIA, 
+summary:  
+---
+= Implantação Jarvis
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Você pode se inscrever https://developer.nvidia.com/nvidia-jarvis-early-access["Programa de acesso antecipado Jarvis"^] para obter acesso aos contentores Jarvis na nuvem de GPU da NVIDIA (NGC). Depois de receber credenciais do NVIDIA, você pode implantar o Jarvis usando as seguintes etapas:
+
+. Inicie sessão na NGC.
+. Defina a sua organização em NGC: `ea-2-jarvis`.
+. Localizar ativos Jarvis EA v0,2: Os contentores Jarvis estão em `Private Registry` > `Organization Containers`.
+. Selecione Jarvis: Navegue até `Model Scripts` e clique em `Jarvis Quick Start`
+. Verifique se todos os ativos estão funcionando corretamente.
+. Encontre a documentação para criar seus próprios aplicativos: PDFs podem ser encontrados em `Model Scripts` `Jarvis Documentation` > `File Browser`.
+

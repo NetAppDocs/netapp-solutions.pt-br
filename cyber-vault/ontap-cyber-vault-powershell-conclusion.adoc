@@ -1,0 +1,22 @@
+---
+sidebar: sidebar 
+permalink: cyber-vault/ontap-cyber-vault-powershell-conclusion.html 
+keywords: Cyber vault, powershell, script, configuration, validation, hardening 
+summary: Esta é a solução NetApp ONTAP para configurar, fortalecer e validar um cofre cibernético baseado em ONTAP 
+---
+= Conclusão da solução do ONTAP Cyber Vault
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ao utilizar metodologias robustas de fortalecimento fornecidas pela ONTAP, o NetApp permite que você crie um ambiente de storage seguro e isolado que seja resiliente contra ameaças cibernéticas em evolução. Tudo isso é feito mantendo a agilidade e a eficiência da infraestrutura de storage existente. Esse acesso seguro capacita as empresas a alcançar suas rigorosas metas de segurança e tempo de atividade com o mínimo de mudança em sua estrutura existente de pessoas, processos e tecnologia.
+
+O ONTAP Cyber Vault usa recursos nativos no ONTAP é uma abordagem fácil para proteção adicional para criar cópias imutáveis e indeléveis de seus dados. Adicionar o Cyber Vault baseado em ONTAP da NetApp à postura geral de segurança:
+
+* Crie um ambiente separado e desconetado das redes de produção e backup e restrinja o acesso do usuário a ele.
+

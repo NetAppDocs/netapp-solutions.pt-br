@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_optimal_cluster_and_gpu_utilization_with_run_ai_overview.html 
+keywords:  
+summary:  
+---
+= Utilização ideal de cluster e GPU com Run:AI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+As seções a seguir fornecem detalhes sobre a instalação Run:AI, cenários de teste e resultados realizados nesta validação.
+
+Validamos a operação e o desempenho deste sistema usando ferramentas de benchmark padrão do setor, incluindo benchmarks TensorFlow. O conjunto de dados IMAGEnet foi usado para treinar o ResNet-50, que é um famoso modelo de DL de rede neural convolucional (CNN) para classificação de imagens. O ResNet-50 oferece um resultado de treinamento preciso com um tempo de processamento mais rápido, o que nos permitiu gerar uma demanda suficiente no armazenamento.

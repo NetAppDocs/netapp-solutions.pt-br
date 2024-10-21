@@ -1,0 +1,151 @@
+---
+sidebar: sidebar 
+permalink: videos.html 
+summary: Série de vídeos e demos que discutem os recursos de muitas das soluções da NetApp 
+keywords: netapp, solutions, videos, demos 
+---
+= Soluções NetApp: Vídeos e demonstrações
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+Visão geral dos vídeos e demonstrações destacando recursos específicos de muitas das soluções da NetApp.
+
+.Inteligência artificial (AI) e análise de dados moderna
+[#ai%collapsible]
+====
+* link:https://www.youtube.com/playlist?list=PLdXI3bZJEw7nSrRhuolRPYqvSlGLuTOAO["Soluções de AI da NetApp"^]
+* link:https://www.youtube.com/playlist?list=PLdXI3bZJEw7n1sWK-QGq4QMI1VBJS-ZZW["MLOps"^]
+
+
+.Aceleração de DevOps com o Toolkit DataOps e o Astra Control Center Cloud bursting
+video::e87773e3-dc53-4195-83ed-b0d50100a788[panopto,width=360]
+====
+.Aplicações empresariais e bancos de dados
+[#db%collapsible]
+====
+* Vídeos para bancos de dados de código aberto*
+
+.Implementação automatizada PostgreSQL, configuração de replicação HA/DR, failover, ressincronização
+video::c381b887-8c8b-4d7d-8b0f-b0c0010c5c04[panopto,width=360]
+* Vídeos para o banco de dados Oracle*
+
+.Backup, recuperação e clone de banco de dados Oracle no ANF com o SnapCenter
+video::960fb370-c6e0-4406-b6d5-b110014130e8[panopto,width=360]
+.Implantação Oracle simplificada e automatizada no Azure NetApp Files com NFS
+video::d1c859b6-e45a-44c7-8361-b10f012fc89b[panopto,width=360]
+.Implantação Oracle simplificada e automatizada no Amazon FSX ONTAP com iSCSI
+video::81e389a0-d9b8-495c-883b-b0d701710847[panopto,width=360]
+.Implantação Oracle simplificada e automatizada em NetApp ASA com iSCSI
+video::79095731-6b02-41d5-9fa1-b0c00100d055[panopto,width=360]
+.Parte 1 - modernização da Oracle com nuvem híbrida na AWS e no FSX ONTAP
+video::b1a7bb05-caea-44a0-bd9a-b01200f372e9[panopto,width=360]
+.Parte 2a - migração de banco de dados do local para a AWS usando realocação automatizada de PDB com disponibilidade máxima
+video::bb088a3e-bbfb-4927-bf44-b01200f38b17[panopto,width=360]
+.Parte 2b - migração de banco de dados do local para a AWS usando o console BlueXP  via SnapMirror
+video::c0df32f8-d6d3-4b79-b0bd-b01200f3a2e8[panopto,width=360]
+.Parte 3 - Configuração automatizada de replicação HA/DR de banco de dados, failover, ressincronização
+video::5fd03759-a691-4007-9748-b01200f3b79c[panopto,width=360]
+.Parte 4a - clone do banco de dados para desenvolvimento/teste com UI do SnapCenter a partir de cópia em espera replicada
+video::2f731d7c-0873-4a4d-8491-b01200f90a82[panopto,width=360]
+.Parte 4b - Backup de banco de dados, restauração, clone com SnapCenter UI
+video::97790d62-ff19-40e0-9784-b01200f920ed[panopto,width=360]
+.Parte 4c - Backup de banco de dados, restauração com backup e recuperação de aplicativos SaaS BlueXP 
+video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto,width=360]
+* Vídeos para o banco de dados do SQL Server*
+
+.Implante o SQL Server no AWS EC2 usando o Amazon FSX ONTAP
+video::27f28284-433d-4273-8748-b01200fb3cd7[panopto,width=360]
+.Clone de banco de dados conetável com vários clientes da Oracle usando snapshots de armazenamento
+video::krzMWjrrMb0[youtube,width=360]
+.Implantação automatizada do Oracle 19Ci RAC no FlexPod com Ansible
+video::VcQMJIRzhoY[youtube,width=360]
+*Estudo de caso*
+
+* link:https://customers.netapp.com/en/sap-azure-netapp-files-case-study["SAP no Azure NetApp Files"^]
+
+
+====
+.Multicloud híbrida (HMC)
+[#hmc%collapsible]
+====
+*Vídeos para AWS/VMC*
+
+.Armazenamento conetado ao convidado do Windows com o FSX ONTAP usando iSCSI
+video::0d03e040-634f-4086-8cb5-b01200fb8515[panopto,width=360]
+.Armazenamento conetado ao convidado Linux com o FSX ONTAP usando NFS
+video::c3befe1b-4f32-4839-a031-b01200fb6d60[panopto,width=360]
+.Você pode economizar no TCO da AWS com o Amazon FSX ONTAP
+video::f0fedec5-dc17-47af-8821-b01200f00e08[panopto,width=360]
+.VMware Cloud no armazenamento de dados suplementar da AWS com o Amazon FSX ONTAP
+video::2065dcc1-f31a-4e71-a7d5-b01200f01171[panopto,width=360]
+.Configuração e implantação do VMware HCX para VMC
+video::6132c921-a44c-4c81-aab7-b01200fb5d29[panopto,width=360]
+.Demonstração de migração do VMotion com VMware HCX para VMC e FSX ONTAP
+video::52661f10-3f90-4f3d-865a-b01200f06d31[panopto,width=360]
+.Demonstração de migração fria com VMware HCX para VMC e FSX ONTAP
+video::685c0dc2-9d8a-42ff-b46d-b01200f056b0[panopto,width=360]
+*Vídeos para o Azure/AVS*
+
+.Visão geral do datastore suplementar da solução Azure VMware com o Azure NetApp Files
+video::8c5ddb30-6c31-4cde-86e2-b01200effbd6[panopto,width=360]
+.DR da solução VMware Azure com Cloud Volumes ONTAP, SnapCenter e JetStream
+video::5cd19888-8314-4cfc-ba30-b01200efff4f[panopto,width=360]
+.Demonstração de migração a frio com VMware HCX para AVS e ANF
+video::b7ffa5ad-5559-4e56-a166-b01200f025bc[panopto,width=360]
+.Demonstração do VMotion com VMware HCX para AVS e ANF
+video::986bb505-6f3d-4a5a-b016-b01200f03f18[panopto,width=360]
+.Demonstração de migração em massa com VMware HCX para AVS e ANF
+video::255640f5-4dff-438c-8d50-b01200f017d1[panopto,width=360]
+====
+.Hybrid MultiCloud com Red Hat OpenShift
+[#rhhc%collapsible]
+====
+.SnapShot/Restore para aplicativos em clusters do Red Hat OpenShift no AWS (Rosa) com o armazenamento do Amazon FSX ONTAP
+video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto,width=360]
+.ROSA DR usando Astra Control Service
+video::01dd455e-7f5a-421c-b501-b01200fa91fd[panopto,width=360]
+.Integração do FSX ONTAP com o Trident
+video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto,width=360]
+.Failover e failback de aplicativos no ROSA com o FSX ONTAP
+video::e9a07d79-42a1-4480-86be-b01200fa62f5[panopto,width=360]
+[Underline] no.*DR usando o Astra Control Center* no
+
+link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Assista na NetAppTV"]
+
+.Instalação do OpenShift Cluster no Google Cloud Platform
+video::4efc68f1-d37f-4cdd-874a-b09700e71da9[panopto,width=360]
+.Importação de clusters do OpenShift para o Astra Control Center
+video::57b63822-6bf0-4d7b-b844-b09700eac6ac[panopto,width=360]
+.Proteção de dados com Astra Control Center
+video::0cec0c90-4c6f-4018-9e4f-b09700eefb3a[panopto,width=360]
+.Failover de failover com Astra Control Center
+video::1546191b-bc46-42eb-ac34-b0d60142c58d[panopto,width=360]
+====
+.Virtualização
+[#virtualization%collapsible]
+====
+* link:vmware/vsphere_demos_videos.html["Coleção de vídeos da VMware"]
+
+
+====
+.Contêineres/Kubernetes
+[#containers%collapsible]
+====
+* link:containers/a-w-n_videos_and_demos.html["NetApp com Google vídeos"]
+* link:containers/vtwn_videos_and_demos.html["Vídeos do NetApp com VMware Tanzu"]
+* link:containers/rh-os-n_videos_and_demos.html["NetApp com Red Hat OpenShift vídeos"]
+
+
+====
+.Automação de soluções
+[#automation%collapsible]
+====
+.Implantação automatizada do Oracle 19Ci RAC no FlexPod com Ansible
+video::VcQMJIRzhoY[youtube,width=360]
+====

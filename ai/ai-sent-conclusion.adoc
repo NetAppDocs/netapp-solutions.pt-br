@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-conclusion.html 
+keywords: conclusion, ai augmented, customer experiences 
+summary: A solução proposta neste relatório técnico foi demonstrada para dar suporte à entrega de experiências excecionais ao cliente, e o desafio agora é garantir que as empresas estejam tomando medidas para modernizar sua infraestrutura de IA e seus workflows. 
+---
+= Conclusão
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+À medida que a experiência do cliente se tornou cada vez mais considerada como um campo de batalha competitivo chave, um centro de suporte global com IA-aumentada torna-se um componente crítico que as empresas em quase todos os setores não podem dar ao luxo de negligenciar. A solução proposta neste relatório técnico foi demonstrada para dar suporte à entrega de experiências excecionais ao cliente, e o desafio agora é garantir que as empresas estejam tomando medidas para modernizar sua infraestrutura de IA e seus workflows.
+
+As melhores implementações de IA no atendimento ao cliente não são substituir agentes humanos. Em vez disso, a IA pode capacitá-los a criar experiências excecionais ao cliente por meio de análise de sentimentos em tempo real, escalonamento de disputas e computação afetiva multimodal para detetar pistas verbais, não verbais e faciais com as quais modelos abrangentes de IA podem fazer recomendações em escala e complementar o que um agente humano individual pode estar faltando. A IA também pode fornecer uma melhor correspondência entre um cliente específico com os agentes atualmente disponíveis. Usando a IA, as empresas podem extrair um sentimento valioso dos clientes em relação a seus pensamentos e impressões sobre os produtos, serviços e imagem da marca do provedor.
+
+A solução também pode ser usada para construir dados de séries temporais para que os agentes de suporte sirvam como uma métrica objetiva de avaliação de desempenho. Pesquisas convencionais de satisfação do cliente muitas vezes não têm respostas suficientes. Ao coletar o sentimento de longo prazo dos funcionários e dos clientes, os empregadores podem tomar decisões informadas sobre o desempenho dos agentes de suporte.
+
+A combinação de NetApp, SFL Scientific, estruturas de orquestração de código aberto e NVIDIA reúne as tecnologias mais recentes como serviços gerenciados com grande flexibilidade para acelerar a adoção de tecnologia e melhorar o time-to-market de novos aplicativos de IA/ML. Esses serviços avançados são fornecidos no local que pode ser facilmente portado para ambientes nativos da nuvem e arquiteturas de implantação híbrida.

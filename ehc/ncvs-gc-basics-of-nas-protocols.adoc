@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-basics-of-nas-protocols.html 
+keywords: nas, basics, gcp, nfs, smb 
+summary: Protocolos nas são formas de vários clientes em uma rede acessar os mesmos dados em um sistema de storage, como o Cloud Volumes Service no GCP. NFS e SMB são os protocolos nas definidos e operam de acordo com o cliente/servidor em que o Cloud Volumes Service atua como servidor. 
+---
+= Noções básicas de protocolos nas
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Protocolos nas são formas de vários clientes em uma rede acessar os mesmos dados em um sistema de storage, como o Cloud Volumes Service no GCP. NFS e SMB são os protocolos nas definidos e operam de acordo com o cliente/servidor em que o Cloud Volumes Service atua como servidor. Os clientes enviam solicitações de acesso, leitura e gravação ao servidor, e o servidor é responsável por coordenar os mecanismos de bloqueio de arquivos, armazenar permissões e lidar com solicitações de identidade e autenticação.
+
+Por exemplo, o seguinte processo geral é seguido se um cliente nas quiser criar um novo arquivo em uma pasta.
+
+. O cliente solicita ao servidor informações sobre o diretório (permissões, proprietário, grupo, ID do arquivo, espaço disponível, etc.); o servidor responde com as informações se o cliente solicitante e o usuário tiverem as permissões necessárias na pasta pai.
+. Se as permissões no diretório permitirem o acesso, o cliente pergunta ao servidor se o nome do arquivo que está sendo criado já existe no sistema de arquivos. Se o nome do arquivo já estiver em uso, a criação falhará. Se o nome do arquivo não existir, o servidor informa ao cliente que ele pode prosseguir.
+. O cliente emite uma chamada para o servidor para criar o arquivo com o identificador do diretório e o nome do arquivo e define os horários de acesso e modificação. O servidor emite um ID de arquivo exclusivo para o arquivo para garantir que nenhum outro arquivo seja criado com o mesmo ID de arquivo.
+. O cliente envia uma chamada para verificar atributos de arquivo antes da OPERAÇÃO DE GRAVAÇÃO. Se as permissões o permitirem, o cliente grava o novo arquivo. Se o bloqueio for usado pelo protocolo/aplicativo, o cliente solicitará ao servidor um bloqueio para impedir que outros clientes acessem o arquivo enquanto estiverem bloqueados para evitar a corrupção de dados.
+

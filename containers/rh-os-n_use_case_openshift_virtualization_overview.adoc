@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_overview.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualização OpenShift da Red Hat com NetApp ONTAP 
+---
+= Virtualização OpenShift da Red Hat com NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dependendo do caso de uso específico, os contêineres e as máquinas virtuais (VMs) podem servir como plataformas ideais para diferentes tipos de aplicações. Portanto, muitas organizações executam algumas de suas cargas de trabalho em contêineres e algumas em VMs. Muitas vezes, isso leva as organizações a enfrentar desafios adicionais ao gerenciar plataformas separadas: Um hipervisor para VMs e um orquestrador de contêineres para aplicações.
+
+Para enfrentar esse desafio, a Red Hat introduziu o OpenShift Virtualization (anteriormente conhecido como Container Native Virtualization) a partir do OpenShift versão 4,6. O recurso OpenShift Virtualization permite que você execute e gerencie máquinas virtuais juntamente com contentores na mesma instalação do OpenShift Container Platform, fornecendo capacidade de gerenciamento híbrido para automatizar a implantação e o gerenciamento de VMs por meio de operadores. Além de criar VMs no OpenShift, com o OpenShift Virtualization, a Red Hat também oferece suporte à importação de VMs de implantações do VMware vSphere, Red Hat Virtualization e Red Hat OpenStack Platform.
+
+image:redhat_openshift_image44.jpg["Virtualização OpenShift"]
+
+Certos recursos, como migração de VM em tempo real, clonagem de disco de VM, snapshots de VM, etc., também são suportados pela virtualização OpenShift com a ajuda do Trident quando apoiado pelo NetApp ONTAP. Exemplos de cada um desses fluxos de trabalho são discutidos posteriormente neste documento em suas respetivas seções.
+
+Para saber mais sobre o Red Hat OpenShift Virtualization, consulte a documentação https://www.openshift.com/learn/topics/virtualization/["aqui"].

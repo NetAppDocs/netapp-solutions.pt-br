@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_hybrid_cloud_vdi_with_virtual_desktop_service.html 
+keywords: TR-4861, VDS, Windows Virtual Desktop, Remote Desktop Services, Virtual Desktop Services, 
+summary: 'O serviço de desktop virtual (VDS) da NetApp orquestra serviços de desktop remoto (RDS) nas principais nuvens públicas e em nuvens privadas. O VDS oferece suporte ao Windows Virtual Desktop (WVD) no Microsoft Azure. O VDS automatiza muitas tarefas que devem ser executadas após a implantação do WVD ou RDS, incluindo a configuração de compartilhamentos de arquivos SMB (para perfis de usuário, dados compartilhados e unidade principal do usuário), habilitando recursos do Windows, instalação de aplicativos e agentes, firewall e políticas, etc.' 
+---
+= TR-4861: Nuvem híbrida VDI com Virtual Desktop Service
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Suresh Toppay, NetApp
+
+[role="lead"]
+O serviço de desktop virtual (VDS) da NetApp orquestra serviços de desktop remoto (RDS) nas principais nuvens públicas e em nuvens privadas. O VDS oferece suporte ao Windows Virtual Desktop (WVD) no Microsoft Azure. O VDS automatiza muitas tarefas que devem ser executadas após a implantação do WVD ou RDS, incluindo a configuração de compartilhamentos de arquivos SMB (para perfis de usuário, dados compartilhados e unidade principal do usuário), habilitando recursos do Windows, instalação de aplicativos e agentes, firewall e políticas, etc.
+
+Os usuários consomem o VDS para desktops dedicados, desktops compartilhados e aplicativos remotos. O VDS fornece eventos programados para automatizar o gerenciamento de aplicativos para desktops e reduz o número de imagens a serem gerenciadas.
+
+O VDS fornece um único portal de gerenciamento para lidar com implantações em ambientes de nuvem pública e privada.
+
+
+
+== Valor do cliente
+
+A explosão remota da força de trabalho de 2020 mudou os requisitos para a continuidade dos negócios. Os departamentos DE TI enfrentam novos desafios para provisionar rapidamente desktops virtuais e, assim, exigir agilidade de provisionamento, gerenciamento remoto e as vantagens de TCO de uma nuvem híbrida que facilita o provisionamento de recursos no local e na nuvem. Elas precisam de uma solução de nuvem híbrida que:
+
+* Aborda a realidade do espaço de trabalho pós-COVID para permitir modelos de trabalho flexíveis com dinâmica global
+* Possibilita o trabalho em turnos simplificando e acelerando a implantação de ambientes de trabalho para todos os funcionários, desde trabalhadores de tarefas a usuários avançados
+* Mobiliza sua força de trabalho fornecendo recursos de VDI ricos e seguros, independentemente do local físico
+* Simplifica a implantação de nuvem híbrida
+* Automatiza e simplifica o gerenciamento de redução de riscos
+

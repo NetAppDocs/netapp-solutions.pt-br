@@ -1,0 +1,621 @@
+---
+sidebar: sidebar 
+permalink: databases/sqlsb-backup-restore-aws-fsxn.html 
+keywords: SQL server, SQL, backup, recover, AWS, aws, sql 
+summary:  
+---
+= TR-4951: Backup e recuperação para o Microsoft SQL Server no AWS FSX ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Author(s): João Paulo, são Paulo - NetApp Engenharia de soluções
+
+[role="lead"]
+Este documento aborda as etapas necessárias para executar o backup e a recuperação para o Microsoft SQL Server no AWS FSX ONTAP com SnapCenter. Isso inclui as seguintes informações:
+
+* Configuração do NetApp SnapCenter
+* Operações de backup do SnapCenter
+* Operação de backup para um banco de dados FCI
+* Operação de backup para vários bancos de dados
+* Restauração e recuperação
+
+
+
+
+== Configuração do SnapCenter
+
+As etapas a seguir devem ser executadas para a configuração do SnapCenter e para a proteção dos recursos do Microsoft SQL Server. Cada uma das etapas a seguir é detalhada nas seções a seguir.
+
+. Configurar credenciais sysadmin para o usuário de backup e restauração do SQL Server.
+. Configure as definições de armazenamento. Forneça credenciais de gerenciamento do Amazon Web Services (AWS) para acessar as máquinas virtuais de armazenamento do Amazon FSX ONTAP (SVMs) da SnapCenter.
+. Adicione um host SQL Server ao SnapCenter. Implante e instale os plug-ins do SnapCenter necessários.
+. Configurar políticas. Defina o tipo de operação de backup, a retenção e a replicação opcional do backup Snapshot.
+. Configure e proteja o banco de dados do Microsoft SQL Server.
+
+
+
+
+== Interface de usuário recém-instalada do SnapCenter
+
+Configure credenciais para backup do SQL Server e restaure o usuário com direitos sysadmin.
+
+image:sqlsb-aws-image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A NetApp recomenda o uso do controle de acesso baseado em funções (RBAC) para delegar recursos de proteção e gerenciamento de dados a usuários individuais nos hosts SnapCenter e Window. O usuário deve ter acesso ao SQL Server que hospeda o banco de dados. Para vários hosts, o nome de usuário e a senha devem ser os mesmos entre os vários hosts. Além disso, para permitir que o SnapCenter implante o plug-in necessário em hosts do SQL Server, você deve Registrar as informações de domínio do SnapCenter para validar suas credenciais e hosts.
+
+Expanda as seções a seguir para ver as instruções detalhadas sobre como concluir cada etapa.
+
+.Adicione as credenciais
+[%collapsible]
+====
+Vá para *Configurações*, selecione *credenciais* e clique em (**).
+
+image:sqlsb-aws-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+O novo usuário deve ter direitos de administrador no host do SQL Server.
+
+image:sqlsb-aws-image3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+====
+.Configurar o armazenamento
+[%collapsible]
+====
+Para configurar o armazenamento no SnapCenter, execute as seguintes etapas:
+
+. Na IU do SnapCenter, selecione *sistemas de armazenamento*. Há dois tipos de storage: *ONTAP SVM* e *ONTAP Cluster*. Por padrão, o tipo de storage é *ONTAP SVM*.
+. Clique em (*) para adicionar as informações do sistema de armazenamento.
++
+image:sqlsb-aws-image4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Forneça o ponto de extremidade *FSX ONTAP Management*.
++
+image:sqlsb-aws-image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. O SVM agora está configurado no SnapCenter.
++
+image:sqlsb-aws-image6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+====
+.Adicione um host SQL Server ao SnapCenter
+[%collapsible]
+====
+Para adicionar um host do SQL Server, execute as seguintes etapas:
+
+. Na guia Host, clique em (*) para adicionar o host do Microsoft SQL Server.
++
+image:sqlsb-aws-image7.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Forneça o nome de domínio totalmente qualificado (FQDN) ou o endereço IP do host remoto.
++
+
+NOTE: As credenciais são preenchidas por padrão.
+
+. Selecione a opção para Microsoft Windows e Microsoft SQL Server e, em seguida, envie.
++
+image:sqlsb-aws-image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+Os pacotes do SQL Server estão instalados.
+
+image:sqlsb-aws-image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Depois que a instalação estiver concluída, vá para a guia *recurso* para verificar se todos os volumes iSCSI do FSX ONTAP estão presentes.
++
+image:sqlsb-aws-image10.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+====
+.Configure o diretório de log
+[%collapsible]
+====
+Para configurar um diretório de log do host, execute as seguintes etapas:
+
+. Clique na caixa de verificação. Abre-se um novo separador.
++
+image:sqlsb-aws-image11.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique no link *configure log Directory*.
++
+image:sqlsb-aws-image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione a unidade para o diretório de log do host e o diretório de log de instância do FCI. Clique em *Salvar*. Repita o mesmo processo para o segundo nó no cluster. Feche a janela.
++
+image:sqlsb-aws-image13.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+O host está agora em um estado em execução.
+
+image:sqlsb-aws-image14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na guia *Resources*, temos todos os servidores e bancos de dados.
++
+image:sqlsb-aws-image15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+====
+
+
+== Configurar uma política de cópia de segurança
+
+Uma política de backup é um conjunto de regras que regem como gerenciar, agendar e reter o backup. Ele ajuda com o tipo de backup e a frequência com base no SLA da sua empresa.
+
+Expanda as seções a seguir para ver as instruções detalhadas sobre como concluir cada etapa.
+
+.Configure a operação de backup para um banco de dados FCI
+[%collapsible]
+====
+Para configurar uma política de backup para um banco de dados FCI, execute as seguintes etapas:
+
+. Vá para *Configurações* e selecione *políticas* no canto superior esquerdo. Em seguida, clique em *New*.
++
+image:sqlsb-aws-image16.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Introduza o nome da política e uma descrição. Clique em *seguinte*.
++
+image:sqlsb-aws-image17.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione *Backup completo* como o tipo de backup.
++
+image:sqlsb-aws-image18.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione a frequência da programação (isto é baseado no SLA da empresa). Clique em *seguinte*.
++
+image:sqlsb-aws-image19.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure as definições de retenção para a cópia de segurança.
++
+image:sqlsb-aws-image20.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure as opções de replicação.
++
+image:sqlsb-aws-image21.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Especifique um script de execução para ser executado antes e depois de um trabalho de backup ser executado (se houver).
++
+image:sqlsb-aws-image22.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Execute a verificação com base no agendamento de backup.
++
+image:sqlsb-aws-image23.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. A página *Summary* fornece detalhes da política de backup. Quaisquer erros podem ser corrigidos aqui.
++
+image:sqlsb-aws-image24.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+====
+
+
+== Configure e proteja o banco de dados do MSSQL Server
+
+. Configure a data de início e a data de expiração da política de backup.
++
+image:sqlsb-aws-image25.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Defina a programação para a cópia de segurança. Para fazer isso, clique em (*) para configurar um agendamento. Introduza a *Data de início* e *expira em* data. Defina o tempo com base no SLA da empresa.
++
+image:sqlsb-aws-image26.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure o servidor de verificação. No menu suspenso, selecione o servidor.
++
+image:sqlsb-aws-image27.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Confirme a programação configurada clicando no sinal de mais e confirme.
+. Forneça informações para notificação por e-mail. Clique em *seguinte*.
++
+image:sqlsb-aws-image28.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+O resumo da política de backup para o banco de dados do SQL Server agora está configurado.
+
+image:sqlsb-aws-image29.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Operações de backup do SnapCenter
+
+Para criar backups do SQL Server sob demanda, execute as seguintes etapas:
+
+. Na exibição *recurso*, selecione o recurso e selecione *Backup Now*.
++
+image:sqlsb-aws-image30.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na caixa de diálogo *Backup*, clique em *Backup*.
++
+image:sqlsb-aws-image31.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. É apresentado um ecrã de confirmação. Clique em *Yes* para confirmar.
++
+image:sqlsb-aws-image32.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Monitorizar trabalho de cópia de segurança
+
+. Na guia *Monitor*, clique no trabalho e selecione *Detalhes* à direita para exibir os trabalhos.
++
+image:sqlsb-aws-image33.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:sqlsb-aws-image34.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+Quando a cópia de segurança estiver concluída, é apresentada uma nova entrada na vista topologia.
+
+
+
+== Operação de backup para vários bancos de dados
+
+Para configurar uma política de backup para vários bancos de dados do SQL Server, crie políticas de grupo de recursos executando as seguintes etapas:
+
+. Na guia *Resources* no menu *View*, altere para um grupo de recursos usando o menu suspenso.
++
+image:sqlsb-aws-image35.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em (*) para um novo grupo de recursos.
++
+image:sqlsb-aws-image36.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Forneça um nome e uma etiqueta. Clique em *seguinte*.
++
+image:sqlsb-aws-image37.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Adicionar recursos ao grupo de recursos:
++
+** *Anfitrião.* Selecione o servidor no menu suspenso que hospeda o banco de dados.
+** *Tipo de recurso.* No menu suspenso, selecione *Banco de dados*.
+** *Instância do SQL Server.* Selecione o servidor.
++
+image:sqlsb-aws-image38.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+A opção * Auto seleciona todos os recursos do mesmo volume de armazenamento* está selecionada por padrão. Desmarque a opção e selecione somente os bancos de dados que você precisa adicionar ao grupo de recursos, clique na seta para adicionar e clique em *Avançar*.
+
++
+image:sqlsb-aws-image39.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+. Nas políticas, clique em (*).
++
+image:sqlsb-aws-image40.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Introduza o nome da política do grupo de recursos.
++
+image:sqlsb-aws-image41.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione *Backup completo* e a frequência de programação, dependendo do SLA da sua empresa.
++
+image:sqlsb-aws-image42.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure as definições de retenção.
++
+image:sqlsb-aws-image43.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure as opções de replicação.
++
+image:sqlsb-aws-image44.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure os scripts a serem executados antes de executar um backup. Clique em *seguinte*.
++
+image:sqlsb-aws-image45.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Confirme a verificação das seguintes programações de backup.
++
+image:sqlsb-aws-image46.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na página *Summary*, verifique as informações e clique em *Finish*.
++
+image:sqlsb-aws-image47.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Configure e proteja vários bancos de dados do SQL Server
+
+. Clique no sinal (*) para configurar a data de início e a data de expiração.
++
+image:sqlsb-aws-image48.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Defina a hora.
++
+image:sqlsb-aws-image49.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:sqlsb-aws-image50.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na guia *Verificação*, selecione o servidor, configure a programação e clique em *Avançar*.
++
+image:sqlsb-aws-image51.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configurar notificações para enviar um e-mail.
++
+image:sqlsb-aws-image52.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+A política agora está configurada para fazer backup de vários bancos de dados do SQL Server.
+
+image:sqlsb-aws-image53.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Acione o backup sob demanda para vários bancos de dados do SQL Server
+
+. Na guia *recurso*, selecione Exibir. No menu suspenso, selecione *Grupo de recursos*.
++
+image:sqlsb-aws-image54.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione o nome do grupo de recursos.
+. Clique em *Backup Now* no canto superior direito.
++
+image:sqlsb-aws-image55.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Abre-se uma nova janela. Clique na caixa de verificação *Verify after backup* e, em seguida, clique em backup.
++
+image:sqlsb-aws-image56.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Uma mensagem de confirmação é dsiplayed. Clique em *Sim*.
++
+image:sqlsb-aws-image57.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Monitorar trabalhos de backup de vários bancos de dados
+
+Na barra de navegação à esquerda, clique em *Monitor*, selecione o trabalho de cópia de segurança e clique em *Detalhes* para ver o progresso do trabalho.
+
+image:sqlsb-aws-image58.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Clique na guia *recurso* para ver o tempo necessário para que o backup seja concluído.
+
+image:sqlsb-aws-image59.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Backup de log de transações para backup de vários bancos de dados
+
+O SnapCenter é compatível com os modelos de recuperação completos, com marcadores e simples. O modo de recuperação simples não suporta backup de log transacional.
+
+Para executar um backup de log de transações, execute as seguintes etapas:
+
+. Na guia *recursos*, altere o menu de exibição de *Banco de dados* para *Grupo de recursos*.
++
+image:sqlsb-aws-image60.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione a política de backup do grupo de recursos criada.
+. Selecione *Modify Resource Group* (Modificar grupo de recursos) no canto superior direito.
++
+image:sqlsb-aws-image61.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. A seção *Nome* padrão é o nome e a tag da política de backup. Clique em *seguinte*.
++
+A guia *Resources* destaca as bases para as quais a política de backup de transação deve ser configurada.
+
++
+image:sqlsb-aws-image62.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Introduza o nome da política.
++
+image:sqlsb-aws-image63.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione as opções de backup do SQL Server.
+. Selecione cópia de segurança de registo.
+. Defina a frequência de programação com base no rto da sua empresa. Clique em *seguinte*.
++
+image:sqlsb-aws-image64.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure as definições de retenção da cópia de segurança do registo. Clique em *seguinte*.
++
+image:sqlsb-aws-image65.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. (Opcional) Configurar as opções de replicação.
++
+image:sqlsb-aws-image66.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. (Opcional) Configure todos os scripts a serem executados antes de executar um trabalho de backup.
++
+image:sqlsb-aws-image67.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. (Opcional) Configurar a verficação de backup.
++
+image:sqlsb-aws-image68.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na página *Summary*, clique em *Finish*.
++
+image:sqlsb-aws-image69.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Configure e proteja vários bancos de dados MSSQL Server
+
+. Clique na política de backup de log de transações recém-criada.
++
+image:sqlsb-aws-image70.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Defina a data *Start date* e *Expires on*.
+. Insira a frequência da política de backup de log, dependendo do SLA, RTP e RPO. Clique em OK.
++
+image:sqlsb-aws-image71.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Você pode ver ambas as políticas. Clique em *seguinte*.
++
+image:sqlsb-aws-image72.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configure o servidor de verificação.
++
+image:sqlsb-aws-image73.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Configurar notificação por e-mail.
++
+image:sqlsb-aws-image74.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na página *Summary*, clique em *Finish*.
++
+image:sqlsb-aws-image75.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Acionando um backup de log de transações sob demanda para vários bancos de dados SQL Server
+
+Para acionar um backup sob demanda do log transacional para vários bancos de dados de servidor SQL, execute as seguintes etapas:
+
+. Na página de política recém-criada, selecione *Backup Now* no canto superior direito da página.
++
+image:sqlsb-aws-image76.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na janela pop-up na guia *Política*, selecione o menu suspenso, selecione a política de backup e configure o backup do log de transações.
++
+image:sqlsb-aws-image77.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Clique em *Backup*. É apresentada uma nova janela.
+. Clique em *Yes* para confirmar a política de backup.
++
+image:sqlsb-aws-image78.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Monitorização
+
+Vá para a guia *Monitoramento* e monitore o andamento do trabalho de backup.
+
+image:sqlsb-aws-image79.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Restauração e recuperação
+
+Consulte os seguintes pré-requisitos necessários para restaurar um banco de dados SQL Server no SnapCenter.
+
+* A instância de destino deve estar on-line e em execução antes que uma tarefa de restauração seja concluída.
+* As operações do SnapCenter que estão programadas para serem executadas no banco de dados do SQL Server devem ser desativadas, incluindo quaisquer tarefas agendadas em servidores de gerenciamento remoto ou verificação remota.
+* Se você estiver restaurando backups de diretório de log personalizados para um host alternativo, o servidor SnapCenter e o host de plug-in devem ter a mesma versão do SnapCenter instalada.
+* Você pode restaurar o banco de dados do sistema para um host alternativo.
+* O SnapCenter pode restaurar um banco de dados em um cluster do Windows sem colocar o grupo de cluster do SQL Server offline.
+
+
+
+
+== Restaurar tabelas excluídas em um banco de dados do SQL Server para um ponto no tempo
+
+Para restaurar um banco de dados do SQL Server para um ponto no tempo, execute as seguintes etapas:
+
+. A captura de tela a seguir mostra o estado inicial do banco de dados do SQL Server antes das tabelas excluídas.
++
+image:sqlsb-aws-image80.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+A captura de tela mostra que 20 linhas foram excluídas da tabela.
+
++
+image:sqlsb-aws-image81.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Inicie sessão no servidor SnapCenter. Na guia *Resources*, selecione o banco de dados.
++
+image:sqlsb-aws-image82.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Selecione a cópia de segurança mais recente.
+. À direita, selecione *Restaurar*.
++
+image:sqlsb-aws-image83.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. É apresentada uma nova janela. Selecione a opção *Restore*.
+. Restaure o banco de dados para o mesmo host onde o backup foi criado. Clique em *seguinte*.
++
+image:sqlsb-aws-image84.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Para o *tipo de recuperação*, selecione *todos os backups de log*. Clique em *seguinte*.
++
+image:sqlsb-aws-image85.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
++
+image:sqlsb-aws-image86.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+* Opções de pré-restauração:*
+
+. Selecione a opção *Substituir o banco de dados com o mesmo nome durante a restauração*. Clique em *seguinte*.
++
+image:sqlsb-aws-image87.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+* Pós-opções de restauração:*
+
+. Selecione a opção *operacional, mas indisponível para restaurar logs de transação adicionais*. Clique em *seguinte*.
++
+image:sqlsb-aws-image88.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Forneça as configurações de e-mail. Clique em *seguinte*.
++
+image:sqlsb-aws-image89.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Na página *Summary*, clique em *Finish*.
++
+image:sqlsb-aws-image90.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Monitorando o progresso da restauração
+
+. Na guia *Monitoramento*, clique nos detalhes do trabalho de restauração para exibir o andamento do trabalho de restauração.
++
+image:sqlsb-aws-image91.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Restaure os detalhes do trabalho.
++
+image:sqlsb-aws-image92.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+. Retornar ao host do SQL Server > banco de dados > tabela estão presentes.
++
+image:sqlsb-aws-image93.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+
+
+== Onde encontrar informações adicionais
+
+Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
+
+* https://www.netapp.com/pdf.html?item=/media/12400-tr4714pdf.pdf["TR-4714: Guia de práticas recomendadas para Microsoft SQL Server usando NetApp SnapCenter"^]
++
+https://www.netapp.com/pdf.html?item=/media/12400-tr4714pdf.pdf["https://www.netapp.com/pdf.html?item=/media/12400-tr4714pdf.pdf"^]
+
+* https://docs.netapp.com/us-en/snapcenter-45/protect-scsql/concept_requirements_for_restoring_a_database.html["Requisitos para restaurar um banco de dados"^]
++
+https://docs.netapp.com/us-en/snapcenter-45/protect-scsql/concept_requirements_for_restoring_a_database.html["https://docs.netapp.com/us-en/snapcenter-45/protect-scsql/concept_requirements_for_restoring_a_database.html"^]
+
+* Compreender os ciclos de vida do banco de dados clonados
++
+https://library.netapp.com/ecmdocs/ECMP1217281/html/GUID-4631AFF4-64FE-4190-931E-690FCADA5963.html["https://library.netapp.com/ecmdocs/ECMP1217281/html/GUID-4631AFF4-64FE-4190-931E-690FCADA5963.html"^]
+
+

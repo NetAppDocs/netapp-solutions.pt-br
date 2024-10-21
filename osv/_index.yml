@@ -1,0 +1,72 @@
+---
+indexpage:
+  title: Soluções de virtualização NetApp OpenShift
+  summary: As soluções de virtualização NetApp OpenShift são um conjunto de recursos
+    estratégicos e tecnológicos que demonstram os recursos do armazenamento NetApp
+    para virtualização usando a virtualização Red Hat OpenShift.
+  lead: As soluções de virtualização NetApp OpenShift são um conjunto de recursos
+    estratégicos e tecnológicos que demonstram os recursos do armazenamento NetApp
+    para virtualização usando a virtualização Red Hat OpenShift.
+  tiles:
+  - title: Visão geral
+    links:
+    - title: Virtualização Red Hat OpenShift
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_overview.html"
+    - title: Sistemas de storage da NetApp
+      url: "../containers/rh-os-n_overview_netapp.html"
+    - title: Integração de storage da NetApp
+      url: "../containers/rh-os-n_overview_storint.html"
+    - title: Recomendações de práticas recomendadas
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_bpg.html"
+    - title: Blogs
+      url: "../blogs.html#containers-osv"
+    - title: Vídeos
+      url: "../containers/rh-os-n_videos_and_demos.html"
+  - title: Implantação
+    links:
+    - title: Visão geral
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_deployment_prerequisites.html"
+    - title: Instalação do OpenShift Virtualization
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_deployment.html"
+    - title: Criação de VM
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_workflow_create_vm.html"
+    - title: Clonagem da VM
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html"
+    - title: Criação de VM a partir de um Snapshot
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html"
+  - title: Migração de VM
+    links:
+    - title: Migração de VM da VMware
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html"
+    - title: Migração do VM Live
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_live_migration.html"
+  - title: Proteção de dados usando 3rd parte
+    links:
+    - title: Visão geral
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_dataprotection_overview.html"
+    - title: Instalação do OADP
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_dataprotection_installation.html"
+    - title: Cópia de segurança utilizando Velero
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_dataprotection_backup.html"
+    - title: Restaurar utilizando Velero
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_dataprotection_restore.html"
+    - title: Exclusão de backups e restaurações
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_dataprotection_delete.html"
+  - title: Monitorização
+    links:
+    - title: Visão geral
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_ci_overview.html"
+    - title: Integração com a Cloud Insights
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_ci_integration.html"
+    - title: Monitorização de amostras
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_ci_samples.html"
+  - title: Recursos adicionais
+    links:
+    - title: Virtualização Red Hat OpenShift
+      url: https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization
+    - title: 'Virtualização OpenShift: Liberando o poder dos ambientes virtuais'
+      url: https://www.redhat.com/en/blog/openshift-virtualization-unleashing-the-power-of-cloud-native-virtual-environments
+    - title: Documentação do Red Hat OpenShift
+      url: https://docs.openshift.com/container-platform/4.15/virt/about_virt/about-virt.html
+    - title: Blogs da Red Hat
+      url: https://www.redhat.com/en/blog/products

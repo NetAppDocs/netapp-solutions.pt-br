@@ -1,0 +1,41 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_operation_management.html 
+keywords: VDS, Cloud Insights, monitoring, logfile 
+summary: Com o NetApp VDS, os administradores podem delegar tarefas a outras pessoas. Eles podem se conetar a servidores implantados para solucionar problemas, visualizar logs e executar relatórios de auditoria. Ao ajudar os clientes, os técnicos de assistência técnica ou nível 3 podem sombrear sessões de utilizadores, visualizar listas de processos e eliminar processos, se necessário. 
+---
+= Gestão de operações
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Com o NetApp VDS, os administradores podem delegar tarefas a outras pessoas. Eles podem se conetar a servidores implantados para solucionar problemas, visualizar logs e executar relatórios de auditoria. Ao ajudar os clientes, os técnicos de assistência técnica ou nível 3 podem sombrear sessões de utilizadores, visualizar listas de processos e eliminar processos, se necessário.
+
+Para obter informações sobre arquivos de log do VDS, consulte https://docs.netapp.com/us-en/virtual-desktop-service/guide_troubleshooting_failed_VDS_actions.html["Resolução de problemas da página ações VDA falhadas"^].
+
+Para obter mais informações sobre as permissões mínimas necessárias, consulte https://docs.netapp.com/us-en/virtual-desktop-service/WVD_and_VDS_components_and_permissions.html["Página de componentes e permissões do VDA"^] .
+
+Se desejar clonar manualmente um servidor, consulte o https://docs.netapp.com/us-en/virtual-desktop-service/guide_clone_VMs.html["Página clonagem de máquinas virtuais"^].
+
+Para aumentar automaticamente o tamanho do disco da VM, consulte https://docs.netapp.com/us-en/virtual-desktop-service/guide_auto_add_disk_space.html["Página de recursos de aumento automático do espaço em disco"^] .
+
+Para identificar o endereço do gateway para configurar manualmente o cliente, consulte https://docs.netapp.com/us-en/virtual-desktop-service/Reference.end_user_access.html["Página requisitos do usuário final"^] .
+
+
+
+== Cloud Insights
+
+O NetApp Cloud Insights é uma ferramenta de monitoramento baseada na Web que oferece visibilidade completa da infraestrutura e dos aplicativos executados no NetApp e em outros componentes de infraestrutura de terceiros. O Cloud Insights é compatível com nuvens públicas e privadas para monitoramento, solução de problemas e otimização de recursos.
+
+Somente a VM da unidade de aquisição (pode ser Windows ou Linux) deve ser instalada em uma nuvem privada para coletar métricas de coletores de dados sem a necessidade de agentes. Os coletores de dados baseados em agente permitem que você obtenha métricas personalizadas do Monitor de desempenho do Windows ou de qualquer agente de entrada compatível com o Telegraf.
+
+A figura seguinte mostra o tablier do Cloud Insights VDS.
+
+image:hcvdivds_image15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Para obter mais informações sobre o NetApp Cloud Insights, https://www.youtube.com/watch?v=AVQ-a-du664&ab_channel=NetApp["este vídeo"^] consulte .

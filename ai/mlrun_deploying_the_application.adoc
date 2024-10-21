@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_deploying_the_application.html 
+keywords: NetApp Deploying Application 
+summary:  
+---
+= Implantando o aplicativo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+As seções a seguir descrevem como instalar e implantar o aplicativo.

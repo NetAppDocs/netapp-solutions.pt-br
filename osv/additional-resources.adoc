@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: osv/additional-resources.html 
+keywords:  
+summary:  
+---
+= Recursos adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para obter mais informações sobre o OpenShift Virtualization, use os links a seguir.
+
+* link:https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization["Virtualização Red Hat OpenShift"]
+* Link: Virtualização https://www.redhat.com/en/blog/openshift-virtualization-unleashing-the-power-of-cloud-native-virtual-environments[OpenShift: Liberando o poder dos ambientes virtuais]
+* link:https://docs.openshift.com/container-platform/4.15/virt/about_virt/about-virt.html["Documentação do Red Hat OpenShift"]
+* link:https://www.redhat.com/en/blog/products["Blogs da Red Hat"]
+

@@ -1,0 +1,24 @@
+= 
+:allow-uri-read: 
+
+
+[.Underline]*Agendamento do Diário de replicação*
+
+*Configure e inicie o modelo de tarefa.*
+
+. Copie o modelo de trabalho criado anteriormente.
++
+.. Navegue até recursos → modelos.
+.. Encontre o modelo de configuração do ONTAP/CVO e, no lado direito, clique em Copiar modelo
+.. Clique em Editar modelo no modelo copiado e altere o nome para Restaurar e recuperar Playbook.
+.. Mantenha o mesmo inventário, projeto, credenciais para o modelo.
+.. Selecione o ora_recovery.yml como o manual de estratégia a ser executado.
+.. As variáveis permanecerão as mesmas, mas o IP do cluster do CVO precisará ser definido na variável dst_cluster_ip.
+.. Clique em Guardar.
+
+
++
+
+NOTE: Este manual de estratégia não será executado até que você esteja pronto para restaurar seu banco de dados no local remoto.
+
+

@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: containers/vtwn_overview_tkgs.html 
+keywords: VMware Tanzu, Tanzu, Tanzu Kubernetes Grid Service, vSphere with Tanzu, DevOps, Netapp, Trident, Astra Control, Astra 
+summary: 'O VMware Tanzu Kubernetes Grid Service (também conhecido como vSphere with Tanzu) permite criar e operar clusters Tanzu Kubernetes nativamente no vSphere e também permite que você execute algumas cargas de trabalho menores diretamente nos hosts ESXi.' 
+---
+= Visão geral do VMware Tanzu Kubernetes Grid Service (TKGS)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O VMware Tanzu Kubernetes Grid Service (também conhecido como vSphere with Tanzu) permite criar e operar clusters Tanzu Kubernetes nativamente no vSphere e também permite que você execute algumas cargas de trabalho menores diretamente nos hosts ESXi. Com ele, você pode transformar o vSphere em uma plataforma para executar cargas de trabalho em contêineres nativamente na camada do hipervisor. O Tanzu Kubernetes Grid Service implanta um cluster de supervisor no vSphere quando ativado, que implanta e opera os clusters necessários para as cargas de trabalho. Ele é nativamente integrado ao vSphere 7 e aproveita muitos recursos confiáveis do vSphere, como o vCenter SSO, a Content Library, a rede vSphere, o armazenamento vSphere, o vSphere HA e o DRS, e a segurança do vSphere, para uma experiência mais otimizada do Kubernetes.
+
+O vSphere with Tanzu oferece uma plataforma única para ambientes de aplicações híbridas em que você pode executar componentes de aplicações em contêineres ou em VMs, fornecendo melhor visibilidade e facilidade das operações para desenvolvedores, engenheiros de DevOps e administradores do vSphere. O VMware TKGS só é compatível com ambientes vSphere 7 e é a única oferta no portfólio de operações do Tanzu Kubernetes que permite executar pods diretamente em hosts ESXi.
+
+image:vtwn_image03.png["Serviço de Kubernetes do VMware Tanzu"]
+
+Para obter mais informações sobre o Tanzu Kubernetes Grid Service, siga a documentação link:https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-152BE7D2-E227-4DAA-B527-557B564D9718.html["aqui"^].
+
+Há muitas considerações arquitetônicas sobre conjuntos de recursos, redes e assim por diante. Dependendo da arquitetura escolhida, os pré-requisitos e o processo de implantação do Tanzu Kubernetes Grid Service diferem. Para implantar e configurar o Tanzu Kubernetes Grid Service em seu ambiente, siga o guia link:https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-74EC2571-4352-4E15-838E-5F56C8C68D15.html["aqui"^]. Além disso, para fazer login nos nós de cluster do Tanzu Kubernetes implantados via TKGS, siga o procedimento descrito neste https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-37DC1DF2-119B-4E9E-8CA6-C194F39DDEDA.html["link"^].
+
+A NetApp recomenda que todos os ambientes de produção sejam implantados em várias implantações mestras para tolerância de falhas com a opção de configuração de nós de trabalho para atender aos requisitos das cargas de trabalho pretendidas. Assim, uma classe de VM recomendada para uma carga de trabalho altamente intensiva teria pelo menos quatro vCPUs e 12GB GB de RAM.
+
+Quando os clusters do Kubernetes do Tanzu são criados em um namespace, os usuários com `owner` ou `edit` permissão podem criar pods diretamente em qualquer namespace usando a conta de usuário. Isso ocorre porque os usuários com a `owner` permissão ou `edit` recebem a função de administrador do cluster. No entanto, ao criar implantações, conjuntos de daemon, conjuntos de estado ou outros em qualquer namespace, você deve atribuir uma função com as permissões necessárias para as contas de serviço correspondentes. Isso é necessário porque as implantações ou conjuntos de daemon utilizam contas de serviço para implantar os pods.
+
+Veja o exemplo a seguir de ClusterRoleBinding para atribuir a função de administrador de cluster a todas as contas de serviço no cluster:
+
+[listing]
+----
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: all_sa_ca
+subjects:
+- kind: Group
+  name: system:serviceaccounts
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: psp:vmware-system-privileged
+  apiGroup: rbac.authorization.k8s.io
+----

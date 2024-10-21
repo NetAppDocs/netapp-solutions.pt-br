@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: dp-sec/tr-4704.html 
+keywords:  
+summary:  
+---
+= TR-4704: Implantação do Veritas NetBackup com armazenamento NetApp e-Series
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Akash Gupta e Principled Technologies, NetApp
+
+[role="lead"]
+TR-4704 descreve a implantação do Veritas NetBackup no storage NetApp e-Series.
+
+link:https://www.netapp.com/pdf.html?item=/media/16433-tr-4704pdf.pdf["TR-4704: Implantação do Veritas NetBackup com armazenamento NetApp e-Series"^]

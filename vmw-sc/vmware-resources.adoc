@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: vmw-sc/vmware-resources.html 
+keywords: NetApp Solutions, vmware, sovereign cloud 
+summary:  
+---
+= VWware da Broadcom Resources para VMware Sovereign Cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para obter mais informações da VMware by Broadcom relacionadas à VMware Sovereign Cloud, visite:
+
+* link:https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/docs/vmw-sovereign-cloud-solution-brief-customer.pdf["Visão geral do VMware Sovereign Cloud"]
+* link:https://www.vmware.com/topics/glossary/content/sovereign-cloud.html["O que é o VMware Sovereign Cloud?"]
+* link:https://blogs.vmware.com/cloud/2021/10/06/vmware-sovereign-cloud/["Apresentamos a nova iniciativa VMware Sovereign Cloud"]
+* link:https://www.vmware.com/solutions/cloud-infrastructure/sovereign-cloud["Solução VMware Sovereign Cloud"]
+

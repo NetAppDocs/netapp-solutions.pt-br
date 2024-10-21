@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-data-plane-architecture.html 
+keywords: cloud volumes service, google cloud, service networking, vpc peering 
+summary: O Cloud Volumes Service utiliza a estrutura de acesso aos serviços privados do Google Cloud. Nesta estrutura, os usuários podem se conetar ao Cloud Volumes Service. Essa estrutura usa construções de peering de Service Networking e VPC como outros serviços do Google Cloud, garantindo o isolamento completo entre locatários. 
+---
+= Arquitetura do plano de dados
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O Cloud Volumes Service utiliza a estrutura do Google Cloud https://cloud.google.com/vpc/docs/configure-private-services-access["acesso a serviços privados"^]. Nesta estrutura, os usuários podem se conetar ao Cloud Volumes Service. Essa estrutura usa construções de peering de Service Networking e VPC como outros serviços do Google Cloud, garantindo o isolamento completo entre locatários.
+
+Para obter uma visão geral da arquitetura do Cloud Volumes Service para o Google Cloud, https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture["Arquitetura para Cloud Volumes Service"^] consulte .
+
+Os VPCs de usuário (autônomos ou compartilhados) são direcionados a VPCs em projetos de locatário gerenciados do Cloud Volumes Service, que hospeda os volumes.
+
+image:ncvs-gc-image5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+A figura anterior mostra um projeto (o projeto do consumidor CVS no meio) com três redes VPC conetadas ao Cloud Volumes Service e vários volumes de compartilhamento de VMs do Compute Engine (GCE1-7):
+
+* O VPC1 permite que o GCE1 acesse os volumes A e B..
+* VPC2 permite que GCE2 e GCE4 acessem o volume C..
+* A terceira rede VPC é uma VPC compartilhada, compartilhada com dois projetos de serviço. Ele permite que GCE3, GCE4, GCE5 e GCE6 acessem os volumes D e E. as redes VPC compartilhadas são suportadas apenas para volumes do tipo de serviço CVS-Performance.
+
+
+
+NOTE: GCE7 não é possível aceder a qualquer volume.
+
+Os dados podem ser criptografados em trânsito (usando criptografia Kerberos e/ou SMB) e em repouso no Cloud Volumes Service.

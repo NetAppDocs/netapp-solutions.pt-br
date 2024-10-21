@@ -1,0 +1,22 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_connect_to_third-party_apis_as_fulfillment_engine.html 
+keywords: Connect, Third-Party APIs, Fulfillment Engine 
+summary:  
+---
+= Conete-se a APIs de terceiros como fulfillment Engine
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Conectamos as seguintes APIs de terceiros como um mecanismo de atendimento para responder a perguntas:
+
+* https://weatherstack.com/["API WeatherStack"^]: retorna o tempo, a temperatura, a chuva e a neve em um determinado local.
+* https://www.yelp.com/fusion["API do Yelp Fusion"^]: retorna as informações de armazenamento mais próximas em um determinado local.
+* https://github.com/timotheus/ebaysdk-python["EBay Python SDK"^]: retorna o preço de um determinado item.
+

@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/vdi-index.html 
+keywords: vdi, vds, virtual desktop, end use computing, 
+summary: Os trabalhadores de tarefas podem iniciar rapidamente um aplicativo a partir da lista de aplicativos disponibilizados para eles. Os serviços de aplicações publicam aplicações a partir dos anfitriões de sessão dos Serviços de ambiente de trabalho remoto. Com o WVD, os grupos de aplicativos fornecem funcionalidade semelhante a partir de pools de host do Windows 10 de várias sessões. 
+---
+= Soluções de computação de usuário final (EUC) / infraestrutura de desktop virtual (VDI)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Independentemente de você estar implantando desktops virtuais no local ou na nuvem, o NetApp tem uma variedade de soluções EUC/VDI para atender às suas necessidades.
+
+
+
+== Serviços de desktop virtual (VDS) da NetApp
+
+O serviço de desktop virtual (VDS) da NetApp orquestra serviços de desktop remoto (RDS) nas principais nuvens públicas e em nuvens privadas.
+
+Soluções disponíveis para VDS:
+
+* link:hcvdivds_hybrid_cloud_vdi_with_virtual_desktop_service.html["Nuvem híbrida VDI com Serviço de desktop virtual NetApp"]
+
+
+
+
+== Computação do usuário final com o VMware Horizon
+
+A NetApp verificou arquiteturas para o VMware Horizon abrangendo várias configurações de computação. As soluções disponíveis incluem:
+
+* link:https://www.netapp.com/pdf.html?item=/media/7123-nva1129designpdf.pdf["Computação do usuário final com VMware (Guia de design)"]
+* link:https://www.netapp.com/us/media/nva-1129-design.pdf["Computação do usuário final com GPUs VMware e NVIDIA (Guia de design)"]
+* link:https://www.netapp.com/pdf.html?item=/media/7124-nva-1129-deploy.pdf["Computação do usuário final com GPUs VMware e NVIDIA (Guia de implantação)"]
+* link:https://www.netapp.com/pdf.html?item=/media/7125-tr4792pdf.pdf["Computação do usuário final com o VMware para gráficos 3DD."]
+

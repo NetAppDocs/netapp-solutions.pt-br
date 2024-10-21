@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-solution-with-netapp.html 
+keywords: vector database, milvus, usecases 
+summary: Esta é uma página abstrata para a solução de base de dados vetorial com NetApp. 
+---
+= Solução de banco de dados vetorial com NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam e Rodrigo Nascimento, NetApp
+
+[role="lead"]
+Este documento fornece uma exploração completa da implantação e gerenciamento de bancos de dados vetoriais, como Milvus, e pgvecto uma extensão PostgreSQL de código aberto, usando as soluções de armazenamento da NetApp. Ele detalha as diretrizes de infraestrutura para usar o armazenamento de objetos NetApp ONTAP e StorageGRID e valida o aplicativo do banco de dados Milvus no AWS FSX ONTAP. O documento elucida a dualidade arquivo-objeto do NetApp e sua utilidade para bancos de dados vetoriais e aplicações que suportam incorporações vetoriais. Ele enfatiza as capacidades do SnapCenter, produto de gerenciamento empresarial da NetApp, oferecendo funcionalidades de backup e restauração para bancos de dados vetoriais, garantindo integridade e disponibilidade de dados. O documento aprofunda ainda mais a solução de nuvem híbrida da NetApp, discutindo sua função na replicação e proteção de dados em ambientes locais e de nuvem. Ele inclui insights sobre a validação de desempenho de bancos de dados vetoriais no NetApp ONTAP, e conclui com dois casos de uso prático em IA generativa: RAG com LLM e ChatAI interno do NetApp. Este documento serve como um guia abrangente para aproveitar as soluções de storage da NetApp para gerenciar bancos de dados vetoriais.
+
+A arquitetura de referência concentra-se no seguinte:
+
+. link:./vector-database-introduction.html["Introdução"]
+. link:./vector-database-solution-overview.html["Visão geral da solução"]
+. link:./vector-database-vector-database.html["Banco de dados de vetores"]
+. link:./vector-database-technology-requirement.html["Exigência de tecnologia"]
+. link:./vector-database-deployment-procedure.html["Procedimento de implantação"]
+. link:./vector-database-solution-verification-overview.html["Visão geral da verificação da solução"]
++
+** link:./vector-database-milvus-cluster-setup.html["Configuração de cluster do Milvus com Kubernetes no local"]
+** ONTAP-for-NetApp ONTAP-ONTAP.html[Milvus with Amazon FSX ONTAP for NetApp – dualidade de arquivos e objetos]
+** link:./vector-database-protection-using-snapcenter.html["Proteção de banco de dados vetorial usando NetApp SnapCenter."]
+** link:./vector-database-disaster-recovery-using-netapp-snapmirror.html["Recuperação de desastres usando o NetApp SnapMirror"]
+** link:./vector-database-performance-validation.html["Validação de desempenho"]
+
+
+. link:./vector-database-instaclustr-with-pgvector.html["Banco de dados vetorial com Instaclustr usando PostgreSQL: Pgvetor"]
+. link:./vector-database-use-cases.html["Casos de uso de banco de dados vetoriais"]
+. link:./vector-database-conclusion.html["Conclusão"]
+. link:./vector-database-values-yaml.html["Apêndice A: Values.yaml"]
+. link:./vector-database-prepare-data-netapp-new-py.html["Apêndice B: Prepare_data_NetApp_new.py"]
+. link:./vector-database-verify-data-netapp-py.html["Apêndice C: Verify_data_NetApp.py"]
+. link:./vector-database-docker-compose-xml.html["Apêndice D: docker-compose.yml"]
+

@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: dp-sec/tr-4471.html 
+keywords:  
+summary:  
+---
+= TR-4471: Arquitetura de referência e práticas recomendadas de storage do e-Series e EF-Series com o Veeam Backup & Replication 9,5
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+(Américas), Stefan Renner (EMEA), e Michael Cade (Performance), NetApp
+
+[role="lead"]
+TR-4471 descreve a arquitetura de referência e as práticas recomendadas ao usar o storage do NetApp e-Series em um ambiente do Veeam Backup & Replication 9,5.
+
+link:https://www.netapp.com/pdf.html?item=/media/17159-tr4471pdf.pdf["TR-4471: Arquitetura de referência e-Series e EF-Series e práticas recomendadas de storage com o Veeam Backup  Replication 9,5"^]

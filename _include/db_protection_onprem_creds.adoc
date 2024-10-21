@@ -1,0 +1,62 @@
+= 
+:allow-uri-read: 
+
+
+. Configure as credenciais.
+. Criar tipos de credenciais. Para soluções que envolvam o ONTAP, você deve configurar o tipo de credencial para corresponder às entradas de nome de usuário e senha.
++
+.. Navegue até Administration → Credential Types e clique em Add (Adicionar).
+.. Forneça o nome e a descrição.
+.. Cole o seguinte conteúdo na Configuração de Entrada:
++
+[source, cli]
+----
+fields:
+  - id: dst_cluster_username
+    type: string
+    label: Destination Cluster Username
+  - id: dst_cluster_password
+    type: string
+    label: Destination Cluster Password
+    secret: true
+  - id: src_cluster_username
+    type: string
+    label: Source Cluster Username
+  - id: src_cluster_password
+    type: string
+    label: Source Cluster Password
+    secret: true
+----
+.. Cole o conteúdo a seguir na Configuração do Injetor e clique em Salvar:
++
+[source, cli]
+----
+extra_vars:
+  dst_cluster_username: '{{ dst_cluster_username }}'
+  dst_cluster_password: '{{ dst_cluster_password }}'
+  src_cluster_username: '{{ src_cluster_username }}'
+  src_cluster_password: '{{ src_cluster_password }}'
+----
+
+
+. Criar credencial para ONTAP
++
+.. Navegue até Resources → Credentials e clique em Add (Adicionar).
+.. Introduza o nome e os detalhes da organização para as credenciais do ONTAP
+.. Selecione o tipo de credencial que foi criado na etapa anterior.
+.. Em Detalhes do tipo, insira o Nome de usuário e a Senha dos clusters de origem e destino.
+.. Clique em Guardar
+
+
+. Criar credencial para Oracle
++
+.. Navegue até Resources → Credentials e clique em Add (Adicionar).
+.. Insira o nome e os detalhes da organização para o Oracle
+.. Selecione o tipo de credencial da máquina.
+.. Em Detalhes do tipo, insira o Nome de usuário e a Senha dos hosts Oracle.
+.. Selecione o método de escalonamento de privilégios correto e introduza o nome de utilizador e a palavra-passe.
+.. Clique em Guardar
+.. Repita o processo se necessário para uma credencial diferente para o host DR_oracle.
+
+
+
