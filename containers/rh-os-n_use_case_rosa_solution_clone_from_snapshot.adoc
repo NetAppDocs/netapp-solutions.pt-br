@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_rosa_solution_clone_from_snapshot.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift Service on AWS, 
+summary: Serviço OpenShift da Red Hat na AWS com o NetApp ONTAP 
+---
+= Serviço OpenShift da Red Hat na AWS com o NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+**1. Nesta seção, mostraremos como restaurar um aplicativo a partir do instantâneo Trident do volume do aplicativo.
+
+**um Crie um clone de volume a partir do instantâneo**
+
+Para restaurar o volume para seu estado anterior, você deve criar um novo PVC com base nos dados no snapshot que você tirou. Para fazer isso, salve o manifesto a seguir em um arquivo chamado pvc-clone.yaml
+
+[source]
+----
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: postgresql-volume-clone
+spec:
+ accessModes:
+   - ReadWriteOnce
+ storageClassName: trident-csi
+ resources:
+   requests:
+     storage: 8Gi
+ dataSource:
+   name: postgresql-volume-snap-01
+   kind: VolumeSnapshot
+   apiGroup: snapshot.storage.k8s.io
+----
+Crie um clone do volume criando um PVC usando o snapshot como origem usando o manifesto acima. Aplique o manifesto e certifique-se de que o clone seja criado.
+
+image:redhat_openshift_container_rosa_image24.png["postgresql clone de snapshot"]
+
+**b.. Exclua a instalação postgresql original**
+
+image:redhat_openshift_container_rosa_image25.png["postgresql app delete"]
+
+**c.. Crie um novo aplicativo postgresql usando o novo clone PVC**
+
+[source]
+----
+$ helm install postgresql bitnami/postgresql --set primary.persistence.enabled=true --set primary.persistence.existingClaim=postgresql-volume-clone -n postgresql
+----
+image:redhat_openshift_container_rosa_image26.png["postgresql nova instalação"]
+
+**d.. Verifique se o pod de aplicativo está no estado em execução**
+
+image:redhat_openshift_container_rosa_image27.png["postgresql nova instalação"]
+
+**e.. Verifique se o pod usa o clone como seu PVC**
+
+image:redhat_openshift_container_rosa_image28.png["descrição da nova instalação do postgresql"]
+
+image:redhat_openshift_container_rosa_image29.png["o pvc novo é o clone"]
+
+F) para validar que o banco de dados foi restaurado conforme esperado, volte para o console de contentor e mostre os bancos de dados existentes
+
+image:redhat_openshift_container_rosa_image30.png["banco de dados restaurado"]

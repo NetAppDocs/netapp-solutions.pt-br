@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_rosa_solution_overview.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift Service on AWS, 
+summary: Serviço OpenShift da Red Hat na AWS com o NetApp ONTAP 
+---
+= Serviço OpenShift da Red Hat na AWS com o NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesta seção, mostraremos como utilizar o FSX for ONTAP como uma camada de armazenamento persistente para aplicativos executados no ROSA. Ele mostrará a instalação do driver NetApp Trident CSI em um cluster ROSA, o provisionamento de um sistema de arquivos FSX for ONTAP e a implantação de um aplicativo de estado de amostra. Ele também mostrará estratégias para fazer backup e restaurar os dados do aplicativo. Com essa solução integrada, você pode estabelecer uma estrutura de armazenamento compartilhado que pode ser dimensionada facilmente entre AZs, simplificando os processos de dimensionamento, proteção e restauração de seus dados usando o driver CSI Trident.

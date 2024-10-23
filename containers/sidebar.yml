@@ -65,6 +65,8 @@ entries:
       url: "/containers/rh-os-n_openshift_RHV.html"
     - title: OpenShift no VMware vSphere
       url: "/containers/rh-os-n_openshift_VMW.html"
+    - title: OpenShift na AWS
+      url: "/containers/rh-os-n_openshift_AWS_ROSA.html"
   - title: Visão geral dos sistemas de storage da NetApp
     entries:
     - title: Visão geral
@@ -166,7 +168,7 @@ entries:
   entries:
   - title: Visão geral
     url: "/containers/rh-os-n_use_case_openshift_virtualization_overview.html"
-  - title: Implantação para virtualização OpenShift
+  - title: Virtualização OpenShift no local
     entries:
     - title: Pré-requisitos
       url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment_prerequisites.html"
@@ -184,6 +186,18 @@ entries:
         url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html"
       - title: Migre uma VM do VMware para a virtualização OpenShift
         url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html"
+  - title: Virtualização OpenShift no ROSA
+    entries:
+    - title: Pré-requisitos
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_rosa_prerequisites.html"
+    - title: Configuração inicial
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment_rosa_initial_setup.html"
+    - title: Fluxos de trabalho
+      entries:
+      - title: Reinicie a VM
+        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_rosa_restart_vm.html"
+      - title: Migração do VM Live
+        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_rosa_vm_live_migration.html"
   - title: Proteção de dados de VMs usando ferramentas de terceiros
     entries:
     - title: Visão geral
@@ -206,6 +220,20 @@ entries:
       url: "/containers/rh-os-n_use_case_openshift_virtualization_ci_samples.html"
     - title: Guia de práticas recomendadas
       url: "/containers/rh-os-n_use_case_openshift_virtualization_bpg.html"
+- title: Serviço OpenShift da Red Hat na AWS com o NetApp ONTAP
+  entries:
+  - title: Visão geral
+    url: "/containers/rh-os-n_use_case_rosa_solution_overview.html"
+  - title: Pré-requisitos
+    url: "/containers/rh-os-n_use_case_rosa_solution_prerequisites.html"
+  - title: Configuração inicial
+    url: "/containers/rh-os-n_use_case_rosa_solution_initial_setup.html"
+  - title: Fluxos de trabalho
+    entries:
+    - title: Criar instantâneo
+      url: "/containers/rh-os-n_use_case_rosa_solution_snapshot_app.html"
+    - title: Clone do Snapshot
+      url: "/containers/rh-os-n_use_case_rosa_solution_clone_from_snapshot.html"
 - title: VMware Tanzu com NetApp
   pdf-filename: VMware Tanzu com NetApp
   entries:

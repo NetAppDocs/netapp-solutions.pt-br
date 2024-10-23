@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_deployment_rosa_initial_setup.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, ROSA, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Red Hat OpenShift Virtualization no ROSA 
+---
+= Configuração inicial
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção mostra como configurar a classe de armazenamento padrão para ser Trident-csi e o VolumeSnapshotClass padrão para ser a classe de captura instantânea de volume FSX. Em seguida, ele mostra como criar uma VM a partir de um modelo e, em seguida, conetar e fazer login com ele usando as credenciais de convidado.
+
+Certifique-se de que a Classe de armazenamento predefinida está definida como Trident-csi image:redhat_openshift_ocpv_rosa_image1.png["Classe de armazenamento padrão OCP-v"]
+
+Certifique-se de que o VolumeSnapShotClasses predefinido está definido como ilustrado image:redhat_openshift_ocpv_rosa_image2.png["Classe VolumeSnapshot padrão OCP-v"]
+
+Se os padrões não estiverem definidos, você poderá configurá-los a partir do console ou da linha de comando
+
+[source]
+----
+$ oc patch storageclass trident-csi -p '{"metadata": {"annotations": {"storageclass.kubernetes.io/is-default-class": "true"}}}'
+----
+[source]
+----
+$ oc patch VolumeSnapshotClasses fsx-snapclass -p '{"metadata": {"annotations": {"snapshot.storage.kubernetes.io/is-default-class": "true"}}}'
+----
+
+
+= Crie uma VM a partir do modelo
+
+Use o console da Web para criar uma VM a partir de um modelo. No RedHat OpenShiftService no console da AWS, crie uma máquina virtual. Existem modelos disponíveis no cluster que podem ser usados para criar a VM. Na captura de tela abaixo, nós escolhemos fedora VM nesta lista. Dê um nome à VM e, em seguida, clique em **Personalizar Máquina Virtual**. Selecione a guia **Disks** e clique em **Add Disks**. Altere o nome do disco de preferência para algo significativo, certifique-se de que **Trident-csi** esteja selecionado para a classe de armazenamento. Clique em ** Salvar**. Clique em **Create VirtualMachine**
+
+Após alguns minutos, a VM está no estado em execução image:redhat_openshift_ocpv_rosa_image3.png["OCP-v criar VM a partir do modelo"]
+
+image:redhat_openshift_ocpv_rosa_image4.png["Fontes de modelo OCP-v disponíveis"]
+
+image:redhat_openshift_ocpv_rosa_image5.png["OCP-v Personalize VM"]
+
+image:redhat_openshift_ocpv_rosa_image6.png["Separador discos OCP-v."]
+
+image:redhat_openshift_ocpv_rosa_image7.png["OCP-v Adicionar disco"]
+
+image:redhat_openshift_ocpv_rosa_image8.png["VM OCP-v em execução"]
+
+
+
+= Revise todos os objetos criados para a VM
+
+Os discos de armazenamento. image:redhat_openshift_ocpv_rosa_image9.png["Discos de armazenamento OCP-V."]
+
+Os sistemas de arquivos da VM mostrarão as partições, o tipo de sistema de arquivos e os pontos de montagem. image:redhat_openshift_ocpv_rosa_image10.png["Sistemas de arquivos OCP-v."]
+
+2 PVCs são criados para a VM, um a partir do disco de inicialização e outro para o disco hot plug. image:redhat_openshift_ocpv_rosa_image11.png["PVCs de VM OCP-v"]
+
+O PVC para o disco de inicialização mostra que o modo de acesso é ReadWriteMany e a Classe de armazenamento é Trident-csi. image:redhat_openshift_ocpv_rosa_image12.png["Disco de inicialização OCP-v VM PVC"]
+
+Da mesma forma, o PVC para o disco hot-plug mostra que o modo de acesso é ReadWriteMany e a Classe de armazenamento é Trident-csi. image:redhat_openshift_ocpv_rosa_image13.png["Disco de hotplug OCP-V VM PVC"]
+
+Na captura de tela abaixo, podemos ver que o pod da VM tem um Status de execução. image:redhat_openshift_ocpv_rosa_image14.png["VM OCP-v em execução"]
+
+Aqui podemos ver os dois volumes associados ao pod VM e aos PVCs 2 associados a eles. image:redhat_openshift_ocpv_rosa_image15.png["PVCs e PVS de VM OCP-v"]
+
+
+
+= Conete-se à VM
+
+Clique no botão 'abrir console da Web' e faça login usando credenciais de convidado image:redhat_openshift_ocpv_rosa_image16.png["Conexão de VM OCP-v"]
+
+image:redhat_openshift_ocpv_rosa_image17.png["Login OCP-V."]
+
+Emita os seguintes comandos
+
+[source]
+----
+$ df (to display information about the disk space usage on a file system).
+----
+[source]
+----
+$ dd if=/dev/urandom of=random.dat bs=1M count=10240 (to create a file called random.dat in the home dir and fill it with random data).
+----
+O disco é preenchido com 11 GB de dados. image:redhat_openshift_ocpv_rosa_image18.png["VM OCP-v preencha o disco"]
+
+Use o vi para criar um arquivo de texto de exemplo que usaremos para testar. image:redhat_openshift_ocpv_rosa_image19.png["OCP-v Crie um ficheiro"]

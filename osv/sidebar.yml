@@ -16,7 +16,7 @@ entries:
     url: "/blogs.html#containers-osv"
   - title: Vídeos
     url: "/containers/rh-os-n_videos_and_demos.html"
-- title: Implantação
+- title: Implantação no local
   pdf-filename: Implantação do Red Hat OpenShift
   entries:
   - title: Visão geral
@@ -33,6 +33,18 @@ entries:
     url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html"
   - title: Criação de VM a partir de um Snapshot
     url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html"
+- title: Implantação no ROSA
+  entries:
+  - title: Pré-requisitos
+    url: "/containers/rh-os-n_use_case_openshift_virtualization_rosa_prerequisites.html"
+  - title: Configuração inicial
+    url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment_rosa_initial_setup.html"
+  - title: Fluxos de trabalho
+    entries:
+    - title: Reinicie a VM
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_rosa_restart_vm.html"
+    - title: Migração do VM Live
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_rosa_vm_live_migration.html"
 - title: Proteção de dados usando ferramentas de terceiros
   pdf-filename: Proteção de dados de virtualização Red Hat OpenShift
   entries:

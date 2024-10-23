@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_rosa_restart_vm.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, ROSA, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Red Hat OpenShift Virtualization no ROSA 
+---
+= Reinício da VM
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesta seção, executaremos uma reinicialização da VM e, em seguida, examinaremos o conteúdo dos discos.
+
+Clique no botão Reiniciar. image:redhat_openshift_ocpv_rosa_image20.png["Reinício da VM do OCP-v"]
+
+A VM volta ao estado em execução com os mesmos sistemas de arquivos, PVCs e arquivos exatos nos sistemas de arquivos image:redhat_openshift_ocpv_rosa_image21.png["OCP-v VM restart sistemas de arquivos"]
+
+image:redhat_openshift_ocpv_rosa_image22.png["Discos de reinicialização da VM OCP-v"]
+
+image:redhat_openshift_ocpv_rosa_image23.png["Arquivos de reinicialização da VM OCP-v"]
