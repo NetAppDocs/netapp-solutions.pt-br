@@ -69,7 +69,7 @@ Para facilitar a realocação de bancos de dados Oracle, o binário Oracle deve 
 
 O SnapCenter é um software licenciado da NetApp. Ele geralmente está incluído em uma licença ONTAP no local. No entanto, para implantação de nuvem híbrida, também é necessária uma licença de nuvem para SnapCenter para adicionar CVO ao SnapCenter como destino de replicação de dados de destino. Consulte os seguintes links para obter detalhes sobre a licença baseada em capacidade padrão da SnapCenter:
 
-link:https://docs.netapp.com/us-en/snapcenter/install/concept_snapcenter_standard_capacity_based_licenses.html["Licenças padrão baseadas em capacidade do SnapCenter"^]
+link:https://docs.netapp.com/us-en/snapcenter/install/concept_snapcenter_licenses.html["Licenças padrão baseadas em capacidade do SnapCenter"^]
 
 
 

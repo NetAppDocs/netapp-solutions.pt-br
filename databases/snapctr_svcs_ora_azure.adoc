@@ -110,7 +110,7 @@ Há extensa documentação do NetApp com um escopo mais amplo para ajudar você 
 
 Para começar, execute as seguintes etapas:
 
-* Leia as instruções link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-cloud-app-data-to-cloud.html#architecture["Proteja os dados das aplicações nativas da nuvem"^] gerais e as seções relacionadas ao Oracle e ao Azure NetApp Files.
+* Leia as instruções link:https://docs.netapp.com/us-en/bluexp-backup-recovery/["Proteja os dados das aplicações nativas da nuvem"^] gerais e as seções relacionadas ao Oracle e ao Azure NetApp Files.
 * Veja o seguinte vídeo passo a passo
 +
 .Vídeo da implantação do Oracle e do ANF
@@ -424,7 +424,7 @@ Para saber mais sobre as informações descritas neste documento, consulte os se
 
 * Configurar e administrar o BlueXP 
 +
-link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.htmll["https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html"^]
+link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html"^]
 
 * Documentação de backup e recuperação do BlueXP
 +

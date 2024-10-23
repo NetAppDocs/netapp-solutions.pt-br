@@ -81,7 +81,7 @@ Crie compartilhamentos continuamente disponíveis com o portal do Azure ou CLI d
 * Ative a disponibilidade contínua para o volume SMB, conforme mostrado na imagem a seguir.
 * Se for utilizada uma conta de domínio que não seja de administrador, certifique-se de que a conta tem o privilégio de segurança necessário atribuído.
 * Defina as permissões apropriadas no nível de compartilhamento e as permissões apropriadas no nível do arquivo.
-* Uma propriedade continuamente disponível não pode ser ativada em volumes SMB existentes. Para converter um volume existente para usar um compartilhamento continuamente disponível, use a tecnologia Snapshot da NetApp. Para obter mais informações, https://docs.microsoft.com/en-us/azure/azure-netapp-files/convert-smb-continuous-availability["Converta volumes SMB existentes para usar a disponibilidade contínua"^]consulte .
+* Uma propriedade continuamente disponível não pode ser ativada em volumes SMB existentes. Para converter um volume existente para usar um compartilhamento continuamente disponível, use a tecnologia Snapshot da NetApp. Para obter mais informações, link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/enable-continuous-availability-existing-smb["Converta volumes SMB existentes para usar a disponibilidade contínua"^]consulte .
 
 
 image:sql-srv-anf_image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

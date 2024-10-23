@@ -41,5 +41,3 @@ Os vídeos a seguir demonstram o SnapCenter em ação:
 
 
 Notavelmente, embora as ilustrações deste documento mostrem o CVO como uma instância de armazenamento de destino na nuvem pública, a solução também é totalmente validada para a nova versão do mecanismo de armazenamento FSX ONTAP para AWS.
-
-Para testar a solução e os casos de uso para você mesmo, um NetApp Lab-on-demand SL10680 pode ser solicitado no seguinte link: https://labondemand.NetApp.com/lod3/labtest/request?nodeid:68761&destination:lod3/testlabs[TL_AWS_004 HCoD: AWS - NW,SnapCenter(OnPrem).
