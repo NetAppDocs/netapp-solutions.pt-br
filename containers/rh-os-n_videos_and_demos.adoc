@@ -16,6 +16,8 @@ summary:
 [role="lead"]
 Os vídeos a seguir demonstram alguns dos recursos documentados neste documento:
 
+.Migração ao vivo de máquinas virtuais na virtualização OpenShift no ROSA com o Amazon FSX for NetApp ONTAP
+video::4b3ef03d-7d65-4637-9dab-b21301371d7d[panopto,width=360]
 .Automação do Ansible para implantar o Trident e criar classe de storage no cluster do OpenShift
 video::fae6605f-b61a-4a34-a97f-b1ed00d2de93[panopto,width=360]
 link:https://github.com/NetApp/trident-install["O manual de estratégia usado para instalar o NetApp Trident, o StorageClasses e o back-end usando o Ansible pode ser encontrado no github."]

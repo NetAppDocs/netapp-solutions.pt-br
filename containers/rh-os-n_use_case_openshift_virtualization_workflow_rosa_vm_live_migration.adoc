@@ -31,3 +31,11 @@ O armazenamento para a VM no novo nó ainda mostra os mesmos discos image:redhat
 Além disso, os PVCs são os mesmos. image:redhat_openshift_ocpv_rosa_image31.png["VM OCP-v mesmos PVCs após a migração ao vivo"]
 
 Os volumes associados ao pod de VM também são os mesmos (2 PVCs) que antes. image:redhat_openshift_ocpv_rosa_image32.png["VM OCP-v mesmos PVCs após a migração ao vivo"]
+
+
+
+=== Vídeo de demonstração:
+
+.Migração ao vivo de máquinas virtuais no OpenShift Virtualization no ROSA com o Amazon FSX for NetApp ONTAP
+video::4b3ef03d-7d65-4637-9dab-b21301371d7d[panopto,width=360]
+Mais vídeos sobre as soluções Red Hat OpenShift e OpenShift Virtualization podem ser link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_videos_and_demos.html["aqui"]encontrados .
