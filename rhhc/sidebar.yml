@@ -55,6 +55,8 @@ entries:
     url: "/rhhc/rhhc-pm-data-protection.html"
   - title: Migrar workloads de contêiner na AWS
     url: "/rhhc/rhhc-pm-data-migration.html"
+  - title: Soluções ROSA adicionais para contêineres e virtualização
+    url: "/rhhc/rhhc-pm-additional.html"
 - title: Proteção de dados de aplicativos de contêiner usando ferramentas de terceiros
   entries:
   - title: Visão geral

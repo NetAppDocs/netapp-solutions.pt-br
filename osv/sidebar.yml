@@ -33,18 +33,12 @@ entries:
     url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html"
   - title: Criação de VM a partir de um Snapshot
     url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html"
-- title: Implantação no ROSA
+- title: Implantação no ROSA com FSxN
   entries:
-  - title: Pré-requisitos
-    url: "/containers/rh-os-n_use_case_openshift_virtualization_rosa_prerequisites.html"
-  - title: Configuração inicial
-    url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment_rosa_initial_setup.html"
+  - title: Visão geral
+    url: "/containers/rh-os-n_use_case_openshift_virtualization_rosa_overview.html"
   - title: Fluxos de trabalho
-    entries:
-    - title: Reinicie a VM
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_rosa_restart_vm.html"
-    - title: Migração do VM Live
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_rosa_vm_live_migration.html"
+    url: "/containers/rh-os-n_use_case_openshift_virtualization_rosa_workflows.html"
 - title: Proteção de dados usando ferramentas de terceiros
   pdf-filename: Proteção de dados de virtualização Red Hat OpenShift
   entries:
@@ -72,4 +66,4 @@ entries:
   - title: Guia de práticas recomendadas
     url: "/containers/rh-os-n_use_case_openshift_virtualization_bpg.html"
 - title: Recursos adicionais
-  url: "/containers/additional-resources.html"
+  url: "/containers/rh-os-n_additional_information.html"

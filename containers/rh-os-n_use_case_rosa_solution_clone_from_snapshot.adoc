@@ -67,3 +67,11 @@ image:redhat_openshift_container_rosa_image29.png["o pvc novo é o clone"]
 F) para validar que o banco de dados foi restaurado conforme esperado, volte para o console de contentor e mostre os bancos de dados existentes
 
 image:redhat_openshift_container_rosa_image30.png["banco de dados restaurado"]
+
+
+
+=== Vídeo de demonstração:
+
+.O Amazon FSX for NetApp ONTAP usa o plano de controle hospedado
+video::213061d2-53e6-4762-a68f-b21401519023[panopto,width=360]
+Mais vídeos sobre as soluções Red Hat OpenShift e OpenShift podem ser link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_videos_and_demos.html["aqui"]encontrados .

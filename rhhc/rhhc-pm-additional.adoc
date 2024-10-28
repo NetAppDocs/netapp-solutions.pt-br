@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-pm-additional.html 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, ACC, Astra Control Center, Advanced Cluster Management, ACM, Hub Cluster 
+summary:  
+---
+= Soluções adicionais de multicloud híbrida da NetApp para workloads do Red Hat OpenShift
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+
+
+== Soluções adicionais
+
+Soluções adicionais estão disponíveis em outras seções da seguinte forma:
+
+Para obter as soluções de contentor Red Hat OpenShift, link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_solution_overview.html["aqui"]consulte .
+
+Para o Red Hat OpenShift Service na AWS com soluções de contentor FSxN , link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_rosa_solution_overview.html["aqui"]consulte .
+
+Para obter as soluções de virtualização Red Hat OpenShift no local, link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_deployment_prerequisites.html["aqui"]consulte .
+
+Para o Red Hat OpenShift Service Virtualization na AWS com soluções FSxN, link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_rosa_overview.html["aqui"]consulte .

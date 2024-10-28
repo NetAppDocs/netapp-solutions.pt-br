@@ -60,6 +60,8 @@ indexpage:
       url: "/rhhc-pm-data-protection.html"
     - title: Migração de dados usando o BlueXP 
       url: "/rhhc-pm-data-migration.html"
+    - title: Soluções adicionais
+      url: "/rhhc-pm-additional.html"
   - title: Proteção de dados de aplicativos de contêiner usando ferramentas de terceiros
     links:
     - title: Visão geral

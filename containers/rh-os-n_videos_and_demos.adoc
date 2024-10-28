@@ -14,8 +14,10 @@ summary:
 
 
 [role="lead"]
-Os vídeos a seguir demonstram alguns dos recursos documentados neste documento:
+Os vídeos a seguir demonstram alguns dos recursos documentados neste documento
 
+.O Amazon FSX for NetApp ONTAP usa o plano de controle hospedado
+video::213061d2-53e6-4762-a68f-b21401519023[panopto,width=360]
 .Migração ao vivo de máquinas virtuais na virtualização OpenShift no ROSA com o Amazon FSX for NetApp ONTAP
 video::4b3ef03d-7d65-4637-9dab-b21301371d7d[panopto,width=360]
 .Automação do Ansible para implantar o Trident e criar classe de storage no cluster do OpenShift
