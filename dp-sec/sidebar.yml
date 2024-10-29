@@ -16,10 +16,11 @@ entries:
     url: "/cyber-vault/ontap-cyber-vault-hardening.html"
   - title: Interoperabilidade do Cyber Vault
     url: "/cyber-vault/ontap-cyber-vault-interoperability.html"
+  - title: Perguntas frequentes sobre o Cyber Vault
+    url: "/cyber-vault/ontap-cyber-vault-faq.html"
   - title: Recursos do Cyber Vault
     url: "/cyber-vault/ontap-cyber-vault-resources.html"
-  - title: Criação, fortalecimento e verificação de um cofre cibernético do ONTAP
-      com o PowerShell
+  - title: Criando, fortalecendo e validando um cofre cibernético do ONTAP com o PowerShell
     entries:
     - title: Visão geral
       url: "/cyber-vault/ontap-cyber-vault-powershell-overview.html"
