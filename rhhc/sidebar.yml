@@ -51,6 +51,8 @@ entries:
     url: "/rhhc/rhhc-pm-solution.html"
   - title: Configure workloads de contêiner do Red Hat OpenShift na AWS
     url: "/rhhc/rhhc-pm-setup.html"
+  - title: Configure o Red Hat OpenShift dedicado no Google Cloud
+    url: "/rhhc/rhhc-pm-gcnv-setup.html"
   - title: Proteja workloads de contêiner na AWS
     url: "/rhhc/rhhc-pm-data-protection.html"
   - title: Migrar workloads de contêiner na AWS
