@@ -13,6 +13,9 @@ summary: Serviço OpenShift da Red Hat na AWS com o NetApp ONTAP
 :imagesdir: ../media/
 
 
+[role="lead"]
+Este documento descreverá como usar o NetApp ONTAP com o serviço Red Hat OpenShift na AWS (ROSA).
+
 
 
 == Criar Snapshot de volume

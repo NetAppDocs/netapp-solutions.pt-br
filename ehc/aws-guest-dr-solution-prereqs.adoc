@@ -312,7 +312,7 @@ Você deve ser capaz de executar as seguintes tarefas:
 =====
 Você precisa ser capaz de implantar recursos com o NetApp Cloud Manager. Para verificar se é possível, execute as seguintes tarefas:
 
-* https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-signing-up.html["Inscreva-se no Cloud Central"^] se você ainda não o fez.
+* https://docs.netapp.com/us-en/bluexp-setup-admin/concept-modes.html["Inscreva-se no Cloud Central"^] se você ainda não o fez.
 * https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-logging-in.html["Entre no Cloud Manager"^].
 * https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-setting-up-netapp-accounts.html["Configurar espaços de trabalho e utilizadores"^].
 * https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html["Crie um conetor"^].

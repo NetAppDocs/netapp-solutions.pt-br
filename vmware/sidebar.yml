@@ -104,10 +104,6 @@ entries:
       url: "/vmware/vsphere_ontap_auto_file_nfs.html"
     - title: NFS - v4,1
       url: "/vmware/vsphere_ontap_auto_file_nfs41.html"
-- title: Soluções de desktop virtual
-  entries:
-  - title: Soluções de virtualização de desktop da FlexPod
-    url: "/vmware/flex-virtual-solutions.html"
 - title: Demonstrações e Tutoriais
   entries:
   - title: Vídeos

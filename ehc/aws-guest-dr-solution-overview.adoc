@@ -511,7 +511,7 @@ Os seguintes pré-requisitos são necessários para o backup do SnapCenter:
 .Faça backup do banco de dados e da configuração do SnapCenter
 [%collapsible]
 ====
-O SnapCenter fornece uma interface de cliente web para executar comandos API REST. Para obter informações sobre como acessar as APIs REST por meio do Swagger, consulte a documentação do SnapCenter em https://docs.netapp.com/us-en/snapcenter/sc-automation/overview_rest_apis.html["este link"^].
+O SnapCenter fornece uma interface de cliente web para executar comandos API REST. Para obter informações sobre como acessar as APIs REST por meio do Swagger, consulte a documentação do SnapCenter em https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_rest_apis.html["este link"^].
 
 .Faça login no Swagger e obtenha o token de autorização
 [%collapsible]
