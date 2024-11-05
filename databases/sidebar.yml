@@ -58,6 +58,10 @@ entries:
         url: "/databases/azure_ora_nfile_protection.html"
       - title: Migração de banco de dados
         url: "/databases/azure_ora_nfile_migration.html"
+  - title: Google Cloud
+    entries:
+    - title: 'Visão geral: Banco de dados Oracle com o Google Cloud NetApp volumes'
+      url: "/databases/gcp-oracle-gcnv-overview.html"
   - title: Nuvem híbrida/no local
     entries:
     - title: Implantação e proteção do Oracle RAC no VCF com vVols

@@ -34,6 +34,11 @@ indexpage:
       url: "/automation_ora_anf_nfs.html"
     - title: Implantação e proteção de bancos de dados Oracle no Azure NetApp Files
       url: "/azure_ora_nfile_usecase.html"
+  - title: Oracle para Google Cloud
+    links:
+    - title: 'Visão geral: Solução de armazenamento de banco de dados Oracle com o
+        Google Cloud NetApp volumes'
+      url: "/gcp-oracle-gcnv-overview.html"
   - title: SQL Server para provedores de nuvem
     links:
     - title: Backup e recuperação para o Microsoft SQL Server no AWS FSX ONTAP
@@ -42,6 +47,9 @@ indexpage:
       url: "/sql-aws-ec2.html"
     - title: SQL Server no Azure NetApp Files
       url: "/sql-srv-anf_overview.html"
+    - title: A empresa de produtos médicos migra a carga de trabalho SQL no local
+        para o Amazon FSX ONTAP para reduzir custos
+      url: "/customer_usecase_mssql_fsx1.html"
   - title: SQL Server para on-premises
     links:
     - title: SAP com o Microsoft SQL Server no Windows usando o Clustered Data ONTAP
@@ -74,11 +82,6 @@ indexpage:
       url: "/aws_postgres_fsx_ec2_hadr.html"
     - title: Banco de dados MySQL no NetApp ONTAP
       url: https://www.netapp.com/pdf.html?item=/media/16423-tr-4722pdf.pdf
-  - title: Estudos de caso de clientes do mundo real
-    links:
-    - title: A empresa de produtos médicos migra a carga de trabalho SQL no local
-        para o Amazon FSX ONTAP para reduzir custos
-      url: "/customer_usecase_mssql_fsx1.html"
   - title: SnapCenter para bancos de dados
     links:
     - title: Backup, recuperação e clonagem de banco de dados PostgreSQL no ONTAP

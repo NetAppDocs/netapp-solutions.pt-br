@@ -25,6 +25,9 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 | *Data* | *Área da solução* | *Descrição da mudança* 
 
 
+| 5 de novembro de 2024 | Banco de dados | Resumo da nova solução: Oracle com Google Cloud NetApp volumes no Google Cloud 
+
+
 | 14 de outubro de 2024 | Banco de dados | Novo TR-5000: Backup, recuperação e clonagem de banco de dados PostgreSQL no ONTAP com SnapCenter 
 
 
@@ -738,6 +741,9 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 [cols="10%, 30%, 60%"]
 |===
 | *Data* | *Área da solução* | *Descrição da mudança* 
+
+
+| 5 de novembro de 2024 | Banco de dados | Resumo da nova solução: Oracle com Google Cloud NetApp volumes no Google Cloud 
 
 
 | 14 de outubro de 2024 | Banco de dados | Novo TR-5000: Backup, recuperação e clonagem de banco de dados PostgreSQL no ONTAP com SnapCenter 
