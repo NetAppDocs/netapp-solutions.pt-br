@@ -23,11 +23,11 @@ Compreender as combinações para suporte ao storage do NetApp nos principais hy
 |  | *Hóspede conetado* | *Armazenamento de dados NFS suplementar* 
 
 
-| *AWS* | CVO FSX ONTAP link:aws/aws-guest.html["Detalhes"] | No FSX ONTAP link:aws/aws-native-overview.html["Detalhes"] 
+| *AWS* | CVO FSX ONTAP link:aws-guest.html["Detalhes"] | No FSX ONTAP link:aws-native-overview.html["Detalhes"] 
 
 
-| *Azure* | ANF DO CVO link:azure/azure-guest.html["Detalhes"] | ANF link:azure/azure-native-overview.html["Detalhes"] 
+| *Azure* | ANF DO CVO link:azure-guest.html["Detalhes"] | ANF link:azure-native-overview.html["Detalhes"] 
 
 
-| *GCP* | CVO link:gcp/gcp-guest.html["Detalhes"] | GCNV 
+| *GCP* | CVO link:gcp-guest.html["Detalhes"] | GCNV 
 |===

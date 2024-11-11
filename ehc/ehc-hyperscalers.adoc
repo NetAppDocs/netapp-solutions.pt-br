@@ -152,17 +152,17 @@ Com as soluções de nuvem da NetApp e da VMware, muitos casos de uso são simpl
 ====
 .AWS/VMC
 --
-link:aws/aws-solutions.html["Navegue pelas soluções da NetApp para AWS/VMC"]
+link:aws-solutions.html["Navegue pelas soluções da NetApp para AWS/VMC"]
 
 --
 .Azure/AVS
 --
-link:azure/azure-solutions.html["Navegue pelas soluções NetApp para Azure / AVS"]
+link:azure-solutions.html["Navegue pelas soluções NetApp para Azure / AVS"]
 
 --
 .GCP / GCVE
 --
-link:gcp/gcp-solutions.html["Navegue pelas soluções da NetApp para o Google Cloud Platform (GCP) / GCVE"]
+link:gcp-solutions.html["Navegue pelas soluções da NetApp para o Google Cloud Platform (GCP) / GCVE"]
 
 --
 ====

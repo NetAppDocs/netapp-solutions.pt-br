@@ -28,19 +28,19 @@ Esta seção descreve como cada um dos provedores de nuvem oferece suporte a um 
 
 === Solução Azure VMware
 
-image:avs-logo.png["avs,60,60,boia à esquerda,alinhar ao centro"] O Azure VMware Solution é um serviço de nuvem híbrida que permite o funcionamento total de SDDCs VMware na nuvem pública do Microsoft Azure. A solução VMware do Azure é uma solução de primeira empresa totalmente gerenciada e suportada pela Microsoft, verificada pela VMware utilizando a infraestrutura do Azure. Isso significa que quando a solução VMware Azure é implantada, o cliente obtém o ESXi da VMware para virtualização de computação, o VSAN para armazenamento hiperconvergente e o NSX para rede e segurança, aproveitando a presença global, as instalações de data center líderes de classe do Microsoft Azure e a proximidade com o rico ecossistema de serviços e soluções nativas do Azure.
+O Azure VMware Solution é um serviço de nuvem híbrida que permite o funcionamento total de SDDCs VMware na nuvem pública do Microsoft Azure. A solução VMware do Azure é uma solução de primeira empresa totalmente gerenciada e suportada pela Microsoft, verificada pela VMware utilizando a infraestrutura do Azure. Isso significa que quando a solução VMware Azure é implantada, o cliente obtém o ESXi da VMware para virtualização de computação, o VSAN para armazenamento hiperconvergente e o NSX para rede e segurança, aproveitando a presença global, as instalações de data center líderes de classe do Microsoft Azure e a proximidade com o rico ecossistema de serviços e soluções nativas do Azure.
 
 
 
 === VMware Cloud na AWS
 
-image:vmc-logo.png["vmc,60,60,boia à esquerda,alinhar ao centro"] O VMware Cloud on AWS leva o software SDDC de classe empresarial da VMware para a nuvem AWS, com acesso otimizado a serviços nativos da AWS. Equipado com o VMware Cloud Foundation, o VMware Cloud on AWS integra os produtos de computação, armazenamento e virtualização de rede da VMware (VMware vSphere, VMware VSAN e VMware NSX), juntamente com o gerenciamento do VMware vCenter Server, otimizado para execução em infraestrutura AWS dedicada, elástica e bare-metal.
+O VMware Cloud on AWS leva o software SDDC de classe empresarial da VMware para a nuvem AWS, com acesso otimizado a serviços nativos da AWS. Equipado com o VMware Cloud Foundation, o VMware Cloud on AWS integra os produtos de computação, armazenamento e virtualização de rede da VMware (VMware vSphere, VMware VSAN e VMware NSX), juntamente com o gerenciamento do VMware vCenter Server, otimizado para execução em infraestrutura AWS dedicada, elástica e bare-metal.
 
 
 
 === Google Cloud VMware Engine
 
-image:gcve-logo.png["gcve,60,60,float"] O Google Cloud VMware Engine é uma oferta de infraestrutura como serviço (IaaS) desenvolvida com base na infraestrutura escalável de alto desempenho do Google Cloud e na pilha VMware Cloud Foundation – VMware vSphere, vCenter, VSAN e NSX-T. esse serviço permite um caminho rápido para a nuvem, migrando ou estendendo de forma otimizada as cargas de trabalho existentes da VMware de ambientes locais para o Google Cloud Platform sem o custo, esforço ou o risco de rearquitetar aplicações ou reestruturar. É um serviço vendido e suportado pelo Google, trabalhando em estreita colaboração com a VMware.
+O Google Cloud VMware Engine é uma oferta de infraestrutura como serviço (IaaS) desenvolvida com base na infraestrutura escalável de alto desempenho do Google Cloud e na pilha VMware Cloud Foundation – VMware vSphere, vCenter, VSAN e NSX-T. esse serviço permite um caminho rápido para a nuvem, migrando ou estendendo de forma otimizada as cargas de trabalho existentes da VMware de ambientes locais para o Google Cloud Platform sem o custo, esforço ou o risco de rearquitetar aplicações ou reestruturar. É um serviço vendido e suportado pelo Google, trabalhando em estreita colaboração com a VMware.
 
 
 NOTE: A colocação de nuvem privada SDDC e Cloud volumes da NetApp oferece o melhor desempenho com latência mínima de rede.
