@@ -25,4 +25,5 @@ Para saber mais sobre as informações descritas nesta informação do Cyber Vau
 * link:https://www.netapp.com/cyber-resilience/data-protection/["Proteção de dados da NetApp"^]
 * link:https://docs.netapp.com/us-en/ontap/peering/index.html["Visão geral do peering de cluster e SVM com a CLI"^]
 * link:https://docs.netapp.com/us-en/ontap/concepts/snapvault-archiving-concept.html["Arquivamento SnapVault"^]
+* link:https://github.com/NetApp/ransomeware-cybervault-automation["Configurar, analisar, script cron"^]
 

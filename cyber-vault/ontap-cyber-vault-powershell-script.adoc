@@ -14,7 +14,7 @@ summary: Esta é a solução NetApp ONTAP para configurar, fortalecer e validar 
 
 
 [role="lead"]
-O NetApp criou um único script que pode ser baixado e usado para configurar, verificar e agendar relacionamentos de cofre cibernético.
+O NetApp criou link:https://github.com/NetApp/ransomeware-cybervault-automation["um único script que pode ser baixado"^]um e é usado para configurar, verificar e agendar relacionamentos de cofre cibernético.
 
 
 
@@ -33,7 +33,7 @@ O NetApp criou um único script que pode ser baixado e usado para configurar, ve
 
 == Como usar este script
 
-Baixe o script e para usar o script, basta seguir os passos abaixo:
+link:https://github.com/NetApp/ransomeware-cybervault-automation["Baixe o script"^] e para usar o script, basta seguir os passos abaixo:
 
 * Inicie o Windows PowerShell como administrador.
 * Navegue até o diretório que contém o script.
