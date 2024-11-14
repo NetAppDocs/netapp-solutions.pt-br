@@ -89,7 +89,7 @@ O ONTAP oferece níveis superiores de performance e proteção de dados, além d
 A ONTAP 9 ajuda a atender às necessidades empresariais exigentes e em constante mudança:
 
 * *Dimensionamento otimizado e operações ininterruptas.* O ONTAP dá suporte à adição sem interrupções de capacidade às controladoras atuais e aos clusters de escalabilidade horizontal. Os clientes podem fazer upgrade para as tecnologias mais recentes, como NVMe e FC de 32GB GB, sem interrupções ou migrações de dados caras.
-* *Conexão com a nuvem.* O ONTAP é o software de gerenciamento de storage conectado à nuvem, com opções para storage definido por software (ONTAP Select) e instâncias nativas da nuvem (NetApp Cloud Volumes Service) em todas as nuvens públicas.
+* *Conexão com a nuvem.* O ONTAP é o software de gerenciamento de storage conectado à nuvem, com opções para storage definido por software (ONTAP Select) e instâncias nativas da nuvem (Google Cloud NetApp volumes) em todas as nuvens públicas.
 * *Integração com aplicações emergentes.* O ONTAP oferece serviços de dados de nível empresarial para plataformas e aplicações de última geração, como OpenStack, Hadoop e MongoDB, usando a mesma infraestrutura compatível com aplicações empresariais existentes.
 
 

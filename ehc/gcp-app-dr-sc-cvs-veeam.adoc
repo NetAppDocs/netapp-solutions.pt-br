@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ehc/gcp-app-dr-sc-cvs-veeam.html 
-keywords: gcp, gcve, snapcenter, cvo, cvs, iscsi, guest connect, dr, disaster recovery 
+keywords: gcp, gcve, snapcenter, cvo, gcnv, iscsi, guest connect, dr, disaster recovery 
 summary: A recuperação de desastres na nuvem é uma maneira resiliente e econômica de proteger workloads contra interrupções no local e eventos de corrupção de dados, como ransomware. Com o NetApp SnapMirror, os workloads da VMware no local que usam storage conectado ao hóspede podem ser replicados para o NetApp Cloud Volumes ONTAP em execução no Google Cloud. 
 ---
 = Recuperação de desastres consistente com aplicações com o NetApp SnapCenter e o Veeam Replication
@@ -90,7 +90,7 @@ video::395e33db-0d63-4e48-8898-b01200f006ca[panopto]
 ====
 Dois fatores importantes a considerar ao implantar o SDDC são o tamanho do cluster SDDC na solução GCVE e o tempo para manter o SDDC em serviço. Essas duas principais considerações para uma solução de recuperação de desastres ajudam a reduzir os custos operacionais gerais. O SDDC pode ser tão pequeno quanto três hosts, até um cluster de vários hosts em uma implantação em escala completa.
 
-O NetApp Cloud volume Service para armazenamento de dados NFS e o Cloud Volumes ONTAP para bancos de dados SQL e o log podem ser implantados em qualquer VPC e o GCVE deve ter conexão privada com essa VPC para montar o armazenamento de dados NFS e ter a VM conetada a iSCSI LUNs.
+O Google Cloud NetApp volumes para armazenamento de dados NFS e o Cloud Volumes ONTAP para bancos de dados SQL e o log podem ser implantados em qualquer VPC e o GCVE deve ter conexão privada com essa VPC para montar o armazenamento de dados NFS e ter a VM conetada a iSCSI LUNs.
 
 Para configurar o GCVE SDDC, link:gcp-setup.html["Implantar e configurar o ambiente de virtualização no Google Cloud Platform (GCP)"^]consulte . Como pré-requisito, verifique se as VMs convidadas que residem nos hosts GCVE são capazes de consumir dados do Cloud Volumes ONTAP após a conetividade ter sido estabelecida.
 

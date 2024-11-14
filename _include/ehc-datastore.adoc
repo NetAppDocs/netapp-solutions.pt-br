@@ -37,15 +37,15 @@ Veja o detalhado link:azure-guest.html["Opções de armazenamento Guest Connect 
 O Google Cloud é compatível com o storage NetApp nas seguintes configurações:
 
 * Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
-* Cloud Volumes Service (CVS) como armazenamento conetado ao convidado
-* Cloud Volumes Service (CVS) como um armazenamento de dados NFS complementar
+* Google Cloud NetApp volumes (NetApp volumes) como storage conectado ao hóspede
+* Google Cloud NetApp volumes (NetApp volumes) como um armazenamento de dados NFS complementar
 
 
-Veja o detalhado link:gcp-guest.html["Opções de armazenamento Guest Connect para GCVE"].
+Veja o detalhado link:gcp-guest.html["Opções de armazenamento Guest Connect para GCVE"]. Veja o detalhado link:gcp-ncvs-datastore.html["Opções suplementares de armazenamento de dados NFS para GCVE"].
 
-Veja o detalhado link:gcp-guest.html["Opções de armazenamento Guest Connect para GCVE"].
+Veja o detalhado link:gcp-guest.html["Opções de armazenamento Guest Connect para GCVE"]. Veja o detalhado link:gcp-ncvs-datastore.html["Opções suplementares de armazenamento de dados NFS para GCVE"].
 
-Leia mais sobre link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Suporte ao armazenamento de dados do NetApp Cloud Volumes Service para o Google Cloud VMware Engine (blog do NetApp)"^] ou link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Como usar o NetApp CVS como datastores para o Google Cloud (blog do Google)"^]
+Leia mais sobre link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Suporte ao armazenamento de dados do Google Cloud NetApp volumes para o Google Cloud VMware Engine (blog da NetApp)"^] ou link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Como usar o Google Cloud NetApp volumes como armazenamentos de dados para o Google Cloud VMware Engine (blog do Google)"^]
 
 --
 ====

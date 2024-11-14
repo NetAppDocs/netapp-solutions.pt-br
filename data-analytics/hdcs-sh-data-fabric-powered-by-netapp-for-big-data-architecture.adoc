@@ -79,7 +79,7 @@ image:hdcs-sh-image3.png["Figura que mostra a caixa de diálogo de entrada/saíd
 Os blocos de construção na figura acima incluem:
 
 * *Acesso direto NetApp NFS.* Fornece aos clusters Hadoop e Spark mais recentes acesso direto aos volumes NFS do NetApp sem requisitos de software ou driver adicionais.
-* *Serviços de volume de nuvem e NetApp Cloud Volumes ONTAP.* Storage conectado definido por software baseado em ONTAP executado no Amazon Web Services (AWS) ou no Azure NetApp Files (ANF) em serviços de nuvem do Microsoft Azure.
+* *NetApp Cloud Volumes ONTAP e Google Cloud NetApp volumes.* Storage conectado definido por software baseado em ONTAP executado no Amazon Web Services (AWS) ou no Azure NetApp Files (ANF) em serviços de nuvem do Microsoft Azure.
 * *Tecnologia NetApp SnapMirror*. Fornece recursos de proteção de dados entre instâncias do ONTAP ou do Cloud no local e no local.
 * *Provedores de serviços em nuvem.* Esses fornecedores incluem AWS, Microsoft Azure, Google Cloud e IBM Cloud.
 * *PaaS.* Serviços de análise baseados na nuvem, como Amazon Elastic MapReduce (EMR) e Databricks na AWS, bem como Microsoft Azure HDInsight e Azure Databricks.

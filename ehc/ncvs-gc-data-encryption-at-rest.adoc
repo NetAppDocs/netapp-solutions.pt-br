@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-data-encryption-at-rest.html 
 keywords: aes-256 encryption, cmek 
-summary: Todos os volumes no Cloud Volumes Service são criptografados em repouso usando criptografia AES-256, o que significa que todos os dados de usuário gravados em Mídia são criptografados e só podem ser descriptografados com uma chave por volume. 
+summary: Todos os volumes no Google Cloud NetApp volumes são criptografados em repouso usando a criptografia AES-256, o que significa que todos os dados de usuário gravados na Mídia são criptografados e só podem ser descriptografados com uma chave por volume. 
 ---
 = Criptografia de dados em repouso
 :hardbreaks:
@@ -14,12 +14,12 @@ summary: Todos os volumes no Cloud Volumes Service são criptografados em repous
 
 
 [role="lead"]
-Todos os volumes no Cloud Volumes Service são criptografados em repouso usando criptografia AES-256, o que significa que todos os dados de usuário gravados em Mídia são criptografados e só podem ser descriptografados com uma chave por volume.
+Todos os volumes no Google Cloud NetApp volumes são criptografados em repouso usando a criptografia AES-256, o que significa que todos os dados de usuário gravados na Mídia são criptografados e só podem ser descriptografados com uma chave por volume.
 
-* Para CVS-SW, chaves geradas pelo Google são usadas.
-* Para o CVS-Performance, as chaves por volume são armazenadas em um gerenciador de chaves incorporado ao Cloud Volumes Service.
+* Para o NetApp volumes-SW, as chaves geradas pelo Google são usadas.
+* Para o NetApp volumes-performance, as chaves por volume são armazenadas em um gerenciador de chaves incorporado ao Google Cloud NetApp volumes.
 
 
 A partir de novembro de 2021, a funcionalidade de pré-visualização de chaves de criptografia gerenciadas pelo cliente (CMEK) foi disponibilizada. Isso permite que você criptografe as chaves por volume com uma chave mestra por projeto, por região, hospedada https://cloud.google.com/kms/docs["Google Key Management Service (KMS)."^] no KMS, permite que você anexe gerenciadores de chaves externos.
 
-Para obter informações sobre como configurar o KMS para CVS-Performance, https://cloud.google.com/architecture/partners/netapp-cloud-volumes/customer-managed-keys?hl=en_US["Configuração de chaves de criptografia gerenciadas pelo cliente"^] consulte .
+Para obter informações sobre como configurar o KMS para o NetApp volumes-desempenho, https://cloud.google.com/architecture/partners/netapp-cloud-volumes/customer-managed-keys?hl=en_US["Configuração de chaves de criptografia gerenciadas pelo cliente"^] consulte .

@@ -54,11 +54,15 @@ indexpage:
       url: "/gcp-gcve.html"
     - title: Configure o ambiente de virtualização
       url: "/gcp-setup.html"
+    - title: 'NetApp volumes como armazenamento de dados NFS complementar: Visão geral'
+      url: "/gcp-ncvs-datastore.html"
     - title: CVO como storage conectado ao convidado
       url: "/gcp-guest.html#gcp-cvo"
+    - title: Volumes NetApp como armazenamento conectado ao convidado
+      url: "/gcp-guest.html#gcnv"
     - title: Soluções de multicloud híbrida para GCVE
       url: "/gcp-solutions.html"
-    - title: Visão geral de segurança - NetApp CVS no Google Cloud
+    - title: Visão geral da segurança - volumes do NetApp no Google Cloud
       url: "/ncvs-gc-overview.html"
   - title: Simuladores
     links:
@@ -80,7 +84,7 @@ indexpage:
       url: https://cloud.netapp.com/vmc-aws-fsx-ontap/roi
     - title: CALCULADORA DE TCO DE ANF E AVS
       url: https://bluexp.netapp.com/anf-avs/tcoestimator
-    - title: INDICADOR DE TCO DO GCVE E CVS
+    - title: Indicador de custo total de propriedade do NetApp volumes
       url: https://bluexp.netapp.com/gcve-cvs/roi
   - title: Recuperação de desastres do BlueXP 
     links:

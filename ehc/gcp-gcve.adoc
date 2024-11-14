@@ -32,7 +32,7 @@ Assim como no local, Planejar um ambiente de virtualização baseado na nuvem é
 Esta seção descreve como configurar e gerenciar o GCVE e usá-lo em combinação com as opções disponíveis para conetar o armazenamento do NetApp.
 
 
-NOTE: O storage in-Guest é o único método com suporte para conetar o Cloud Volumes ONTAP e o Cloud volumes Services ao GCVE.
+NOTE: O storage in-Guest é o único método com suporte para conetar volumes do Cloud Volumes ONTAP e do Google Cloud NetApp ao GCVE.
 
 O processo de configuração pode ser dividido nas seguintes etapas:
 
@@ -53,13 +53,13 @@ Visite link:ehc-support-configs.html["Opções de armazenamento NetApp suportada
 O Google Cloud é compatível com o storage NetApp nas seguintes configurações:
 
 * Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
-* Cloud Volumes Service (CVS) como armazenamento conetado ao convidado
-* Cloud Volumes Service (CVS) como um armazenamento de dados NFS complementar
+* Google Cloud NetApp volumes (NetApp volumes) como storage conectado ao hóspede
+* Google Cloud NetApp volumes (NetApp volumes) como um armazenamento de dados NFS complementar
 
 
-Veja o detalhado link:gcp-guest.html["Opções de armazenamento Guest Connect para GCVE"].
+Veja o detalhado link:gcp-guest.html["Opções de armazenamento Guest Connect para GCVE"]. Veja o detalhado link:gcp-ncvs-datastore.html["Opções suplementares de armazenamento de dados NFS para GCVE"].
 
-Leia mais sobre link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Suporte ao armazenamento de dados do NetApp Cloud Volumes Service para o Google Cloud VMware Engine (blog do NetApp)"^] ou link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Como usar o NetApp CVS como datastores para o Google Cloud (blog do Google)"^]
+Leia mais sobre link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Suporte ao armazenamento de dados do Google Cloud NetApp volumes para o Google Cloud VMware Engine (blog da NetApp)"^] ou link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Como usar o Google Cloud NetApp volumes como armazenamentos de dados para o Google Cloud VMware Engine (blog do Google)"^]
 
 
 

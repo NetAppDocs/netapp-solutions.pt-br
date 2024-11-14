@@ -46,7 +46,7 @@ Navegue pelas soluções disponíveis nas seções a seguir.
 .NetApp para GCP / GCVE
 --
 * link:../ehc/gcp-app-dr-sc-cvo-veeam.html["Recuperação de desastres de aplicações com SnapCenter, Cloud Volumes ONTAP e Veeam Replication"]
-* link:../ehc/gcp-app-dr-sc-cvs-veeam.html["Recuperação de desastres consistente com aplicativos com o NetApp SnapCenter e o Veeam Replication para o NetApp CVS no GCVE"]
+* link:../ehc/gcp-app-dr-sc-cvs-veeam.html["Recuperação de desastres consistente com aplicativos com o NetApp SnapCenter e o Veeam Replication para o NetApp volumes no GCVE"]
 
 
 --

@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-firewall.html 
 keywords: tcp, nfs, smb share, kerberos, active directory, dns 
-summary: O Cloud Volumes Service expõe várias portas TCP para atender a compartilhamentos NFS e SMB. 
+summary: O Google Cloud NetApp volumes expõe várias portas TCP para atender a compartilhamentos NFS e SMB. 
 ---
 = Firewall
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: O Cloud Volumes Service expõe várias portas TCP para atender a compar
 
 
 [role="lead"]
-O Cloud Volumes Service expõe várias portas TCP para atender a compartilhamentos NFS e SMB:
+O Google Cloud NetApp volumes expõe várias portas TCP para atender a compartilhamentos NFS e SMB:
 
 * https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["Portas necessárias para acesso NFS"^]
 * https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["Portas necessárias para acesso SMB"^]
@@ -22,6 +22,6 @@ O Cloud Volumes Service expõe várias portas TCP para atender a compartilhament
 
 Além disso, SMB, NFS com LDAP, incluindo Kerberos e configurações de protocolo duplo, exigem acesso a um domínio do Windows ative Directory. As ligações do ative Directory têm de ser https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes?hl=en_US["configurado"^] por região. Os controladores de domínio do ative Directory (DC) são identificados usando https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/7fcdce70-5205-44d6-9c3a-260e616a2f04["Descoberta DC baseada em DNS"^] os servidores DNS especificados. Qualquer um dos DCs retornados é usado. A lista de DCs elegíveis pode ser limitada especificando um site do ative Directory.
 
-O Cloud Volumes Service alcança os endereços IP do intervalo CIDR alocado com o `gcloud compute address` comando enquanto https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en_US["A bordo do Cloud Volumes Service"^]o . Você pode usar este CIDR como endereços de origem para configurar firewalls de entrada para os controladores de domínio do ative Directory.
+O Google Cloud NetApp volumes alcança os endereços IP do intervalo CIDR alocado com o `gcloud compute address` comando enquanto https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en_US["Integração com o Google Cloud NetApp volumes"^]o . Você pode usar este CIDR como endereços de origem para configurar firewalls de entrada para os controladores de domínio do ative Directory.
 
-Controladores de domínio do ative Directory devem https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["Exponha as portas aos CIDR Cloud Volumes Service, conforme mencionado aqui"^].
+Controladores de domínio do ative Directory devem https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["Exponha as portas aos CIDR do Google Cloud NetApp volumes, conforme mencionado aqui"^].

@@ -64,7 +64,7 @@ Para obter mais informações sobre Anthos, consulte o site do Anthos localizado
 
 === Sistemas de storage da NetApp
 
-A NetApp tem vários sistemas de storage perfeitos para data centers empresariais e implantações de nuvem híbrida. O portfólio do NetApp inclui sistemas de armazenamento NetApp ONTAP, Cloud Volumes ONTAP, Cloud Volumes Service, Azure NetApp Files, FSX ONTAP para NetApp ONTAP, todos eles podem fornecer armazenamento persistente para aplicações em contêiner.
+A NetApp tem vários sistemas de storage perfeitos para data centers empresariais e implantações de nuvem híbrida. O portfólio do NetApp inclui os sistemas de armazenamento NetApp ONTAP, Cloud Volumes ONTAP, Google Cloud NetApp volumes, Azure NetApp Files e FSX ONTAP para NetApp ONTAP, que oferecem armazenamento persistente para aplicações em contêineres.
 
 Para obter mais informações, visite o site da NetApp https://www.netapp.com["aqui"] .
 

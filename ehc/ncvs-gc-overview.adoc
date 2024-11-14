@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-overview.html 
 keywords: 4918, tr4918, overview, introduction, scope, audience, abbreviation, definition 
-summary: A segurança, particularmente na nuvem em que a infraestrutura está fora do controle dos administradores de storage, é fundamental para confiar seus dados nas ofertas de serviço fornecidas por provedores de nuvem. Este documento é uma visão geral das ofertas de segurança que o NetApp Cloud Volumes Service oferece no Google Cloud. 
+summary: A segurança, particularmente na nuvem em que a infraestrutura está fora do controle dos administradores de storage, é fundamental para confiar seus dados nas ofertas de serviço fornecidas por provedores de nuvem. Este documento é uma visão geral das ofertas de segurança oferecidas pelo Google Cloud NetApp volumes. 
 ---
-= TR-4918: Visão geral da segurança - NetApp Cloud Volumes Service no Google Cloud
+= TR-4918: Visão geral da segurança - volumes do Google Cloud NetApp no Google Cloud
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -16,7 +16,7 @@ summary: A segurança, particularmente na nuvem em que a infraestrutura está fo
 NetApp, Justin Parisi, Oliver Krause
 
 [role="lead"]
-A segurança, particularmente na nuvem em que a infraestrutura está fora do controle dos administradores de storage, é fundamental para confiar seus dados nas ofertas de serviço fornecidas por provedores de nuvem. Este documento é uma visão geral das ofertas de segurança que o NetApp https://cloud.netapp.com/cloud-volumes-service-for-gcp["O Cloud Volumes Service fornece no Google Cloud"^] .
+A segurança, particularmente na nuvem em que a infraestrutura está fora do controle dos administradores de storage, é fundamental para confiar seus dados nas ofertas de serviço fornecidas por provedores de nuvem. Este documento é uma visão geral das ofertas de segurança que https://cloud.netapp.com/cloud-volumes-service-for-gcp["O Google Cloud NetApp volumes é fornecido no Google Cloud"^]o .
 
 
 
@@ -37,10 +37,10 @@ Se você tiver dúvidas sobre o conteúdo deste relatório técnico, consulte a 
 | Abreviatura | Definição 
 
 
-| CVS-SW | Cloud Volumes Service, tipo de serviço CVS 
+| NetApp volumes-SW | Google Cloud NetApp volumes, tipo de serviço NetApp volumes 
 
 
-| CVS-performance | Cloud volume Service, tipo de serviço CVS-Performance 
+| NetApp volumes-performance | Cloud volume Service, tipo de serviço NetApp volumes-performance 
 
 
 | PSA |  

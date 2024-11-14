@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 Esta página mostra as opções de proteção de dados para clusters gerenciados do Red Hat OpenShift no AWS (ROSA) usando o Astra Control Service. O Astra Control Service (ACS) fornece uma interface gráfica de usuário fácil de usar com a qual você pode adicionar clusters, definir aplicações em execução neles e realizar atividades de gerenciamento de dados com reconhecimento de aplicações. As funções ACS também podem ser acessadas usando uma API que permite a automação de fluxos de trabalho.
 
-A alimentação do controlo Astra (ACS ou ACC) é NetApp Trident. O Trident integra vários tipos de clusters do Kubernetes, como o Red Hat OpenShift, EKS, AKS, SUSE Rancher, Anthos, etc., com vários tipos de armazenamento NetApp ONTAP, como FAS/AFF, ONTAP Select, CVO, Google Cloud Volumes Service, Azure NetApp Files e Amazon FSX ONTAP.
+A alimentação do controlo Astra (ACS ou ACC) é NetApp Trident. O Trident integra vários tipos de clusters do Kubernetes, como o Red Hat OpenShift, EKS, AKS, SUSE Rancher, Anthos, etc., com vários tipos de armazenamento do NetApp ONTAP, como FAS/AFF, ONTAP Select, CVO, Google Cloud NetApp volumes, Azure NetApp Files e Amazon FSX ONTAP.
 
 Esta seção fornece detalhes para as seguintes opções de proteção de dados usando ACS:
 

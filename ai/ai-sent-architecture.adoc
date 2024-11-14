@@ -111,7 +111,7 @@ https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["C√≥pia e sincroniza√
 
 * NetApp StorageGRID
 * NetApp ONTAP S3
-* NetApp Cloud Volumes Service
+* Google Cloud NetApp volumes
 * Azure NetApp Files
 * Amazon Simple Storage Service (Amazon S3)
 * Amazon Elastic File System (Amazon EFS)

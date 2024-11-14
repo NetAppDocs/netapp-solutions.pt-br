@@ -46,7 +46,7 @@ Veja o detalhado link:azure-setup.html["Etapas de configuração para AVS"].
 Esta seção descreve como configurar e gerenciar o GCVE e usá-lo em combinação com as opções disponíveis para conetar o armazenamento do NetApp.
 
 
-NOTE: O storage in-Guest é o único método com suporte para conetar o Cloud Volumes ONTAP e o Cloud volumes Services ao GCVE.
+NOTE: O storage in-Guest é o único método com suporte para conetar volumes do Cloud Volumes ONTAP e do Google Cloud NetApp ao GCVE.
 
 O processo de configuração pode ser dividido nas seguintes etapas:
 

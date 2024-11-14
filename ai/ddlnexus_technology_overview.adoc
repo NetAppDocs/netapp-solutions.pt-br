@@ -96,7 +96,7 @@ O Amazon FSX ONTAP é um serviço da AWS de primeira empresa e totalmente gerenc
 
 == NetApp Trident
 
-O Trident permite o consumo e o gerenciamento de recursos de armazenamento em todas as plataformas de armazenamento populares da NetApp, na nuvem pública ou no local, incluindo ONTAP (AFF, FAS, Select, nuvem, Amazon FSX ONTAP), software Element (NetApp HCI, SolidFire), serviço Azure NetApp Files e Cloud Volumes Service no Google Cloud. O Trident é um orquestrador de storage dinâmico e em conformidade com a Container Storage Interface (CSI). Ele é integrado nativamente ao Kubernetes.
+O Trident permite o consumo e o gerenciamento de recursos de storage em todas as plataformas de armazenamento populares da NetApp, na nuvem pública ou no local, incluindo ONTAP (AFF, FAS, Select, nuvem, Amazon FSX ONTAP), software Element (NetApp HCI, SolidFire), serviço Azure NetApp Files e Google Cloud NetApp volumes no Google Cloud. O Trident é um orquestrador de storage dinâmico e em conformidade com a Container Storage Interface (CSI). Ele é integrado nativamente ao Kubernetes.
 
 
 

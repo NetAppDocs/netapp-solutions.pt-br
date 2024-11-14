@@ -136,10 +136,10 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 | 9 de junho de 2023 | Banco de dados | Adicionado novo TR-4973: Recuperação rápida e clone do Oracle VLDB com integração incremental no AWS FSX ONTAP 
 
 
-| 8 de junho de 2023 | Nuvem híbrida | Adicionado GCVE com CVS - recuperação de desastres consistente de aplicativos com NetApp SnapCenter e replicação Veeam 
+| 8 de junho de 2023 | Nuvem híbrida | Adicionado GCVE com NetApp volumes - recuperação de desastres consistente com aplicativos com NetApp SnapCenter e replicação Veeam 
 
 
-| 8 de junho de 2023 | Nuvem híbrida | Adicionado GCVE com CVS - migração de VM para o armazenamento de dados NFS do NetApp Cloud volume Service no Google Cloud usando o recurso de replicação da Veeam 
+| 8 de junho de 2023 | Nuvem híbrida | Adicionado o GCVE com o NetApp volumes: Migração de VMs para o armazenamento de dados do Google Cloud NetApp volumes NFS no Google Cloud usando o recurso de replicação da Veeam 
 
 
 | 23 de maio de 2023 | Virtualização | Adicionado o TR-4400: VMware vSphere Virtual volumes (vVols) com o NetApp ONTAP 
@@ -181,7 +181,7 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 | 15 de fevereiro de 2023 | Banco de dados | Adicionado PostgreSQL implantação de alta disponibilidade e recuperação de desastres no AWS FSX/EC2 
 
 
-| 7 de fevereiro de 2023 | Nuvem híbrida | Blog adicionado: Anunciando a disponibilidade geral do suporte ao armazenamento de dados do NetApp Cloud Volumes Service para o VMware Engine 
+| 7 de fevereiro de 2023 | Nuvem híbrida | Blog adicionado: Anúncio da disponibilidade geral do suporte ao armazenamento de dados do Google Cloud NetApp volumes para o Google Cloud VMware Engine 
 
 
 | 7 de fevereiro de 2023 | Nuvem híbrida | Adicionado TR-4955: Recuperação de desastres com o FSX ONTAP e VMC (AWS VMware Cloud) 
@@ -501,10 +501,10 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 | 17 de agosto de 2023 | Nuvem híbrida | Adicionado: Usando o Veeam Replication e o FSX ONTAP para recuperação de desastres no VMware Cloud na AWS 
 
 
-| 8 de junho de 2023 | Nuvem híbrida | Adicionado GCVE com CVS - recuperação de desastres consistente de aplicativos com NetApp SnapCenter e replicação Veeam 
+| 8 de junho de 2023 | Nuvem híbrida | Adicionado GCVE com NetApp volumes - recuperação de desastres consistente com aplicativos com NetApp SnapCenter e replicação Veeam 
 
 
-| 8 de junho de 2023 | Nuvem híbrida | Adicionado GCVE com CVS - migração de VM para o armazenamento de dados NFS do NetApp Cloud volume Service no Google Cloud usando o recurso de replicação da Veeam 
+| 8 de junho de 2023 | Nuvem híbrida | Adicionado o GCVE com o NetApp volumes: Migração de VMs para o armazenamento de dados do Google Cloud NetApp volumes NFS no Google Cloud usando o recurso de replicação da Veeam 
 
 
 | 10 de maio de 2023 | Nuvem híbrida | TR-4955 adicionado: Recuperação de desastres com Azure NetApp Files (ANF) e solução Azure VMware (AVS) 
@@ -513,7 +513,7 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 | 27 de abril de 2023 | Nuvem híbrida | Adicionado o Veeam Backup & Restore no VMware Cloud com o AWS FSX ONTAP 
 
 
-| 7 de fevereiro de 2023 | Nuvem híbrida | Blog adicionado: Anunciando a disponibilidade geral do suporte ao armazenamento de dados do NetApp Cloud Volumes Service para o VMware Engine 
+| 7 de fevereiro de 2023 | Nuvem híbrida | Blog adicionado: Anúncio da disponibilidade geral do suporte ao armazenamento de dados do Google Cloud NetApp volumes para o Google Cloud VMware Engine 
 
 
 | 7 de fevereiro de 2023 | Nuvem híbrida | Adicionado TR-4955: Recuperação de desastres com o FSX ONTAP e VMC (AWS VMware Cloud) 

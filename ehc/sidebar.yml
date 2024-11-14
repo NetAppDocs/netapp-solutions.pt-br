@@ -119,10 +119,10 @@ entries:
     - title: Migre workloads para o armazenamento de dados NFS do Cloud volume Service
         usando o VMware HCX
       url: "/ehc/gcp-migrate-vmware-hcx.html"
-    - title: Migre workloads de VM para o armazenamento de dados NFS do NetApp Cloud
-        volume Service usando o Veeam Replication
+    - title: Migre workloads de VM para o armazenamento de dados do Google Cloud NetApp
+        volumes NFS com o Veeam Replication
       url: "/ehc/gcp-migrate-veeam.html"
-  - title: Suporte de região para armazenamentos de dados NFS do NetApp CVS
+  - title: Suporte de região para armazenamentos de dados NFS do NetApp volumes
     url: "/ehc/gcp-regions.html"
 - title: Recuperação de desastres do BlueXP 
   entries:

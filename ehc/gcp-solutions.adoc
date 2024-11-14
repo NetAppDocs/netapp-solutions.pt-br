@@ -30,14 +30,14 @@ Navegue pelas soluções disponíveis nas seções a seguir.
 .Proteger
 --
 * link:gcp-app-dr-sc-cvo-veeam.html["Recuperação de desastres de aplicações com SnapCenter, Cloud Volumes ONTAP e Veeam Replication"]
-* link:gcp-app-dr-sc-cvs-veeam.html["Recuperação de desastres consistente com aplicativos com o NetApp SnapCenter e o Veeam Replication para o NetApp CVS no GCVE"]
+* link:gcp-app-dr-sc-cvs-veeam.html["Recuperação de desastres consistente com aplicativos com o NetApp SnapCenter e o Veeam Replication para o NetApp volumes no GCVE"]
 
 
 --
 .Migrar
 --
-* link:gcp-migrate-vmware-hcx.html["Migração de workload usando o VMware HCX para o armazenamento de dados NFS do NetApp Cloud volume Service"]
-* link:gcp-migrate-veeam.html["Replicação de VM usando o armazenamento de dados NFS do NetApp Cloud volume Service"]
+* link:gcp-migrate-vmware-hcx.html["Migração de workload com o VMware HCX para o armazenamento de dados do Google Cloud NetApp volumes NFS"]
+* link:gcp-migrate-veeam.html["Replicação de VM usando o Veeam para Google Cloud NetApp volumes NFS datastore"]
 
 
 --

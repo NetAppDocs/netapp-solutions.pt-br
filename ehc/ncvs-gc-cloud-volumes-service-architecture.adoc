@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-cloud-volumes-service-architecture.html 
 keywords: tenancy model, shared vpcs, service controls, packet sniffing, trace considerations 
-summary: De maneira semelhante a outros serviços nativos do Google Cloud, como o CloudSQL, o Google Cloud e o filestore, o Cloud Volumes Service usa o Google PSA para fornecer o serviço. 
+summary: De maneira semelhante a outros serviços nativos do Google Cloud, como o CloudSQL, o Google Cloud NetApp volumes usa o Google PSA para fornecer o serviço. 
 ---
-= Arquitetura da Cloud Volumes Service
+= Arquitetura do Google Cloud NetApp volumes
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,9 +14,9 @@ summary: De maneira semelhante a outros serviços nativos do Google Cloud, como 
 
 
 [role="lead"]
-De maneira semelhante a outros serviços nativos do Google Cloud, como o CloudSQL, o Google Cloud e o filestore, o Cloud Volumes Service usa https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["Google PSA"^] para fornecer o serviço. Na PSA, os serviços são construídos dentro de um projeto de produtor de serviços, que usa https://cloud.google.com/vpc/docs/vpc-peering?hl=en_US["Peering de rede VPC"^] para se conetar ao consumidor de serviços. O produtor de serviços é fornecido e operado pela NetApp, e o consumidor de serviços é uma VPC em um projeto de cliente, hospedando os clientes que desejam acessar compartilhamentos de arquivos do Cloud Volumes Service.
+De maneira semelhante a outros serviços nativos do Google Cloud, como CloudSQL, GCVE e filestore, o Google Cloud NetApp volumes usa https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["Google PSA"^] para fornecer o serviço. Na PSA, os serviços são construídos dentro de um projeto de produtor de serviços, que usa https://cloud.google.com/vpc/docs/vpc-peering?hl=en_US["Peering de rede VPC"^] para se conetar ao consumidor de serviços. O produtor de serviços é fornecido e operado pela NetApp, e o consumidor de serviços é uma VPC em um projeto de cliente, hospedando os clientes que desejam acessar compartilhamentos de arquivos do Google Cloud NetApp volumes.
 
-A figura a seguir, referenciada a partir da https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture?hl=en_US["seção arquitetura"^] documentação do Cloud Volumes Service, mostra uma visualização de alto nível.
+A figura a seguir, mencionada na https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture?hl=en_US["seção arquitetura"^] documentação do Google Cloud NetApp volumes, mostra uma visualização de alto nível.
 
 image:ncvs-gc-image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
@@ -26,15 +26,15 @@ A parte acima da linha pontilhada mostra o plano de controle do serviço, que co
 
 == Modelo de alocação
 
-Em Cloud Volumes Service, projetos individuais são considerados inquilinos únicos. Isso significa que a manipulação de volumes, cópias Snapshot etc. é realizada por projeto. Em outras palavras, todos os volumes são de propriedade do projeto em que foram criados e somente esse projeto pode gerenciar e acessar os dados dentro deles por padrão. Isso é considerado a visão do plano de controle do serviço.
+No Google Cloud NetApp volumes, projetos individuais são considerados locatários únicos. Isso significa que a manipulação de volumes, cópias Snapshot etc. é realizada por projeto. Em outras palavras, todos os volumes são de propriedade do projeto em que foram criados e somente esse projeto pode gerenciar e acessar os dados dentro deles por padrão. Isso é considerado a visão do plano de controle do serviço.
 
 
 
 === VPCs compartilhados
 
-Na visualização do plano de dados, o Cloud Volumes Service pode se conetar a uma VPC compartilhada. Você pode criar volumes no projeto de hospedagem ou em um dos projetos de serviço conetados à VPC compartilhada. Todos os projetos (host ou serviço) conetados a essa VPC compartilhada podem alcançar os volumes na camada de rede (TCP/IP). Como todos os clientes com conetividade de rede na VPC compartilhada podem potencialmente acessar os dados por meio de protocolos nas, o controle de acesso no volume individual (como listas de controle de acesso de usuário/grupo (ACLs) e nomes de host/endereços IP para exportações de NFS) deve ser usado para controlar quem pode acessar os dados.
+Na visualização do plano de dados, o Google Cloud NetApp volumes pode se conectar a uma VPC compartilhada. Você pode criar volumes no projeto de hospedagem ou em um dos projetos de serviço conetados à VPC compartilhada. Todos os projetos (host ou serviço) conetados a essa VPC compartilhada podem alcançar os volumes na camada de rede (TCP/IP). Como todos os clientes com conetividade de rede na VPC compartilhada podem potencialmente acessar os dados por meio de protocolos nas, o controle de acesso no volume individual (como listas de controle de acesso de usuário/grupo (ACLs) e nomes de host/endereços IP para exportações de NFS) deve ser usado para controlar quem pode acessar os dados.
 
-Você pode conetar o Cloud Volumes Service a até cinco VPCs por projeto do cliente. No plano de controle, o projeto permite gerenciar todos os volumes criados, independentemente da VPC a que eles estejam conetados. No plano de dados, os VPCs são isolados uns dos outros e cada volume só pode ser conetado a uma VPC.
+Você pode conectar o Google Cloud NetApp volumes a até cinco VPCs por projeto do cliente. No plano de controle, o projeto permite gerenciar todos os volumes criados, independentemente da VPC a que eles estejam conetados. No plano de dados, os VPCs são isolados uns dos outros e cada volume só pode ser conetado a uma VPC.
 
 O acesso aos volumes individuais é controlado por mecanismos de controle de acesso específicos do protocolo (NFS/SMB).
 
@@ -46,9 +46,9 @@ Em outras palavras, na camada de rede, todos os projetos conetados à VPC compar
 
 Os controles de serviço da VPC estabelecem um perímetro de controle de acesso em torno dos serviços do Google Cloud conetados à Internet e acessíveis em todo o mundo. Esses serviços fornecem controle de acesso por meio de identidades de usuário, mas não podem restringir de quais solicitações de localização de rede são originadas. Os controles do Serviço VPC fecham essa lacuna introduzindo os recursos para restringir o acesso a redes definidas.
 
-O plano de dados do Cloud Volumes Service não está conetado à Internet externa, mas a VPCs privados com limites de rede bem definidos (perímetros). Dentro dessa rede, cada volume usa controle de acesso específico do protocolo. Qualquer conetividade de rede externa é explicitamente criada pelos administradores de projetos do Google Cloud. O plano de controle, no entanto, não fornece as mesmas proteções que o plano de dados e pode ser acessado por qualquer pessoa de qualquer lugar com credenciais válidas ( https://datatracker.ietf.org/doc/html/rfc7519["Tokens JWT"^]).
+O plano de dados do Google Cloud NetApp volumes não está conetado à Internet externa, mas a VPCs privados com limites de rede bem definidos (perímetros). Dentro dessa rede, cada volume usa controle de acesso específico do protocolo. Qualquer conetividade de rede externa é explicitamente criada pelos administradores de projetos do Google Cloud. O plano de controle, no entanto, não fornece as mesmas proteções que o plano de dados e pode ser acessado por qualquer pessoa de qualquer lugar com credenciais válidas ( https://datatracker.ietf.org/doc/html/rfc7519["Tokens JWT"^]).
 
-Em resumo, o plano de dados do Cloud Volumes Service fornece a capacidade de controle de acesso à rede, sem a exigência de oferecer suporte aos controles de serviço da VPC e não usa explicitamente os controles de serviço da VPC.
+Em resumo, o plano de dados do Google Cloud NetApp volumes fornece a capacidade de controle de acesso à rede, sem a necessidade de dar suporte aos controles de serviço da VPC e não usa explicitamente os controles de serviço da VPC.
 
 
 
@@ -56,12 +56,12 @@ Em resumo, o plano de dados do Cloud Volumes Service fornece a capacidade de con
 
 As capturas de pacotes podem ser úteis para solucionar problemas de rede ou outros problemas (como permissões nas, conetividade LDAP, etc.), mas também podem ser usadas maliciosamente para obter informações sobre endereços IP de rede, endereços MAC, nomes de usuários e grupos e que nível de segurança está sendo usado nos endpoints. Devido à forma como as regras de rede, VPCs e firewall do Google Cloud são configuradas, o acesso indesejado aos pacotes de rede deve ser difícil de obter sem credenciais de login do usuário ou link:ncvs-gc-control-plane-architecture.html#jwt-tokens["Tokens JWT"]nas instâncias da nuvem. As capturas de pacotes só são possíveis em endpoints (como máquinas virtuais (VMs))) e só são possíveis em endpoints internos para a VPC, a menos que uma VPC compartilhada e/ou encaminhamento de túnel/IP de rede externa esteja em uso para permitir explicitamente o tráfego externo para endpoints. Não há nenhuma maneira de sniff tráfego fora dos clientes.
 
-Quando os VPCs compartilhados são usados, a criptografia em trânsito com NFS Kerberos e/ou link:ncvs-gc-data-encryption-in-transit.html#smb-encryption["Criptografia SMB"] pode mascarar grande parte das informações coletadas de rastreamentos. No entanto, algum tráfego ainda é enviado em texto simples, como link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#dns["DNS"]e link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap-queries["Consultas LDAP"]. A figura a seguir mostra uma captura de pacotes de uma consulta LDAP de texto simples originada do Cloud Volumes Service e as informações de identificação potenciais que estão expostas. As consultas LDAP no Cloud Volumes Service atualmente não suportam encriptação ou LDAP através de SSL. O CVS-Performance oferece suporte à assinatura LDAP, se solicitado pelo active Directory. CVS-SW não suporta assinatura LDAP.
+Quando os VPCs compartilhados são usados, a criptografia em trânsito com NFS Kerberos e/ou link:ncvs-gc-data-encryption-in-transit.html#smb-encryption["Criptografia SMB"] pode mascarar grande parte das informações coletadas de rastreamentos. No entanto, algum tráfego ainda é enviado em texto simples, como link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#dns["DNS"]e link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap-queries["Consultas LDAP"]. A figura a seguir mostra uma captura de pacotes de uma consulta LDAP de texto simples originada de volumes do Google Cloud NetApp e as possíveis informações de identificação expostas. Atualmente, as consultas LDAP no Google Cloud NetApp volumes não são compatíveis com criptografia ou LDAP em SSL. O NetApp volumes-Performance oferece suporte à assinatura LDAP, se solicitado pelo ative Directory. O NetApp volumes-SW não oferece suporte à assinatura LDAP.
 
 image:ncvs-gc-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 
-NOTE: UnixUserPassword é consultada pelo LDAP e não é enviada em texto simples, mas em vez disso em um hash salgado. Por padrão, o LDAP do Windows não preenche os campos unixUserPassword. Este campo só é necessário se você precisar aproveitar o LDAP do Windows para logins interativos através do LDAP para clientes. O Cloud Volumes Service não oferece suporte a logins LDAP interativos nas instâncias.
+NOTE: UnixUserPassword é consultada pelo LDAP e não é enviada em texto simples, mas em vez disso em um hash salgado. Por padrão, o LDAP do Windows não preenche os campos unixUserPassword. Este campo só é necessário se você precisar aproveitar o LDAP do Windows para logins interativos através do LDAP para clientes. O Google Cloud NetApp volumes não oferece suporte a logins LDAP interativos nas instâncias.
 
 A figura a seguir mostra uma captura de pacotes de uma conversa NFS Kerberos ao lado de uma captura de NFS sobre AUTH_SYS. Observe como as informações disponíveis em um rastreamento diferem entre os dois e como ativar a criptografia em trânsito oferece maior segurança geral para o tráfego nas.
 

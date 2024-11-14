@@ -4,7 +4,7 @@ permalink: ehc/gcp-migrate-vmware-hcx.html
 keywords: gcp, gcve, hybrid multicloud, migrate, vmware hcx, hcx, google cloud, enterprise, hybrid, cloud, migration 
 summary:  
 ---
-= Migre workloads para o armazenamento de dados do NetApp Cloud volume Service no Google Cloud VMware Engine usando o guia de início rápido VMWARE HCX
+= Migre workloads para o armazenamento de dados do Google Cloud NetApp volumes no Google Cloud VMware Engine usando o guia de início rápido VMware HCX
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -20,7 +20,7 @@ Autor(a): NetApp Engenharia de soluções
 
 
 
-== Visão geral: Migração de máquinas virtuais com VMware HCX, armazenamentos de dados do serviço de volume de nuvem da NetApp e
+== Visão geral: Migração de máquinas virtuais com VMware HCX, armazenamentos de dados do Google Cloud NetApp volumes e
 
 O VMware HCX é principalmente uma plataforma de migração projetada para simplificar a migração de aplicações, o rebalanceamento de carga de trabalho e até mesmo a continuidade dos negócios entre nuvens. Ele está incluído como parte do Google Cloud VMware Engine Private Cloud e oferece várias maneiras de migrar workloads e pode ser usado em operações de recuperação de desastres (DR).
 
@@ -268,7 +268,7 @@ image:gcpd-hcx-image18.png["Figura que mostra a caixa de diálogo de entrada/sa�
 
 
 
-NOTE: O armazenamento de dados NFS do CVS de destino deve ter espaço suficiente para lidar com a migração.
+NOTE: O armazenamento de dados NFS do Google Cloud NetApp volumes (NetApp volumes) de destino deve ter espaço suficiente para lidar com a migração.
 
 ====
 

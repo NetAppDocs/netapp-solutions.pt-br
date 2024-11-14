@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
 
-* Documentação do Google Cloud para Cloud Volumes Service
+* Documentação do Google Cloud para o Google Cloud NetApp volumes
 +
 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/["https://cloud.google.com/architecture/partners/netapp-cloud-volumes/"^]
 

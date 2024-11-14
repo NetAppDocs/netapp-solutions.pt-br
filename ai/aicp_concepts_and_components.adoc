@@ -197,7 +197,7 @@ O software SnapMirror aproveita as eficiências de storage do NetApp ONTAP envia
 
 == Cópia e sincronização do NetApp BlueXP 
 
-link:https://bluexp.netapp.com/cloud-sync-service["Cópia e sincronização do BlueXP "^] É um serviço NetApp para sincronização de dados rápida e segura. Não importa se você precisa transferir arquivos entre compartilhamentos de arquivos NFS ou SMB no local, NetApp StorageGRID, NetApp ONTAP S3, NetApp Cloud Volumes Service, Azure NetApp Files, AWS S3, AWS EFS, Azure Blob, Google Cloud Storage ou IBM Cloud Object Storage, o BlueXP  Copy and Sync migra os arquivos para onde você precisa com rapidez e segurança.
+link:https://bluexp.netapp.com/cloud-sync-service["Cópia e sincronização do BlueXP "^] É um serviço NetApp para sincronização de dados rápida e segura. Não importa se você precisa transferir arquivos entre compartilhamentos de arquivos NFS ou SMB no local, NetApp StorageGRID, NetApp ONTAP S3, Google Cloud NetApp volumes, Azure NetApp Files, AWS S3, AWS EFS, Azure Blob, Google Cloud Storage ou IBM Cloud Object Storage, o BlueXP  Copy and Sync migra os arquivos para onde você precisa com rapidez e segurança.
 
 Depois que seus dados forem transferidos, eles estarão totalmente disponíveis para uso na origem e no destino. A cópia e sincronização do BlueXP  podem sincronizar dados sob demanda quando uma atualização é acionada ou sincronizar dados continuamente com base em uma programação predefinida. Independentemente disso, o BlueXP  Copy and Sync move apenas os deltas, para minimizar o tempo e o dinheiro gasto na replicação de dados.
 

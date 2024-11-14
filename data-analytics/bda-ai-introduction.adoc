@@ -52,9 +52,9 @@ O Hadoop DistCp move dados entre os dois sistemas HDFS sem usar um driver adicio
 
 
 
-== NetApp Cloud Volumes Service
+== Google Cloud NetApp volumes
 
-O NetApp Cloud Volumes Service é um serviço de arquivos nativo da nuvem com performance extrema. Esse serviço ajuda os clientes a acelerar o time-to-market ao aumentar e diminuir rapidamente os recursos e usar os recursos do NetApp para aumentar a produtividade e reduzir o tempo de inatividade da equipe. O Cloud Volumes Service é a alternativa certa para recuperação de desastres e backup na nuvem porque reduz o espaço físico geral do data center e consome menos storage nativo de nuvem pública.
+O Google Cloud NetApp volumes é um serviço de arquivos nativo da nuvem com performance extrema. Esse serviço ajuda os clientes a acelerar o time-to-market ao aumentar e diminuir rapidamente os recursos e usar os recursos do NetApp para aumentar a produtividade e reduzir o tempo de inatividade da equipe. O Google Cloud NetApp volumes é a alternativa certa para recuperação de desastres e backup na nuvem, pois reduz o espaço físico geral do data center e consome menos storage nativo de nuvem pública.
 
 
 

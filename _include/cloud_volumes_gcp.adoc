@@ -304,10 +304,10 @@ Variáveis do Terraform para instâncias do NetApp CVO no par de HA no GCP.
 | *gcp_cvo_gcp_volume_size_unit* | Cadeia de carateres | (Opcional) ['GB' ou 'TB']. O padrão é 'TB'. 
 |===
 --
-.Volume CVS
+.Volume do NetApp volumes
 --
-.Arquivos de configuração do Terraform para implantação do volume CVS do NetApp no GCP
-Esta seção contém vários arquivos de configuração do Terraform para implantar/configurar o volume do NetApp CVS (Cloud volumes Services) no GCP (Google Cloud Platform).
+.Arquivos de configuração do Terraform para implantação do NetApp volumes volume no GCP
+Esta seção contém vários arquivos de configuração do Terraform para implantar/configurar o volume do NetApp volumes (Google Cloud NetApp volumes) no GCP (Google Cloud Platform).
 
 Documentação do Terraform: https://registry.terraform.io/providers/NetApp/netapp-gcp/latest/docs[]
 
@@ -361,25 +361,25 @@ Para excluir a implantação
     terraform destroy
 ----
 .Receitas:
-`CVS Volume`
+`NetApp Volumes Volume`
 
-Variáveis Terraform para o volume CVS do NetApp.
+Variáveis Terraform para volume do NetApp volumes do NetApp do GCP.
 
 [cols="20%, 10%, 70%"]
 |===
 | *Nome* | *Tipo* | *Descrição* 
 
 
-| *gcp_cvs_name* | Cadeia de carateres | (Obrigatório) o nome do volume NetApp CVS. 
+| *gcp_cvs_name* | Cadeia de carateres | (Obrigatório) o nome do volume NetApp volumes. 
 
 
-| *gcp_cvs_project_id* | Cadeia de carateres | (Obrigatório) o GCP project_id onde o volume CVS será criado. 
+| *gcp_cvs_project_id* | Cadeia de carateres | (Obrigatório) o Project_id do GCP onde o volume do NetApp volumes será criado. 
 
 
-| *gcp_cvs_gcp_service_account_path* | Cadeia de carateres | (Obrigatório) o caminho local do arquivo JSON Service_Account para fins de autorização do GCP. Essa conta de serviço é usada para criar o volume CVS no GCP. 
+| *gcp_cvs_gcp_service_account_path* | Cadeia de carateres | (Obrigatório) o caminho local do arquivo JSON Service_Account para fins de autorização do GCP. Essa conta de serviço é usada para criar o volume do NetApp volumes no GCP. 
 
 
-| *gcp_cvs_region* | Cadeia de carateres | (Obrigatório) a zona do GCP onde o volume CVS será criado. 
+| *gcp_cvs_region* | Cadeia de carateres | (Obrigatório) a zona do GCP onde o volume do NetApp volumes será criado. 
 
 
 | *gcp_cvs_network* | Cadeia de carateres | (Obrigatório) a VPC de rede do volume. 

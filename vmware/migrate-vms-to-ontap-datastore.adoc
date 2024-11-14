@@ -411,7 +411,7 @@ $targetvm, $targetvmdisk | Get-SPBMEntityConfiguration
 +
 ** Link:../ehc/aws-migrate-vmware-hcx.html [TR 4942: Migrar cargas de trabalho para o armazenamento de dados do FSX ONTAP usando VMware HCX]
 ** Link:../ehc/azure-migrate-vmware-hcx.html [TR-4940: Migrar cargas de trabalho para o armazenamento de dados do Azure NetApp Files usando VMware HCX - Guia de início rápido]
-** Link:../ehc/gcp-migrate-vmware-hcx.html [migrar cargas de trabalho para o armazenamento de dados do NetApp Cloud volume Service no Google Cloud VMware Engine usando VMWARE HCX - Guia de início rápido]
+** Link:../ehc/gcp-migrate-vmware-hcx.html [migrar cargas de trabalho para o armazenamento de dados do Google Cloud NetApp volumes no Google Cloud VMware Engine usando o guia de início rápido]
 
 
 * https://docs.netapp.com/us-en/bluexp-disaster-recovery/get-started/dr-intro.html["Recuperação de desastres como serviço do BlueXP  (DRaaS)"] Utiliza replicação baseada em storage array e automatiza certas tarefas para recuperar as VMs no local de destino.

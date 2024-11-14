@@ -202,7 +202,7 @@ image::dr-veeam-gcnv-image08.png[Selecione VMs a serem replicadas]
 +
 clique em ok
 
-. Na página *destino*, selecione o destino como o cluster/hosts GCVE SDDC e o pool de recursos apropriado, a pasta VM e o datastore GCNV para as réplicas da VM. Clique em *seguinte* para continuar.
+. Na página *destino*, selecione o destino como o cluster/hosts GCVE SDDC e o pool de recursos apropriado, a pasta VM e o datastore NetApp volumes para as réplicas da VM. Clique em *seguinte* para continuar.
 +
 image::dr-veeam-gcnv-image09.png[selecione os detalhes do destino]
 

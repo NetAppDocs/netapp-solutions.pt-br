@@ -160,7 +160,7 @@ Esta seção fornece instruções para ajudar os usuários a verificar, configur
 .Habilidades e conhecimento
 [%collapsible]
 ====
-As habilidades e informações a seguir são necessárias para acessar o Cloud Volumes Service para AWS:
+As habilidades e informações a seguir são necessárias para acessar o Google Cloud NetApp volumes para AWS:
 
 * Acesso e conhecimento do seu ambiente no local VMware e ONTAP.
 * Acesso e conhecimento do VMware Cloud e da AWS.

@@ -74,7 +74,7 @@ image:vmware-hcx.png["largura: 600 mm"]
 
 * link:../ehc/aws-migrate-vmware-hcx.html["Migre cargas de trabalho para o armazenamento de dados do FSX ONTAP usando o VMware HCX"]
 * link:../ehc/azure-migrate-vmware-hcx.html["Migre workloads para o armazenamento de dados do Azure NetApp Files usando o VMware HCX"]
-* link:../ehc/gcp-migrate-vmware-hcx.html["Migre workloads para o armazenamento de dados do NetApp Cloud volume Service no VMware Engine usando o VMWARE HCX"]
+* link:../ehc/gcp-migrate-vmware-hcx.html["Migre workloads para o armazenamento de dados do Google Cloud NetApp volumes no Google Cloud VMware Engine usando o VMWARE HCX"]
 
 
 

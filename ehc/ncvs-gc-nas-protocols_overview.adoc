@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-nas-protocols_overview.html 
 keywords: nas, nfs, smb, cifs 
-summary: 'Os protocolos nas incluem NFS (v3 e v4,1) e SMB/CIFS (2.x e 3.x). Esses protocolos são como o CVS permite o acesso compartilhado aos dados em vários clientes nas. Além disso, o Cloud Volumes Service pode fornecer acesso a clientes NFS e SMB/CIFS simultaneamente (protocolo duplo), honrando todas as configurações de identidade e permissão em arquivos e pastas nos compartilhamentos nas.' 
+summary: 'Os protocolos nas incluem NFS (v3 e v4,1) e SMB/CIFS (2.x e 3.x). Esses protocolos são como o NetApp volumes permite o acesso compartilhado a dados em vários clientes nas. Além disso, o Google Cloud NetApp volumes pode fornecer acesso a clientes NFS e SMB/CIFS simultaneamente (protocolo duplo), honrando todas as configurações de identidade e permissão em arquivos e pastas nos compartilhamentos nas.' 
 ---
 = Visão geral dos protocolos nas
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: 'Os protocolos nas incluem NFS (v3 e v4,1) e SMB/CIFS (2.x e 3.x). Esse
 
 
 [role="lead"]
-Os protocolos nas incluem NFS (v3 e v4,1) e SMB/CIFS (2.x e 3.x). Esses protocolos são como o CVS permite o acesso compartilhado aos dados em vários clientes nas. Além disso, o Cloud Volumes Service pode fornecer acesso a clientes NFS e SMB/CIFS simultaneamente (protocolo duplo), honrando todas as configurações de identidade e permissão em arquivos e pastas nos compartilhamentos nas. Para manter a maior segurança possível de transferência de dados, o Cloud Volumes Service oferece suporte à criptografia de protocolo em voo usando a criptografia SMB e o NFS Kerberos 5P.
+Os protocolos nas incluem NFS (v3 e v4,1) e SMB/CIFS (2.x e 3.x). Esses protocolos são como o NetApp volumes permite o acesso compartilhado a dados em vários clientes nas. Além disso, o Google Cloud NetApp volumes pode fornecer acesso a clientes NFS e SMB/CIFS simultaneamente (protocolo duplo), honrando todas as configurações de identidade e permissão em arquivos e pastas nos compartilhamentos nas. Para manter a maior segurança possível de transferência de dados, o Google Cloud NetApp volumes oferece suporte à criptografia de protocolo em trânsito usando a criptografia SMB e o NFS Kerberos 5P.
 
 
-NOTE: O protocolo duplo está disponível apenas com CVS-Performance.
+NOTE: O protocolo duplo está disponível somente com o NetApp volumes-Performance.

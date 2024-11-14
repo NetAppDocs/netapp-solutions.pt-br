@@ -92,7 +92,7 @@ O software de gerenciamento de dados ONTAP inclui os seguintes recursos para oti
 O ONTAP ajuda a atender às necessidades empresariais exigentes e em constante mudança com os seguintes recursos:
 
 * Dimensionamento otimizado e operações sem interrupções. O ONTAP dá suporte à adição on-line de capacidade às controladoras atuais e aos clusters de escalabilidade horizontal. Os clientes podem fazer upgrade para as tecnologias mais recentes, como NVMe e FC de 32GB GB, sem interrupções ou migrações de dados caras.
-* Conexão com a nuvem. O ONTAP é o software de gerenciamento de storage conectado à nuvem, com opções para storage definido por software (ONTAP Select) e instâncias nativas da nuvem (NetApp Cloud Volumes Service) em todas as nuvens públicas.
+* Conexão com a nuvem. O ONTAP é o software de gerenciamento de storage conectado à nuvem, com opções para storage definido por software (ONTAP Select) e instâncias nativas da nuvem (Google Cloud NetApp volumes) em todas as nuvens públicas.
 * Integração com novas aplicações. A ONTAP oferece serviços de dados de nível empresarial para plataformas e aplicações de última geração, como veículos autônomos, cidades inteligentes e indústria 4,0, usando a mesma infraestrutura compatível com aplicações empresariais existentes.
 
 

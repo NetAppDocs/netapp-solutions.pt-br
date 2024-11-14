@@ -25,7 +25,7 @@ image:redhat_openshift_image43.png["Figura que mostra a caixa de diálogo de ent
 
 * Os sistemas AFF e FAS executam o NetApp ONTAP e fornecem storage para casos de uso baseados em arquivo (NFS) e baseados em bloco (iSCSI).
 * O Cloud Volumes ONTAP e o ONTAP Select oferecem os mesmos benefícios na nuvem e no espaço virtual, respetivamente.
-* O NetApp Cloud Volumes Service (AWS/GCP) e o Azure NetApp Files fornecem storage baseado em arquivos na nuvem.
+* O Google Cloud NetApp volumes (AWS/GCP) e o Azure NetApp Files fornecem storage baseado em arquivos na nuvem.
 
 
 
