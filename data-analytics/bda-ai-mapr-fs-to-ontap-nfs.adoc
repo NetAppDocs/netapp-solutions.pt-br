@@ -18,7 +18,7 @@ Esta seção fornece as etapas detalhadas necessárias para mover dados do MAPR-
 
 . Provisione três LUNs para cada nó do MAPR e dê aos LUNs a propriedade de todos os nós do MAPR.
 . Durante a instalação, escolha LUNs recém-adicionados para discos de cluster do MAPR usados para o MAPR-FS.
-. Instale um cluster do MAPR de acordo com o https://mapr.com/docs/61/install.html["Documentação do MAPR 6,1"^].
+. Instale um cluster do MAPR de acordo com a documentação do MAPR 6,1.
 . Verifique as operações básicas do Hadoop usando comandos MapReduce, `hadoop jar xxx` como .
 . Mantenha os dados do cliente no MAPR-FS. Por exemplo, geramos aproximadamente um terabyte de dados de amostra no MAPR-FS usando Teragen.
 . Configure o MAPR-FS como exportação NFS.

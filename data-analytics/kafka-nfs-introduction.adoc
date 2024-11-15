@@ -18,7 +18,7 @@ Shantanu Chakole, Karthikeyan Nagalingam, e Joe Scott, NetApp
 [role="lead"]
 O Kafka é um sistema distribuído de mensagens de publicação e assinatura com uma fila robusta que pode aceitar grandes quantidades de dados de mensagens. Com o Kafka, os aplicativos podem escrever e ler dados para tópicos de uma maneira muito rápida. Devido à sua tolerância a falhas e escalabilidade, o Kafka é frequentemente usado no espaço de Big Data como uma maneira confiável de ingerir e mover muitos fluxos de dados muito rapidamente. Os casos de uso incluem processamento de fluxo, rastreamento de atividade do site, coleta e monitoramento de métricas, agregação de log, análise em tempo real e assim por diante.
 
-Embora as operações normais do Kafka no NFS funcionem bem, o https://sbg.technology/2018/07/10/kafka-nfs/["nome bobo"^] problema falha no aplicativo durante o redimensionamento ou reparticionamento de um cluster do Kafka em execução no NFS. Este é um problema significativo porque um cluster Kafka deve ser redimensionado ou reparticionado para fins de balanceamento de carga ou manutenção. Você pode encontrar detalhes https://www.netapp.com/blog/ontap-ready-for-streaming-applications/["aqui"^]adicionais .
+Embora as operações normais do Kafka no NFS funcionem bem, o problema de renomeação boba trava o aplicativo durante o redimensionamento ou reparticionamento de um cluster do Kafka sendo executado no NFS. Este é um problema significativo porque um cluster Kafka deve ser redimensionado ou reparticionado para fins de balanceamento de carga ou manutenção. Você pode encontrar detalhes https://www.netapp.com/blog/ontap-ready-for-streaming-applications/["aqui"^]adicionais .
 
 Este documento descreve os seguintes assuntos:
 
