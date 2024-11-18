@@ -1,0 +1,21 @@
+---
+indexpage:
+  title: Soluções NetApp para virtualização Proxmox
+  summary: As soluções de virtualização NetApp com são um conjunto de recursos estratégicos
+    e tecnológicos que demonstram os recursos de armazenamento NetApp para virtualização
+    usando Proxmox.
+  lead: As soluções de virtualização NetApp com são um conjunto de recursos estratégicos
+    e tecnológicos que demonstram os recursos de armazenamento NetApp para virtualização
+    usando Proxmox.
+  tiles:
+  - title: Soluções
+    links:
+    - title: Visão geral
+      url: "/proxmox-overview.html"
+    - title: Armazenamento NetApp para Proxmox VE
+      url: "/proxmox-ontap.html"
+  - title: Recursos adicionais
+    links:
+    - title: Armazenamento NetApp e NVMe-of para desempenho inovador em ambientes
+        de virtualização Proxmox
+      url: https://www.credativ.de/en/blog/credativ-inside/netapp-storage-and-nvme-of-for-breakthrough-performance-in-proxmox-virtualization-environments/
