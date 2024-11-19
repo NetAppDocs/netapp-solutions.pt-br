@@ -29,7 +29,7 @@ indexpage:
     - title: Virtualização OpenShift
       url: osv/index.html
     - title: Virtualização Proxmox
-      url: proxmox/proxmox-overview.html
+      url: proxmox/index.html
   - title: Soluções de nuvem e nuvem híbrida
     links:
     - title: Multiclouds híbridas do NetApp com VMware
