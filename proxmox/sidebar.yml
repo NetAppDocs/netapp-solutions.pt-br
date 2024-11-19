@@ -1,6 +1,7 @@
 ---
 section: proxmox
 title: Virtualização Proxmox
+url: "/proxmox/index.html"
 entries:
 - title: Visão geral
   url: "/proxmox/proxmox-overview.html"
