@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure-storage-options.html 
+keywords: azure, netapp, anf, storage, options, nfs, supplemental, cvo 
+summary: O storage do NetApp pode ser anexado ao Serviço VMware Azure como storage convidado ou complementar. 
+---
+= Serviço de virtualização do Azure: Opções para usar o armazenamento NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O storage do NetApp pode ser anexado ao Serviço VMware Azure como storage convidado ou complementar.
+
+
+
+== O Azure NetApp Files (ANF) como um armazenamento de dados complementar de NFS
+
+O suporte ao armazenamento de dados NFS foi introduzido com o ESXi versão 3 em implantações locais, o que estendeu muito os recursos de storage do vSphere.
+
+Executar o vSphere no NFS é uma opção amplamente adotada para implantações de virtualização no local, pois oferece alto desempenho e estabilidade. Se você tiver um armazenamento conetado à rede (nas) significativo em um data center local, considere implantar um SDDC da solução Azure VMware no Azure com armazenamentos de dados de arquivos do Azure NetApp para superar os desafios de capacidade e desempenho.
+
+O Azure NetApp Files foi desenvolvido com base no software de gerenciamento de dados NetApp ONTAP líder do setor e altamente disponível. Os serviços do Microsoft Azure são agrupados em três categorias: Básico, principal e especializado. O Azure NetApp Files está na categoria especializada e é apoiado por hardware já implantado em muitas regiões. Com alta disponibilidade (HA) incorporada, o Azure NetApp Files protege seus dados da maioria das interrupções e oferece um SLA líder do setor de 99,99,99% de tempo de atividade.
+
+Para obter mais informações sobre o ANF como um armazenamento de dados NFS complementar, acesse:
+
+* link:azure-native-overview.html["ANF como um armazenamento de dados NFS suplementar: Visão geral"]
+* link:azure-native-nfs-datastore-option.html["Opção suplementar de armazenamento de dados NFS no Azure"]
+
+
+
+
+== Azure NetApp Files (ANF) como storage conectado aos hóspedes
+
+O Azure NetApp Files oferece storage e gerenciamento de dados de nível empresarial para o Azure. Assim, você pode gerenciar seus workloads e aplicações com facilidade. Migre os workloads para a nuvem e execute-os sem sacrificar a performance.
+
+O Azure NetApp Files remove obstáculos para que você possa mover todos os seus aplicativos baseados em arquivos para a nuvem. Pela primeira vez, você não precisa rearquitetar as aplicações e ter storage persistente para as aplicações sem complexidade.
+
+Como o serviço é fornecido através do Portal do Microsoft Azure, os usuários experimentam um serviço totalmente gerenciado como parte de seu Contrato Empresarial da Microsoft. O suporte de classe mundial, gerenciado pela Microsoft, oferece tranquilidade total. Essa única solução permite adicionar cargas de trabalho multiprotocolo de forma rápida e fácil. Você pode criar e implantar aplicações baseadas em arquivos do Windows e Linux, mesmo para ambientes legados.
+
+Para obter mais informações, visite link:azure-guest.html#anf["ANF como storage conectado ao convidado"].
+
+
+
+== Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
+
+O Cloud Volumes ONTAP (CVO) é a solução de gerenciamento de dados em nuvem líder do setor, desenvolvida com base no software de storage ONTAP da NetApp, disponível nativamente no Amazon Web Services (AWS), no Microsoft Azure e no Google Cloud Platform (GCP).
+
+Ele é uma versão definida por software do ONTAP que consome storage nativo da nuvem, permitindo que você tenha o mesmo software de storage na nuvem e no local, reduzindo a necessidade de treinar sua EQUIPE DE TI em novos métodos de gerenciamento de dados.
+
+O CVO oferece aos clientes a capacidade de mover dados de forma otimizada da borda, para o data center, para a nuvem e vice-versa. Tudo gerenciado com um console de gerenciamento de painel único, o NetApp Cloud Manager.
+
+O CVO oferece performance extrema e recursos avançados de gerenciamento de dados para atender até mesmo às aplicações mais exigentes na nuvem
+
+Para obter mais informações, visite link:azure-guest.html#azure-cvo["CVO como storage conectado ao convidado"].

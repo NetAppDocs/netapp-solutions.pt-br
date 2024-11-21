@@ -26,12 +26,8 @@ indexpage:
       url: "/aws-vmc.html"
     - title: Configure o ambiente de virtualização
       url: "/aws-setup.html"
-    - title: 'FSX ONTAP como um armazenamento de dados NFS suplementar: Visão geral'
-      url: "/aws-native-overview.html"
-    - title: FSX ONTAP como armazenamento conetado ao convidado
-      url: "/aws-guest.html#fsx-ontap"
-    - title: CVO como storage conectado ao convidado
-      url: "/aws-guest.html#aws-cvo"
+    - title: Opções para anexar armazenamento NetApp
+      url: "/aws-storage-options.html"
     - title: Soluções de multicloud híbrida para VMC
       url: "/aws-solutions.html"
   - title: NetApp no Azure (AVS)
@@ -40,12 +36,8 @@ indexpage:
       url: "/azure-avs.html"
     - title: Configure o ambiente de virtualização
       url: "/azure-setup.html"
-    - title: 'ANF como um armazenamento de dados NFS suplementar: Visão geral'
-      url: "/azure-native-overview.html"
-    - title: ANF como storage conectado ao convidado
-      url: "/azure-guest.html#anf"
-    - title: CVO como storage conectado ao convidado
-      url: "/azure-guest.html#azure-cvo"
+    - title: Opções para anexar armazenamento NetApp
+      url: "/azure-storage-options.html"
     - title: Soluções de multicloud híbrida para AVS
       url: "/azure-solutions.html"
   - title: NetApp na plataforma Google Cloud (GCVE)
@@ -54,12 +46,8 @@ indexpage:
       url: "/gcp-gcve.html"
     - title: Configure o ambiente de virtualização
       url: "/gcp-setup.html"
-    - title: 'NetApp volumes como armazenamento de dados NFS complementar: Visão geral'
-      url: "/gcp-ncvs-datastore.html"
-    - title: CVO como storage conectado ao convidado
-      url: "/gcp-guest.html#gcp-cvo"
-    - title: Volumes NetApp como armazenamento conectado ao convidado
-      url: "/gcp-guest.html#gcnv"
+    - title: Opções para anexar armazenamento NetApp
+      url: "/gcp-storage-options.html"
     - title: Soluções de multicloud híbrida para GCVE
       url: "/gcp-solutions.html"
     - title: Visão geral da segurança - volumes do NetApp no Google Cloud

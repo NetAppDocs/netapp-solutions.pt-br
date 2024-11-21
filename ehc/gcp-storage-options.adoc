@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-storage-options.html 
+keywords: gcp, gcve, gcnv, nfs, supplemental, datastore, vcenter, vmware, cvo, storage, options 
+summary: O armazenamento do NetApp pode ser anexado ao mecanismo de virtualização do Google Cloud como armazenamento convidado ou suplementar. 
+---
+= Google Cloud VMware Engine: Opções para usar o storage do NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O armazenamento do NetApp pode ser anexado ao mecanismo de virtualização do Google Cloud como armazenamento convidado ou suplementar.
+
+
+
+== Google Cloud NetApp volumes (NetApp volumes) como um armazenamento de dados NFS complementar
+
+Os clientes que exigem capacidade de storage adicional no ambiente do Google Cloud VMware Engine (GCVE) podem utilizar o Google Cloud NetApp volumes para serem montados como armazenamento de dados NFS complementar. O armazenamento de dados no Google Cloud NetApp volumes permite que os clientes repliquem entre regiões para se protegerem do desastre.
+
+Para obter mais informações, visite link:gcp-ncvs-datastore.html["Google Cloud NetApp volumes (NetApp volumes) como um armazenamento de dados NFS complementar"]
+
+
+
+== NetApp CVO como storage conectado para convidados
+
+O Cloud Volumes ONTAP, ou CVO, é a solução de gerenciamento de dados em nuvem líder do setor, desenvolvida com base no software de storage ONTAP da NetApp, disponível nativamente no Amazon Web Services (AWS), no Microsoft Azure e no Google Cloud Platform (GCP).
+
+Ele é uma versão definida por software do ONTAP que consome storage nativo da nuvem, permitindo que você tenha o mesmo software de storage na nuvem e no local, reduzindo a necessidade de treinar sua EQUIPE DE TI em novos métodos de gerenciamento de dados.
+
+O CVO oferece aos clientes a capacidade de mover dados de forma otimizada da borda, para o data center, para a nuvem e vice-versa. Tudo gerenciado com um console de gerenciamento de painel único, o NetApp Cloud Manager.
+
+O CVO oferece performance extrema e recursos avançados de gerenciamento de dados para atender até mesmo às aplicações mais exigentes na nuvem.
+
+Para obter mais informações, visite link:gcp-guest.html#gcp-cvo["NetApp CVO como storage conectado para convidados"]
+
+
+
+== Google Cloud NetApp volumes (NetApp volumes) como storage conectado ao hóspede
+
+Os compartilhamentos de volumes do Google Cloud NetApp podem ser montados a partir de VMs criadas no ambiente do VMware Engine. Os volumes também podem ser montados no cliente Linux e mapeados no cliente Windows porque o Google Cloud NetApp volumes oferece suporte aos protocolos SMB e NFS. É possível configurar o Google Cloud NetApp volumes em etapas simples.
+
+O Google Cloud NetApp volumes e a nuvem privada do Google Cloud VMware Engine precisam estar na mesma região.
+
+Para obter mais informações, visite link:gcp-guest.html#gcnv["Google Cloud NetApp volumes (NetApp volumes) como storage conectado ao hóspede"]
