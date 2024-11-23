@@ -116,7 +116,7 @@ A configuração de um grupo SDDC no console do VMware Cloud permite as opções
 +
 image:aws-connect-fsx-2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"] image:aws-connect-fsx-3.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"] image:aws-connect-fsx-4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
-. Anexe a VPC recém-criada ao grupo SDDC recém-criado. Selecione a guia VPC externa e siga o link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Instruções para anexar uma VPC externa"] para o grupo. Este processo pode levar de 10 a 15 minutos para ser concluído.
+. Anexe a VPC recém-criada ao grupo SDDC recém-criado. Selecione a guia VPC externa e siga o link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Instruções para anexar uma VPC externa"] para o grupo. Este processo pode levar de 10 a 15 minutos para ser concluído.
 +
 image:aws-connect-fsx-5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"] image:aws-connect-fsx-6.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
@@ -142,7 +142,7 @@ image:aws-connect-fsx-11.png["Figura que mostra a caixa de diálogo de entrada/s
 
 
 
-. Finalmente, permita tráfego bidirecional link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-DE330202-D63D-408A-AECF-7CDC6ADF7EAC.html["regras de firewall"]para acesso ao FSX/CVO. Siga estas link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-DE330202-D63D-408A-AECF-7CDC6ADF7EAC.html["passos detalhados"]regras para as regras de firewall de gateway de computação para conetividade de carga de trabalho SDDC.
+. Finalmente, permita tráfego bidirecional link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-A5114A98-C885-4244-809B-151068D6A7D7.html["regras de firewall"]para acesso ao FSX/CVO. Siga estas link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-DE330202-D63D-408A-AECF-7CDC6ADF7EAC.html["passos detalhados"]regras para as regras de firewall de gateway de computação para conetividade de carga de trabalho SDDC.
 +
 image:aws-connect-fsx-12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 

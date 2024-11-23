@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 Depois que o VMware Cloud estiver pronto e conetado à VPC da AWS, você deve implantar o Amazon FSX ONTAP em uma VPC recém-designada, em vez da VPC padrão original conetada ou existente.
 
-Para iniciar, implante uma VPC adicional na mesma região e zona de disponibilidade em que o SDDC reside e, em seguida, implante o Amazon FSX ONTAP na nova VPC. https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["Configuração de um grupo SDDC no VMware Cloud"^] O console permite as opções de configuração de rede necessárias para se conetar à VPC recém-designada, onde o FSX ONTAP será implantado.
+Para iniciar, implante uma VPC adicional na mesma região e zona de disponibilidade em que o SDDC reside e, em seguida, implante o Amazon FSX ONTAP na nova VPC. https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-C957DBA7-16F5-412B-BB72-15B49B714723.html["Configuração de um grupo SDDC no VMware Cloud"^] O console permite as opções de configuração de rede necessárias para se conetar à VPC recém-designada, onde o FSX ONTAP será implantado.
 
 
 NOTE: Implante o FSX ONTAP na mesma zona disponível do VMware Cloud no AWS SDDC.
@@ -171,7 +171,7 @@ image:fsx-nfs-image13.png["Figura que mostra a caixa de diálogo de entrada/saí
 .Etapa 3: Configurar o VMware Transit Connect
 [%collapsible]
 ====
-. Anexe a VPC designada recém-criada ao grupo SDDC. Selecione a guia *VPC externa* e siga o https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Instruções para anexar uma VPC externa ao grupo"^]. Este processo pode levar 10-15 minutos para ser concluído.
+. Anexe a VPC designada recém-criada ao grupo SDDC. Selecione a guia *VPC externa* e siga o https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Instruções para anexar uma VPC externa ao grupo"^]. Este processo pode levar 10-15 minutos para ser concluído.
 +
 image:fsx-nfs-image14.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 

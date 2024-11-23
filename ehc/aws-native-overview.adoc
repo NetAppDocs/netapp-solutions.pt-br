@@ -31,7 +31,7 @@ Vamos considerar o seguinte cenário: Um cliente requer oito hosts para cavalos-
 Este documento orienta você pelas etapas necessárias para provisionar e anexar o FSX ONTAP como um armazenamento de dados NFS para o VMware Cloud na AWS.
 
 
-NOTE: Essa solução também está disponível na VMware. Visite o link:https://vmc.techzone.vmware.com/resource/vmware-cloud-aws-integration-amazon-fsx-netapp-ontap-deployment-guide["VMware Cloud Tech Zone"] para obter mais informações.
+NOTE: Essa solução também está disponível na VMware. Visite o link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-D55294A3-7C40-4AD8-80AA-B33A25769CCA.html["Documentação do VMware Cloud na AWS"] para obter mais informações.
 
 
 

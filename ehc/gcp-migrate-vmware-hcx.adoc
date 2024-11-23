@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ehc/gcp-migrate-vmware-hcx.html 
-keywords: gcp, gcve, hybrid multicloud, migrate, vmware hcx, hcx, google cloud, enterprise, hybrid, cloud, migration 
+keywords: gcp, gcve, hybrid, multicloud, migrate, vmware, hcx, google, cloud, enterprise, hybrid, cloud, migration 
 summary:  
 ---
 = Migre workloads para o armazenamento de dados do Google Cloud NetApp volumes no Google Cloud VMware Engine usando o guia de início rápido VMware HCX
@@ -68,7 +68,7 @@ Para fins de teste, o ambiente de laboratório no local usado para essa validaç
 
 image:gcpd-hcx-image1.png["Esta imagem mostra a arquitetura de alto nível usada nesta solução."]
 
-Para um diagrama mais detalhado sobre HCX, consulte https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/products/vmw-google-cloud-vmware-engine-logical-design-poster-for-workload-mobility.pdf["Link da VMware"^]
+Para obter mais detalhes sobre como usar o VMware HCX com o Google, consulte https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx["Link da VMware"^]
 
 ====
 
@@ -111,7 +111,7 @@ NOTE: Ligue o dispositivo virtual manualmente.
 
 
 
-Para obter instruções passo a passo, consulte o https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-47774FEA-6BDA-48E5-9D5F-ABEAD64FDDF7.html["Guia do usuário do VMware HCX"^].
+Para obter instruções passo a passo, consulte o https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx#prepare-for-hcx-manager-installation["Documentação do Google HCX"^].
 
 ====
 .Passo 3: Ative o conetor HCX com a chave de licença
@@ -230,7 +230,7 @@ image:gcpd-hcx-image14.png["Captura de tela dos DISPOSITIVOS HCX na página do v
 ====
 As cargas de trabalho podem ser migradas bidirecionalmente entre SDDCs locais e GCVE usando várias tecnologias de migração VMware HCX. As VMs podem ser movidas de e para entidades ativadas PELO VMware HCX usando várias tecnologias de migração, como migração em massa HCX, HCX vMotion, HCX Cold Migration, HCX Replication Assisted vMotion (disponível com a edição HCX Enterprise) e HCX os Assisted Migration (disponível com a edição HCX Enterprise).
 
-Para saber mais sobre vários mecanismos de MIGRAÇÃO HCX, https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-8A31731C-AA28-4714-9C23-D9E924DBB666.html["Tipos de migração VMware HCX"^] consulte .
+Para saber mais sobre vários mecanismos de MIGRAÇÃO HCX, https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx["Migração de VMs VMware usando a documentação do VMware HCX"^] consulte .
 
 O dispositivo HCX-IX usa o serviço Mobility Agent para executar migrações vMotion, Cold e Replication Assisted vMotion (RAV).
 
@@ -259,7 +259,7 @@ image:gcpd-hcx-image17.png["Figura que mostra a caixa de diálogo de entrada/sa�
 . Depois que as verificações de validação estiverem concluídas, clique em ir para iniciar a migração.
 +
 
-NOTE: A transferência vMotion captura a memória ativa da VM, seu estado de execução, seu endereço IP e seu endereço MAC. Para obter mais informações sobre os requisitos e limitações do HCX vMotion, https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-517866F6-AF06-4EFC-8FAE-DA067418D584.html["Compreender o VMware HCX vMotion e a migração a frio"^] consulte .
+NOTE: A transferência vMotion captura a memória ativa da VM, seu estado de execução, seu endereço IP e seu endereço MAC. Para obter mais informações sobre os requisitos e limitações do HCX vMotion, https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-10/vmware-hcx-user-guide-4-10/migrating-virtual-machines-with-vmware-hcx/understanding-vmware-hcx-vmotion-and-cold-migration.html#GUID-517866F6-AF06-4EFC-8FAE-DA067418D584-en["Compreender o VMware HCX vMotion e a migração a frio"^] consulte .
 
 . Pode monitorizar o progresso e a conclusão do vMotion a partir do painel HCX > migração.
 +

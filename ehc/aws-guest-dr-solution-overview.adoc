@@ -478,7 +478,7 @@ Para obter mais informações sobre como restaurar VMs usando a Veeam, consulte 
 
 === Backup de banco de dados SnapCenter para recuperação de desastres
 
-O SnapCenter permite o backup e recuperação de seu banco de dados MySQL subjacente e dados de configuração com o objetivo de recuperar o servidor SnapCenter em caso de desastre. Para nossa solução, recuperamos o banco de dados e a configuração do SnapCenter em uma instância do AWS EC2 residente em nossa VPC. Para obter mais informações sobre esta etapa, https://docs.netapp.com/us-en/snapcenter/sc-automation/rest_api_workflows_disaster_recovery_of_snapcenter_server.html["este link"^]consulte .
+O SnapCenter permite o backup e recuperação de seu banco de dados MySQL subjacente e dados de configuração com o objetivo de recuperar o servidor SnapCenter em caso de desastre. Para nossa solução, recuperamos o banco de dados e a configuração do SnapCenter em uma instância do AWS EC2 residente em nossa VPC. Para obter mais informações sobre a recuperação de desastres do SnapCenter, https://docs.netapp.com/us-en/snapcenter/concept/concept_disaster_recovery.html["este link"^] consulte .
 
 .Pré-requisitos de backup do SnapCenter
 [%collapsible]

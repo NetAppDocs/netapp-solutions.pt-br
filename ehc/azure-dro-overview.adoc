@@ -36,7 +36,7 @@ image:azure-dro-image1.png["Figura que mostra a caixa de diálogo de entrada/sa�
 * Você deve configurar o ExpressRoute Global Reach entre as nuvens privadas de origem e destino do Azure VMware Solution.
 * Você precisa ter um responsável de serviço que possa acessar recursos.
 * A seguinte topologia é suportada: Local AVS primário para local AVS secundário.
-* Configure a https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction["replicação"^] programação para cada volume de forma adequada, com base nas necessidades de negócios e na taxa de alteração de dados.
+* Configure a https://learn.microsoft.com/en-us/azure/reliability/cross-region-replication-azure["replicação"^] programação para cada volume de forma adequada, com base nas necessidades de negócios e na taxa de alteração de dados.
 
 
 
@@ -334,7 +334,7 @@ https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replicat
 
 * Replicação entre regiões de volumes Azure NetApp Files
 +
-https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction%23service-level-objectives["https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction#service-level-objectives"^]
+https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction#service-level-objectives["https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction#service-level-objectives"^]
 
 * https://learn.microsoft.com/en-us/azure/azure-vmware/introduction["Solução Azure VMware"^]
 +
