@@ -26,4 +26,4 @@ entries:
   entries:
   - title: Diretrizes de implantação e práticas recomendadas de armazenamento para
       Hyper-V.
-    url: "/../../../ontap-apps-dbs/microsoft/win_overview.html"
+    url: "/../../ontap-apps-dbs/microsoft/win_overview.html"
