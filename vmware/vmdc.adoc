@@ -20,7 +20,7 @@ O Virtual Machine Data Collector (VMDC) é um kit de ferramentas baseado em GUI 
 
 == Visão geral
 
-A principal função do VMDC é gerar relatórios sobre a configuração do vCenter, dos servidores ESXi e das máquinas virtuais (VMs) que residem em um ambiente vSphere, incluindo configuração de cluster, rede, armazenamento, snapshots e dados de desempenho. As informações detalhadas coletadas sobre o ambiente podem ser usadas para gerar insights valiosos sobre a infraestrutura. A exibição de saída de relatórios é uma GUI em estilo de Planilha com guias para suas várias seções. Ele fornece relatórios fáceis de ler e ajuda a identificar problemas, otimizar o uso dos recursos e Planejar a capacidade.
+A principal função do VMDC é gerar relatórios sobre a configuração do vCenter, dos servidores ESXi e das máquinas virtuais (VMs) que residem em um ambiente vSphere, incluindo dados de configuração de cluster, rede, armazenamento e performance. Uma vez coletados dados ambientais abrangentes, eles podem ser utilizados para produzir informações perspicazes sobre a infraestrutura. A exibição de saída de relatórios é uma GUI em estilo de Planilha com várias guias para suas várias seções. Ele fornece relatórios fáceis de ler e ajuda a otimizar o uso dos recursos e o Planejamento da capacidade.
 
 O VMDC é apenas uma etapa para coletar estatísticas rápidas e instantâneas para projetar possibilidades de otimização para licenciamento de núcleo VMware, juntamente com vCPU e RAM. link:https://docs.netapp.com/us-en/data-infrastructure-insights/["Insights da infraestrutura de dados do NetApp"] O que requer a instalação de AUS e coletores de dados deve ser o próximo passo óbvio para entender a topologia detalhada da VM, agrupamento de VMs usando anotações para dimensionar corretamente as cargas de trabalho e preparar a infraestrutura para o futuro.
 
@@ -30,7 +30,7 @@ O VMDC pode ser link:https://mysupport.netapp.com/site/tools/tool-eula/vm-data-c
 
 == Instalar e configurar O VMDC
 
-O VMDC pode ser executado no Windows 2019, versão 2022 em execução, desde que tenha o .NET 4,7 instalado nele. Uma vez verificado, baixe o pacote VMDC link:https://mysupport.netapp.com/site/tools/tool-eula/vm-data-collector["Caixa de ferramentas NetApp"]e, em seguida, descompacte o pacote e execute o arquivo batch para instalar e iniciar o serviço.
+O VMDC pode ser executado no Windows 2019, versão 2022. O pré-requisito é ter conetividade de rede da instância VMDC para os servidores vCenter designados. Uma vez verificado, baixe o pacote VMDC link:https://mysupport.netapp.com/site/tools/tool-eula/vm-data-collector["Caixa de ferramentas NetApp"]e, em seguida, descompacte o pacote e execute o arquivo batch para instalar e iniciar o serviço.
 
 Uma vez QUE O VMDC tenha sido instalado, acesse a IU usando o endereço IP mencionado durante a instalação. Isso abrirá a interface de login DO VMDC, na qual o vCenter pode ser adicionado inserindo o endereço IP ou o nome DNS e as credenciais de um vCenter Server.
 
