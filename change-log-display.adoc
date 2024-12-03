@@ -25,6 +25,9 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 | *Data* | *Área da solução* | *Descrição da mudança* 
 
 
+| 3 de dezembro de 2024 | Virtualização | Adicionado novo conteúdo do VM Data Collector (VMDC) 
+
+
 | 5 de novembro de 2024 | Banco de dados | Resumo da nova solução: Oracle com Google Cloud NetApp volumes no Google Cloud 
 
 
@@ -601,6 +604,9 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 [cols="10%, 30%, 60%"]
 |===
 | *Data* | *Área da solução* | *Descrição da mudança* 
+
+
+| 3 de dezembro de 2024 | Virtualização | Adicionado novo conteúdo do VM Data Collector (VMDC) 
 
 
 | 17 de setembro de 2025 | Virtualização | Adicione soluções para Hyper-V: SnapMirror ative Sync com clusters stretch 

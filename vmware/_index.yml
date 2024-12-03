@@ -63,6 +63,8 @@ indexpage:
       url: https://www.vmware.com/resources/compatibility/search.php?deviceCategory=san&details=1&partner=64&isSVA=0&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc
   - title: Recursos adicionais
     links:
+    - title: Coletor de dados de máquina virtual
+      url: "/vmdc.html"
     - title: Ferramentas do ONTAP para VMware vSphere
       url: https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html
     - title: VMware Site Recovery Manager (SRM) com NetApp ONTAP 9

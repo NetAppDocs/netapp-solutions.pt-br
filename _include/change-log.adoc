@@ -7,6 +7,9 @@
 | *Data* | *Área da solução* | *Descrição da mudança* 
 
 
+| 3 de dezembro de 2024 | Virtualização | Adicionado novo conteúdo do VM Data Collector (VMDC) 
+
+
 | 5 de novembro de 2024 | Banco de dados | Resumo da nova solução: Oracle com Google Cloud NetApp volumes no Google Cloud 
 
 

@@ -104,6 +104,8 @@ entries:
       url: "/vmware/vsphere_ontap_auto_file_nfs.html"
     - title: NFS - v4,1
       url: "/vmware/vsphere_ontap_auto_file_nfs41.html"
+  - title: Coletor de dados VM
+    url: "/vmware/vmdc.html"
 - title: Demonstrações e Tutoriais
   entries:
   - title: Vídeos
