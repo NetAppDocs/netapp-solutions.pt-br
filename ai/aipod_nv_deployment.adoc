@@ -40,7 +40,7 @@ A tabela a seguir mostra exemplos de atribuições de cabeamento para até 16 si
 | switch1 portas 37-40 | AFF-A90-01 até -04 | porta e11a 
 
 
-| switch1 portas 41-44 | AFF-A90-01 até -04 | porta e8a 
+| switch1 portas 41-44 | AFF-A90-01 até -04 | porta e2a 
 
 
 | switch1 portas 57-64 | ISL para switch2 | portas 57-64 
@@ -61,7 +61,7 @@ A tabela a seguir mostra exemplos de atribuições de cabeamento para até 16 si
 | switch2 portas 37-40 | AFF-A90-01 até -04 | porta e11b 
 
 
-| switch2 portas 41-44 | AFF-A90-01 até -04 | porta e8b 
+| switch2 portas 41-44 | AFF-A90-01 até -04 | porta e2b 
 
 
 | switch2 portas 57-64 | ISL para switch1 | portas 57-64 
@@ -100,7 +100,7 @@ As etapas básicas usadas para configurar os switches SN4600 estão descritas ab
 . Configure o LACP MLAG para cada par de portas cliente e portas de armazenamento em ambos os switches
 +
 ** Porta swp17 em cada switch para DGX-H100-01 (enp170s0f1np1 e enp41s0f1np1), porta swp18 para DGX-H100-02, etc. (bond1-16)
-** Porta swp41 em cada switch para AFF-A90-01 (e8a e e8b), porta swp42 para AFF-A90-02, etc (bond17-20)
+** Porta swp41 em cada switch para AFF-A90-01 (e2a e e2b), porta swp42 para AFF-A90-02, etc (bond17-20)
 ** nv definir interface bondX membro bond swpX
 ** nv set interface bondx bond mlag id X
 
@@ -201,7 +201,7 @@ As etapas básicas usadas para configurar o sistema de armazenamento são descri
 . Configure o ifgrps em cada controlador
 +
 ** porta de rede ifgrp create -node <node> -ifgrp a1a -mode multimode_lacp -distr-function port
-** porta de rede ifgrp add-port -node <node> -ifgrp <ifgrp> -ports <node>:e8a, <node>:e8b
+** porta de rede ifgrp add-port -node <node> -ifgrp <ifgrp> -ports <node>:e2a, <node>:e2b
 
 
 . Configure a porta vlan mgmt no ifgrp em cada controlador
@@ -245,7 +245,7 @@ As etapas básicas usadas para configurar o sistema de armazenamento são descri
 +
 ** Configurar o SVM para suporte a RDMA
 +
-*** svm modificar -vserver basepod-data -rdma ativado
+*** svm nfs modificar -vserver basepod-data -rdma habilitado
 
 
 ** Crie LIFs

@@ -24,7 +24,7 @@ Essa arquitetura de referência utiliza malhas separadas para interconexão de c
 
 _Topologia da solução AIpod NetApp_
 
-image:aipod_nv_A90_topo.png["Erro: Imagem gráfica em falta"]
+image:aipod_nv_A90_topo.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 
 
@@ -52,7 +52,11 @@ Para obter mais detalhes sobre a conectividade de sistema do DGX H100, consulte 
 
 Cada sistema de storage AFF A90 é conetado usando seis portas de 200 GbE de cada controlador. Quatro portas de cada controlador são usadas para acesso a dados de workload a partir dos sistemas DGX e duas portas de cada controlador são configuradas como um grupo de interfaces LACP para dar suporte ao acesso dos servidores do plano de gerenciamento para artefatos de gerenciamento de cluster e diretórios base de usuários. O acesso a todos os dados do sistema de storage é fornecido pelo NFS, com uma máquina virtual de storage (SVM) dedicada ao acesso ao workload de AI e um SVM separado dedicado ao gerenciamento de clusters.
 
-Consulte a link:ai/aipod_nv_deployment.html["detalhes de implantação"] página para obter mais informações sobre a configuração do sistema de armazenamento.
+O SVM de gerenciamento requer apenas um único LIF, que é hospedado nos grupos de interface de 2 portas configurados em cada controladora. Outros volumes do FlexGroup são provisionados no SVM de gerenciamento para abrigar artefatos de gerenciamento de cluster, como imagens de nós de cluster, dados históricos de monitoramento do sistema e diretórios base do usuário final. O desenho abaixo mostra a configuração lógica do sistema de armazenamento.
+
+_Configuração lógica do cluster de armazenamento NetApp A90_
+
+image:aipod_nv_a90_logical.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 
 
