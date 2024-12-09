@@ -21,73 +21,12 @@ entries:
       url: "/ai/aipod_nv_validation_sizing.html"
     - title: Conclusão e informações adicionais
       url: "/ai/aipod_nv_conclusion_add_info.html"
-  - title: NetApp AFF A400 com Lenovo ThinkSystem SR670 V2 para AI e ML modelo de
-      treinamento
-    entries:
-    - title: Introdução
-      url: "/ai/a400-thinksystem-introduction.html"
-    - title: Visão geral da tecnologia
-      url: "/ai/a400-thinksystem-technology-overview.html"
-    - title: Plano de teste
-      url: "/ai/a400-thinksystem-test-plan.html"
-    - title: Resultados do teste
-      url: "/ai/a400-thinksystem-test-results.html"
-    - title: Teste a configuração
-      url: "/ai/a400-thinksystem-test-configuration.html"
-    - title: Procedimento de teste e resultados detalhados
-      url: "/ai/a400-thinksystem-test-procedure-and-detailed-results.html"
-    - title: Ajustes de arquitetura
-      url: "/ai/a400-thinksystem-architecture-adjustments.html"
-    - title: Conclusão
-      url: "/ai/a400-thinksystem-conclusion.html"
-  - title: NetApp AIPod com NVIDIA
-    pdf-filename: NetApp AIPod com NVIDIA
-    entries:
-    - title: Visão geral
-      url: "/ai/ontap-ai-overview.html"
-    - title: NetApp AIPod com sistemas DGX da NVIDIA
-      entries:
-      - title: Introdução
-        url: "/ai/aipod_nv_intro.html"
-      - title: Componentes de hardware
-        url: "/ai/aipod_nv_hw_components.html"
-      - title: Componentes de software
-        url: "/ai/aipod_nv_sw_components.html"
-      - title: Arquitetura
-        url: "/ai/aipod_nv_architecture.html"
-      - title: Orientação de validação e dimensionamento
-        url: "/ai/aipod_nv_validation_sizing.html"
-      - title: Conclusão e informações adicionais
-        url: "/ai/aipod_nv_conclusion_add_info.html"
-    - title: ONTAP AI com o Guia de Design de sistemas NVIDIA DGX A100
-      url: "/ai/nva-1151-design.html"
-    - title: ONTAP AI com o Guia de implantação de sistemas NVIDIA DGX A100
-      url: "/ai/nva-1151-deploy.html"
-    - title: Guia de design de switches Ethernet ONTAP AI com os sistemas NVIDIA DGX
-        A100 e Mellanox Spectrum
-      url: "/ai/nva-1153-design.html"
-    - title: Guia de implantação de switches Ethernet ONTAP AI com os sistemas NVIDIA
-        DGX A100 e Mellanox Spectrum
-      url: "/ai/nva-1153-deploy.html"
-  - title: AI da EF-Series com NVIDIA
-    entries:
-    - title: Visão geral
-      url: "/ai/ef-series-ai-overview.html"
-    - title: NVIDIA DGX SuperPOD com NetApp EF-series
-      url: "/ai/ai-dgx-superpod.html"
-    - title: EF-Series AI com os sistemas NVIDIA DGX A100 e design BeeGFS
-      url: "/ai/nva-1156-design.html"
-    - title: EF-Series AI com os sistemas DGX A100 da NVIDIA e implantação do BeeGFS
-      url: "/ai/nva-1156-deploy.html"
-    - title: BeeGFS com o guia de implantação do NetApp e-Series
-      url: "/ai/tr-4755.html"
-  - title: BeeGFS com arquitetura de referência do NetApp e-Series
-    url: "/ai/tr-4782.html"
+  - title: 'NVA-1172-DESIGN: NetApp AIPod com Lenovo para NVIDIA OVX'
+    url: "/ai/aipod_lenovo_NVA1172.html"
+  - title: BeeGFS no NetApp com storage e-Series
+    url: "/ai/ai_beegfs_eseries.html"
   - title: Implantação do IBM Spectrum Scale com o armazenamento NetApp e-Series
     url: "/ai/tr-4859.html"
-  - title: NetApp AFF A800 e Fujitsu Server PRIMERGY GX2570 M5 para cargas de trabalho
-      de treinamento em modelos de IA e ML
-    url: "/ai/tr-4815.html"
 - title: Pipelines de dados, data Lakes e gerenciamento
   entries:
   - title: Amazon FSX for NetApp ONTAP (FSX ONTAP) para MLOps
