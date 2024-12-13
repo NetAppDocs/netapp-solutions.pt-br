@@ -30,6 +30,8 @@ indexpage:
       url: osv/index.html
     - title: Virtualização Proxmox
       url: proxmox/index.html
+    - title: Migração de máquina virtual (Shift Toolkit)
+      url: vm-migrate/migrate-overview.html
   - title: Soluções de nuvem e nuvem híbrida
     links:
     - title: Multiclouds híbridas do NetApp com VMware

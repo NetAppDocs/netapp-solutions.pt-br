@@ -110,10 +110,27 @@ O alicerce de um Cyber Vault da NetApp é o SnapMirror e o SnapLock Compliance, 
 As cópias Snapshot do ONTAP são imutáveis por padrão e podem ser tornadas indeléveis com o SnapLock Compliance. Nem mesmo o suporte à NetApp pode excluir as cópias Snapshot do SnapLock. A melhor pergunta a fazer é o que torna o cofre cibernético NetApp melhor do que outros cofres cibernéticos do setor. Primeiro, o ONTAP é o armazenamento mais seguro do planeta e obteve a validação CSfC, que permite o armazenamento de dados secretos e secretos em repouso tanto nas camadas de hardware como de software. Mais informações sobre link:https://www.netapp.com/esg/trust-center/compliance/CSfC-Program/["CSfC pode ser encontrado aqui"^]. Além disso, o ONTAP pode ser trocado de ar na camada de storage, com o sistema de cofre cibernético controlando a replicação permitindo que uma lacuna aérea seja criada na rede de cofre cibernético.
 
 ====
-.O volume de origem de um Cyber Vault pode ser um volume habilitado para pool de malha do ONTAP (volume em camadas para ONTAP S3 ou StorageGRID)?
+.Um volume em um cofre cibernético pode usar o pool do ONTAP Fabric?
 [%collapsible%open]
 ====
-Não, O volume De origem do pool de malha, independentemente da política usada, não pode ser replicado para um destino do SnapLock Compliance.
+Não, um volume de cofre cibernético (destino do SnapLock Compliance SnapMirror) não pode ser desativado usando o pool de malha, independentemente da política.
+
+image:ontap-cyber-vault-fabric-pool-configurations.png["Configurações compatíveis com o Cyber Vault Fabric Pool"]
+
+
+NOTE: Existem vários cenários em que o pool de malha *não pode* ser usado com um cofre cibernético.
+
+. Camadas frias do Fabric Pool *não* podem estar usando um cluster de cofre cibernético. Isso ocorre porque a ativação do protocolo S3 invalida a natureza segura da arquitetura de referência do Cyber Vault. Além disso, o balde S3 usado para piscina de tecido não pode ser protegido.
+. Os volumes do SnapLock Compliance no Cyber Vault *não pode* ser dispostos em camadas em um bucket do S3, pois os dados são bloqueados no volume.
+
+
+image:ontap-cyber-vault-fabric-pool-configurations-p-s-cv.png["Cyber Vault Fabric Pool configurações compatíveis para relacionamentos em cascata"]
+
+====
+.O ONTAP S3 Worm está disponível em um cofre cibernético?
+[%collapsible%open]
+====
+Não, o S3 é um protocolo de acesso a dados que invalida a natureza segura da arquitetura de referência.
 
 ====
 .O NetApp Cyber Vault é executado em uma personalidade ou perfil diferente do ONTAP?
