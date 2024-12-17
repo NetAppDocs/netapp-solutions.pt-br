@@ -33,7 +33,7 @@ A figura a seguir mostra a solução Spark com armazenamento NetApp.
 
 image:apache-spark-image5.png["Solução Spark com storage NetApp."]
 
-A solução ONTAP Spark usa o protocolo de acesso direto NetApp NFS para análises no local e workflows de AI, ML e DL com acesso a dados de produção existentes. Os dados de produção disponíveis para os nós do Hadoop são exportados para realizar tarefas analíticas e de AI, ML e DL no local. Você pode acessar os dados para serem processados em nós do Hadoop com o acesso direto do NetApp NFS ou sem eles. No Spark com o gerenciador de clusters ou autônomo `yarn`, é possível configurar um volume NFS usando `<file:///<target_volume>`o . Validamos três casos de uso com conjuntos de dados diferentes. Os detalhes dessas validações são apresentados na seção "resultados do teste". (xref)
+A solução ONTAP Spark usa o protocolo de acesso direto NetApp NFS para análises no local e workflows de AI, ML e DL com acesso a dados de produção existentes. Os dados de produção disponíveis para os nós do Hadoop são exportados para realizar tarefas analíticas e de AI, ML e DL no local. Você pode acessar os dados para serem processados em nós do Hadoop com o acesso direto do NetApp NFS ou sem eles. No Spark com o gerenciador de clusters ou autônomo `yarn`, é possível configurar um volume NFS usando `\file://<target_volume>`o . Validamos três casos de uso com conjuntos de dados diferentes. Os detalhes dessas validações são apresentados na seção "resultados do teste". (xref)
 
 A figura a seguir mostra o posicionamento de armazenamento do NetApp Apache Spark/Hadoop.
 

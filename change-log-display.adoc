@@ -25,6 +25,9 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 | *Data* | *Área da solução* | *Descrição da mudança* 
 
 
+| 12 de dezembro de 2024 | Virtualização | Adicionado novo conteúdo do Shift Toolkit 
+
+
 | 3 de dezembro de 2024 | Virtualização | Adicionado novo conteúdo do VM Data Collector (VMDC) 
 
 
@@ -604,6 +607,9 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 [cols="10%, 30%, 60%"]
 |===
 | *Data* | *Área da solução* | *Descrição da mudança* 
+
+
+| 12 de dezembro de 2024 | Virtualização | Adicionado novo conteúdo do Shift Toolkit 
 
 
 | 3 de dezembro de 2024 | Virtualização | Adicionado novo conteúdo do VM Data Collector (VMDC) 

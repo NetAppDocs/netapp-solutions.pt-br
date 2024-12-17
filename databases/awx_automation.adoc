@@ -97,7 +97,7 @@ extra_vars:
 +
 .. Introduza o nome e os detalhes da organização.
 .. Selecione Git no campo Source Control Credential Type (tipo de credencial de controle de origem).
-.. <https://github.com/NetApp-Automation/na_oracle19c_deploy.git>[]Insira como a URL de controle de origem.
+..  `\https://github.com/NetApp-Automation/na_oracle19c_deploy.git`Insira como a URL de controle de origem.
 .. Clique em Guardar.
 .. O projeto pode precisar sincronizar ocasionalmente quando o código-fonte muda.
 
