@@ -27,6 +27,8 @@ indexpage:
       url: "/aws_ora_fsx_ec2_iscsi_asm.html"
   - title: Oracle para Azure / ANF
     links:
+    - title: Redução de custos do Oracle ative Data Guard com o Azure NetApp Files
+      url: "/azure_ora_anf_data_guard.html"
     - title: Recuperação rápida do Oracle VLDB com Incremental Merge no ANF
       url: "/azure_ora_anf_inc_merge.html"
     - title: Implantação Oracle simplificada e automatizada no Azure NetApp Files

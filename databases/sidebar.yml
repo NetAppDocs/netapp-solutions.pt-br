@@ -39,6 +39,8 @@ entries:
         url: "/databases/aws_ora_fsx_ec2_migration.html"
   - title: Azure Cloud
     entries:
+    - title: Redução de custos do Oracle ative Data Guard com o Azure NetApp Files
+      url: "/databases/azure_ora_anf_data_guard.html"
     - title: Recuperação rápida do Oracle VLDB com Incremental Merge no ANF
       url: "/databases/azure_ora_anf_inc_merge.html"
     - title: Implantação Oracle simplificada e automatizada no Azure NetApp Files

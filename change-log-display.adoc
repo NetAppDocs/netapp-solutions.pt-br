@@ -31,6 +31,9 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 | 3 de dezembro de 2024 | Virtualização | Adicionado novo conteúdo do VM Data Collector (VMDC) 
 
 
+| 18 de dezembro de 2024 | Banco de dados | Novo TR-5002: Redução de custos do Oracle ative Data Guard com o Azure NetApp Files 
+
+
 | 5 de novembro de 2024 | Banco de dados | Resumo da nova solução: Oracle com Google Cloud NetApp volumes no Google Cloud 
 
 
@@ -753,6 +756,9 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 [cols="10%, 30%, 60%"]
 |===
 | *Data* | *Área da solução* | *Descrição da mudança* 
+
+
+| 18 de dezembro de 2024 | Banco de dados | Novo TR-5002: Redução de custos do Oracle ative Data Guard com o Azure NetApp Files 
 
 
 | 5 de novembro de 2024 | Banco de dados | Resumo da nova solução: Oracle com Google Cloud NetApp volumes no Google Cloud 

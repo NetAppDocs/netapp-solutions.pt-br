@@ -150,7 +150,7 @@ A implantação requer os seguintes pré-requisitos.
 . No portal de nuvem do Azure, implante VMs do Azure Linux como servidores Oracle DB. Crie um pool de capacidade do Azure NetApp Files e volumes de banco de dados para o banco de dados Oracle. Ative a autenticação de chave privada/pública SSH VM para servidores de banco de dados azureuser. Consulte o diagrama da arquitetura na seção anterior para obter detalhes sobre a configuração do ambiente. Também referido link:azure_ora_nfile_procedures.html["Procedimentos de implantação passo a passo da Oracle no Azure VM e Azure NetApp Files"^]para informações detalhadas.
 +
 
-NOTE: Para VMs do Azure implantadas com redundância de disco local, verifique se você alocou pelo menos 128G no disco raiz da VM para ter espaço suficiente para organizar arquivos de instalação Oracle e adicionar arquivo de troca do SO. Expanda a partição /tmplv e /rootlv os em conformidade. Certifique-se de que a nomenclatura do volume do banco de dados siga as convenções VMname-u01, VMname-u02 e VMname-u03.
+NOTE: Para VMs do Azure implantadas com redundância de disco local, verifique se você alocou pelo menos 128G no disco raiz da VM para ter espaço suficiente para organizar arquivos de instalação Oracle e adicionar arquivo de troca do SO. Expanda a partição /tmplv e /rootlv os em conformidade. Adicione 1G espaço livre ao rootvg-homelv se for menor que 1G. Certifique-se de que a nomenclatura do volume do banco de dados siga as convenções VMname-u01, VMname-u02 e VMname-u03.
 
 +
 [source, cli]
@@ -161,6 +161,11 @@ sudo lvresize -r -L +20G /dev/mapper/rootvg-rootlv
 [source, cli]
 ----
 sudo lvresize -r -L +10G /dev/mapper/rootvg-tmplv
+----
++
+[source, cli]
+----
+sudo lvresize -r -L +1G /dev/mapper/rootvg-homelv
 ----
 . No portal da nuvem do Azure, provisione um servidor Windows para executar a ferramenta de IU do NetApp SnapCenter com a versão mais recente. Consulte o seguinte link para obter detalhes: link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["Instale o servidor SnapCenter"^]
 . Provisione uma VM Linux como o nó da controladora Ansible com a versão mais recente do Ansible e do Git instalada. Consulte a seguinte ligação para obter detalhes: link:../automation/getting-started.html["Primeiros passos com a automação da solução NetApp"^] Na secção -
