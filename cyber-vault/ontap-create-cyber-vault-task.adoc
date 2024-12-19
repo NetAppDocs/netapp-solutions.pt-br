@@ -43,6 +43,10 @@ O comando a seguir cria um volume 2GBD SnapLock Compliance nomeado `dstvolB` no 
 `cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GG`
 
 . No cluster de destino, para criar a folga, defina o período de retenção padrão, conforme descrito em link:https://docs.netapp.com/us-en/ontap/snaplock/set-default-retention-period-task.html["Defina o período de retenção padrão"^]. Um volume SnapLock que é um destino do Vault tem um período de retenção padrão atribuído a ele. O valor para este período é inicialmente definido para um mínimo de 0 anos e máximo de 100 anos (começando com ONTAP 9.10,1. Para versões anteriores do ONTAP, o valor é 0 - 70.) para volumes SnapLock Compliance. Cada cópia Snapshot do NetApp é comprometida com esse período de retenção padrão no início. O período de retenção padrão deve ser alterado. O período de retenção pode ser estendido mais tarde, se necessário, mas nunca encurtado. Para obter mais informações, link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["Defina a visão geral do tempo de retenção"^]consulte .
++
+
+NOTE: Os prestadores de serviços devem considerar as datas de término do contrato do cliente ao determinar o período de retenção. Por exemplo, se o período de retenção do Cyber Vault for de 30 dias e o contrato do cliente terminar antes que o período de retenção expire, os dados no Cyber Vault não poderão ser excluídos até que o período de retenção expire.
+
 . link:https://docs.netapp.com/us-en/ontap/data-protection/create-replication-relationship-task.html["Crie uma nova relação de replicação"^] Entre a fonte que não é SnapLock e o novo destino SnapLock criado na Etapa 3.
 +
 Este exemplo cria uma nova relação de SnapMirror com o volume de SnapLock de destino dstvolB usando uma política de XDPDefault para guardar cópias Snapshot rotuladas diariamente e semanalmente em uma programação horária:
