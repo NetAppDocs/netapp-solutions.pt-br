@@ -165,7 +165,7 @@ Um componente poderoso do vCenter é a capacidade de integrar plug-ins ou extens
 
 O NetApp ONTAP Tools for VMware é um conjunto abrangente de ferramentas projetado para facilitar o gerenciamento do ciclo de vida da máquina virtual em ambientes VMware por meio da arquitetura do plug-in do vCenter. Essas ferramentas se integram perfeitamente ao ecossistema VMware, permitindo o provisionamento eficiente do armazenamento de dados e fornecendo proteção essencial para máquinas virtuais. Com as Ferramentas do ONTAP para VMware vSphere, os administradores podem gerenciar facilmente as tarefas de gerenciamento do ciclo de vida do storage.
 
-Os recursos abrangentes do ONTAP Tools 10 podem ser https://www.netapp.com/support-and-training/documentation/ontap-tools-for-vmware-vsphere-documentation/["Ferramentas do ONTAP para recursos de documentação do VMware vSphere"]encontrados .
+Os recursos abrangentes do ONTAP Tools 10 podem ser https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["Ferramentas do ONTAP para recursos de documentação do VMware vSphere"]encontrados .
 
 Veja a solução de implantação do ONTAP Tools 10 em link:vmware_nfs_otv10.html["Use as ferramentas do ONTAP 10 para configurar datastores NFS para o vSphere 8"]
 

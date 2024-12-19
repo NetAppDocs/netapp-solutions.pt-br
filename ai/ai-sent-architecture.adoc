@@ -126,7 +126,7 @@ O BlueXP  Copy and Sync move os arquivos para onde você precisa de forma rápi
 
 ==== NetApp StorageGRID
 
-O pacote de storage de objetos definido por software da StorageGRID dá suporte a uma grande variedade de casos de uso em ambientes de multicloud híbrida, privada e pública de forma otimizada. Com as inovações líderes do setor, o NetApp StorageGRID armazena, protege e preserva dados não estruturados para uso múltiplo, incluindo gerenciamento automatizado do ciclo de vida por longos períodos de tempo. Para obter mais informações, consulte o https://www.netapp.com/data-storage/storagegrid/documentation/["NetApp StorageGRID"^] site.
+O pacote de storage de objetos definido por software da StorageGRID dá suporte a uma grande variedade de casos de uso em ambientes de multicloud híbrida, privada e pública de forma otimizada. Com as inovações líderes do setor, o NetApp StorageGRID armazena, protege e preserva dados não estruturados para uso múltiplo, incluindo gerenciamento automatizado do ciclo de vida por longos períodos de tempo. Para obter mais informações, consulte o https://docs.netapp.com/us-en/storagegrid-family/["NetApp StorageGRID"^] site.
 
 
 

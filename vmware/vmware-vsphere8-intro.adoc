@@ -22,7 +22,7 @@ Para ajudá-lo a determinar a capacidade de suporte de produtos, protocolos, sis
 
 * O https://mysupport.netapp.com/matrix/#welcome["Ferramenta de Matriz de interoperabilidade do NetApp"](IMT). O IMT define os componentes e versões qualificados que você pode usar para criar configurações FC/FCoE, iSCSI, NFS e CIFS, bem como integrações com plug-ins e ofertas de software adicionais.
 * O https://www.vmware.com/resources/compatibility/search.php?deviceCategory=san&details=1&partner=64&isSVA=0&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc["Guia de compatibilidade da VMware"]. O Guia de compatibilidade da VMware lista sistema, I/o, armazenamento/SAN, compatibilidade de backup e muito mais com os produtos de software e infraestrutura da VMware.
-* https://www.netapp.com/support-and-training/documentation/ontap-tools-for-vmware-vsphere-documentation/"["Ferramentas do NetApp ONTAP para VMware"]. As ferramentas do ONTAP para VMware vSphere são um único plug-in do vCenter Server que inclui as extensões VSC (Virtual Storage Console), Fornecedor VASA e adaptador de replicação de armazenamento (SRA). Totalmente compatível com o VMware vSphere 8, o OTV 9,12 oferece valor real aos clientes diariamente.
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["Ferramentas do NetApp ONTAP para VMware"]. As ferramentas do ONTAP para VMware vSphere são um único plug-in do vCenter Server que inclui as extensões VSC (Virtual Storage Console), Fornecedor VASA e adaptador de replicação de armazenamento (SRA). Totalmente compatível com o VMware vSphere 8, o OTV 9,12 oferece valor real aos clientes diariamente.
 
 
 

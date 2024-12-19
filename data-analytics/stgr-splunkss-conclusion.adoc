@@ -26,7 +26,7 @@ Para saber mais sobre as informações descritas neste documento, consulte os se
 
 * Recursos de documentação do NetApp StorageGRID
 +
-https://www.netapp.com/data-storage/storagegrid/documentation/["https://www.netapp.com/data-storage/storagegrid/documentation/"^]
+https://docs.netapp.com/us-en/storagegrid-family/["https://docs.netapp.com/us-en/storagegrid-family/"^]
 
 * Documentação do produto NetApp
 +

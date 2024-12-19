@@ -56,7 +56,7 @@ Consulte https://core.vmware.com/resource/best-practices-running-nfs-vmware-vsph
 
 Para obter orientações de rede sobre o uso do ONTAP com VMware vSphere, consulte https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["Configuração de rede - NFS"] a seção da documentação dos aplicativos empresariais da NetApp.
 
-Os recursos abrangentes do ONTAP Tools 10 podem ser https://www.netapp.com/support-and-training/documentation/ontap-tools-for-vmware-vsphere-documentation/["Ferramentas do ONTAP para recursos de documentação do VMware vSphere"]encontrados .
+Os recursos abrangentes do ONTAP Tools 10 podem ser https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["Ferramentas do ONTAP para recursos de documentação do VMware vSphere"]encontrados .
 
 
 
@@ -439,6 +439,6 @@ clique em ok
 
 == Informações adicionais
 
-Para obter uma lista completa das ferramentas do ONTAP para os recursos do VMware vSphere 10, https://www.netapp.com/support-and-training/documentation/ontap-tools-for-vmware-vsphere-documentation/["Ferramentas do ONTAP para recursos de documentação do VMware vSphere"] consulte .
+Para obter uma lista completa das ferramentas do ONTAP para os recursos do VMware vSphere 10, https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["Ferramentas do ONTAP para recursos de documentação do VMware vSphere"] consulte .
 
 Para obter mais informações sobre a configuração de sistemas de armazenamento ONTAP, consulte o link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/["Documentação do ONTAP 10"] centro.
