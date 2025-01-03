@@ -29,19 +29,61 @@ entries:
     url: "/ai/tr-4859.html"
 - title: Pipelines de dados, data Lakes e gerenciamento
   entries:
-  - title: Amazon FSX for NetApp ONTAP (FSX ONTAP) para MLOps
-    pdf-filename: Amazon FSX for NetApp ONTAP (FSX ONTAP) para MLOps
+  - title: MLOps de código aberto com NetApp
+    pdf-filename: MLOps de código aberto com NetApp
     entries:
-    - title: Visão geral
-      url: "/ai/mlops_fsxn_intro.html"
-    - title: Parte 1 - integração do Amazon FSX for NetApp ONTAP (FSX ONTAP) como
-        um bucket privado do S3 no AWS SageMaker
-      url: "/ai/mlops_fsxn_s3_integration.html"
-    - title: Parte 2 - aproveitando o Amazon FSX for NetApp ONTAP (FSX ONTAP) como
-        fonte de dados para treinamento de modelo no SageMaker
-      url: "/ai/mlops_fsxn_sagemaker_integration_training.html"
-    - title: Parte 3 - Construindo Um pipeline MLOps simplificado (CI/CT/CD)
-      url: "/ai/mlops_fsxn_cictcd.html"
+    - title: Introdução
+      url: "/ai/aicp_introduction.html"
+    - title: Visão geral da tecnologia
+      url: "/ai/aicp_concepts_and_components.html"
+    - title: Arquitetura
+      url: "/ai/aicp_hardware_and_software_requirements.html"
+    - title: Configuração do NetApp Trident
+      entries:
+      - title: Exemplo de backends Trident para implantações NetApp AIPod
+        url: "/ai/aicp_example_trident_backends_for_ontap_ai_deployments.html"
+      - title: Exemplo de Kubernetes StorageClasses para implantações do NetApp AIPod
+        url: "/ai/aicp_example_kubernetes_storageclasses_for_ontap_ai_deployments.html"
+    - title: Fluxo de ar Apache
+      entries:
+      - title: Implantação do Apache Airflow
+        url: "/ai/aicp_apache_airflow_deployment.html"
+      - title: Use o kit de ferramentas de DataOps do NetApp com fluxo de ar
+        url: "/ai/aicp_example_apache_airflow_workflows_overview.html"
+    - title: JupyterHub
+      entries:
+      - title: Implantação do JupyterHub
+        url: "/ai/aicp_jupyterhub_deployment.html"
+      - title: Use o Toolkit de DataOps do NetApp com o JupyterHub
+        url: "/ai/aicp_example_jupyterhub_workflows_overview.html"
+    - title: MLflow
+      entries:
+      - title: Implantação de MLflow
+        url: "/ai/aicp_mlflow_deployment.html"
+      - title: Rastreabilidade do conjunto de dados ao modelo com NetApp e MLflow
+        url: "/ai/aicp_example_mlflow_traceability.html"
+    - title: Kubeflow
+      entries:
+      - title: Implantação do Kubeflow
+        url: "/ai/aicp_kubeflow_deployment_overview.html"
+      - title: Exemplo Kubeflow operações e tarefas
+        entries:
+        - title: Provisione um espaço de trabalho do Jupyter notebook para uso de
+            cientista de dados ou desenvolvedor
+          url: "/ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html"
+        - title: Use o Toolkit de DataOps do NetApp com Kubeflow
+          url: "/ai/aicp_example_notebooks_and_pipelines.html"
+        - title: Exemplo de fluxo de trabalho - treine um modelo de reconhecimento
+            de imagem
+          url: "/ai/aicp_kubeflow_train_image_recognition.html"
+    - title: Exemplo de operações Trident
+      url: "/ai/aicp_example_trident_operations_overview.html"
+    - title: Exemplo de trabalhos de alto desempenho para implantações AIPod
+      entries:
+      - title: Execute um workload de AI de nó único
+        url: "/ai/aicp_execute_a_single-node_ai_workload.html"
+      - title: Execute um workload de AI distribuído e síncrono
+        url: "/ai/aicp_execute_a_synchronous_distributed_ai_workload.html"
   - title: MLOPS de multicloud híbrida com o Domino Data Lab e o NetApp
     pdf-filename: MLOPS de multicloud híbrida com o Domino Data Lab e o NetApp
     entries:
@@ -80,63 +122,21 @@ entries:
         url: "/ai/nvaie_ngc_tensorflow.html"
     - title: Onde encontrar informações adicionais
       url: "/ai/nvaie_additional_information.html"
+  - title: Amazon FSX for NetApp ONTAP (FSX ONTAP) para MLOps
+    pdf-filename: Amazon FSX for NetApp ONTAP (FSX ONTAP) para MLOps
+    entries:
+    - title: Visão geral
+      url: "/ai/mlops_fsxn_intro.html"
+    - title: Parte 1 - integração do Amazon FSX for NetApp ONTAP (FSX ONTAP) como
+        um bucket privado do S3 no AWS SageMaker
+      url: "/ai/mlops_fsxn_s3_integration.html"
+    - title: Parte 2 - aproveitando o Amazon FSX for NetApp ONTAP (FSX ONTAP) como
+        fonte de dados para treinamento de modelo no SageMaker
+      url: "/ai/mlops_fsxn_sagemaker_integration_training.html"
+    - title: Parte 3 - Construindo Um pipeline MLOps simplificado (CI/CT/CD)
+      url: "/ai/mlops_fsxn_cictcd.html"
   - title: Data Lake NetApp StorageGRID para workloads com condução autônoma
     url: "/ai/tr-4851.html"
-  - title: MLOps de código aberto com NetApp
-    pdf-filename: MLOps de código aberto com NetApp
-    entries:
-    - title: Introdução
-      url: "/ai/aicp_introduction.html"
-    - title: Visão geral da tecnologia
-      url: "/ai/aicp_concepts_and_components.html"
-    - title: Arquitetura
-      url: "/ai/aicp_hardware_and_software_requirements.html"
-    - title: Configuração do NetApp Trident
-      entries:
-      - title: Exemplo de backends Trident para implantações NetApp AIPod
-        url: "/ai/aicp_example_trident_backends_for_ontap_ai_deployments.html"
-      - title: Exemplo de Kubernetes StorageClasses para implantações do NetApp AIPod
-        url: "/ai/aicp_example_kubernetes_storageclasses_for_ontap_ai_deployments.html"
-    - title: Fluxo de ar Apache
-      entries:
-      - title: Implantação do Apache Airflow
-        url: "/ai/aicp_apache_airflow_deployment.html"
-      - title: Use o kit de ferramentas de DataOps do NetApp com fluxo de ar
-        url: "/ai/aicp_example_apache_airflow_workflows_overview.html"
-    - title: JupyterHub
-      entries:
-      - title: Implantação do JupyterHub
-        url: "/ai/aicp_jupyterhub_deployment.html"
-      - title: Use o Toolkit de DataOps do NetApp com o JupyterHub
-        url: "/ai/aicp_example_jupyterhub_workflows_overview.html"
-    - title: MLflow
-      entries:
-      - title: Implantação de MLflow
-        url: "/ai/aicp_mlflow_deployment.html"
-      - title: Rastreabilidade do conjunto de dados ao modelo com NetApp e MLflow
-        url: "/ai/aicp_example_mlflow_workflows_overview.html"
-    - title: Kubeflow
-      entries:
-      - title: Implantação do Kubeflow
-        url: "/ai/aicp_kubeflow_deployment_overview.html"
-    - title: Exemplo Kubeflow operações e tarefas
-      entries:
-      - title: Provisione um espaço de trabalho do Jupyter notebook para uso de cientista
-          de dados ou desenvolvedor
-        url: "/ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html"
-      - title: Use o Toolkit de DataOps do NetApp com Kubeflow
-        url: "/ai/aicp_example_notebooks_and_pipelines.html"
-      - title: Exemplo de fluxo de trabalho - treine um modelo de reconhecimento de
-          imagem
-        url: "/ai/aicp_kubeflow_train_image_recognition.html"
-    - title: Exemplo de operações Trident
-      url: "/ai/aicp_example_trident_operations_overview.html"
-    - title: Exemplo de trabalhos de alto desempenho para implantações AIPod
-      entries:
-      - title: Execute um workload de AI de nó único
-        url: "/ai/aicp_execute_a_single-node_ai_workload.html"
-      - title: Execute um workload de AI distribuído e síncrono
-        url: "/ai/aicp_execute_a_synchronous_distributed_ai_workload.html"
   - title: MLRun Pipeline com Iguazio
     pdf-filename: MLRun Pipeline com Iguazio
     entries:
