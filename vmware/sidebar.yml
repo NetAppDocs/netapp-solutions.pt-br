@@ -43,12 +43,16 @@ entries:
     entries:
     - title: Visão geral
       url: "/vmware/vmware_vcf_asa_overview.html"
+    - title: Cluster de estiramento (FC/iSCSI) no domínio de gerenciamento
+      url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
     - title: ISCSI como armazenamento suplementar para domínios de gestão
       url: "/vmware/vmware_vcf_asa_supp_mgmt_iscsi.html"
     - title: VVols como storage complementar para domínios de workload
       url: "/vmware/vmware_vcf_asa_supp_wkld_vvols.html"
     - title: NVMe/TCP como storage complementar para domínios de workload
       url: "/vmware/vmware_vcf_asa_supp_wkld_nvme.html"
+    - title: Cluster de estiramento (FC/iSCSI) no VI Workload Domain
+      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
     - title: Proteja domínios de carga de trabalho com o plug-in SnapCenter para VMware
         vSphere
       url: "/vmware/vmware_vcf_asa_scv_wkld.html"
