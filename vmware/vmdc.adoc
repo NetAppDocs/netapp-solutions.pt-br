@@ -17,6 +17,9 @@ summary: 'O Virtual Machine Data Collector (VMDC) é um kit de ferramentas basea
 O Virtual Machine Data Collector (VMDC) é um kit de ferramentas baseado em GUI gratuito, leve e simples para ambientes VMware que permite aos usuários coletar informações detalhadas de inventário sobre suas máquinas virtuais (VMs), hosts, armazenamento e redes.
 
 
+NOTE: *Esta é uma versão prévia do VMDC.*
+
+
 
 == Visão geral
 
