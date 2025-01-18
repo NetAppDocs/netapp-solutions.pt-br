@@ -64,6 +64,9 @@ entries:
       url: "/vmware/vmware_vcf_aff_principal_nfs.html"
     - title: NFS e vVols como storage complementar para domínios de workload
       url: "/vmware/vmware_vcf_aff_supp_wkld_nfs.html"
+    - title: Converta vSphere Cluster (armazenamento de dados NFS) para VCF Management
+        Domain
+      url: "/vmware/vmware_vcf_import_nfs.html"
 - title: Migração de VMs
   entries:
   - title: Migrar VMs para o armazenamento de dados do ONTAP
