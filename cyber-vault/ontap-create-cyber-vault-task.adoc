@@ -40,7 +40,7 @@ image:ontap-cyber-vault-air-gap.png["Cyber Vault com ar comprimido usando o NetA
 O comando a seguir cria um volume 2GBD SnapLock Compliance nomeado `dstvolB` no `SVM2` agregado `node01_aggr`:
 
 +
-`cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GG`
+`cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GB`
 
 . No cluster de destino, para criar a folga, defina o período de retenção padrão, conforme descrito em link:https://docs.netapp.com/us-en/ontap/snaplock/set-default-retention-period-task.html["Defina o período de retenção padrão"^]. Um volume SnapLock que é um destino do Vault tem um período de retenção padrão atribuído a ele. O valor para este período é inicialmente definido para um mínimo de 0 anos e máximo de 100 anos (começando com ONTAP 9.10,1. Para versões anteriores do ONTAP, o valor é 0 - 70.) para volumes SnapLock Compliance. Cada cópia Snapshot do NetApp é comprometida com esse período de retenção padrão no início. O período de retenção padrão deve ser alterado. O período de retenção pode ser estendido mais tarde, se necessário, mas nunca encurtado. Para obter mais informações, link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["Defina a visão geral do tempo de retenção"^]consulte .
 +
