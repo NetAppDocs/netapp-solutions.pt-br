@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: databases/azure_ora_nfile_usecase.html 
-summary: Este guia de práticas recomendadas fornece detalhes de uma solução para implantar e proteger banco de dados Oracle no armazenamento de arquivos do Azure NetApp e VM do Azure. 
+summary: Este guia de práticas recomendadas fornece detalhes de uma solução para implantar e migrar banco de dados Oracle no armazenamento de arquivos do Azure NetApp e VM do Azure. 
 keywords: database, Oracle, Azure NetApp files, Azure 
 ---
-= TR-4954: Implantação e proteção de bancos de dados Oracle no Azure NetApp Files
+= TR-4954: Práticas recomendadas de migração e implantação de banco de dados Oracle para ANF
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ keywords: database, Oracle, Azure NetApp files, Azure
 
 
 [role="lead"]
-Este guia de práticas recomendadas fornece detalhes de uma solução para implantar e proteger banco de dados Oracle no armazenamento de arquivos do Azure NetApp e VM do Azure.
+Este guia de práticas recomendadas fornece detalhes de uma solução para implantar e migrar banco de dados Oracle no armazenamento de arquivos do Azure NetApp e VM do Azure.
 
 Autor(a): Daniel, NetApp
 
@@ -40,4 +40,4 @@ O Azure NetApp Files é um serviço totalmente gerenciado da Microsoft que levar
 
 == Conclusão
 
-Esta documentação descreve em detalhes como implantar, configurar e proteger um banco de dados Oracle com uma máquina virtual Azure e um serviço de armazenamento Azure NetApp Files que oferece desempenho e durabilidade semelhantes a um sistema local. Para obter orientações sobre as práticas recomendadas, consulte TR-4780 link:https://www.netapp.com/media/17105-tr4780.pdf["Bancos de dados Oracle no Microsoft Azure"^]. Mais importante ainda, o NetApp também fornece kits de ferramentas de automação que automatizam a maioria das tarefas necessárias para a implantação, configuração, proteção de dados, migração e gerenciamento de sua carga de trabalho de banco de dados Oracle na nuvem pública do Azure. Os kits de ferramentas de automação estão disponíveis para download no site público do NetApp GitHub: link:https://github.com/NetApp-Automation/["NetApp-Automação"^].
+Esta documentação descreve em detalhes como implantar, configurar e migrar um banco de dados Oracle com uma máquina virtual Azure e um serviço de storage Azure NetApp Files que oferece desempenho e durabilidade semelhantes a um sistema local. Para obter orientações sobre as práticas recomendadas, consulte TR-4780 link:https://www.netapp.com/media/17105-tr4780.pdf["Bancos de dados Oracle no Microsoft Azure"^]. Mais importante ainda, o NetApp também fornece kits de ferramentas de automação que automatizam a maioria das tarefas necessárias para a implantação, configuração, proteção de dados, migração e gerenciamento de sua carga de trabalho de banco de dados Oracle na nuvem pública do Azure. Os kits de ferramentas de automação estão disponíveis para download no site público do NetApp GitHub: link:https://github.com/NetApp-Automation/["NetApp-Automação"^].

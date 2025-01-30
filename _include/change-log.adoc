@@ -7,6 +7,12 @@
 | *Data* | *Área da solução* | *Descrição da mudança* 
 
 
+| 30 de janeiro de 2025 | Banco de dados | Novo TR-5003: Implementação do Oracle VLDB de alto rendimento no ANF 
+
+
+| 30 de janeiro de 2025 | Banco de dados | Atualização TR-4954: Removeu a página de proteção de dados desatualizada e renomeou o título 
+
+
 | 12 de dezembro de 2024 | Virtualização | Adicionado novo conteúdo do Shift Toolkit 
 
 

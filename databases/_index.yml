@@ -27,6 +27,8 @@ indexpage:
       url: "/aws_ora_fsx_ec2_iscsi_asm.html"
   - title: Oracle para Azure / ANF
     links:
+    - title: Implementação do Oracle VLDB de alta taxa de transferência no ANF
+      url: "/azure_ora_anf_vldb_dg.html"
     - title: Redução de custos do Oracle ative Data Guard com o Azure NetApp Files
       url: "/azure_ora_anf_data_guard.html"
     - title: Recuperação rápida do Oracle VLDB com Incremental Merge no ANF
@@ -34,7 +36,8 @@ indexpage:
     - title: Implantação Oracle simplificada e automatizada no Azure NetApp Files
         com NFS
       url: "/automation_ora_anf_nfs.html"
-    - title: Implantação e proteção de bancos de dados Oracle no Azure NetApp Files
+    - title: Práticas recomendadas de migração e implantação do Oracle Database para
+        o ANF
       url: "/azure_ora_nfile_usecase.html"
   - title: Oracle para Google Cloud
     links:
