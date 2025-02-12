@@ -14,18 +14,34 @@ summary: Virtualização OpenShift da Red Hat com NetApp ONTAP
 
 
 [role="lead"]
-Esta seção aborda como migrar uma máquina virtual entre o VMware e o OpenShift Cluster usando o kit de ferramentas de migração do Red Hat OpenShift Virtualization.
+Esta seção mostra como migrar uma máquina virtual do VMware para um cluster OpenShift usando o kit de ferramentas de migração do Red Hat OpenShift Virtualization. Os seguintes tipos de migrações são abordados:
 
+.Migração fria
+[%collapsible]
+====
+Este é o tipo de migração padrão. As máquinas virtuais de origem são desligadas enquanto os dados são copiados.
+
+====
+.Migração quente
+[%collapsible]
+====
+Nesse tipo de migração, a maioria dos dados é copiada durante a fase de pré-cópia enquanto as máquinas virtuais de origem (VMs) estão em execução. Em seguida, as VMs são desligadas e os dados restantes são copiados durante a fase de transição.
+
+====
+
+
+== Demonstração de vídeo
+
+O vídeo a seguir mostra uma demonstração da migração fria de uma VM RHEL da VMware para a virtualização OpenShift usando a classe de armazenamento ONTAP-san para armazenamento persistente.
+
+.Usando o Red Hat MTV para migrar VMs para a virtualização OpenShift com o armazenamento NetApp ONTAP
+video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
 
 
 == Migração da VM do VMware para a virtualização OpenShift usando o Migration Toolkit for Virtualization
 
 Nesta seção, veremos como usar o kit de ferramentas de migração para virtualização (MTV) para migrar máquinas virtuais do VMware para a virtualização OpenShift em execução na plataforma de contentor OpenShift e integrado ao armazenamento NetApp ONTAP usando o Trident.
 
-O vídeo a seguir mostra uma demonstração da migração de uma VM RHEL do VMware para a virtualização OpenShift usando a classe de armazenamento ONTAP-san para armazenamento persistente.
-
-.Usando o Red Hat MTV para migrar VMs para a virtualização OpenShift com o armazenamento NetApp ONTAP
-video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
 O diagrama a seguir mostra uma visão de alto nível da migração de uma VM do VMware para o Red Hat OpenShift Virtualization.
 
 image:rh-os-n_use_case_vm_migration_using_mtv.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
@@ -176,7 +192,7 @@ allowVolumeExpansion: true
 ----
 
 
-=== * Instalar MTV*
+=== Instale o MTV
 
 Agora você pode instalar o Migration Toolkit for Virtualization (MTV). Consulte as instruções fornecidas link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/installing-the-operator["aqui"] para obter ajuda com a instalação.
 
@@ -219,6 +235,10 @@ Ao criar um plano, você precisa criar o seguinte se ainda não tiver sido criad
 
 image:rh-os-n_use_case_vm_migration_using_mtv_plan_ready.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
+
+
+=== Execute a migração a frio
+
 Clicar em *Start* será executado através de uma sequência de etapas para concluir a migração da VM.
 
 image:rh-os-n_use_case_vm_migration_using_mtv_plan_complete.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
@@ -226,3 +246,40 @@ image:rh-os-n_use_case_vm_migration_using_mtv_plan_complete.png["Figura que most
 Quando todas as etapas forem concluídas, você poderá ver as VMs migradas clicando em *máquinas virtuais* em *virtualização* no menu de navegação à esquerda. As instruções para acessar as máquinas virtuais são fornecidas link:https://docs.openshift.com/container-platform/4.13/virt/virtual_machines/virt-accessing-vm-consoles.html["aqui"].
 
 Você pode fazer login na máquina virtual e verificar o conteúdo dos bancos de dados posgresql. Os bancos de dados, tabelas e as entradas na tabela devem ser os mesmos que o que foi criado na VM de origem.
+
+
+
+=== Execute a migração quente
+
+Para executar uma migração quente, depois de criar um plano de migração como mostrado acima, você precisa editar as configurações do plano para alterar o tipo de migração padrão. Clique no ícone de edição ao lado da migração a frio e alterne o botão para configurá-lo para a migração a quente. Clique em ** Salvar**. Agora clique em ** Iniciar** para iniciar a migração.
+
+
+NOTE: Certifique-se de que, quando você estiver migrando do armazenamento de bloco no VMware, você tenha a classe de armazenamento de bloco selecionada para a VM OpenShift Virtualization. Além disso, o volumeMode deve ser definido para bloquear e o modo de acesso deve ser rwx para que você possa executar a migração ao vivo da VM posteriormente.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm1.png["1"]
+
+Clique em **0 de 1 VMs concluídas**, expanda a vm e você pode ver o andamento da migração.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm2.png["2"]
+
+Após algum tempo, a transferência do disco é concluída e a migração aguarda para prosseguir para o estado de transição. O Datavolume está em um estado Pausado. Volte ao plano e clique no botão **redução**.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm3.png["3"]
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm4.png["4"]
+
+A hora atual será mostrada na caixa de diálogo. Altere a hora para uma hora futura se quiser agendar uma transição para uma hora posterior. Caso contrário, para fazer uma transição agora, clique em **Definir redução**.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm5.png["5"]
+
+Após alguns segundos, o Datavolume vai do estado pausado para o estado ImportScheduled para ImportInProgress quando a fase de transição começa.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm6.png["6"]
+
+Quando a fase de transição é concluída, o Datavolume chega ao estado bem sucedido e o PVC é vinculado.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm7.png["7"]
+
+O plano de migração prossegue para concluir a fase ImageConversion e, finalmente, a fase VirtualMachineCreation está concluída. A VM chega ao estado em execução na virtualização OpenShift.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm8.png["8"]
