@@ -25,6 +25,8 @@ indexpage:
     links:
     - title: Storage do NetApp com o VMware Cloud Foundation
       url: "/vmware-vcf-overview.html"
+    - title: Proteja domínios de workloads com o NetApp SnapCenter
+      url: "/vmware_vcf_aff_multi_wkld_scv.html"
     - title: Expansão da nuvem híbrida da FlexPod com o VMware Cloud Foundation
       url: https://www.netapp.com/blog/expanding-flexpod-hybrid-cloud-with-vmware-cloud-foundation/
     - title: Guias de design da FlexPod para o VMware Cloud Foundation
