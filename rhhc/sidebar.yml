@@ -59,6 +59,10 @@ entries:
     url: "/rhhc/rhhc-pm-data-migration.html"
   - title: Soluções ROSA adicionais para contêineres e virtualização
     url: "/rhhc/rhhc-pm-additional.html"
+- title: Proteção de dados de aplicações de contêiner usando o Trident Protect
+  entries:
+  - title: Visão geral
+    url: "/rhhc/rhhc-dp-tp-solution.html"
 - title: Proteção de dados de aplicativos de contêiner usando ferramentas de terceiros
   entries:
   - title: Visão geral
