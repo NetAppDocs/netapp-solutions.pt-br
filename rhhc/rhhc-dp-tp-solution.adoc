@@ -33,7 +33,7 @@ Informações adicionais sobre o RBAC no Trident Protect podem ser encontradas n
 
 NOTE: O administrador do cluster tem acesso a recursos no namespace padrão Trident-Protect e também pode acessar recursos em todos os outros namespaces. Os usuários não podem criar recursos personalizados de gerenciamento de dados de aplicativos (CRS) como Snapshot e Backup CRS no namespace Trident-Protect. Como prática recomendada, os usuários precisarão criar esses CRS no namespace do aplicativo.
 
-Trident Protect pode ser instalado esta seção mostrará o fluxo de trabalho para a proteção de dados de aplicativos de contentor e restauração dos aplicativos. 1. Criação de snapshot (sob demanda no programado) 2. Restauração a partir do Snapshot (restauração para o mesmo namespace diferente) 3. Criação de backup 4. Restaurar a partir de cópia de segurança
+O Trident Protect pode ser instalado usando as instruções fornecidas na documentaçãolink:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-installation.html["aqui"]. Esta seção mostrará o fluxo de trabalho para a proteção de dados de aplicativos de contentor e restauração de aplicativos usando o Trident Protect. 1. Criação de snapshot (sob demanda no programado) 2. Restauração a partir do Snapshot (restauração para o mesmo namespace diferente) 3. Criação de backup 4. Restaurar a partir de cópia de segurança
 
 .Pré-requisito
 [%collapsible]

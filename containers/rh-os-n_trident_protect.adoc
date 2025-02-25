@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_trident_protect.html 
+keywords: data protection, DP, Trident Protect 
+summary:  
+---
+= Proteção de dados para aplicações de contêiner e máquinas virtuais que usam o Trident Protect
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Essa solução mostra como usar o Trident Protect para executar operações de proteção de dados de contêineres e VMs.
+
+. Para obter detalhes sobre como criar snapshots e backups e restaurá-los para aplicativos de contentor na plataforma de contentor OpenShift, link:../rhhc/rhhc-dp-tp-solution.html["aqui"]consulte .
+. Para obter detalhes sobre como criar e restaurar a partir de um backup para VMs no OpenShift Virtualization implantado na plataforma de contentor OpenShift, link:rh-os-n_use_case_openshift_virtualization_dp_trident_protect.html["aqui"]consulte .
+
