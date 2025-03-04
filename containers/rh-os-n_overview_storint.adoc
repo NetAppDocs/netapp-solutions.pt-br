@@ -14,16 +14,12 @@ summary: A NetApp fornece uma série de produtos que ajudam nossos clientes a or
 
 
 [role="lead"]
-O NetApp fornece vários produtos para ajudá-lo a orquestrar e gerenciar dados persistentes em ambientes baseados em contêineres, como o Red Hat OpenShift.
+O Trident, um provisionador de storage de código aberto e orquestrador mantido pela NetApp e NetApp Trident Protect, ajuda a orquestrar e gerenciar dados persistentes em ambientes baseados em contêineres, como o Red Hat OpenShift.
 
-image:redhat_openshift_image108.jpg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
-
-O NetApp Astra Control oferece um conjunto avançado de serviços de gerenciamento de dados com reconhecimento de aplicações e storage para workloads Kubernetes com monitoramento de estado, com tecnologia de proteção de dados da NetApp. O Astra Control Service está disponível para atender a workloads com estado monitorado em implantações Kubernetes nativas em nuvem. O Astra Control Center está disponível para atender a workloads com estado em implantações locais, como o Red Hat OpenShift. Para obter mais informações, visite o site do NetApp Astra Control https://cloud.netapp.com/astra["aqui"] .
-
-O NetApp Trident é um orquestrador de storage de código aberto e totalmente compatível para distribuições de contêineres e Kubernetes, incluindo o Red Hat OpenShift. Para obter mais informações, visite o site da Trident https://docs.netapp.com/us-en/trident/index.html["aqui"] .
+image:redhat_openshift_image108.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 As páginas a seguir têm informações adicionais sobre os produtos NetApp que foram validados para gerenciamento de aplicativos e armazenamento persistente na solução Red Hat OpenShift com NetApp:
 
-* link:rh-os-n_overview_astra.html["Centro de Controle NetApp Astra"]
-* link:rh-os-n_overview_trident.html["NetApp Trident"]
+* link:https://docs.netapp.com/us-en/trident/["Documentação do Trident"]
+* link:https://docs.netapp.com/us-en/trident/trident-protect/learn-about-trident-protect.html["Documentação do Trident Protect"]
 
