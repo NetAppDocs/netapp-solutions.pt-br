@@ -4,6 +4,8 @@ title: Virtualização Proxmox
 url: "/proxmox/index.html"
 entries:
 - title: Visão geral
+  pdf-filename: Visão geral da virtualização Proxmox no NetApp
   url: "/proxmox/proxmox-overview.html"
 - title: Armazenamento NetApp para Proxmox VE
+  pdf-filename: Armazenamento NetApp para Proxmox VE
   url: "/proxmox/proxmox-ontap.html"

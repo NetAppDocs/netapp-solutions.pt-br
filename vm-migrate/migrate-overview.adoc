@@ -133,7 +133,7 @@ Certifique-se de que o host do servidor Shift atende aos requisitos mínimos de 
 
 Mova as VMs a serem migradas ou convertidas para uma nova máquina virtual de storage (SVM) Data ONTAP designada usando o Storage vMotion. É uma prática recomendada configurar um novo SVM para as VMs, para que você possa ter certeza de que não está convertendo VMs em um SVM de produção. Use a CLI do ONTAP ou o Gerenciador de sistemas para criar o novo SVM.
 
-Siga as etapas fornecidas neste link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["link"] documento para provisionar um novo SVM que permita protocolos NFS e SMB.
+Siga as etapas fornecidas neste link:https://docs.netapp.com/us-en/ontap/networking/create_svms.html["link"] documento para provisionar um novo SVM que permita protocolos NFS e SMB.
 
 Para conversão ESX para Hyper-V, especifica o nome de caminho totalmente qualificado do compartilhamento CIFS (especificamente, qtree CIFS no controlador) como caminho de destino.
 
@@ -247,7 +247,7 @@ Depois que o armazenamento e a conetividade com os hipervisores de origem e dest
 
 ===== Adicione sites
 
-O primeiro passo é descobrir e adicionar o vCenter de origem e, em seguida, os detalhes do Hyper-V de destino (hipervisores e armazenamento) ao kit de ferramentas Shift. Abra o kit de ferramentas Shift em um navegador suportado e use o nome de usuário e senha padrão (admin/admin) e Adicionar sites.
+O primeiro passo é descobrir e adicionar o vCenter de origem e, em seguida, os detalhes do Hyper-V de destino (hipervisores e armazenamento) ao kit de ferramentas Shift. Kit de ferramentas OpenShift em um navegador suportado e use o nome de usuário e senha padrão (admin/admin) e Adicionar sites.
 
 image:shift-toolkit-image12.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 

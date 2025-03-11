@@ -31,7 +31,7 @@ indexpage:
     - title: NetApp ONTAP e Lenovo ThinkSystem SR670 para IA
       url: a400-thinksystem-introduction.html
     - title: NetApp AFF A800 e Fujitsu Server PRIMERGY GX2570 M5 para IA
-      url: ai-dgx-superpod.html
+      url: tr-4815.html
   - title: Data Lakes e pipelines de dados
     links:
     - title: Amazon FSX for NetApp ONTAP (FSX ONTAP) para MLOps

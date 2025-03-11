@@ -3,6 +3,7 @@ section: data-access
 title: Migração de dados e proteção de dados
 entries:
 - title: Ciber Vault da ONTAP
+  pdf-filename: Ciber Vault da ONTAP
   entries:
   - title: Visão geral do ONTAP Cyber Vault
     url: "/cyber-vault/ontap-cyber-vault-overview.html"
@@ -41,6 +42,7 @@ entries:
 - title: Migração de dados
   entries:
   - title: Diretrizes de práticas recomendadas para NetApp XCP
+    pdf-filename: Diretrizes de práticas recomendadas para NetApp XCP
     entries:
     - title: Introdução
       url: "/xcp/xcp-bp-introduction.html"
@@ -89,14 +91,20 @@ entries:
 - title: Proteção de dados
   entries:
   - title: NetApp e-Series e CommVault Data Platform V11
+    pdf-filename: NetApp e-Series e CommVault Data Platform V11
     url: "/dp-sec/tr-4320.html"
   - title: Práticas recomendadas de storage e arquitetura de referência do e-Series
       e EF-Series com o Veeam Backup & Replication 9,5
+    pdf-filename: Práticas recomendadas de storage e arquitetura de referência do
+      e-Series e EF-Series com o Veeam Backup & Replication 9,5
     url: "/dp-sec/tr-4471.html"
   - title: Implantação do Veritas NetBackup com o armazenamento NetApp e-Series
+    pdf-filename: Implantação do Veritas NetBackup com o armazenamento NetApp e-Series
     url: "/dp-sec/tr-4704.html"
 - title: Segurança
   entries:
   - title: Controles de segurança NIST para FISMA com HyTrust para infraestrutura
+      multitenant
+    pdf-filename: Controles de segurança NIST para FISMA com HyTrust para infraestrutura
       multitenant
     url: "/dp-sec/nva-1143.html"

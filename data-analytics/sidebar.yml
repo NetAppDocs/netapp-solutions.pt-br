@@ -170,11 +170,17 @@ entries:
   - title: Conclusão
     url: "/data-analytics/dremio-lakehouse-conclusion.html"
 - title: Soluções diferentes para diferentes estratégias de análise Resumo da solução
+  pdf-filename: Soluções diferentes para diferentes estratégias de análise Resumo
+    da solução
   url: "/data-analytics/sb-4154.html"
 - title: NetApp StorageGRID com
+  pdf-filename: NetApp StorageGRID com
   url: "/data-analytics/stgr-splunks-introduction.html"
 - title: NetApp e-Series E5700 e Splunk Enterprise
+  pdf-filename: NetApp e-Series E5700 e Splunk Enterprise
   url: "/data-analytics/tr-4623.html"
 - title: Carga de trabalho do Apache Spark com solução de storage NetApp (Guia de
     implantação)
+  pdf-filename: Carga de trabalho do Apache Spark com solução de storage NetApp (Guia
+    de implantação)
   url: "/data-analytics/nva-1157-deploy.html"

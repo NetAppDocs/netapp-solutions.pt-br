@@ -185,7 +185,7 @@ As etapas básicas usadas para configurar os switches SN4600 estão descritas ab
 
 == Configuração do sistema de storage
 
-Esta seção descreve os principais detalhes da configuração do sistema de storage A90 para esta solução. Para obter mais detalhes sobre a configuração dos sistemas ONTAP, consulte a [documentation] (Documentação do ONTAP). O diagrama abaixo mostra a configuração lógica do sistema de armazenamento.
+Esta seção descreve os principais detalhes da configuração do sistema de storage A90 para esta solução. Para obter mais detalhes sobre a configuração dos sistemas ONTAP, consulte o link:https://docs.netapp.com/us-en/ontap/index.html["Documentação do ONTAP"]. O diagrama abaixo mostra a configuração lógica do sistema de armazenamento.
 
 _Configuração lógica do cluster de armazenamento NetApp A90_
 

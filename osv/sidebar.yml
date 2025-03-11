@@ -17,7 +17,7 @@ entries:
   - title: Vídeos
     url: "/containers/rh-os-n_videos_and_demos.html"
 - title: Implantação no local
-  pdf-filename: Implantação do Red Hat OpenShift
+  pdf-filename: Implantação do Red Hat OpenShift Virtualization
   entries:
   - title: Visão geral
     url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment_prerequisites.html"
@@ -34,6 +34,8 @@ entries:
   - title: Criação de VM a partir de um Snapshot
     url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html"
 - title: Implantação no ROSA com FSxN
+  pdf-filename: Implantação da virtualização Red Hat OpenShift no ROSA com o Amazon
+    FSX for ONTAP
   entries:
   - title: Visão geral
     url: "/containers/rh-os-n_use_case_openshift_virtualization_rosa_overview.html"
@@ -62,6 +64,7 @@ entries:
   - title: Monitorização de amostras
     url: "/containers/rh-os-n_use_case_openshift_virtualization_ci_samples.html"
 - title: Recomendação de práticas recomendadas
+  pdf-filename: Melhores práticas para virtualização OpenShift da Red Hat no NetApp
   entries:
   - title: Guia de práticas recomendadas
     url: "/containers/rh-os-n_use_case_openshift_virtualization_bpg.html"

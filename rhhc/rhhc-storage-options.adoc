@@ -4,7 +4,7 @@ permalink: rhhc/rhhc-storage-options.html
 keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, ACC, Astra Control Center, Advanced Cluster Management, ACM, Hub Cluster, VMware CSI, nconnect, session trunking, SMBC 
 summary:  
 ---
-= Integrações de storage do NetApp compatíveis com contêineres do Red Hat Open Shift
+= Integrações de storage com o NetApp compatíveis com contêineres do Red Hat OpenShift
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Não importa se os contêineres Open Shift da Red Hat estão em execução no VMware ou nos hyperscalers, o NetApp Trident pode ser usado como provisionador de CSI para os vários tipos de storage NetApp de back-end com suporte.
+Independentemente de os contêineres do Red Hat OpenShift estarem em execução no VMware ou nos hyperscalers, o NetApp Trident pode ser usado como provisionador de CSI para os vários tipos de storage NetApp de back-end que ele oferece suporte.
 
 O diagrama a seguir mostra os vários storage do NetApp de back-end que podem ser integrados aos clusters do OpenShift usando o NetApp Trident.
 

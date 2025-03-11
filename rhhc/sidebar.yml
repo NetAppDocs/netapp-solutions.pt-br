@@ -4,6 +4,7 @@ title: Multiclouds híbridas da NetApp com o Red Hat OpenShift
 url: "/rhhc/index.html"
 entries:
 - title: Visão geral
+  pdf-filename: Red Hat OpenShift para multicloud híbrida
   entries:
   - title: Visão geral
     url: "/rhhc/rhhc-overview.html"
@@ -16,6 +17,7 @@ entries:
   - title: Opções de armazenamento suportadas
     url: "/rhhc/rhhc-storage-options.html"
 - title: On-premises
+  pdf-filename: Red Hat OpenShift para locais
   entries:
   - title: Visão geral
     url: "/rhhc/rhhc-overview.html"
@@ -28,6 +30,8 @@ entries:
   - title: Migre workloads de contêiner no VMware
     url: "/rhhc/rhhc-op-data-migration.html"
 - title: Nuvem híbrida com componentes autogeridos (on-premises/AWS/GCP/Azure)
+  pdf-filename: Nuvem híbrida com componentes autogerenciados do Red Hat OpenShift
+    (on-premises/AWS/GCP/Azure)
   entries:
   - title: Visão geral
     url: "/rhhc/rhhc-overview.html"
@@ -44,6 +48,8 @@ entries:
   - title: Migre workloads de contêiner para a AWS/GCP/Azure
     url: "/rhhc/rhhc-sm-data-migration.html"
 - title: Nuvem híbrida com componentes gerenciados por fornecedor
+  pdf-filename: Nuvem híbrida com componentes gerenciados pelo fornecedor Red Hat
+    OpenShift
   entries:
   - title: Visão geral
     url: "/rhhc/rhhc-overview.html"
@@ -60,10 +66,13 @@ entries:
   - title: Soluções ROSA adicionais para contêineres e virtualização
     url: "/rhhc/rhhc-pm-additional.html"
 - title: Proteção de dados de aplicações de contêiner usando o Trident Protect
+  pdf-filename: Proteção de dados de aplicações de contêiner usando o Trident Protect
   entries:
   - title: Visão geral
     url: "/rhhc/rhhc-dp-tp-solution.html"
 - title: Proteção de dados de aplicativos de contêiner usando ferramentas de terceiros
+  pdf-filename: Proteção de dados de aplicativos de contêiner usando ferramentas de
+    terceiros
   entries:
   - title: Visão geral
     url: "/rhhc/rhhc-dp-velero-solution.html"

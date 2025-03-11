@@ -8,22 +8,34 @@ entries:
   - title: Nuvem da AWS
     entries:
     - title: Oracle HA no AWS EC2 com cluster de pacemaker e FSX ONTAP
+      pdf-filename: Oracle HA no AWS EC2 com cluster de pacemaker e FSX ONTAP
       url: "/databases/aws_ora_ha_pacemaker.html"
     - title: Implantação Oracle simplificada e automatizada no Amazon FSX ONTAP com
         iSCSI
+      pdf-filename: Implantação Oracle simplificada e automatizada no Amazon FSX ONTAP
+        com iSCSI
       url: "/databases/automation_ora_aws-fsx_iscsi.html"
     - title: Oracle no VMware Cloud na AWS com o FSX ONTAP instalado no convidado
+      pdf-filename: Oracle no VMware Cloud na AWS com o FSX ONTAP instalado no convidado
       url: "/databases/aws_ora_fsx_vmc_guestmount.html"
     - title: Redução de custos do Oracle ative Data Guard com o Amazon FSX ONTAP
+      pdf-filename: Redução de custos do Oracle ative Data Guard com o Amazon FSX
+        ONTAP
       url: "/databases/aws_ora_fsx_ec2_data_guard.html"
     - title: Recuperação rápida e clone do Oracle VLDB com o Amazon FSX ONTAP
+      pdf-filename: Recuperação rápida e clone do Oracle VLDB com o Amazon FSX ONTAP
       url: "/databases/aws_ora_fsx_ec2_inc_merge.html"
     - title: Oracle 19Ci em reinicialização autônoma no AWS FSX/EC2 com NFS/ASM
+      pdf-filename: Oracle 19Ci em reinicialização autônoma no AWS FSX/EC2 com NFS/ASM
       url: "/databases/aws_ora_fsx_ec2_nfs_asm.html"
     - title: Implantação e proteção de banco de dados Oracle no AWS FSX/EC2 com iSCSI/ASM
+      pdf-filename: Implantação e proteção de banco de dados Oracle no AWS FSX/EC2
+        com iSCSI/ASM
       url: "/databases/aws_ora_fsx_ec2_iscsi_asm.html"
     - title: Implantação do Oracle Database no AWS EC2 e nas melhores práticas do
         FSX
+      pdf-filename: Implantação do Oracle Database no AWS EC2 e nas melhores práticas
+        do FSX
       entries:
       - title: Caso de uso
         url: "/databases/aws_ora_fsx_ec2_deploy_intro.html"
@@ -40,16 +52,25 @@ entries:
   - title: Azure Cloud
     entries:
     - title: Implementação do Oracle VLDB de alta taxa de transferência no ANF
+      pdf-filename: Implementação do Oracle VLDB de alta taxa de transferência no
+        ANF
       url: "/databases/azure_ora_anf_vldb_dg.html"
     - title: Redução de custos do Oracle ative Data Guard com o Azure NetApp Files
+      pdf-filename: Redução de custos do Oracle ative Data Guard com o Azure NetApp
+        Files
       url: "/databases/azure_ora_anf_data_guard.html"
     - title: Recuperação rápida do Oracle VLDB com Incremental Merge no ANF
+      pdf-filename: Recuperação rápida do Oracle VLDB com Incremental Merge no ANF
       url: "/databases/azure_ora_anf_inc_merge.html"
     - title: Implantação Oracle simplificada e automatizada no Azure NetApp Files
         com NFS
+      pdf-filename: Implantação Oracle simplificada e automatizada no Azure NetApp
+        Files com NFS
       url: "/databases/automation_ora_anf_nfs.html"
     - title: Práticas recomendadas de migração e implantação do Oracle Database para
         o ANF
+      pdf-filename: Práticas recomendadas de migração e implantação do Oracle Database
+        para o ANF
       entries:
       - title: Caso de uso
         url: "/databases/azure_ora_nfile_usecase.html"
@@ -64,26 +85,39 @@ entries:
   - title: Google Cloud
     entries:
     - title: 'Visão geral: Banco de dados Oracle com o Google Cloud NetApp volumes'
+      pdf-filename: 'Visão geral: Banco de dados Oracle com o Google Cloud NetApp
+        volumes'
       url: "/databases/gcp-oracle-gcnv-overview.html"
   - title: Nuvem híbrida/no local
     entries:
     - title: Implantação e proteção do Oracle RAC no VCF com vVols
+      pdf-filename: Implantação e proteção do Oracle RAC no VCF com vVols
       url: "/databases/vcf_ora_rac_vvol.html"
     - title: Implantação e proteção do Oracle si no VCF com vVols
+      pdf-filename: Implantação e proteção do Oracle si no VCF com vVols
       url: "/databases/vcf_ora_si_vvol.html"
     - title: Implantação Oracle simplificada e automatizada no NetApp C-Series com
         NFS
+      pdf-filename: Implantação Oracle simplificada e automatizada no NetApp C-Series
+        com NFS
       url: "/databases/automation_ora_c-series_nfs.html"
     - title: Implantação Oracle simplificada e automatizada no NetApp ASA com iSCSI
+      pdf-filename: Implantação Oracle simplificada e automatizada no NetApp ASA com
+        iSCSI
       url: "/databases/automation_ora_asa_iscsi.html"
     - title: Bancos de dados Oracle 19Ci RAC no data center FlexPod com Cisco UCS
         e NetApp AFF A800 sobre FC
+      pdf-filename: Bancos de dados Oracle 19Ci RAC no data center FlexPod com Cisco
+        UCS e NetApp AFF A800 sobre FC
       url: "/databases/nva-1155.html"
     - title: SAP com Oracle em UNIX e NFS com NetApp Clustered Data ONTAP
+      pdf-filename: SAP com Oracle em UNIX e NFS com NetApp Clustered Data ONTAP
       url: "/databases/tr-4250.html"
     - title: Implantando o banco de dados Oracle no NetApp ONTAP
-      url: "/../../../ontap-apps-dbs/oracle/oracle-overview.html"
+      pdf-filename: Implantando o banco de dados Oracle no NetApp ONTAP
+      url: https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-overview.html
     - title: Implantação automatizada do Oracle 19Ci para ONTAP em NFS
+      pdf-filename: Implantação automatizada do Oracle 19Ci para ONTAP em NFS
       entries:
       - title: Visão geral
         url: "/databases/marketing_overview.html"
@@ -94,6 +128,7 @@ entries:
       - title: Implantação automatizada da CLI do Oracle 19Cg.
         url: "/databases/cli_automation.html"
     - title: Proteção automatizada de dados Oracle
+      pdf-filename: Proteção automatizada de dados Oracle
       entries:
       - title: Visão geral
         url: "/databases/db_protection_overview.html"
@@ -106,10 +141,13 @@ entries:
 - title: Microsoft SQL Server
   entries:
   - title: Backup e recuperação para o Microsoft SQL Server no AWS FSX ONTAP
+    pdf-filename: Backup e recuperação para o Microsoft SQL Server no AWS FSX ONTAP
     url: "/databases/sqlsb-backup-restore-aws-fsxn.html"
   - title: O SQL Server no AWS EC2 usa o Amazon FSX ONTAP
+    pdf-filename: O SQL Server no AWS EC2 usa o Amazon FSX ONTAP
     url: "/databases/sql-aws-ec2.html"
   - title: SQL Server no Azure NetApp Files
+    pdf-filename: SQL Server no Azure NetApp Files
     entries:
     - title: Visão geral
       url: "/databases/sql-srv-anf_overview.html"
@@ -122,32 +160,46 @@ entries:
     - title: Onde encontrar informações adicionais
       url: "/databases/sql-srv-anf_where_to_find_additional_information.html"
   - title: SAP com o Microsoft SQL Server no Windows usando o Clustered Data ONTAP
+    pdf-filename: SAP com o Microsoft SQL Server no Windows usando o Clustered Data
+      ONTAP
     url: "/databases/tr-4467.html"
   - title: Modernizando o Microsoft SQL Server
+    pdf-filename: Modernizando o Microsoft SQL Server
     url: "/databases/na-446.html"
   - title: Guia de práticas recomendadas para Microsoft SQL Server com ONTAP
+    pdf-filename: Guia de práticas recomendadas para Microsoft SQL Server com ONTAP
     url: "/databases/tr-4590.html"
   - title: Guia de práticas recomendadas para Microsoft SQL Server com NetApp EF-Series
+    pdf-filename: Guia de práticas recomendadas para Microsoft SQL Server com NetApp
+      EF-Series
     url: "/databases/tr-4764.html"
 - title: Bancos de dados de código aberto
   entries:
   - title: Implantação automatizada do PostgreSQL HA e DR no AWS FSX/EC2
+    pdf-filename: Implantação automatizada do PostgreSQL HA e DR no AWS FSX/EC2
     url: "/databases/aws_postgres_fsx_ec2_hadr.html"
   - title: Banco de dados MySQL no NetApp ONTAP
+    pdf-filename: Banco de dados MySQL no NetApp ONTAP
     url: "/databases/tr-4722.html"
 - title: SnapCenter para bancos de dados
   entries:
   - title: Backup, recuperação e clone do PostgreSQL no ONTAP
+    pdf-filename: Backup, recuperação e clone do PostgreSQL no ONTAP
     url: "/databases/snapctr_psql_ontap.html"
   - title: Ciclo de vida do clone do SnapCenter
+    pdf-filename: Ciclo de vida do clone do SnapCenter
     url: "/databases/automation_ora_clone_lifecycle.html"
   - title: Backup, recuperação e clone de banco de dados Oracle no ANF
+    pdf-filename: Backup, recuperação e clone de banco de dados Oracle no ANF
     url: "/databases/snapctr_ora_azure_anf.html"
   - title: BlueXP  SaaS para Oracle - Azure
+    pdf-filename: BlueXP  SaaS para Oracle - Azure
     url: "/databases/snapctr_svcs_ora_azure.html"
   - title: BlueXP  SaaS para Oracle – AWS
+    pdf-filename: BlueXP  SaaS para Oracle – AWS
     url: "/databases/snapctr_svcs_ora.html"
   - title: Soluções de bancos de dados de nuvem híbrida com SnapCenter
+    pdf-filename: Soluções de bancos de dados de nuvem híbrida com SnapCenter
     entries:
     - title: Introdução
       url: "/databases/hybrid_dbops_snapcenter_usecases.html"

@@ -3,4 +3,5 @@ section: migration
 title: Utilitários de migração de máquina virtual
 entries:
 - title: Migração de máquina virtual (Shift Toolkit)
+  pdf-filename: Migração de máquina virtual (Shift Toolkit)
   url: "/vm-migrate/migrate-overview.html"

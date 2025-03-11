@@ -4,10 +4,12 @@ title: Virtualização da VMware
 url: "/vmware/index.html"
 entries:
 - title: Virtualização VMware para ONTAP
+  pdf-filename: Virtualização VMware para ONTAP
   url: "/vmware/vmware-for-ontap.html"
 - title: Base do VMware vSphere
   entries:
   - title: Guia de referência de NFS para vSphere 8
+    pdf-filename: Guia de referência de NFS para vSphere 8
     entries:
     - title: Visão geral
       url: "/vmware/vmware_nfs_overview.html"
@@ -20,11 +22,14 @@ entries:
       url: "/vmware/vmware_nfs_vlsr.html"
     - title: Proteção autônoma contra ransomware para storage NFS
       url: "/vmware/vmware_nfs_arp.html"
-  - title: Guia de referência da VVol para o vSphere 8
+  - title: Guia de referência do vVols para vSphere 8
+    pdf-filename: Guia de referência do vVols para vSphere 8
     url: "/vmware/vmware-vvol-overview.html"
   - title: Guia de implantação do VMFS para o vSphere 8
+    pdf-filename: Guia de implantação do VMFS para o vSphere 8
     url: "/vmware/vmfs-deployment.html"
   - title: Array SAN all-flash NetApp com VMware vSphere 8
+    pdf-filename: Array SAN all-flash NetApp com VMware vSphere 8
     entries:
     - title: Visão geral
       url: "/vmware/vsphere_ontap_asa_overview.html"
@@ -38,8 +43,10 @@ entries:
 - title: Base do VMware Cloud
   entries:
   - title: Storage do NetApp com o VMware Cloud Foundation
+    pdf-filename: Storage do NetApp com o VMware Cloud Foundation
     url: "/vmware/vmware-vcf-overview.html"
   - title: VCF com arrays NetApp ASA
+    pdf-filename: VCF com arrays NetApp ASA
     entries:
     - title: Visão geral
       url: "/vmware/vmware_vcf_asa_overview.html"
@@ -57,6 +64,7 @@ entries:
         vSphere
       url: "/vmware/vmware_vcf_asa_scv_wkld.html"
   - title: VCF com arrays NetApp AFF
+    pdf-filename: VCF com arrays NetApp AFF
     entries:
     - title: Visão geral
       url: "/vmware/vmware_vcf_aff_overview.html"
@@ -72,8 +80,10 @@ entries:
 - title: Migração de VMs
   entries:
   - title: Migrar VMs para o armazenamento de dados do ONTAP
+    pdf-filename: Migrar VMs para o armazenamento de dados do ONTAP
     url: "/vmware/migrate-vms-to-ontap-datastore.html"
   - title: Migre VMs para o Amazon EC2 usando o Amazon FSX for ONTAP
+    pdf-filename: Migre VMs para o Amazon EC2 usando o Amazon FSX for ONTAP
     entries:
     - title: Visão geral
       url: "/vmware/migrate-vms-to-ec2-fsxn.html"

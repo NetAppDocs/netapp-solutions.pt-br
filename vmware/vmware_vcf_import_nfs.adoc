@@ -160,7 +160,7 @@ image:vmware-vcf-import-nfs-05.png["Adicionar back-end de storage"]
 
 
 
-NOTE: Aqui, o back-end de armazenamento é adicionado à IU do cliente vSphere usando o endereço IP do cluster. Isso permite o gerenciamento completo de todas as SVMs no sistema de storage. Como alternativa, o back-end de storage pode ser adicionado e associado a uma instância do vCenter usando o Gerenciador de ferramentas do ONTAP em https://loadBalanceIP:8443/virtualization/ui/[]. Com esse método, apenas as credenciais da SVM podem ser adicionadas na IU do cliente vSphere, fornecendo controle mais granular sobre o acesso ao storage.
+NOTE: Aqui, o back-end de armazenamento é adicionado à IU do cliente vSphere usando o endereço IP do cluster. Isso permite o gerenciamento completo de todas as SVMs no sistema de storage. Como alternativa, o back-end de storage pode ser adicionado e associado a uma instância do vCenter usando o Gerenciador de ferramentas do ONTAP em `https://loadBalanceIP:8443/virtualization/ui/`. Com esse método, apenas as credenciais da SVM podem ser adicionadas na IU do cliente vSphere, fornecendo controle mais granular sobre o acesso ao storage.
 
 ====
 .Provisionar o armazenamento de dados NFS com ferramentas do ONTAP

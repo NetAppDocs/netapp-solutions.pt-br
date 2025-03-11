@@ -145,62 +145,8 @@ entries:
     url: "/containers/rh-os-n_videos_and_demos.html"
   - title: Informações adicionais
     url: "/containers/rh-os-n_additional_information.html"
-- title: Virtualização OpenShift da Red Hat com NetApp ONTAP/FSxN
-  pdf-filename: Virtualização OpenShift da Red Hat com NetApp ONTAP
-  entries:
-  - title: Visão geral
-    url: "/containers/rh-os-n_use_case_openshift_virtualization_overview.html"
-  - title: Virtualização OpenShift no local
-    entries:
-    - title: Pré-requisitos
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment_prerequisites.html"
-    - title: Implante através do operador
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment.html"
-    - title: Fluxos de trabalho
-      entries:
-      - title: Criar VM
-        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_create_vm.html"
-      - title: Migração do VM Live
-        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_live_migration.html"
-      - title: Clonagem da VM
-        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html"
-      - title: Criar VM a partir de um Snapshot
-        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html"
-      - title: Migre uma VM do VMware para a virtualização OpenShift
-        url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html"
-  - title: Virtualização OpenShift no ROSA
-    entries:
-    - title: Visão geral
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_rosa_overview.html"
-    - title: Fluxos de trabalho
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_rosa_workflows.html"
-  - title: Proteção de dados das VMs com o Trident Protect
-    entries:
-    - title: Visão geral
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_dp_trident_protect.html"
-  - title: Proteção de dados de VMs usando ferramentas de terceiros
-    entries:
-    - title: Visão geral
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_overview.html"
-    - title: Instalação do OADP
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_installation.html"
-    - title: Backup
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_backup.html"
-    - title: Restaurar
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_restore.html"
-    - title: Excluir backups e restaurações
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_delete.html"
-  - title: Monitoramento usando Cloud Insights
-    entries:
-    - title: Visão geral
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_ci_overview.html"
-    - title: Integração com o Cloud Insights
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_ci_integration.html"
-    - title: Capacidades de monitorização de amostras
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_ci_samples.html"
-    - title: Guia de práticas recomendadas
-      url: "/containers/rh-os-n_use_case_openshift_virtualization_bpg.html"
 - title: Red Hat OpenShift Service na AWS com FSxN
+  pdf-filename: Red Hat OpenShift Service na AWS com FSxN
   entries:
   - title: Visão geral
     url: "/containers/rh-os-n_use_case_rosa_solution_overview.html"
@@ -253,22 +199,3 @@ entries:
     url: "/containers/vtwn_videos_and_demos.html"
   - title: Informações adicionais
     url: "/containers/vtwn_additional_information.html"
-- title: Soluções arquivadas
-  entries:
-  - title: Anthos em bare metal
-    pdf-filename: Anthos em bare metal
-    entries:
-    - title: Introdução
-      url: "/containers/baremetal-anthos/bmanthos_introduction.html"
-    - title: Visão geral da solução
-      url: "/containers/baremetal-anthos/bmanthos_solution_overview.html"
-    - title: Requisitos da solução
-      url: "/containers/baremetal-anthos/bmanthos_solution_requirements.html"
-    - title: Resumo da implantação
-      url: "/containers/baremetal-anthos/bmanthos_deployment_summary.html"
-    - title: Validação da solução
-      url: "/containers/baremetal-anthos/bmanthos_solution_validation.html"
-    - title: Conclusão
-      url: "/containers/baremetal-anthos/bmanthos_conclusion.html"
-    - title: Onde encontrar informações adicionais
-      url: "/containers/baremetal-anthos/bmanthos_where_to_find_additional_information.html"

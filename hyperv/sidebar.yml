@@ -21,9 +21,10 @@ entries:
 - title: Soluções para Hyper-V com NetApp
   entries:
   - title: SnapMirror ative Sync com clusters de estiramento
+    pdf-filename: SnapMirror ative Sync com clusters de estiramento
     url: "/hyperv/hyperv-smas.html"
 - title: Recursos adicionais
   entries:
   - title: Diretrizes de implantação e práticas recomendadas de armazenamento para
       Hyper-V.
-    url: "/../ontap-apps-dbs/microsoft/win_overview.html"
+    url: https://docs.netapp.com/us-en/ontap-apps-dbs/microsoft/win_overview.html

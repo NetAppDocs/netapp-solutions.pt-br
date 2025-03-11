@@ -6,6 +6,7 @@ entries:
 - title: Infraestruturas convergentes de IA
   entries:
   - title: NVA-1173 NetApp AIPod com sistemas DGX da NVIDIA
+    pdf-filename: NVA-1173 NetApp AIPod com sistemas DGX da NVIDIA
     entries:
     - title: Introdução
       url: "/ai/aipod_nv_intro.html"
@@ -22,10 +23,13 @@ entries:
     - title: Conclusão e informações adicionais
       url: "/ai/aipod_nv_conclusion_add_info.html"
   - title: 'NVA-1172-DESIGN: NetApp AIPod com Lenovo para NVIDIA OVX'
+    pdf-filename: 'NVA-1172-DESIGN: NetApp AIPod com Lenovo para NVIDIA OVX'
     url: "/ai/aipod_lenovo_NVA1172.html"
   - title: BeeGFS no NetApp com storage e-Series
+    pdf-filename: BeeGFS no NetApp com storage e-Series
     url: "/ai/ai_beegfs_eseries.html"
   - title: Implantação do IBM Spectrum Scale com o armazenamento NetApp e-Series
+    pdf-filename: Implantação do IBM Spectrum Scale com o armazenamento NetApp e-Series
     url: "/ai/tr-4859.html"
 - title: Pipelines de dados, data Lakes e gerenciamento
   entries:
@@ -66,16 +70,14 @@ entries:
       entries:
       - title: Implantação do Kubeflow
         url: "/ai/aicp_kubeflow_deployment_overview.html"
-      - title: Exemplo Kubeflow operações e tarefas
-        entries:
-        - title: Provisione um espaço de trabalho do Jupyter notebook para uso de
-            cientista de dados ou desenvolvedor
-          url: "/ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html"
-        - title: Use o Toolkit de DataOps do NetApp com Kubeflow
-          url: "/ai/aicp_example_notebooks_and_pipelines.html"
-        - title: Exemplo de fluxo de trabalho - treine um modelo de reconhecimento
-            de imagem
-          url: "/ai/aicp_kubeflow_train_image_recognition.html"
+      - title: Provisione um espaço de trabalho do Jupyter notebook para uso de cientista
+          de dados ou desenvolvedor
+        url: "/ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html"
+      - title: Use o Toolkit de DataOps do NetApp com Kubeflow
+        url: "/ai/aicp_example_notebooks_and_pipelines.html"
+      - title: Exemplo de fluxo de trabalho - treine um modelo de reconhecimento de
+          imagem
+        url: "/ai/aicp_kubeflow_train_image_recognition.html"
     - title: Exemplo de operações Trident
       url: "/ai/aicp_example_trident_operations_overview.html"
     - title: Exemplo de trabalhos de alto desempenho para implantações AIPod
@@ -136,6 +138,7 @@ entries:
     - title: Parte 3 - Construindo Um pipeline MLOps simplificado (CI/CT/CD)
       url: "/ai/mlops_fsxn_cictcd.html"
   - title: Data Lake NetApp StorageGRID para workloads com condução autônoma
+    pdf-filename: Data Lake NetApp StorageGRID para workloads com condução autônoma
     url: "/ai/tr-4851.html"
   - title: MLRun Pipeline com Iguazio
     pdf-filename: MLRun Pipeline com Iguazio
@@ -173,6 +176,8 @@ entries:
   - title: Toolkit DataOps do NetApp
     url: "/ai/dataops-toolkit.html"
   - title: Movimentação de dados com o e-Series e BeeGFS para workflows de AI e Analytics
+    pdf-filename: Movimentação de dados com o e-Series e BeeGFS para workflows de
+      AI e Analytics
     url: "/ai/tr-4915.html"
   - title: Solução de banco de dados vetorial com NetApp
     pdf-filename: Solução de banco de dados vetorial com NetApp
@@ -360,6 +365,8 @@ entries:
     - title: Onde encontrar informações adicionais
       url: "/ai/hcaios_where_to_find_additional_information.html"
   - title: Migração de dados de um ambiente de Big Data para um ambiente de AI
+    pdf-filename: Migração de dados de um ambiente de Big Data para um ambiente de
+      AI
     url: "/data-analytics/bda-ai-introduction.html"
   - title: Inferência de IA na borda - NetApp com Lenovo ThinkSystem - Projeto de
       solução
@@ -461,18 +468,29 @@ entries:
     - title: Onde encontrar informações adicionais
       url: "/ai/osrunai_where_to_find_additional_information.html"
   - title: NetApp ONTAP AI para design de solução de workloads com direção autônoma
+    pdf-filename: NetApp ONTAP AI para design de solução de workloads com direção
+      autônoma
     url: "/ai/tr-4799.html"
   - title: 'Arquitetura de referência de IA da NetApp ONTAP para cuidados de saúde:
       Diagnóstico por imagem'
+    pdf-filename: 'Arquitetura de referência de IA da NetApp ONTAP para cuidados de
+      saúde: Diagnóstico por imagem'
     url: "/ai/tr-4811.html"
   - title: Arquitetura de referência de AI da NetApp ONTAP para workloads de serviços
       financeiros
+    pdf-filename: Arquitetura de referência de AI da NetApp ONTAP para workloads de
+      serviços financeiros
     url: "/ai/tr-4807.html"
   - title: Valor generativo de IA e NetApp
+    pdf-filename: Valor generativo de IA e NetApp
     url: "/ai/wp-genai.html"
   - title: Implantação de AI com o NetApp e-Series e o BeeGFS
+    pdf-filename: Implantação de AI com o NetApp e-Series e o BeeGFS
     url: "/ai/tr-4785.html"
   - title: Quantum StorNext com o Guia de Design de sistemas da Série e da NetApp
+    pdf-filename: Quantum StorNext com o Guia de Design de sistemas da Série e da
+      NetApp
     url: "/ai/nva-1150-design.html"
   - title: Quantum StorNext com o Guia de implantação de sistemas NetApp e-Series
+    pdf-filename: Quantum StorNext com o Guia de implantação de sistemas NetApp e-Series
     url: "/ai/nva-1150-deploy.html"

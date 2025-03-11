@@ -62,7 +62,8 @@ clique em ok
 +
 clique em ok
 
-. Faça login na GUI de gerenciamento da SCV com o nome de usuário e a senha de administrador definidos no momento da implantação e o token MFA gerado usando o console de manutenção. https://<appliance-IP-address>:8080 to[] Acesse a GUI de gerenciamento.
+. Faça login na GUI de gerenciamento da SCV com o nome de usuário e a senha de administrador definidos no momento da implantação e o token MFA gerado usando o console de manutenção.
+`https://<appliance-IP-address>:8080` Para acessar a GUI de gerenciamento.
 +
 image:vmware-vcf-aff-image54.png["Configuração da Web do NetApp SnapCenter para VMware vSphere"]
 

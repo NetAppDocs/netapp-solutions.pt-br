@@ -3,11 +3,15 @@ settings:
   name: NetApp Solutions
   harmony_integration: maestro
   internal:
-    pdf_enabled: false
+    pdf_enabled: true
   prod:
     pdf_enabled: true
     harmony_enabled: false
-    lipi_enabled: false
+    lipi_enabled: true
+  pdf:
+    gen-type: named-only
+    zip-level: 1
+    zip-filename: netapp-solutions.zip
   langs: pt-br,us-en,de-de,es-es,fr-fr,it-it,ja-jp,ko-kr,zh-cn,zh-tw
 sidebar:
   entries:

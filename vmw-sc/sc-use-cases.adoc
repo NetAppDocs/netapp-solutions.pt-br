@@ -4,7 +4,7 @@ permalink: vmw-sc/sc-use-cases.html
 keywords: NetApp Solutions, vmware, sovereign cloud, netapp, use case 
 summary:  
 ---
-= Netpp com VMware Sovereign Cloud: Casos de uso
+= NetApp com VMware Sovereign Cloud: Casos de uso
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

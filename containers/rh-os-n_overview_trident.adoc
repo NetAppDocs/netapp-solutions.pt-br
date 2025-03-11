@@ -32,7 +32,7 @@ Consulte o link:https://docs.netapp.com/us-en/trident/index.html["Documentação
 
 Para instalar o Trident no cluster de usuários implantado e provisionar um volume persistente, execute as seguintes etapas:
 
-. Transfira o arquivo de instalação para a estação de trabalho de administração e extraia o conteúdo. A versão atual do Trident é 22,01, que pode ser baixada https://github.com/NetApp/trident/releases/download/v22.01.0/trident-installer-22.01.0.tar.gz["aqui"].
+. Transfira o arquivo de instalação para a estação de trabalho de administração e extraia o conteúdo. A versão atual do Trident pode ser baixada https://github.com/NetApp/trident/releases?q=25.&expanded=true["aqui"].
 . Extraia a instalação do Trident do pacote baixado.
 +
 [listing]
