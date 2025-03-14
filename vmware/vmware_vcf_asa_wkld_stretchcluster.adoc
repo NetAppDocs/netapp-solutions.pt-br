@@ -18,6 +18,8 @@ Neste cenário, demonstraremos como usar as Ferramentas do ONTAP para VMware vSp
 
 Autor: Suresh Toppay
 
+image:vmware_vcf_asa_mgmt_stretchcluster_image01.jpg["Instância única - várias zonas de disponibilidade"]
+
 
 
 == Visão geral do cenário
@@ -30,9 +32,9 @@ Os armazenamentos de dados no domínio de carga de trabalho do VCF podem ser pro
 O domínio da carga de trabalho pode ser criado importando usando a ferramenta de importação VCF ou implantá-lo usando o gerenciador SDDC. A implantação com o gerenciador SDDC fornecerá mais opções de rede do que importar um ambiente existente.
 
 . Criar domínio de carga de trabalho com VMFS no FC
-. Registre o vCenter no Gerenciador de ferramentas do ONTAP para implantar o plug-in do vCenter
-. Registre sistemas de storage nas ferramentas do ONTAP
-. Proteja o cluster vSphere
+. link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["Registre o vCenter no Gerenciador de ferramentas do ONTAP para implantar o plug-in do vCenter"]
+. link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["Registre sistemas de storage nas ferramentas do ONTAP"]
+. link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/protect-cluster.html["Proteja o cluster vSphere"]
 
 
 

@@ -52,14 +52,18 @@ entries:
       url: "/vmware/vmware_vcf_asa_overview.html"
     - title: Cluster de estiramento (FC/iSCSI) no domínio de gerenciamento
       url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
+    - title: Cluster de estiramento (FC/iSCSI) no VI Workload Domain
+      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
     - title: ISCSI como armazenamento suplementar para domínios de gestão
       url: "/vmware/vmware_vcf_asa_supp_mgmt_iscsi.html"
     - title: VVols como storage complementar para domínios de workload
       url: "/vmware/vmware_vcf_asa_supp_wkld_vvols.html"
     - title: NVMe/TCP como storage complementar para domínios de workload
       url: "/vmware/vmware_vcf_asa_supp_wkld_nvme.html"
-    - title: Cluster de estiramento (FC/iSCSI) no VI Workload Domain
-      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
+    - title: FC como storage principal
+      url: "/vmware/vmware_vcf_asa_prin_fc.html"
+    - title: FC como armazenamento suplementar
+      url: "/vmware/vmware_vcf_asa_supp_fc.html"
     - title: Proteja domínios de carga de trabalho com o plug-in SnapCenter para VMware
         vSphere
       url: "/vmware/vmware_vcf_asa_scv_wkld.html"
@@ -69,9 +73,17 @@ entries:
     - title: Visão geral
       url: "/vmware/vmware_vcf_aff_overview.html"
     - title: NFS como storage principal para Workload Domains
-      url: "/vmware/vmware_vcf_aff_principal_nfs.html"
+      url: "/vmware/vmware_vcf_aff_principal_nfs."
+    - title: Cluster de estiramento (FC/iSCSI) no domínio de gerenciamento
+      url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
+    - title: Cluster de estiramento (FC/iSCSI) no VI Workload Domain
+      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
     - title: NFS e vVols como storage complementar para domínios de workload
       url: "/vmware/vmware_vcf_aff_supp_wkld_nfs.html"
+    - title: FC como storage principal
+      url: "/vmware/vmware_vcf_aff_prin_fc.html"
+    - title: FC como armazenamento suplementar
+      url: "/vmware/vmware_vcf_aff_supp_fc.html"
     - title: Converta vSphere Cluster (armazenamento de dados NFS) para VCF Management
         Domain
       url: "/vmware/vmware_vcf_import_nfs.html"
