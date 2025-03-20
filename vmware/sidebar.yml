@@ -58,12 +58,12 @@ entries:
       url: "/vmware/vmware_vcf_asa_supp_mgmt_iscsi.html"
     - title: VVols como storage complementar para domínios de workload
       url: "/vmware/vmware_vcf_asa_supp_wkld_vvols.html"
-    - title: NVMe/TCP como storage complementar para domínios de workload
-      url: "/vmware/vmware_vcf_asa_supp_wkld_nvme.html"
     - title: FC como storage principal
       url: "/vmware/vmware_vcf_asa_prin_fc.html"
     - title: FC como armazenamento suplementar
       url: "/vmware/vmware_vcf_asa_supp_fc.html"
+    - title: NVMe/TCP como storage complementar para domínios de workload
+      url: "/vmware/vmware_vcf_asa_supp_wkld_nvme.html"
     - title: Proteja domínios de carga de trabalho com o plug-in SnapCenter para VMware
         vSphere
       url: "/vmware/vmware_vcf_asa_scv_wkld.html"
@@ -87,6 +87,10 @@ entries:
     - title: Converta vSphere Cluster (armazenamento de dados NFS) para VCF Management
         Domain
       url: "/vmware/vmware_vcf_import_nfs.html"
+    - title: Cluster de estiramento (FC/iSCSI) no domínio de gerenciamento
+      url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
+    - title: Cluster de estiramento (FC/iSCSI) no VI Workload Domain
+      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
     - title: Proteja domínios de workloads com o NetApp SnapCenter
       url: "/vmware/vmware_vcf_aff_multi_wkld_scv.html"
     - title: Proteção de dados eficiente, dimensionável e simples para VMware VCF

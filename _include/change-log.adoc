@@ -7,6 +7,9 @@
 | *Data* | *Área da solução* | *Descrição da mudança* 
 
 
+| 19 de março de 2025 | Banco de dados | Novo kit de ferramentas de automação: Ciclo de vida automatizado do Oracle Clone no ANF com ASM 
+
+
 | 30 de janeiro de 2025 | Banco de dados | Novo TR-5003: Implementação do Oracle VLDB de alto rendimento no ANF 
 
 

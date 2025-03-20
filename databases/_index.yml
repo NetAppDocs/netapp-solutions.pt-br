@@ -100,6 +100,8 @@ indexpage:
       url: "/hybrid_dbops_snapcenter_usecases.html"
   - title: Kits de ferramentas de automação DB
     links:
+    - title: Ciclo de vida automatizado do Oracle Clone no ANF com ASM
+      url: "/automation_ora_clone_anf_asm.html"
     - title: Migração Oracle via realocação PDB
       url: "/automation_ora_migration.html"
     - title: Oracle HA/DR com o Amazon FSX for NetApp ONTAP

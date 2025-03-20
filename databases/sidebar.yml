@@ -234,6 +234,8 @@ entries:
     url: "/databases/customer_usecase_mssql_fsx1.html"
 - title: Kits de ferramentas de automação DB
   entries:
+  - title: Ciclo de vida automatizado do Oracle Clone no ANF com ASM
+    url: "/databases/automation_ora_clone_anf_asm.html"
   - title: Ciclo de vida do clone do SnapCenter
     url: "/databases/automation_ora_clone_lifecycle.html"
   - title: Migração Oracle
