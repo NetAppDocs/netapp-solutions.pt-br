@@ -41,6 +41,12 @@ entries:
     url: "/containers/rh-os-n_use_case_openshift_virtualization_rosa_overview.html"
   - title: Fluxos de trabalho
     url: "/containers/rh-os-n_use_case_openshift_virtualization_rosa_workflows.html"
+- title: Proteção de dados usando o Trident Protect
+  entries:
+  - title: Snapshots e backups
+    url: "/containers/rh-os-n_use_case_openshift_virtualization_tp_dp_overview.html"
+  - title: Recuperação de desastres
+    url: "/containers/rh-os-n_use_case_openshift_virtualization_dataprotection_overview.html"
 - title: Proteção de dados usando ferramentas de terceiros
   pdf-filename: Proteção de dados de virtualização Red Hat OpenShift
   entries:

@@ -21,7 +21,6 @@ Esta seção detalha como implantar a virtualização do Red Hat OpenShift com o
 == Pré-requisitos
 
 * Um cluster Red Hat OpenShift (posterior à versão 4,6) instalado em uma infraestrutura bare-metal com nós de trabalho RHCOS
-* O cluster OpenShift deve ser instalado por meio da infraestrutura provisionada do instalador (IPI)
 * Implante verificações de integridade da máquina para manter a HA de VMs
 * Um cluster NetApp ONTAP
 * Trident instalado no cluster OpenShift

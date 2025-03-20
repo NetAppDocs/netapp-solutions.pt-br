@@ -1,0 +1,114 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_vcf_nvme_scv.html 
+keywords: netapp, vmware, nvme, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, scv, workload, domain, backup 
+summary:  
+---
+= Proteção de dados eficiente, dimensionável e simples para VMware VCF com storage NetApp baseado em NVMe
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+O NVMe (Non-volátil Memory Express) em TCP é um protocolo de rede de ponta que facilita a transferência de dados de alta velocidade entre os servidores ESXi e o storage NetApp, incluindo All Flash FAS (AFF) e All SAN Array (ASA). A utilização de NVMe em TCP fornece baixa latência e alta taxa de transferência para workloads exigentes. A integração do NVMe sobre TCP com o plug-in NetApp SnapCenter para VMware vSphere (SCV) oferece uma combinação poderosa para o gerenciamento de dados eficiente, melhorando as operações de backup, restauração e clonagem em ambientes VMware.
+
+
+
+==== Benefícios do NVMe sobre TCP
+
+* Alto desempenho: Oferece desempenho excecional com baixa latência e altas taxas de transferência de dados. Isso é crucial para aplicações exigentes e operações de dados em grande escala.
+* Escalabilidade: Dá suporte a configurações dimensionáveis, permitindo que os administradores DE TI expandam sua infraestrutura de forma otimizada à medida que os requisitos de dados crescem.
+* Eficiência: Permite operações de backup e restauração mais rápidas, reduzindo o tempo de inatividade e melhorando a disponibilidade geral do sistema.
+
+
+Este documento fornece etapas para implantar e gerenciar SCV em ambientes VMware Cloud Foundation (VCF), com foco na utilização de NVMe sobre TCP para obter desempenho ideal.
+
+
+
+==== Público-alvo
+
+Arquitetos de solução ou administradores de storage garantindo proteção de dados e recuperação de desastres para domínios de carga de trabalho do VMware VCF.
+
+
+
+== Visão geral da arquitetura
+
+O SCV é uma ferramenta poderosa projetada para facilitar operações de backup e restauração rápidas, com uso eficiente de espaço, consistentes com falhas e consistentes com VM para VMs, armazenamentos de dados e arquivos e pastas em ambientes VMware. O SCV é implantado como um dispositivo virtual Linux usando um ARQUIVO OVA e utiliza uma arquitetura de plug-in remota.
+
+
+
+==== Arquitetura de implantação de VCS
+
+* Implantação de dispositivos virtuais: O SCV é implantado como um dispositivo virtual Linux usando um arquivo OVA. Esse método de implantação garante um processo de configuração simplificado e eficiente.
+* Arquitetura de plug-in remoto: O SCV usa uma arquitetura de plug-in remota, permitindo escalabilidade e flexibilidade no gerenciamento de várias instâncias.
+* Relação um-para-um: Cada domínio VCF requer uma instância SCV dedicada, garantindo operações de backup e restauração isoladas e eficientes.
+
+
+Com o ONTAP 9.10.1 e versões posteriores, o NetApp AFF e o ASA são compatíveis com NVMe em TCP. Dados em sistemas primários AFF ou ASA e podem ser replicados para sistemas secundários ONTAP AFF ou ASA. O SCV também funciona com o servidor SnapCenter para dar suporte a operações de backup e restauração baseadas em aplicativos em ambientes VMware para plug-ins específicos de aplicativos do SnapCenter. Para obter mais informações, consulte link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/index.html["Plug-in do SnapCenter para documentação do VMware vSphere"]e. link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware_vcf_aff_multi_wkld_scv.html#audience["Plug-in do SnapCenter para documentação do VMware vSphere e proteja o domínio de gerenciamento VCF e vários domínios de carga de trabalho com o NetApp SnapCenter para VMware vSphere (SCV)."]
+
+image:vmware-vcf-aff-image64.png["Domínio de vários workloads VCF com SCV"]
+
+A regra de backup 3-2-1 é uma estratégia de proteção de dados que envolve a realização de três cópias de dados, o armazenamento deles em dois tipos diferentes de Mídia e a manutenção de uma cópia externa. O backup e a recuperação do BlueXP  é uma ferramenta baseada na nuvem para gerenciamento de dados que fornece um único plano de controle para uma ampla variedade de operações de backup e recuperação em ambientes locais e de nuvem. Parte do pacote de backup e recuperação do NetApp BlueXP  é um recurso que se integra ao SCV (on-premises) para estender uma cópia dos dados para o storage de objetos na nuvem. Isso estabelece uma terceira cópia dos dados externos que são provenientes dos backups de storage primário ou secundário. O backup e a recuperação do BlueXP  facilitam a configuração de políticas de storage que transferem cópias de seus dados de qualquer um desses dois locais no local. Para obter mais detalhes, consulte link:https://docs.netapp.com/us-en/netapp-solutions/ehc/bxp-scv-hybrid-solution.html["Proteção de dados 3-2-1 para VMware com plug-in SnapCenter e backup e recuperação de BlueXP  para VMs."]
+
+
+
+== SCV para VCF em etapas de implantação do NVMe
+
+O link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Ferramentas do ONTAP para VMware vSphere"] (OTV) fornece uma solução poderosa e eficiente para gerenciar o armazenamento de NetApp em ambientes VMware. Ao integrar-se diretamente ao vCenter Server, o OTV simplifica o gerenciamento de armazenamento, aprimora a proteção de dados e otimiza o desempenho. Embora opcional, a implantação do OTV pode melhorar significativamente os recursos de gerenciamento e a eficiência geral dos ambientes VMware.
+
+* link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware_vcf_asa_supp_wkld_nvme.html#scenario-overview["Criar um storage NVMe/TCP para domínios de workload do VCF"]
+* link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware_vcf_aff_multi_wkld_scv.html#architecture-overview["Configurar o NetApp SnapCenter para VMware vSphere (SCV)"]
+
+
+.Restaure VM, datastore, disco virtual e arquivos ou pastas
+[%collapsible]
+====
+O SCV oferece recursos abrangentes de backup e restauração para ambientes VMware. Para ambientes VMFS, o SCV usa operações de clonagem e montagem em conjunto com o Storage VMotion para executar operações de restauração. Isso garante a restauração eficiente e perfeita dos dados. Para mais detalhes, consulte link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_how_restore_operations_are_performed.html["como as operações de restauração são executadas."]
+
+* Você pode restaurar a VM para seu host original no mesmo vCenter Server ou para um host ESXi alternativo gerenciado pelo mesmo vCenter Server.
++
+.. Clique com o botão direito em uma VM e selecione SnapCenter Plug-in para VMware vSphere na lista suspensa e selecione Restaurar na lista suspensa secundária para iniciar o assistente.
+.. No assistente Restaurar, selecione o instantâneo de cópia de segurança que pretende restaurar e selecione toda a máquina virtual no campo Restaurar âmbito, selecione o local de restauro e, em seguida, introduza as informações de destino onde a cópia de segurança deve ser montada. Na página Selecionar local, selecione o local para o datastore restaurado. Revise a página Resumo e clique em concluir. image:vmware-vcf-aff-image66.png["Restauração da VM"]
+
+
+* Montar um datastore você pode montar um datastore tradicional a partir de um backup se quiser acessar arquivos no backup. Você pode montar o backup no mesmo host ESXi em que o backup foi criado ou em um host ESXi alternativo que tenha o mesmo tipo de VM e configurações de host. Você pode montar um datastore várias vezes em um host.
++
+.. Clique com o botão direito do Mouse em um datastore e selecione SnapCenter Plug-in para VMware vSphere > montar backup.
+.. Na página Monte datastore, selecione um local de backup e backup (primário ou secundário) e clique em montar.
+
+
+
+
+image:vmware-vcf-aff-image67.png["Montar um datastore"]
+
+* Anexe um disco virtual você pode anexar um ou mais VMDKs de um backup à VM pai ou a uma VM alternativa no mesmo host ESXi ou a uma VM alternativa em um host ESXi alternativo gerenciado pelo mesmo vCenter ou por um vCenter diferente no modo vinculado.
++
+.. Clique com o botão direito em uma VM, selecione SnapCenter Plug-in para VMware vSphere > Anexar disco(s) virtual(s).
+.. Na janela Anexar disco virtual, selecione um backup e selecione um ou mais discos que deseja anexar e o local do qual deseja anexar (primário ou secundário). Por padrão, os discos virtuais selecionados são anexados à VM principal. Para anexar os discos virtuais selecionados a uma VM alternativa no mesmo host ESXi, selecione clique aqui para anexar à VM alternativa e especifique a VM alternativa. Clique em Anexar.
+
+
+
+
+image:vmware-vcf-aff-image68.png["Anexe um disco virtual"]
+
+* Arquivos e pastas restauram etapas de restauração arquivos e pastas individuais podem ser restauradas em uma sessão de restauração de arquivos convidados, que anexa uma cópia de backup de um disco virtual e restaura os arquivos ou pastas selecionados. Arquivos e pastas também podem ser restaurados. Confira mais detalhes link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_restore_guest_files_and_folders_overview.html["Restauração de arquivos e pastas do SnapCenter."]
++
+.. Quando um disco de conexão virtual para operações de restauração de arquivos ou pastas convidados, a VM de destino para o anexo deve ter credenciais configuradas antes de restaurar. No  plug-in do SnapCenter para VMware vSphere em plug-ins, selecione   a seção Restauração de arquivo convidado e Executar como credenciais, insira as credenciais do usuário. Para Nome de usuário, você deve digitar "Administrador". image:vmware-vcf-aff-image60.png["Restaurar credencial"]
+.. Clique com o botão direito do Mouse na VM do cliente vSphere e selecione  SnapCenter Plug-in para VMware  vSphere >  Restauração de arquivos convidados. Na   página Restaurar escopo, especifique Nome do Backup, disco virtual VMDK e local – primário ou secundário. Clique em summery para confirmar. image:vmware-vcf-aff-image69.png["Restauração de arquivos e pastas"]
+
+
+
+
+====
+
+
+== Monitorar e relatar
+
+O SCV fornece recursos robustos de monitoramento e geração de relatórios para ajudar os administradores a gerenciar operações de backup e restauração de forma eficiente. Pode visualizar informações de estado, monitorizar trabalhos, transferir registos de trabalhos, aceder a relatórios, para obter mais informações sobre a verificação link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_view_status_information.html["Plug-in do SnapCenter para o monitor e relatório do VMware vSphere."]
+
+image:vmware-vcf-aff-image65.png["Painel do SCV"]
+
+Ao aproveitar o poder do NVMe sobre TCP e do plug-in NetApp SnapCenter para VMware vSphere, as organizações podem obter proteção de dados de alto desempenho e recuperação de desastres para domínios de carga de trabalho do VMware Cloud Foundation. Essa abordagem garante operações de backup e restauração rápidas e confiáveis, minimizando o tempo de inatividade e protegendo dados críticos.

@@ -89,6 +89,9 @@ entries:
       url: "/vmware/vmware_vcf_import_nfs.html"
     - title: Proteja domínios de workloads com o NetApp SnapCenter
       url: "/vmware/vmware_vcf_aff_multi_wkld_scv.html"
+    - title: Proteção de dados eficiente, dimensionável e simples para VMware VCF
+        com storage NetApp baseado em NVMe
+      url: "/vmware/vmware_vcf_nvme_scv.html"
 - title: Migração de VMs
   entries:
   - title: Migrar VMs para o armazenamento de dados do ONTAP

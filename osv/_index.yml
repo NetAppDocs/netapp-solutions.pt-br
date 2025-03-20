@@ -40,10 +40,14 @@ indexpage:
       url: "../containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html"
     - title: Migração do VM Live
       url: "../containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_live_migration.html"
+  - title: Proteção de dados usando o Trident Protect
+    links:
+    - title: Visão geral
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_tp_dp_overview.html"
   - title: Proteção de dados usando 3rd parte
     links:
     - title: Visão geral
-      url: "../containers/rh-os-n_use_case_openshift_virtualization_dataprotection_overview.html"
+      url: "../containers/rh-os-n_use_case_openshift_virtualization_tp-dp_overview.html"
     - title: Instalação do OADP
       url: "../containers/rh-os-n_use_case_openshift_virtualization_dataprotection_installation.html"
     - title: Cópia de segurança utilizando Velero
