@@ -62,11 +62,6 @@ O processo de configuração pode ser dividido nas seguintes etapas:
 * Crie backend e classes de armazenamento. Consulte as instruções link:https://docs.netapp.com/us-en/trident/trident-use/backends.html["aqui"].
 
 
-.Adicione o cluster OCP no GCP ao Astra Control Center
-* Crie um arquivo KubeConfig separado com uma função de cluster que contenha as permissões mínimas necessárias para que um cluster seja gerenciado pelo Astra Control. As instruções podem ser link:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overview.html#create-a-cluster-role-kubeconfig["aqui"]encontradas .
-* Adicione o cluster ao Astra Control Center seguindo as instruções link:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overview.html#add-cluster["aqui"]
-
-
 .Usando o recurso de topologia CSI do Trident para arquiteturas multi-zona
 Os provedores de nuvem, hoje, permitem que os administradores de cluster do Kubernetes/OpenShift criem nós dos clusters baseados em zona. Os nós podem ser localizados em diferentes zonas de disponibilidade dentro de uma região ou em várias regiões. Para facilitar o provisionamento de volumes para workloads em uma arquitetura de várias zonas, o Trident usa a topologia de CSI. Usando o recurso de topologia de CSI, o acesso a volumes pode ser limitado a um subconjunto de nós, com base em regiões e zonas de disponibilidade. link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aqui"]Consulte para obter mais detalhes.
 

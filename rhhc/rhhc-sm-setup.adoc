@@ -62,12 +62,6 @@ NOTE: O conetor também pode ser instalado no ambiente de nuvem. link:https://do
 
 
 ====
-.Adicione o cluster do OCP na AWS ao Astra Control Center.
-[%collapsible]
-====
-Adicione o cluster do OCP na AWS ao Astra Control Center.
-
-====
 .Usando o recurso de topologia CSI do Trident para arquiteturas multi-zona
 Os provedores de nuvem, hoje, permitem que os administradores de cluster do Kubernetes/OpenShift criem nós dos clusters baseados em zona. Os nós podem ser localizados em diferentes zonas de disponibilidade dentro de uma região ou em várias regiões. Para facilitar o provisionamento de volumes para workloads em uma arquitetura de várias zonas, o Trident usa a topologia de CSI. Usando o recurso de topologia de CSI, o acesso a volumes pode ser limitado a um subconjunto de nós, com base em regiões e zonas de disponibilidade. link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["aqui"]Consulte para obter mais detalhes.
 

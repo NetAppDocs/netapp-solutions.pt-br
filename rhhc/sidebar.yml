@@ -10,10 +10,6 @@ entries:
     url: "/rhhc/rhhc-overview.html"
   - title: Proposições de valor
     url: "/rhhc/rhhc-value-prop.html"
-  - title: Soluções validadas
-    url: "/rhhc/rhhc-solutions.html"
-  - title: Versões validadas
-    url: "/rhhc/rhhc-versions.html"
   - title: Opções de armazenamento suportadas
     url: "/rhhc/rhhc-storage-options.html"
 - title: On-premises
@@ -25,10 +21,6 @@ entries:
     url: "/rhhc/rhhc-op-solution.html"
   - title: Configure workloads de contêiner do Red Hat OpenShift no VMware
     url: "/rhhc/rhhc-op-setup.html"
-  - title: Proteja workloads de contêineres no VMware
-    url: "/rhhc/rhhc-op-data-protection.html"
-  - title: Migre workloads de contêiner no VMware
-    url: "/rhhc/rhhc-op-data-migration.html"
 - title: Nuvem híbrida com componentes autogeridos (on-premises/AWS/GCP/Azure)
   pdf-filename: Nuvem híbrida com componentes autogerenciados do Red Hat OpenShift
     (on-premises/AWS/GCP/Azure)
@@ -43,10 +35,6 @@ entries:
     url: "/rhhc/rhhc-sm-gcp-setup.html"
   - title: Configure as cargas de trabalho de contêiner do Red Hat OpenShift no Azure
     url: "/rhhc/rhhc-sm-azure-setup.html"
-  - title: Proteja workloads de contêiner na AWS/GCP/Azure
-    url: "/rhhc/rhhc-sm-data-protection.html"
-  - title: Migre workloads de contêiner para a AWS/GCP/Azure
-    url: "/rhhc/rhhc-sm-data-migration.html"
 - title: Nuvem híbrida com componentes gerenciados por fornecedor
   pdf-filename: Nuvem híbrida com componentes gerenciados pelo fornecedor Red Hat
     OpenShift
@@ -59,10 +47,6 @@ entries:
     url: "/rhhc/rhhc-pm-setup.html"
   - title: Configure o Red Hat OpenShift dedicado no Google Cloud
     url: "/rhhc/rhhc-pm-gcnv-setup.html"
-  - title: Proteja workloads de contêiner na AWS
-    url: "/rhhc/rhhc-pm-data-protection.html"
-  - title: Migrar workloads de contêiner na AWS
-    url: "/rhhc/rhhc-pm-data-migration.html"
   - title: Soluções ROSA adicionais para contêineres e virtualização
     url: "/rhhc/rhhc-pm-additional.html"
 - title: Proteção de dados de aplicações de contêiner usando o Trident Protect
@@ -70,6 +54,11 @@ entries:
   entries:
   - title: Visão geral
     url: "/rhhc/rhhc-dp-tp-solution.html"
+- title: Proteção de dados das VMs com o Trident Protect
+  pdf-filename: Proteção de dados das VMs com o Trident Protect
+  entries:
+  - title: Visão geral
+    url: "/containers/rh-os-n_use_case_openshift_virtualization_tp_dp_overview.html"
 - title: Proteção de dados de aplicativos de contêiner usando ferramentas de terceiros
   pdf-filename: Proteção de dados de aplicativos de contêiner usando ferramentas de
     terceiros

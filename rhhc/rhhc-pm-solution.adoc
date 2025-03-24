@@ -13,7 +13,7 @@ summary:
 == Solução NetApp com workloads gerenciados da plataforma de contêiner Red Hat OpenShift
 
 [role="lead"]
-Os clientes podem ter "nascido na nuvem" ou estar em um momento da jornada de modernização quando estiverem prontos para mover alguns workloads selecionados ou todos os workloads de seus data centers para a nuvem. Elas podem optar por usar contêineres OpenShift gerenciados por fornecedor e storage de NetApp gerenciado por fornecedor na nuvem para executar seus workloads. Eles devem Planejar e implantar os clusters de contêiner gerenciados do Red Hat OpenShift na nuvem para um ambiente pronto para produção bem-sucedido para suas cargas de trabalho de contêiner. . O NetApp oferece ofertas de storage totalmente gerenciado para soluções gerenciadas da Red Hat em todas as três principais nuvens públicas.
+Os clientes podem ter "nascido na nuvem" ou estar em um momento da jornada de modernização quando estiverem prontos para mover alguns workloads selecionados ou todos os workloads de seus data centers para a nuvem. Elas podem optar por usar contêineres OpenShift gerenciados por fornecedor e storage de NetApp gerenciado por fornecedor na nuvem para executar seus workloads. Eles devem Planejar e implantar os clusters de contêiner gerenciados do Red Hat OpenShift na nuvem para um ambiente pronto para produção bem-sucedido para suas cargas de trabalho de contêiner. O NetApp oferece ofertas de storage totalmente gerenciado para soluções gerenciadas da Red Hat em todas as três principais nuvens públicas.
 
 *Amazon FSX for NetApp ONTAP (FSX ONTAP)*
 
