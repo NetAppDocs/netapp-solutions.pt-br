@@ -91,6 +91,10 @@ entries:
       url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
     - title: Cluster de estiramento (FC/iSCSI) no VI Workload Domain
       url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
+    - title: Cluster Stretch para domínio de gerenciamento usando MetroCluster
+      url: "/vmware/vmw-vcf-vmsc-mgmt-mcc.html"
+    - title: Cluster de estiramento para domínio de carga de trabalho VI usando MetroCluster
+      url: "/vmware/vmw-vcf-vmsc-viwld-mcc.html"
     - title: Proteja domínios de workloads com o NetApp SnapCenter
       url: "/vmware/vmware_vcf_aff_multi_wkld_scv.html"
     - title: Proteção de dados eficiente, dimensionável e simples para VMware VCF
