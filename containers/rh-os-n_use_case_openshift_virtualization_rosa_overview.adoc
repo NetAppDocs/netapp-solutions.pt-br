@@ -17,7 +17,11 @@ summary: Red Hat OpenShift Virtualization no ROSA
 
 == Visão geral
 
-Esta seção fornece detalhes para configurar o FSX for NetApp ONTAP como a Classe de armazenamento padrão para o cluster ROSA e, em seguida, criar uma Máquina Virtual que irá aproveitar o armazenamento FSX ONTAP para seus volumes. Também analisaremos a conexão com a Máquina Virtual usando as credenciais de convidado e reiniciaremos a VM. E, finalmente, realizaremos uma migração ao vivo da Máquina Virtual do nó atual para um novo nó. Examinaremos o conteúdo do armazenamento em disco após a reinicialização de uma VM e a migração em tempo real .
+Esta seção fornece detalhes para configurar o FSX for NetApp ONTAP como a Classe de armazenamento padrão para o cluster ROSA e, em seguida, criar uma Máquina Virtual que irá aproveitar o armazenamento FSX ONTAP para seus volumes.
+
+Também analisaremos a conexão com a Máquina Virtual usando as credenciais de convidado e reiniciaremos a VM. E, finalmente, realizaremos uma migração ao vivo da Máquina Virtual do nó atual para um novo nó. Examinaremos o conteúdo do armazenamento em disco após a reinicialização de uma VM e a migração em tempo real.
+
+Leia o blog como um recurso adicional: link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Unlock-Seamless-iSCSI-Storage-Integration-A-Guide-to-FSxN-on-ROSA-Clusters-for/ba-p/459124["Desbloquear integração perfeita de armazenamento iSCSI: Um guia para FSxN em clusters ROSA para iSCSI"]
 
 
 
@@ -33,7 +37,19 @@ Esta seção fornece detalhes para configurar o FSX for NetApp ONTAP como a Clas
 * link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["UM CLUSTER HCP ROSA"] (com pelo menos 3 nós de trabalho bare-metal)
 * link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["OpenShift Virtualization instalado no Rosa Cluster"]
 * link:https://console.redhat.com/openshift/overview["Acesso ao console da Web Red Hat OpenShift"]
+* Trident 25,02 ou posterior, você pode utilizar o Trident 25,02 ou versões posteriores para configurar facilmente os nós de trabalho do cluster ROSA para executar operações iSCSI no armazenamento FSxN. Instale o Trident 25,02 ou posterior no cluster ROSA usando o sinalizador node-prep
 
+
+....
+#./tridentctl install trident -n trident --node-prep=iscsi
+....
+Isso preparará os nós de trabalho DO cluster ROSA para iSCSI iniciando os serviços iscsid e multipathd e definindo o seguinte no arquivo /etc/multipath.conf
+
+image:rh-os-n_use_case_iscsi_node_prep1.png["iscsid ativo"]
+
+image:rh-os-n_use_case_iscsi_node_prep2.png["multipathd ativo"]
+
+image:rh-os-n_use_case_iscsi_node_prep3.png["arquivo multipath.conf"]
 
 
 
@@ -112,3 +128,5 @@ $ dd if=/dev/urandom of=random.dat bs=1M count=10240 (to create a file called ra
 O disco é preenchido com 11 GB de dados. image:redhat_openshift_ocpv_rosa_image18.png["VM OCP-v preencha o disco"]
 
 Use o vi para criar um arquivo de texto de exemplo que usaremos para testar. image:redhat_openshift_ocpv_rosa_image19.png["OCP-v Crie um ficheiro"]
+
+Leia o blog como um recurso adicional: link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Unlock-Seamless-iSCSI-Storage-Integration-A-Guide-to-FSxN-on-ROSA-Clusters-for/ba-p/459124["Desbloquear integração perfeita de armazenamento iSCSI: Um guia para FSxN em clusters ROSA para iSCSI"]

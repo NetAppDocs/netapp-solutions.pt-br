@@ -71,19 +71,24 @@ Visão geral dos blogs destacando caraterísticas específicas das muitas soluç
 == Contêineres
 
 [[containers-osv]]
-* Virtualização OpenShift:
+* Contentores e virtualização OpenShift:
 +
+** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Unlock-Seamless-iSCSI-Storage-Integration-A-Guide-to-FSxN-on-ROSA-Clusters-for/ba-p/459124["Desbloquear integração perfeita de armazenamento iSCSI: Um guia para FSxN em clusters ROSA para iSCSI"]
+** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Crash-Consistent-Backup-and-Restore-Operations-for-OpenShift-Virtualization-VMs/ba-p/459417["Operações de backup e restauração consistentes com falhas para VMs de virtualização OpenShift usando o Trident 25,02"]
+** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Live-Migration-of-VMs-with-OpenShift-Virtualization-on-ROSA-and-Amazon-FSx-for/ba-p/456213["Migração ao vivo de VMs com virtualização OpenShift no ROSA e no Amazon FSX for NetApp ONTAP"]
+** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Amazon-FSx-for-NetApp-ONTAP-with-Red-Hat-OpenShift-Service-on-AWS-ROSA-using/ba-p/456167["O Amazon FSX para NetApp ONTAP com o Red Hat OpenShift Service na AWS (ROSA) usando o plano de controle hospedado"]
+** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Using-NVMe-TCP-to-consume-ONTAP-storage-for-your-modern-containerized-apps-on/ba-p/453706["Uso do NVMe/TCP para consumir o storage do ONTAP para suas aplicações modernas em contêineres no VMware"]
+** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/ONTAP-as-backend-storage-for-the-integrated-image-registry-in-OpenShift/ba-p/453142["ONTAP como storage de back-end para o Registro de imagem integrado na plataforma de contêiner OpenShift"]
 ** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/A-Backup-and-Restore-option-for-VM-data-protection-in-OpenShift-Virtualization/ba-p/452279["Uma opção de backup e restauração para proteção de dados de VM no OpenShift Virtualization"]
+
+
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-ONTAP-doubles-up-as-storage-for-logs-in-Red-Hat-OpenShift-Container/ba-p/449280["O NetApp ONTAP funciona como armazenamento para logs na plataforma de contêiner do Red Hat OpenShift"]
++
 ** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/ONTAP-for-OpenShift-Virtualization-VMs-non-disruptive-volume-move-operation-is/ba-p/451941["ONTAP para VMs de virtualização OpenShift: A operação de movimentação de volume sem interrupções é sua"]
 
 
-* Casos de uso do Astra DevOps:
-+
-** link:https://cloud.netapp.com/blog/astra-blg-easily-integrate-protection-into-your-kubernetes-ci/cd-pipeline-with-netapp-astra-control["Integre facilmente a proteção ao seu pipeline de CI/CD do Kubernetes com o NetApp Astra Control"]
-** link:https://cloud.netapp.com/blog/astra-blg-restore-business-operations-quicker-with-devops-and-astra["DevOps com NetApp: Use o Astra Control para realizar análises post-mortem e restaurar sua aplicação"]
 
 
-* link:https://cloud.netapp.com/blog/astra-blg-astra-control-center-the-easy-button-for-application-data-management["NetApp Astra Control Center: O botão fácil para o gerenciamento de dados da sua aplicação"]
 * link:https://netapp.io/2021/05/21/docker-rate-limit-issue/["Instalando o NetApp Trident no Red Hat OpenShift – como resolver o problema 'toomanyrequests' do Docker!"]
 * link:https://blog.netapp.com/accelerate-your-k8s-journey["Usando o VMware Tanzu com o ONTAP para acelerar sua jornada de Kubernetes"]
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Kubernetes-on-vSphere-Part-1/ba-p/445634["Kubernetes no vSphere (parte 1)"]
@@ -95,5 +100,4 @@ Visão geral dos blogs destacando caraterísticas específicas das muitas soluç
 == Multicloud híbrida da NetApp com workloads de contêiner do Red Hat OpenShift
 
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-ONTAP-doubles-up-as-storage-for-logs-in-Red-Hat-OpenShift-Container/ba-p/449280["O NetApp ONTAP funciona como armazenamento para logs na plataforma de contêiner do Red Hat OpenShift"]
-* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Using-Astra-Control-Service-for-data-management-of-apps-on-ROSA-clusters-with/ba-p/450903["Usando o Astra Control Service para gerenciamento de dados de aplicativos em clusters ROSA com o armazenamento do Amazon FSX"]
 
