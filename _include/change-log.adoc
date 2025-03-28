@@ -7,6 +7,9 @@
 | *Data* | *Área da solução* | *Descrição da mudança* 
 
 
+| 28 de março de 2025 | Banco de dados | Kit de ferramentas de automação de atualização: "Automação do ciclo de vida do clone do SnapCenter" para suporte ao ANF 
+
+
 | 19 de março de 2025 | Banco de dados | Novo kit de ferramentas de automação: Ciclo de vida automatizado do Oracle Clone no ANF com ASM 
 
 
