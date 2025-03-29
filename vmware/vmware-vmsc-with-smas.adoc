@@ -35,9 +35,9 @@ NOTE: No modo de acesso ao host não uniforme, as VMs serão reiniciadas em outr
 
 == Pré-requisitos
 
-* link:vmware_vcf_asa_supp_mgmt_iscsi.html#deployment-steps["Hosts do VMware vSphere implantados com malha de armazenamento dupla (dois HBAs ou VLAN dupla para iSCSI) por host"].
+* link:vmw-vcf-mgmt-supplemental-iscsi.html["Hosts do VMware vSphere implantados com malha de armazenamento dupla (dois HBAs ou VLAN dupla para iSCSI) por host"].
 * link:https://docs.netapp.com/us-en/ontap/networking/combine_physical_ports_to_create_interface_groups.html["Os storages de armazenamento são implantados com agregação de links para portas de dados (para iSCSI)"].
-* link:vmware_vcf_asa_supp_mgmt_iscsi.html#deployment-steps["VM de storage e LIFs estão disponíveis"]
+* link:vmw-vcf-mgmt-supplemental-iscsi.html["VM de storage e LIFs estão disponíveis"]
 * link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/prerequisites-reference.html#networking-environment["O tempo de ida e volta de latência entre clusters deve ser inferior a 10 milissegundos"].
 * link:https://docs.netapp.com/us-en/ontap/mediator/index.html["O ONTAP Mediator VM é implantado em domínio de falha diferente"]
 * link:https://docs.netapp.com/us-en/ontap/task_dp_prepare_mirror.html["O relacionamento de pares de cluster é estabelecido"]

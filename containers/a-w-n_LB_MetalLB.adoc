@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: containers/a-w-n_LB_MetalLB.html 
 summary: Esta página detalha as instruções de instalação e configuração para o balanceador de carga MetalLB. 
-keywords: Anthos, Kubernetes, MetalLB, LoadBalancer, Astra, Astra Control Center 
+keywords: Anthos, Kubernetes, MetalLB, LoadBalancer, 
 ---
 = Instalar balanceadores de carga MetalLB
 :hardbreaks:

@@ -17,7 +17,7 @@ summary: Esta página fornece e introdução a vídeos e tutoriais.
 Veja os vídeos e demonstrações a seguir destacando recursos específicos das soluções de nuvem híbrida, virtualização e contentor.
 
 .Ferramentas do NetApp ONTAP para VMware vSphere
-[%collapsible]
+[%collapsible%open]
 ====
 .Ferramentas do ONTAP para VMware - Visão geral
 video::e8071955-f6f1-45a0-a868-b12a010bba44[panopto]
@@ -27,7 +27,7 @@ video::5c047271-aecc-437c-a444-b01200f9671a[panopto]
 video::a34bcd1c-3aaa-4917-9a5d-b01200f97f08[panopto]
 ====
 .Plug-in do SnapCenter para VMware vSphere
-[%collapsible]
+[%collapsible%open]
 ====
 O software NetApp SnapCenter é uma plataforma empresarial fácil de usar para coordenar e gerenciar com segurança a proteção de dados em aplicações, bancos de dados e sistemas de arquivos.
 
@@ -47,7 +47,7 @@ video::ed41002e-585c-445d-a60c-b01200fb1188[panopto,width=360]
 video::8df4ad1f-83ad-448b-9405-b01200fb2567[panopto,width=360]
 ====
 .3-2-1 soluções de proteção de dados
-[%collapsible]
+[%collapsible%open]
 ====
 As soluções de proteção de dados 3-2-1 combinam backups primários e secundários locais usando a tecnologia SnapMirror, com cópias replicadas para o storage de objetos usando o backup e a recuperação do BlueXP .
 
@@ -55,7 +55,7 @@ As soluções de proteção de dados 3-2-1 combinam backups primários e secund�
 video::7c21f3fc-4025-4d8f-b54c-b0e001504c76[panopto,width=360]
 ====
 .O AWS FSX ONTAP oferece serviços de nuvem para AWS
-[%collapsible]
+[%collapsible%open]
 ====
 .Armazenamento conetado ao convidado do Windows com o FSX ONTAP usando iSCSI
 video::0d03e040-634f-4086-8cb5-b01200fb8515[panopto,width=360]
@@ -73,7 +73,7 @@ video::52661f10-3f90-4f3d-865a-b01200f06d31[panopto,width=360]
 video::685c0dc2-9d8a-42ff-b46d-b01200f056b0[panopto,width=360]
 ====
 .Azure VMware Services no Azure com Azure NetApp Files (ANF)
-[%collapsible]
+[%collapsible%open]
 ====
 .Visão geral do datastore suplementar da solução Azure VMware com o Azure NetApp Files
 video::8c5ddb30-6c31-4cde-86e2-b01200effbd6[panopto,width=360]
@@ -87,7 +87,7 @@ video::986bb505-6f3d-4a5a-b016-b01200f03f18[panopto,width=360]
 video::255640f5-4dff-438c-8d50-b01200f017d1[panopto,width=360]
 ====
 .VMware Cloud Foundation com NetApp ONTAP
-[%collapsible]
+[%collapsible%open]
 ====
 .Armazenamentos de dados NFS como storage principal para domínios de workload do VCF
 video::9b66ac8d-d2b1-4ac4-a33c-b16900f67df6[panopto]
@@ -95,7 +95,7 @@ video::9b66ac8d-d2b1-4ac4-a33c-b16900f67df6[panopto]
 video::1d0e1af1-40ae-483a-be6f-b156015507cc[panopto]
 ====
 .NetApp com VMware Tanzu
-[%collapsible]
+[%collapsible%open]
 ====
 O VMware Tanzu permite que os clientes implantem, administrem e gerenciem seu ambiente Kubernetes por meio do vSphere ou do VMware Cloud Foundation. Esse portfólio de produtos da VMware permite que o cliente gerencie todos os clusters relevantes do Kubernetes a partir de um único painel de controle escolhendo a edição do VMware Tanzu que melhor atende às suas necessidades.
 
@@ -109,7 +109,7 @@ video::FVRKjWH7AoE[youtube,width=360]
 video::Y-34SUtTTtU[youtube,width=360]
 ====
 .NetApp Cloud Insights
-[%collapsible]
+[%collapsible%open]
 ====
 O NetApp Cloud Insights é uma plataforma abrangente de monitoramento e análise projetada para fornecer visibilidade e controle sobre sua infraestrutura no local e na nuvem.
 

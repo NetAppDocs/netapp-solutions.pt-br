@@ -23,7 +23,7 @@ Esta seção descreve como restaurar a(s) máquina(s) virtual(s) a partir de um 
 Para restaurar a partir de um backup, vamos supor que o namespace onde a máquina virtual existia foi excluído acidentalmente.
 
 .Restaure para o mesmo namespace
-[%collapsible]
+[%collapsible%open]
 ====
 Para restaurar a partir do backup que acabamos de criar, precisamos criar um recurso personalizado de restauração (CR). Precisamos fornecer um nome, fornecer o nome do backup que queremos restaurar e definir o restorePVs como verdadeiro. Parâmetros adicionais podem ser definidos como mostrado na link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentação"]. Clique no botão criar.
 
@@ -45,7 +45,7 @@ image:redhat_openshift_OADP_restore_image2.jpg["Restauro concluído"]
 
 ====
 .Restauração para um namespace diferente
-[%collapsible]
+[%collapsible%open]
 ====
 Para restaurar a VM para um namespace diferente, você pode fornecer um NamespaceMapping na definição yaml do Restore CR.
 
@@ -71,7 +71,7 @@ image:redhat_openshift_OADP_restore_image3.jpg["Restauração concluída para um
 
 ====
 .Restaure para uma classe de armazenamento diferente
-[%collapsible]
+[%collapsible%open]
 ====
 O Velero fornece uma capacidade genérica de modificar os recursos durante a restauração especificando patches json. Os patches json são aplicados aos recursos antes que eles sejam restaurados. Os patches json são especificados em um configmap e o configmap é referenciado no comando restore. Esse recurso permite que você restaure usando diferentes classes de armazenamento.
 

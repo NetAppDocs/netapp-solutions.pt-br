@@ -101,8 +101,8 @@ O editor do Aria Automation Orchestrator Client permite a criação de ofertas d
 
 Além das tarefas relacionadas às operações que podem ser alcançadas, o Aria ajuda os administradores a ter visibilidade em tempo real de sua infraestrutura. O pacote de gerenciamento do VMware Aria para NetApp FAS/AFF é um adaptador incorporado para operações do VMware Aria. Essa integração fornece análises e informações atualizadas sobre a infraestrutura, ajudando você a identificar problemas à medida que eles surgem ou potencialmente mais cedo.
 
-* link:https://www.vmware.com/products/aria.html["Documentação do VMware Aria"]
-* link:https://docs.vmware.com/en/VMware-Aria-Operations-for-Integrations/4.2/Management-Pack-for-NetApp-FAS-AFF/GUID-9B9C2353-3975-403A-8803-EBF6CDB62D2C.html["Pacote de gerenciamento de operações do VMware Aria para NetApp FAS/AFF"]
+* link:https://techdocs.broadcom.com/us/en/vmware-cis/aria.html["Documentação do VMware Aria"]
+* link:https://techdocs.broadcom.com/us/en/vmware-cis/aria/aria-operations-for-integrations/4-2/management-pack-for-netapp-fas-aff-4-2/management-pack-for-netapp-storage-fas-aff.html["Pacote de gerenciamento de operações do VMware Aria para NetApp FAS/AFF"]
 
 
 

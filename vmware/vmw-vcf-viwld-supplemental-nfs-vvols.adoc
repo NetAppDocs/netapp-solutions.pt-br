@@ -1,0 +1,389 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supplemental-nfs-vvols.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary:  
+---
+= NFS e vVols como storage complementar para domínios de workload do VI usando as ferramentas do ONTAP para VMware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesse cenário, demonstraremos como implantar e usar as Ferramentas do ONTAP para VMware vSphere para configurar um *datastore NFS* e um *vVols datastore* para um domínio de carga de trabalho do VCF.
+
+*NFS* é usado como protocolo de storage para o armazenamento de dados vVols.
+
+
+
+== Benefícios do NFS
+
+*Simplicidade e facilidade de uso:* o NFS é simples de configurar e gerenciar, tornando-o uma excelente opção para ambientes que exigem compartilhamento de arquivos rápido e fácil.
+
+* Escalabilidade:* a arquitetura do ONTAP permite que o NFS escale de forma eficiente, dando suporte às crescentes necessidades de dados sem alterações significativas na infraestrutura.
+
+*Flexibilidade:* o NFS suporta uma ampla variedade de aplicações e cargas de trabalho, tornando-o versátil para vários casos de uso, incluindo ambientes virtualizados.
+
+Para obter mais informações, consulte o https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware_nfs_overview.html["Guia de referência do NFS v3 para vSphere 8"].
+
+
+
+== Visão geral do cenário
+
+Este cenário abrange os seguintes passos de alto nível:
+
+* Crie uma máquina virtual de storage (SVM) com interfaces lógicas (LIFs) para o tráfego NFS.
+* Crie um grupo de portas distribuídas para a rede NFS no domínio de carga de trabalho do VI.
+* Crie um adaptador vmkernel para NFS nos hosts ESXi para o domínio de carga de trabalho do VI.
+* Implantar as ferramentas do ONTAP no domínio de carga de trabalho do VI.
+* Crie um novo armazenamento de dados NFS no domínio de workload do VI.
+* Crie um novo datastore vVols no domínio de workload do VI.
+
+
+
+
+== Pré-requisitos
+
+Este cenário requer os seguintes componentes e configurações:
+
+* Um sistema de storage ONTAP AFF ou FAS com portas de dados físicos em switches ethernet dedicados ao tráfego de storage.
+* A implantação do domínio de gerenciamento do VCF está concluída e o cliente vSphere está acessível.
+* Um domínio de carga de trabalho VI foi implantado anteriormente.
+
+
+A NetApp recomenda um design de rede redundante para NFS, fornecendo tolerância a falhas para sistemas de storage, switches, adaptadores de rede e sistemas host. É comum implantar NFS com uma única sub-rede ou várias sub-redes, dependendo dos requisitos de arquitetura.
+
+Consulte https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["Práticas recomendadas para executar o NFS com o VMware vSphere"] para obter informações detalhadas específicas do VMware vSphere.
+
+Para obter orientações de rede sobre o uso do ONTAP com VMware vSphere, consulte https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["Configuração de rede - NFS"] a seção da documentação dos aplicativos empresariais da NetApp.
+
+Essa documentação demonstra o processo de criação de uma nova SVM e especificação das informações de endereço IP para criar várias LIFs para o tráfego NFS. Para adicionar novos LIFs a um SVM existente, link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["Criar um LIF (interface de rede)"]consulte .
+
+Para obter informações completas sobre o uso de clusters NFS com vSphere, consulte o https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware_nfs_overview.html["Guia de referência do NFS v3 para vSphere 8"].
+
+clique em okimage:vmware-vcf-aff-image70.png["Diagrama da arquitetura NFS"]
+
+
+
+== Etapas de implantação
+
+Para implantar as ferramentas do ONTAP e usá-las para criar um armazenamento de dados vVols e NFS no domínio de gerenciamento VCF, execute as seguintes etapas:
+
+
+
+=== Criar SVM e LIFs no sistema de storage ONTAP
+
+A etapa a seguir é executada no Gerenciador do sistema do ONTAP.
+
+.Crie a VM e LIFs de storage
+[%collapsible%open]
+====
+Siga as etapas a seguir para criar um SVM com vários LIFs para tráfego NFS.
+
+. No Gerenciador do sistema ONTAP, navegue até *armazenamento de VMs* no menu à esquerda e clique em * Adicionar* para iniciar.
++
+image:vmware-vcf-asa-image01.png["Clique em Adicionar para começar a criar SVM"]
+
++
+clique em ok
+
+. No assistente *Add Storage VM* forneça um *Name* para o SVM, selecione *IP Space* e, em *Access Protocol*, clique na guia *SMB/CIFS, NFS, S3* e marque a caixa para *Enable NFS*.
++
+image:vmware-vcf-aff-image35.png["Assistente para adicionar VM de storage - ative o NFS"]
+
++
+
+TIP: Não é necessário verificar o botão *permitir acesso ao cliente NFS* aqui, pois as Ferramentas do ONTAP para VMware vSphere serão usadas para automatizar o processo de implantação do datastore. Isso inclui fornecer acesso de cliente para os hosts ESXi. E n.o 160;
+
+. Na seção *Interface de rede*, preencha *Endereço IP*, *Máscara de sub-rede* e *domínio de difusão e porta* para o primeiro LIF. Para LIFs subsequentes, a caixa de seleção pode estar habilitada para usar configurações comuns em todos os LIFs restantes ou usar configurações separadas.
++
+image:vmware-vcf-aff-image36.png["Preencha as informações de rede para LIFs"]
+
++
+clique em ok
+
+. Escolha se deseja ativar a conta Storage VM Administration (para ambientes de alocação a vários clientes) e clique em *Save* para criar o SVM.
++
+image:vmware-vcf-asa-image04.png["Habilite a conta SVM e concluir"]
+
+
+
+====
+
+
+==== Configurar a rede para NFS em hosts ESXi
+
+As etapas a seguir são executadas no cluster VI Workload Domain usando o cliente vSphere. Nesse caso, o vCenter Single Sign-On está sendo usado para que o cliente vSphere seja comum nos domínios de gerenciamento e carga de trabalho.
+
+.Crie um grupo de portas distribuídas para o tráfego NFS
+[%collapsible%open]
+====
+Conclua o seguinte para criar um novo grupo de portas distribuídas para que a rede transporte tráfego NFS:
+
+. No cliente vSphere , navegue até *Inventory > Networking* para o domínio da carga de trabalho. Navegue até o Switch distribuído existente e escolha a ação para criar *novo Grupo de portas distribuídas...*.
++
+image:vmware-vcf-asa-image22.png["Escolha criar um novo grupo de portas"]
+
++
+clique em ok
+
+. No assistente *New Distributed Port Group*, preencha um nome para o novo grupo de portas e clique em *Next* para continuar.
+. Na página *Configure settings*, preencha todas as configurações. Se as VLANs estiverem sendo usadas, certifique-se de fornecer o ID correto da VLAN. Clique em *Next* para continuar.
++
+image:vmware-vcf-asa-image23.png["Preencha o ID da VLAN"]
+
++
+clique em ok
+
+. Na página *Pronto para concluir*, revise as alterações e clique em *concluir* para criar o novo grupo de portas distribuídas.
+. Uma vez criado o grupo de portas, navegue até o grupo de portas e selecione a ação para *Editar configurações...*.
++
+image:vmware-vcf-aff-image37.png["DPG - editar definições"]
+
++
+clique em ok
+
+. Na página *Grupo de portas distribuídas - Editar configurações*, navegue até *agrupamento e failover* no menu à esquerda. Habilite o agrupamento para que os uplinks sejam usados para o tráfego NFS, garantindo que eles estejam juntos na área *uplinks ativos*. Mova todos os uplinks não utilizados para baixo para *uplinks não utilizados*.
++
+image:vmware-vcf-aff-image38.png["DPG - equipe uplinks"]
+
++
+clique em ok
+
+. Repita esse processo para cada host ESXi no cluster.
+
+
+====
+.Crie um adaptador VMkernel em cada host ESXi
+[%collapsible%open]
+====
+Repita esse processo em cada host ESXi no domínio da carga de trabalho.
+
+. No cliente vSphere, navegue até um dos hosts ESXi no inventário do domínio da carga de trabalho. Na guia *Configure* selecione *adaptadores VMkernel* e clique em *Add Networking...* para iniciar.
++
+image:vmware-vcf-asa-image30.png["Inicie o assistente para adicionar rede"]
+
++
+clique em ok
+
+. Na janela *Selecionar tipo de conexão* escolha *VMkernel Network Adapter* e clique em *Next* para continuar.
++
+image:vmware-vcf-asa-image08.png["Escolha o adaptador de rede VMkernel"]
+
++
+clique em ok
+
+. Na página *Selecionar dispositivo de destino*, escolha um dos grupos de portas distribuídas para NFS que foi criado anteriormente.
++
+image:vmware-vcf-aff-image39.png["Escolha o grupo de portas de destino"]
+
++
+clique em ok
+
+. Na página *Propriedades da porta* mantenha os padrões (sem serviços habilitados) e clique em *Avançar* para continuar.
+. Na página *IPv4 settings*, preencha o *IP address*, *Subnet mask* e forneça um novo endereço IP do Gateway (somente se necessário). Clique em *Next* para continuar.
++
+image:vmware-vcf-aff-image40.png["Definições do VMkernel IPv4"]
+
++
+clique em ok
+
+. Reveja as suas seleções na página *Pronto para concluir* e clique em *concluir* para criar o adaptador VMkernel.
++
+image:vmware-vcf-aff-image41.png["Reveja as seleções do VMkernel"]
+
+
+
+====
+
+
+=== Implante e use as Ferramentas do ONTAP para configurar o armazenamento
+
+As etapas a seguir são executadas no cluster de domínio de gerenciamento do VCF usando o cliente vSphere e envolvem a implantação do OTV, a criação de um datastore NFS vVols e a migração de VM de gerenciamento para o novo datastore.
+
+Para domínios de carga de trabalho do VI, o OTV é instalado no cluster de gerenciamento do VCF, mas registrado no vCenter associado ao domínio de carga de trabalho do VI.
+
+Para obter informações adicionais sobre a implantação e o uso de ferramentas do ONTAP em um ambiente de vários vCenter, link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/concept_requirements_for_registering_vsc_in_multiple_vcenter_servers_environment.html["Requisitos para Registrar ferramentas do ONTAP em ambientes de vários vCenter Servers"]consulte .
+
+.Implantar as ferramentas do ONTAP para o VMware vSphere
+[%collapsible%open]
+====
+As ferramentas do ONTAP para VMware vSphere (OTV) são implantadas como um dispositivo de VM e fornecem uma IU do vCenter integrada para gerenciar o armazenamento do ONTAP.
+
+Execute o seguinte procedimento para implantar as ferramentas do ONTAP para VMware vSphere:
+
+. Obtenha a imagem OVA das ferramentas ONTAP a partir do link:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["Site de suporte da NetApp"] e transfira-a para uma pasta local.
+. Faça login no vCenter Appliance para o domínio de gerenciamento do VCF.
+. Na interface do vCenter Appliance, clique com o botão direito do Mouse no cluster de gerenciamento e selecione *Deploy OVF Template...*
++
+image:vmware-vcf-aff-image21.png["Implantar modelo OVF..."]
+
++
+clique em ok
+
+. No assistente *Deploy OVF Template* clique no botão de opção *local file* e selecione o arquivo OVA das ferramentas do ONTAP baixado na etapa anterior.
++
+image:vmware-vcf-aff-image22.png["Selecione o ficheiro OVA"]
+
++
+clique em ok
+
+. Para as etapas de 2 a 5 do assistente, selecione um nome e uma pasta para a VM, selecione o recurso de computação, revise os detalhes e aceite o contrato de licença.
+. Para o local de armazenamento dos arquivos de configuração e disco, selecione o datastore VSAN do cluster do domínio de gerenciamento do VCF.
++
+image:vmware-vcf-aff-image23.png["Selecione o ficheiro OVA"]
+
++
+clique em ok
+
+. Na página Selecionar rede, selecione a rede utilizada para o tráfego de gestão.
++
+image:vmware-vcf-aff-image24.png["Selecione rede"]
+
++
+clique em ok
+
+. Na página Personalizar modelo preencha todas as informações necessárias:
++
+** Senha a ser usada para acesso administrativo ao OTV.
+** Endereço IP do servidor NTP.
+** Palavra-passe da conta de manutenção OTV.
+** Senha do OTV Derby DB.
+** Não marque a caixa para *Ativar o VMware Cloud Foundation (VCF)*. O modo VCF não é necessário para a implantação de armazenamento suplementar.
+** FQDN ou endereço IP do vCenter Appliance para o *VI Workload Domain*
+** Credenciais para o vCenter Appliance do *VI Workload Domain*
+** Forneça os campos de propriedades de rede necessários.
++
+Clique em *Next* para continuar.
+
++
+image:vmware-vcf-aff-image25.png["Personalizar modelo OTV 1"]
+
++
+image:vmware-vcf-asa-image35.png["Personalizar modelo OTV 2"]
+
++
+clique em ok
+
+
+
+. Revise todas as informações na página Pronto para concluir e clique em concluir para começar a implantar o dispositivo OTV.
+
+
+====
+.Adicione um sistema de armazenamento às Ferramentas do ONTAP.
+[%collapsible%open]
+====
+. Acesse as Ferramentas do NetApp ONTAP selecionando-as no menu principal do cliente vSphere.
++
+image:vmware-asa-image6.png["Ferramentas NetApp ONTAP"]
+
++
+clique em ok
+
+. No menu suspenso *INSTÂNCIA* na interface da ferramenta ONTAP, selecione a instância OTV associada ao domínio da carga de trabalho a ser gerenciada.
++
+image:vmware-vcf-asa-image36.png["Escolha instância OTV"]
+
++
+clique em ok
+
+. Em Ferramentas do ONTAP, selecione *sistemas de armazenamento* no menu à esquerda e pressione *Adicionar*.
++
+image:vmware-vcf-asa-image37.png["Adicione o sistema de storage"]
+
++
+clique em ok
+
+. Preencha o endereço IP, as credenciais do sistema de armazenamento e o número da porta. Clique em *Add* para iniciar o processo de descoberta.
++
+image:vmware-vcf-asa-image38.png["Fornecer credenciais do sistema de storage"]
+
+
+
+====
+.Crie um datastore NFS nas Ferramentas do ONTAP
+[%collapsible%open]
+====
+Siga as etapas a seguir para implantar um armazenamento de dados do ONTAP, em execução no NFS, usando as ferramentas do ONTAP.
+
+. Em Ferramentas do ONTAP, selecione *Visão geral* e, na guia *Introdução*, clique em *provisão* para iniciar o assistente.
++
+image:vmware-vcf-asa-image41.png["Provisionamento do armazenamento de dados"]
+
++
+clique em ok
+
+. Na página *Geral* do assistente novo datastore, selecione o data center ou o destino do cluster do vSphere. Selecione *NFS* como o tipo de datastore, preencha um nome para o datastore e selecione o protocolo. Escolha se deseja usar o FlexGroup volumes e se deseja usar um arquivo de funcionalidade de storage para provisionamento. Clique em *Next* para continuar.
++
+Observação: A seleção de *distribuir dados do datastore pelo cluster* criará o volume subjacente como um volume FlexGroup, o que impede o uso de Perfis de capacidade de armazenamento.  https://docs.netapp.com/us-en/ontap/flexgroup/supported-unsupported-config-concept.html["Configurações com suporte e sem suporte para volumes FlexGroup"]Consulte para obter mais informações sobre como usar o FlexGroup volumes.
+
++
+image:vmware-vcf-aff-image42.png["Página geral"]
+
++
+clique em ok
+
+. Na página *Storage system*, selecione o perfil de capacidade de armazenamento, o sistema de armazenamento e o SVM. Clique em *Next* para continuar.
++
+image:vmware-vcf-aff-image43.png["Sistema de storage"]
+
++
+clique em ok
+
+. Na página *atributos de armazenamento*, selecione o agregado a ser usado e clique em *Avançar* para continuar.
++
+image:vmware-vcf-aff-image44.png["Atributos de storage"]
+
++
+clique em ok
+
+. Finalmente, revise o *Summary* e clique em Finish para começar a criar o datastore NFS.
++
+image:vmware-vcf-aff-image45.png["Reveja o resumo e termine"]
+
+
+
+====
+.Crie um datastore vVols nas Ferramentas do ONTAP
+[%collapsible%open]
+====
+Para criar um datastore vVols nas Ferramentas do ONTAP, execute as seguintes etapas:
+
+. Em Ferramentas do ONTAP, selecione *Visão geral* e, na guia *Introdução*, clique em *provisão* para iniciar o assistente.
++
+image:vmware-vcf-asa-image41.png["Provisionamento do armazenamento de dados"]
+
+. Na página *Geral* do assistente novo datastore, selecione o data center ou o destino do cluster do vSphere. Selecione *vVols* como o tipo de datastore, preencha um nome para o datastore e selecione *NFS* como o protocolo. Clique em *Next* para continuar.
++
+image:vmware-vcf-aff-image46.png["Página geral"]
+
+. Na página *Storage system*, selecione o perfil de capacidade de armazenamento, o sistema de armazenamento e o SVM. Clique em *Next* para continuar.
++
+image:vmware-vcf-aff-image43.png["Sistema de storage"]
+
+. Na página *atributos de armazenamento*, selecione para criar um novo volume para o datastore e preencha os atributos de armazenamento do volume a ser criado. Clique em *Add* para criar o volume e em *Next* para continuar.
++
+image:vmware-vcf-aff-image47.png["Atributos de storage"]
+
++
+image:vmware-vcf-aff-image48.png["Atributos de armazenamento - seguinte"]
+
+. Por fim, revise o *Summary* e clique em *Finish* para iniciar o processo de criação do datastore da evolução.
++
+image:vmware-vcf-aff-image49.png["Página de resumo"]
+
+
+
+====
+
+
+== Informações adicionais
+
+Para obter informações sobre a configuração de sistemas de armazenamento ONTAP, consulte o link:https://docs.netapp.com/us-en/ontap["Documentação do ONTAP 9"] centro.
+
+Para obter informações sobre como configurar o VCF, link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentação do VMware Cloud Foundation"]consulte .

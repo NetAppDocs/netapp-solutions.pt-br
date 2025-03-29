@@ -13,7 +13,7 @@ summary:
 == Implante e configure a plataforma de contentor Red Hat OpenShift no Azure
 
 [role="lead"]
-Esta seção descreve um fluxo de trabalho de alto nível de como configurar e gerenciar clusters OpenShift no Azure e implantar aplicativos com estado neles. Ele mostra o uso do storage NetApp Cloud Volumes ONTAP com a ajuda do Trident para fornecer volumes persistentes. Fornecemos detalhes sobre o uso do Astra Control Center para realizar atividades de proteção e migração de dados para as aplicações com estado monitorado.
+Esta seção descreve um fluxo de trabalho de alto nível de como configurar e gerenciar clusters OpenShift no Azure e implantar aplicativos com estado neles. Ele mostra o uso do storage NetApp Cloud Volumes ONTAP com a ajuda do Trident para fornecer volumes persistentes. São fornecidos detalhes sobre o uso do Trident Protect para realizar atividades de proteção e migração de dados para as aplicações com estado monitorado.
 
 Aqui está um diagrama que mostra os clusters implantados no Azure e conetados ao data center usando uma VPN.
 
@@ -25,7 +25,7 @@ NOTE: Há várias maneiras de implantar clusters de plataforma de contentor do R
 O processo de configuração pode ser dividido nas seguintes etapas:
 
 .Instale um cluster OCP no Azure a partir da CLI.
-[%collapsible]
+[%collapsible%open]
 ====
 * Certifique-se de que cumpriu todos os pré-requisitos link:https://docs.openshift.com/container-platform/4.13/installing/installing_azure/installing-azure-vnet.html["aqui"]indicados .
 * Crie uma VPN, sub-redes e grupos de segurança de rede e uma zona DNS privada. Crie um gateway VPN e uma conexão VPN site-a-site.
@@ -102,7 +102,7 @@ pullSecret:
 ....
 ====
 .Implante o Cloud Volumes ONTAP no Azure usando o BlueXP .
-[%collapsible]
+[%collapsible%open]
 ====
 * Instale um conetor no Azure. Consulte as instruções https://docs.netapp.com/us-en/bluexp-setup-admin/task-install-connector-azure-bluexp.html["aqui"].
 * Implante uma instância do CVO no Azure usando o conetor. Consulte o link de instruções:https://docs.NetApp.com/US-en/BlueXP -cloud-volumes-ONTAP/task-getting-started-azure.html [aqui.]

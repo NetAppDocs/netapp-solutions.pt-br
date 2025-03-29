@@ -87,8 +87,6 @@ Visão geral dos blogs destacando caraterísticas específicas das muitas soluç
 ** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/ONTAP-for-OpenShift-Virtualization-VMs-non-disruptive-volume-move-operation-is/ba-p/451941["ONTAP para VMs de virtualização OpenShift: A operação de movimentação de volume sem interrupções é sua"]
 
 
-
-
 * link:https://netapp.io/2021/05/21/docker-rate-limit-issue/["Instalando o NetApp Trident no Red Hat OpenShift – como resolver o problema 'toomanyrequests' do Docker!"]
 * link:https://blog.netapp.com/accelerate-your-k8s-journey["Usando o VMware Tanzu com o ONTAP para acelerar sua jornada de Kubernetes"]
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Kubernetes-on-vSphere-Part-1/ba-p/445634["Kubernetes no vSphere (parte 1)"]

@@ -22,6 +22,6 @@ Com o VMware vSphere, as ferramentas do NetApp ONTAP fornecem um plug-in do vCen
 
 
 
-== Solução de migração e proteção de dados para workloads de contêiner do OpenShift usando o Astra Control Center
+== Solução de migração e proteção de dados para workloads de contêiner do OpenShift com o Trident Protect
 
 image:rhhc-on-premises.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_overview_storint.html 
-keywords: Astra, Astra Control Center, Trident, Trident, persistent storage 
+keywords: Trident, Trident, persistent storage 
 summary: A NetApp fornece uma série de produtos que ajudam nossos clientes a orquestrar e gerenciar dados persistentes em ambientes baseados em contêineres, como o Red Hat OpenShift. 
 ---
 = Visão geral da integração de storage da NetApp

@@ -39,5 +39,5 @@ Para obter mais informações sobre a automação de ambientes VMware, consulte 
 
 * https://netapp.io/configuration-management-and-automation/["The NetApp Pub"^]. Automação e gerenciamento de configurações do NetApp.
 * https://galaxy.ansible.com/community/vmware["A Comunidade Ansible Galaxy para VMware"^]. Uma coleção de recursos do Ansible para VMware.
-* https://code.vmware.com/resources["Recursos do VMware"^]. Recursos necessários para projetar soluções para o data center definido por software, incluindo fóruns, padrões de design, código de exemplo e ferramentas de desenvolvedor.
+* https://community.broadcom.com/vmware-code/home["Recursos do VMware"^]. Recursos necessários para projetar soluções para o data center definido por software, incluindo fóruns, padrões de design, código de exemplo e ferramentas de desenvolvedor.
 

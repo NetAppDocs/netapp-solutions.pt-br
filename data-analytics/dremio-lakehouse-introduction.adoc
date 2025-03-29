@@ -15,7 +15,3 @@ summary: Este documento descreve as diretrizes de práticas recomendadas para o 
 
 [role="lead"]
 Neste documento, discutimos os detalhes de implantação do Dremio com diferentes fontes de dados de controladores de storage NetApp, incluindo ONTAP S3, nas e StorageGRID. Durante a implantação, usamos a ferramenta de benchmarking TPC-DS para executar consultas SQL 99 em várias fontes. O documento também explora casos de uso de clientes dentro da NetApp, bem como um caso de uso envolvendo um cliente de vendas de autopeças.
-
-*Autores*
-
-Karthikeyan Nagalingam, arquiteto principal, NetApp, Inc. Roger Frey, VP, Alianças, Dremio Corporation. Mark Shainman, Gerente de Marketing de produto Principal.Dremio Corporation.

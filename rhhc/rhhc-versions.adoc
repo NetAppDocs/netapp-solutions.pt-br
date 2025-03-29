@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: rhhc/rhhc-versions.html 
-keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, vmware, ROSA, ACC, Astra Control Center, Advanced Cluster Management, ACM, Hub Cluster 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, vmware, ROSA, ACC, Trident Protect, Advanced Cluster Management, ACM, Hub Cluster 
 summary:  
 ---
 = Versões de vários componentes utilizados na validação da solução
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-A solução testa e valida migração e proteção de dados centralizada com a plataforma de contêiner OpenShift, o Gerenciador avançado de clusters OpenShift, o NetApp ONTAP e o Centro de Controle NetApp Astra.
+A solução testa e valida migração e proteção de dados centralizada com a plataforma de contentor OpenShift, o Gerenciador de clusters avançado OpenShift, o NetApp ONTAP e o NetApp Trident Protect.
 
 Os cenários 1, 2 e 3 da solução foram validados usando as versões como mostrado na tabela abaixo:
 
@@ -37,7 +37,7 @@ Os cenários 1, 2 e 3 da solução foram validados usando as versões como mostr
 | *NetApp Trident* | Servidor Trident e Cliente 23.04.0 
 
 
-| *Centro de Controle NetApp* | ACC 22.11.0-82 
+| *NetApp Trident Protect* | Trident Protect 22.11.0-82 
 
 
 | *NetApp ONTAP* | ONTAP 9.12,1 
@@ -66,9 +66,6 @@ O cenário 4 da solução foi validado usando as versões como mostrado na tabel
 | *NetApp Trident* | Servidor Trident e Cliente 23.07.0 
 
 
-| *Centro de Controle NetApp* | ACC 23.07.0-25 
-
-
 | *NetApp ONTAP* | ONTAP 9.12,1 
 
 
@@ -92,7 +89,7 @@ O cenário 5 da solução foi validado usando as versões como mostrado na tabel
 | *NetApp Trident* | Servidor e Cliente do Trident e Parceiro de Controle Astra 23.10.0 
 
 
-| *Centro de Controle NetApp* | ACC 23,10 
+| *NetApp Trident Protect* | Trident Protect 23,10 
 
 
 | *NetApp ONTAP* | ONTAP 9.12,1 

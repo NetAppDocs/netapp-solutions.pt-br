@@ -13,8 +13,6 @@ summary: Monitoramento usando o Cloud Insights para VMs na virtualização Red H
 :imagesdir: ../media/
 
 
-Autor: Banu Sundhar, NetApp
-
 [role="lead"]
 Esta seção do documento de referência fornece detalhes sobre a integração do NetApp Cloud Insights com um cluster do Red Hat OpenShift para monitorar VMs de virtualização do OpenShift.
 

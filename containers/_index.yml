@@ -44,8 +44,6 @@ indexpage:
       url: vtwn_videos_and_demos.html
   - title: Sobre nossos recursos para contentores
     links:
-    - title: Centro de Controle NetApp Astra
-      url: https://cloud.netapp.com/astra
     - title: NetApp Trident
       url: https://netapp.io/persistent-storage-provisioner-for-kubernetes/
   - title: Sobre nossas soluções de parceiros

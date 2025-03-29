@@ -13,8 +13,6 @@ summary: Proteção de dados de virtualização do Red Hat OpenShift com o NetAp
 :imagesdir: ../media/
 
 
-Autor: Banu Sundhar, NetApp
-
 [role="lead"]
 Esta seção do documento de referência fornece detalhes para criar snapshots e backups de VMs usando o Trident Protect.
 
@@ -36,7 +34,7 @@ O Trident Protect permite snapshots, backups, restauração e recuperação de d
 
 
 .Crie AppVault
-[%collapsible]
+[%collapsible%open]
 ====
 Antes de criar os snapshots e backups de um aplicativo ou uma VM, um storage de objetos deve ser configurado no Trident Protect para armazenar os snapshots e os backups. Isto é feito utilizando o balde CR. Somente os administradores podem criar um bucket CR e configurá-lo. O bucket CR é conhecido como AppVault no Trident Protect. Os objetos AppVault são a representação declarativa do fluxo de trabalho do Kubernetes de um bucket de storage. Um AppVault CR contém as configurações necessárias para que um bucket seja usado em operações de proteção, como backups, snapshots, operações de restauração e replicação do SnapMirror.
 
@@ -102,7 +100,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_8.png["ONTAP S3 AppVault criado"]
 
 ====
 .Crie uma VM no OpenShift Virtualization
-[%collapsible]
+[%collapsible%open]
 ====
 As capturas de tela a seguir mostram a criação da VM (demo-fedora na demo de namespace) a partir do console usando o modelo. O disco raiz escolhe automaticamente a classe de armazenamento padrão, portanto, verifique se a classe de armazenamento padrão está definida adequadamente. Nesta configuração, a classe de armazenamento padrão é **SC-zonea-san**. Certifique-se de que ao criar o disco adicional, você escolha a classe de armazenamento SC-zonea-san e marque a caixa de seleção "**aplicar configurações de armazenamento otimizadas**". Isto irá definir os modos de acesso para RWX e modo de volume para Bloquear.
 
@@ -125,7 +123,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_7.png["criação de vm, pods e pvc"]
 
 ====
 .Criar aplicação
-[%collapsible]
+[%collapsible%open]
 ====
 **Crie um aplicativo Trident Protect para a VM**
 
@@ -152,7 +150,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_9.png["Aplicação criada"]
 
 ====
 .Criar backups
-[%collapsible]
+[%collapsible%open]
 ====
 **Crie um backup sob demanda**
 
@@ -202,7 +200,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_17.png["Backups criados sob demanda e no crono
 
 ====
 .Restauração a partir de backups
-[%collapsible]
+[%collapsible%open]
 ====
 **Restaurar a VM para o mesmo namespace**
 
@@ -282,7 +280,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_23.png["VM no novo namespace"]
 
 ====
 .Criar instantâneos
-[%collapsible]
+[%collapsible%open]
 ====
 **Criar um instantâneo sob demanda** Crie um instantâneo para o aplicativo e especifique o appvault onde ele precisa ser armazenado.
 
@@ -350,7 +348,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_26.png["snapshot programado"]
 
 ====
 .Restaurar a partir do Snapshot
-[%collapsible]
+[%collapsible%open]
 ====
 **Restaurar a VM do instantâneo para o mesmo namespace** Eliminar a VM demo-fedora a partir do namespace demo2.
 
@@ -428,7 +426,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_32.png["VM restaurada no novo namespace"]
 
 ====
 .Seleção de VMs específicas em um namespace para criar snapshots/backups e restauração
-[%collapsible]
+[%collapsible%open]
 ====
 No exemplo anterior, tínhamos uma única VM dentro de um namespace. Ao incluir todo o namespace no backup, todos os recursos associados a essa VM foram capturados. No exemplo a seguir, adicionamos outra VM ao mesmo namespace e criamos um aplicativo apenas para essa nova VM usando um seletor de rótulo.
 
@@ -489,9 +487,9 @@ image:rh-os-n_use_case_ocpv_tp_dp_18.png["Backup de VM específica criado"]
 
 **Restaurar uma VM específica para o mesmo namespace** o backup de uma VM específica (centos) foi criado usando o aplicativo correspondente. Se um backup-in-place-restore ou um backup-restore for criado a partir disso, somente essa VM específica será restaurada. Exclua a VM CentOS.
 
-image:rh-os-n_use_case_ocpv_tp_dp_33["CentOS VM presente"]
+image:rh-os-n_use_case_ocpv_tp_dp_33.png["CentOS VM presente"]
 
-image:rh-os-n_use_case_ocpv_tp_dp_34["CentOS VM excluído"]
+image:rh-os-n_use_case_ocpv_tp_dp_34.png["CentOS VM excluído"]
 
 Crie uma restauração no local de backup a partir do demo-centos-backup sob demanda e verifique se a VM centos foi recriada.
 
@@ -500,9 +498,9 @@ Crie uma restauração no local de backup a partir do demo-centos-backup sob dem
 #tp create bir demo-centos-restore --backup demo/demo-centos-backup-on-demand -n demo
 BackupInplaceRestore "demo-centos-restore" created.
 ----
-image:rh-os-n_use_case_ocpv_tp_dp_35["crie o centos vm bir"]
+image:rh-os-n_use_case_ocpv_tp_dp_35.png["crie o centos vm bir"]
 
-image:rh-os-n_use_case_ocpv_tp_dp_36["centos vm criada"]
+image:rh-os-n_use_case_ocpv_tp_dp_36.png["centos vm criada"]
 
 **Restaurar uma VM específica para um namespace diferente** Crie uma restauração de backup para um namespace diferente (demo3) do demo-centos-backup sob demanda e verifique se a VM centos foi recriada.
 
@@ -511,8 +509,8 @@ image:rh-os-n_use_case_ocpv_tp_dp_36["centos vm criada"]
 # tp create br demo2-centos-restore --backup demo/demo-centos-backup-on-demand --namespace-mapping demo:demo3 -n demo3
 BackupRestore "demo2-centos-restore" created.
 ----
-image:rh-os-n_use_case_ocpv_tp_dp_37["crie o centos vm bir"]
+image:rh-os-n_use_case_ocpv_tp_dp_37.png["crie o centos vm bir"]
 
-image:rh-os-n_use_case_ocpv_tp_dp_38["centos vm criada"]
+image:rh-os-n_use_case_ocpv_tp_dp_38.png["centos vm criada"]
 
 ====

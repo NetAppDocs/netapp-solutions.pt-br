@@ -59,7 +59,7 @@ NOTE: Existem certas restrições em torno de produzir e/ou compartilhar qualque
 
 === Pré-requisitos para implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -86,7 +86,7 @@ Network configuration
 
 === Baixe o kit de ferramentas
 
-[%collapsible]
+[%collapsible%open]
 ====
 [source, cli]
 ----
@@ -97,7 +97,7 @@ git clone https://github.com/NetApp/na_aws_fsx_ec2_deploy.git
 
 === Conetividade e autenticação
 
-[%collapsible]
+[%collapsible%open]
 ====
 O kit de ferramentas deve ser executado a partir de um shell de nuvem da AWS. O AWS Cloud Shell é um shell baseado em navegador que facilita o gerenciamento, a exploração e a interação com seus recursos da AWS com segurança. O CloudShell é pré-autenticado com suas credenciais de console. Ferramentas comuns de desenvolvimento e operações são pré-instaladas, portanto, nenhuma instalação ou configuração local é necessária.
 
@@ -106,7 +106,7 @@ O kit de ferramentas deve ser executado a partir de um shell de nuvem da AWS. O 
 
 === Configuração de arquivos do Terraform provider.tf e main.tf
 
-[%collapsible]
+[%collapsible%open]
 ====
 O provider.tf define o provedor que o Terraform está provisionando recursos por meio de chamadas de API. O main.tf define os recursos e atributos dos recursos que devem ser provisionados. A seguir estão alguns detalhes:
 
@@ -143,7 +143,7 @@ main.tf:
 
 === Configuração do Terraform variables.tf e Terraform.tfvars
 
-[%collapsible]
+[%collapsible%open]
 ====
 O variables.tf declara as variáveis a serem usadas no main.tf. O Terraform.tfvars contém os valores reais das variáveis. A seguir estão alguns exemplos:
 
@@ -182,7 +182,7 @@ root_volume_size        = 30
 
 === Procedimentos passo a passo - executados em sequência
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Instale o Terraform no AWS Cloud Shell.
 +

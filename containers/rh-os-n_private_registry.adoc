@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_private_registry.html 
-keywords: Advanced Configuration, Private Registry, Trident, OpenShift Registry, NetApp Astra Control Center Registry 
+keywords: Advanced Configuration, Private Registry, Trident, OpenShift Registry, NetApp Trident Protect Registry 
 summary: Esta seção é dedicada à criação e configuração de um Registro de imagem privada apoiado pelo armazenamento persistente fornecido pelo Trident. 
 ---
 = Criando Registros privados de imagem
@@ -19,7 +19,7 @@ Para a maioria das implantações do Red Hat OpenShift, usar um Registro públic
 Este procedimento documenta a criação de um registo de imagens privado que é suportado por um volume persistente fornecido pelo Trident e pelo NetApp ONTAP.
 
 
-NOTE: O Astra Control Center requer um Registro para hospedar as imagens que os contêineres Astra exigem. A seção a seguir descreve as etapas para configurar um Registro privado no cluster Red Hat OpenShift e enviar as imagens necessárias para suportar a instalação do Astra Control Center.
+NOTE: O Trident Protect requer um Registro para hospedar as imagens que os contêineres do Astra exigem. A seção a seguir descreve as etapas para configurar um Registro privado no cluster Red Hat OpenShift e enviar as imagens necessárias para suportar a instalação do Trident Protect.
 
 
 

@@ -142,7 +142,7 @@ As seções a seguir fornecem procedimentos passo a passo para implantação, co
 
 === Pré-requisitos para implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer bancos de dados Oracle existentes executados no ANF no Azure. Caso contrário, siga as etapas abaixo para criar dois bancos de dados Oracle para validação da solução. Para obter detalhes sobre a implantação de banco de dados Oracle no ANF na nuvem Azure com automação, consulte TR-4987: link:automation_ora_anf_nfs.html["Implantação Oracle simplificada e automatizada no Azure NetApp Files com NFS"^]
 
@@ -196,7 +196,7 @@ video::960fb370-c6e0-4406-b6d5-b110014130e8[panopto,width=360]
 
 === Instalação e configuração do SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 Recomendamos que você passe on-line link:https://docs.netapp.com/us-en/snapcenter/index.html["Documentação do software SnapCenter"^] antes de prosseguir para a instalação e configuração do SnapCenter: . Veja a seguir um resumo de alto nível das etapas para instalação e configuração do software SnapCenter para Oracle no Azure ANF.
 
@@ -249,7 +249,7 @@ image:snapctr_ora_azure_anf_setup_05.png["Esta imagem fornece Configurações-po
 
 === Backup de banco de dados
 
-[%collapsible]
+[%collapsible%open]
 ====
 Um backup instantâneo do NetApp cria uma imagem pontual dos volumes de banco de dados que você pode usar para restaurar em caso de falha do sistema ou perda de dados. Os backups de snapshot demoram muito pouco tempo, geralmente menos de um minuto. A imagem de backup consome espaço de armazenamento mínimo e incorre em sobrecarga de desempenho insignificante, pois Registra apenas alterações nos arquivos desde que a última cópia snapshot foi feita. A seção a seguir demonstra a implementação de snapshots para backup de banco de dados Oracle no SnapCenter.
 
@@ -308,7 +308,7 @@ image:snapctr_ora_azure_anf_bkup_13.png["Esta imagem fornece backup de banco de 
 
 === Recuperação de banco de dados
 
-[%collapsible]
+[%collapsible%open]
 ====
 A recuperação de banco de dados via SnapCenter restaura uma cópia snapshot do ponto no tempo da imagem do volume do banco de dados. O banco de dados é então direcionado para um ponto desejado por SCN/timestamp ou um ponto como permitido pelos Registros de arquivamento disponíveis no conjunto de backup. A seção a seguir demonstra o fluxo de trabalho de recuperação de banco de dados com a IU do SnapCenter.
 
@@ -351,7 +351,7 @@ image:snapctr_ora_azure_anf_restore_08.png["Esta imagem fornece restauração de
 
 === Clone de banco de dados
 
-[%collapsible]
+[%collapsible%open]
 ====
 O clone do banco de dados via SnapCenter é realizado criando um novo volume a partir de um snapshot de um volume. O sistema usa as informações de snapshot para clonar um novo volume usando os dados no volume quando o snapshot foi capturado. Mais importante, é rápido (alguns minutos) e eficiente em comparação com outros métodos para fazer uma cópia clonada do banco de dados de produção para suportar o desenvolvimento ou teste. Assim, melhore drasticamente o gerenciamento do ciclo de vida das aplicações de banco de dados. A seção a seguir demonstra o fluxo de trabalho do clone do banco de dados com a IU do SnapCenter.
 

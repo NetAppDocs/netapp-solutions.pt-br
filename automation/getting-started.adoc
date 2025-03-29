@@ -21,7 +21,7 @@ Antes de executar qualquer automação de solução, o ambiente deve ser configu
 As seções a seguir descreverão as etapas necessárias para configurar o ambiente para cada um dos ambientes especificados.
 
 .Configurar o nó de controle Ansible para implantações de CLI no RHEL/CentOS
-[%collapsible]
+[%collapsible%open]
 ====
 . Requisitos para o nó de controle do Ansible:
 +
@@ -68,7 +68,7 @@ sudo yum -y install git >> install.log
 
 ====
 .Configure o Ansible Control Node para implantações CLI no Ubuntu / Debian
-[%collapsible]
+[%collapsible%open]
 ====
 . Requisitos para o nó de controle do Ansible:
 +
@@ -99,7 +99,7 @@ sudo apt-get -y install git >> outputlog.txt
 
 ====
 .Configure o Ansible Tower ou AWX para implantações em torre/AWX
-[%collapsible]
+[%collapsible%open]
 ====
 Esta seção descreve as etapas necessárias para configurar os parâmetros na torre AWX/Ansible que preparam o ambiente para o consumo de soluções automatizadas da NetApp.
 

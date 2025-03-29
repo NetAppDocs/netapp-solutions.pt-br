@@ -14,9 +14,7 @@ summary: O artigo fornece um guia para a criação de um pipeline de MLOps com s
 
 
 [role="lead"]
-este artigo fornece um guia para a criação de um pipeline de MLOps com serviços da AWS, com foco no treinamento automatizado de modelos, na implantação e na otimização de custos. ---
-
-*Autor(es):* Jian Jian (Ken), cientista Sênior de dados e aplicado, NetApp
+este artigo fornece um guia para a criação de um pipeline de MLOps com serviços da AWS, com foco no treinamento automatizado de modelos, na implantação e na otimização de custos.
 
 
 

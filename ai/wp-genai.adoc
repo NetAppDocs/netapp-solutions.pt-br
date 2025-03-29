@@ -11,8 +11,6 @@ summary: Recursos de AI do NetApp que permitem o gerenciamento otimizado de dado
 [role="lead"]
 A demanda por inteligência artificial generativa (IA) está impulsionando a disrupção em todos os setores, aprimorando a criatividade dos negócios e a inovação de produtos.
 
-Autor: Sathish Thyagarajan, NetApp
-
 
 
 == Resumo

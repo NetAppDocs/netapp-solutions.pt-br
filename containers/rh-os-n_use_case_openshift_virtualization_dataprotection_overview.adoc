@@ -13,8 +13,6 @@ summary: Proteção de dados de virtualização do Red Hat OpenShift com o NetAp
 :imagesdir: ../media/
 
 
-Autor: Banu Sundhar, NetApp
-
 [role="lead"]
 Esta secção do documento de referência fornece detalhes para a criação de cópias de segurança de VMs utilizando a API OpenShift para proteção de dados (OADP) com Velero no NetApp ONTAP S3 ou NetApp StorageGRID S3. Os backups de volumes persistentes (PVS) dos discos da VM são criados usando snapshots CSI Trident.
 

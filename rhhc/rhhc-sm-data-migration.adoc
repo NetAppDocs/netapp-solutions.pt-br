@@ -4,7 +4,7 @@ permalink: rhhc/rhhc-sm-data-migration.html
 keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
 summary:  
 ---
-= Migração de dados com o Astra Control Center
+= Migração de dados com o Trident Protect
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Esta página mostra as opções de migração de dados para workloads de contêiner nos clusters do Red Hat OpenShift com Astra Control Center (ACC). Especificamente, os clientes podem usar o ACC para - mover alguns workloads selecionados ou todos os workloads de seus data centers no local para a nuvem - clonar seus aplicativos para a nuvem para fins de teste ou migrar do data center para a nuvem
+Esta página mostra as opções de migração de dados para cargas de trabalho de contêiner nos clusters do Red Hat OpenShift com Trident Protect (ACC). Especificamente, os clientes podem usar o Trident Protect para: Mover alguns workloads selecionados ou todos os workloads de seus data centers no local para a nuvem; clonar as aplicações para a nuvem para fins de teste ou migrar do data center para a nuvem
 
 
 
@@ -38,4 +38,4 @@ NOTE: O recurso Astra Replication é compatível apenas com a Trident Container 
 
 === Executar a replicação de dados utilizando o ACC
 
-image:rhhc-onprem-dp-rep.png["Replicação do Astra Control Center"]
+image:rhhc-onprem-dp-rep.png["Trident protege a replicação"]

@@ -1,0 +1,347 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supplemental-nvme.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary:  
+---
+= NVMe/TCP como storage complementar para VI Workload Domains
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesse cenário, demonstraremos como configurar o armazenamento suplementar NVMe/TCP para um domínio de carga de trabalho VCF.
+
+
+
+== Benefícios do NVMe sobre TCP
+
+*Alto desempenho:* oferece desempenho excecional com baixa latência e altas taxas de transferência de dados. Isso é crucial para aplicações exigentes e operações de dados em grande escala.
+
+* Escalabilidade: * Suporta configurações escaláveis, permitindo que os administradores DE TI expandam sua infraestrutura sem problemas à medida que os requisitos de dados crescem.
+
+* Custo eficaz: * É executado sobre switches ethernet padrão e é encapsulado dentro de datagramas TCP. Não é necessário equipamento especial para implementar.
+
+Para obter mais informações sobre os benefícios do NVMe, consulte https://www.netapp.com/data-storage/nvme/what-is-nvme/["O que é NVME?"]
+
+
+
+== Visão geral do cenário
+
+Este cenário abrange os seguintes passos de alto nível:
+
+* Crie uma máquina virtual de storage (SVM) com interfaces lógicas (LIFs) para o tráfego NVMe/TCP.
+* Crie grupos de portas distribuídas para redes iSCSI no domínio de carga de trabalho do VI.
+* Crie adaptadores vmkernel para iSCSI nos hosts ESXi para o domínio de carga de trabalho VI.
+* Adicione adaptadores NVMe/TCP em hosts ESXi.
+* Implante o armazenamento de dados NVMe/TCP.
+
+
+
+
+== Pré-requisitos
+
+Este cenário requer os seguintes componentes e configurações:
+
+* Um sistema de storage ONTAP AFF ou ASA com portas de dados físicos em switches ethernet dedicados ao tráfego de storage.
+* A implantação do domínio de gerenciamento do VCF está concluída e o cliente vSphere está acessível.
+* Um domínio de carga de trabalho VI foi implantado anteriormente.
+
+
+A NetApp recomenda designs de rede totalmente redundantes para NVMe/TCP. O diagrama a seguir ilustra um exemplo de uma configuração redundante, fornecendo tolerância a falhas para sistemas de armazenamento, switches, adaptadores de rede e sistemas host. Consulte o NetApp link:https://docs.netapp.com/us-en/ontap/san-config/index.html["Referência de configuração SAN"]para obter informações adicionais.
+
+image:vmware-vcf-asa-image74.png["Design de rede NVMe-tcp"]
+
+Para multipathing e failover em vários caminhos, a NetApp recomenda ter no mínimo duas LIFs por nó de storage em redes ethernet separadas para todas as SVMs em configurações NVMe/TCP.
+
+Essa documentação demonstra o processo de criação de uma nova SVM e especificação das informações de endereço IP para criar várias LIFs para tráfego NVMe/TCP. Para adicionar novos LIFs a um SVM existente, link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["Criar um LIF (interface de rede)"]consulte .
+
+Para obter informações adicionais sobre considerações sobre o design do NVMe para sistemas de storage ONTAP, link:https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["Configuração, suporte e limitações do NVMe"]consulte .
+
+
+
+== Etapas de implantação
+
+Para criar um datastore VMFS em um domínio de workload do VCF usando NVMe/TCP, execute as etapas a seguir.
+
+
+
+=== Criar SVM, LIFs e namespace NVMe no sistema de storage ONTAP
+
+A etapa a seguir é executada no Gerenciador do sistema do ONTAP.
+
+.Crie a VM e LIFs de storage
+[%collapsible%open]
+====
+Siga as etapas a seguir para criar um SVM com várias LIFs para tráfego NVMe/TCP.
+
+. No Gerenciador do sistema ONTAP, navegue até *armazenamento de VMs* no menu à esquerda e clique em * Adicionar* para iniciar.
++
+image:vmware-vcf-asa-image01.png["Clique em Adicionar para começar a criar SVM"]
+
++
+clique em ok
+
+. No assistente *Add Storage VM* forneça um *Name* para o SVM, selecione *IP Space* e, em *Access Protocol*, clique na guia *NVMe* e marque a caixa para *Enable NVMe/TCP*.
++
+image:vmware-vcf-asa-image75.png["Assistente para adicionar VM de armazenamento - ative o NVMe/TCP"]
+
++
+clique em ok
+
+. Na seção *Interface de rede*, preencha *Endereço IP*, *Máscara de sub-rede* e *domínio de difusão e porta* para o primeiro LIF. Para LIFs subsequentes, a caixa de seleção pode estar habilitada para usar configurações comuns em todos os LIFs restantes ou usar configurações separadas.
++
+
+NOTE: Para multipathing e failover em vários caminhos, a NetApp recomenda ter no mínimo duas LIFs por nó de storage em redes Ethernet separadas para todas as SVMs em configurações NVMe/TCP.
+
++
+image:vmware-vcf-asa-image76.png["Preencha as informações de rede para LIFs"]
+
++
+clique em ok
+
+. Escolha se deseja ativar a conta Storage VM Administration (para ambientes de alocação a vários clientes) e clique em *Save* para criar o SVM.
++
+image:vmware-vcf-asa-image04.png["Habilite a conta SVM e concluir"]
+
+
+
+====
+.Crie o namespace NVMe
+[%collapsible%open]
+====
+Namespaces NVMe são análogos a LUNs para iSCSI ou FC. O namespace NVMe deve ser criado antes que um datastore VMFS possa ser implantado a partir do vSphere Client. Para criar o namespace NVMe, o nome qualificado do NVMe (NQN) deve primeiro ser obtido de cada host ESXi no cluster. O NQN é usado pelo ONTAP para fornecer controle de acesso para o namespace.
+
+Siga as etapas a seguir para criar um namespace NVMe:
+
+. Abra uma sessão SSH com um host ESXi no cluster para obter seu NQN. Use o seguinte comando da CLI:
++
+[source, cli]
+----
+esxcli nvme info get
+----
++
+Deve ser apresentada uma saída semelhante à seguinte:
+
++
+[source, cli]
+----
+Host NQN: nqn.2014-08.com.netapp.sddc:nvme:vcf-wkld-esx01
+----
+. Registre o NQN para cada host ESXi no cluster
+. No Gerenciador de sistemas do ONTAP, navegue até *namespaces NVMe* no menu à esquerda e clique em Adicionar* para iniciar.
++
+image:vmware-vcf-asa-image93.png["Clique em Adicionar para criar namespace NVMe"]
+
++
+clique em ok
+
+. Na página *Add NVMe namespace*, preencha um prefixo de nome, o número de namespaces a criar, o tamanho do namespace e o sistema operacional host que acessará o namespace. Na seção *Host NQN* crie uma lista separada por vírgulas dos NQN anteriormente coletados dos hosts ESXi que estarão acessando os namespaces.
+
+
+Clique em *mais Opções* para configurar itens adicionais, como a política de proteção de snapshot. Por fim, clique em *Save* para criar o namespace NVMe.
+
+E image:vmware-vcf-asa-image93.png["Clique em Adicionar para criar namespace NVMe"]
+
+====
+
+
+=== Configurar adaptadores de rede e software NVMe em hosts ESXi
+
+As etapas a seguir são executadas no cluster de domínio de carga de trabalho VI usando o cliente vSphere. Nesse caso, o vCenter Single Sign-On está sendo usado para que o cliente vSphere seja comum aos domínios de gerenciamento e carga de trabalho.
+
+.Crie grupos de portas distribuídas para o tráfego NVMe/TCP
+[%collapsible%open]
+====
+Execute o seguinte procedimento para criar um novo grupo de portas distribuídas para cada rede NVMe/TCP:
+
+. No cliente vSphere , navegue até *Inventory > Networking* para o domínio da carga de trabalho. Navegue até o Switch distribuído existente e escolha a ação para criar *novo Grupo de portas distribuídas...*.
++
+image:vmware-vcf-asa-image22.png["Escolha criar um novo grupo de portas"]
+
++
+clique em ok
+
+. No assistente *New Distributed Port Group*, preencha um nome para o novo grupo de portas e clique em *Next* para continuar.
+. Na página *Configure settings*, preencha todas as configurações. Se as VLANs estiverem sendo usadas, certifique-se de fornecer o ID correto da VLAN. Clique em *Next* para continuar.
++
+image:vmware-vcf-asa-image23.png["Preencha o ID da VLAN"]
+
++
+clique em ok
+
+. Na página *Pronto para concluir*, revise as alterações e clique em *concluir* para criar o novo grupo de portas distribuídas.
+. Repita esse processo para criar um grupo de portas distribuídas para a segunda rede NVMe/TCP que está sendo usada e verifique se você digitou o *VLAN ID* correto.
+. Uma vez criados ambos os grupos de portas, navegue até o primeiro grupo de portas e selecione a ação para *Editar configurações...*.
++
+image:vmware-vcf-asa-image77.png["DPG - editar definições"]
+
++
+clique em ok
+
+. Na página *Grupo de portas distribuídas - Editar configurações*, navegue até *agrupamento e failover* no menu à esquerda e clique em *uplink2* para movê-lo para *uplinks não utilizados*.
++
+image:vmware-vcf-asa-image78.png["mova uplink2 para não utilizado"]
+
+. Repita esta etapa para o segundo grupo de portas NVMe/TCP. No entanto, desta vez mova *uplink1* para *uplinks não utilizados*.
++
+image:vmware-vcf-asa-image79.png["mova o uplink 1 para não utilizado"]
+
+
+
+====
+.Crie adaptadores VMkernel em cada host ESXi
+[%collapsible%open]
+====
+Repita esse processo em cada host ESXi no domínio da carga de trabalho.
+
+. No cliente vSphere, navegue até um dos hosts ESXi no inventário do domínio da carga de trabalho. Na guia *Configure* selecione *adaptadores VMkernel* e clique em *Add Networking...* para iniciar.
++
+image:vmware-vcf-asa-image30.png["Inicie o assistente para adicionar rede"]
+
++
+clique em ok
+
+. Na janela *Selecionar tipo de conexão* escolha *VMkernel Network Adapter* e clique em *Next* para continuar.
++
+image:vmware-vcf-asa-image08.png["Escolha o adaptador de rede VMkernel"]
+
++
+clique em ok
+
+. Na página *Selecionar dispositivo de destino*, escolha um dos grupos de portas distribuídas para iSCSI que foi criado anteriormente.
++
+image:vmware-vcf-asa-image95.png["Escolha o grupo de portas de destino"]
+
++
+clique em ok
+
+. Na página *Propriedades da porta*, clique na caixa *NVMe sobre TCP* e clique em *Avançar* para continuar.
++
+image:vmware-vcf-asa-image96.png["Propriedades da porta VMkernel"]
+
++
+clique em ok
+
+. Na página *IPv4 settings*, preencha o *IP address*, *Subnet mask* e forneça um novo endereço IP do Gateway (somente se necessário). Clique em *Next* para continuar.
++
+image:vmware-vcf-asa-image97.png["Definições do VMkernel IPv4"]
+
++
+clique em ok
+
+. Reveja as suas seleções na página *Pronto para concluir* e clique em *concluir* para criar o adaptador VMkernel.
++
+image:vmware-vcf-asa-image98.png["Reveja as seleções do VMkernel"]
+
++
+clique em ok
+
+. Repita este processo para criar um adaptador VMkernel para a segunda rede iSCSI.
+
+
+====
+.Adicione o adaptador NVMe sobre TCP
+[%collapsible%open]
+====
+Cada host ESXi no cluster de domínio de workload deve ter um adaptador de software NVMe sobre TCP instalado para cada rede NVMe/TCP estabelecida dedicada ao tráfego de storage.
+
+Para instalar adaptadores NVMe em TCP e descobrir as controladoras NVMe, siga estas etapas:
+
+. No cliente vSphere, navegue para um dos hosts ESXi no cluster do domínio da carga de trabalho. Na guia *Configure*, clique em *adaptadores de armazenamento* no menu e, em seguida, no menu suspenso *Add Software Adapter*, selecione *Add NVMe over TCP adapter*.
++
+image:vmware-vcf-asa-image99.png["Adicione o adaptador NVMe sobre TCP"]
+
++
+clique em ok
+
+. Na janela *Add Software NVMe over TCP adapter*, acesse o menu suspenso *Physical Network Adapter* e selecione o adaptador de rede física correto para ativar o adaptador NVMe.
++
+image:vmware-vcf-asa-image100.png["Selecione adaptador físico"]
+
++
+clique em ok
+
+. Repita esse processo para a segunda rede atribuída ao NVMe sobre o tráfego TCP, atribuindo o adaptador físico correto.
+. Selecione um dos adaptadores NVMe sobre TCP recém-instalados e, na guia *Controllers*, selecione *Add Controller*.
++
+image:vmware-vcf-asa-image101.png["Adicionar controlador"]
+
++
+clique em ok
+
+. Na janela *Add controller*, selecione a guia *automatically* e conclua as etapas a seguir.
++
+** Preencha os endereços IP de uma das interfaces lógicas SVM na mesma rede que o adaptador físico atribuído a este adaptador NVMe sobre TCP.
+** Clique no botão *Discover Controllers*.
+** Na lista de controladores descobertos, clique na caixa de seleção das duas controladoras com endereços de rede alinhados a esse adaptador NVMe sobre TCP.
+** Clique no botão *OK* para adicionar os controladores selecionados.
++
+image:vmware-vcf-asa-image102.png["Descubra e adicione controladores"]
+
++
+clique em ok
+
+
+
+. Após alguns segundos, você verá o namespace NVMe aparecer na guia dispositivos.
++
+image:vmware-vcf-asa-image103.png["Namespace NVMe listado em dispositivos"]
+
++
+clique em ok
+
+. Repita este procedimento para criar um adaptador NVMe sobre TCP para a segunda rede estabelecida para o tráfego NVMe/TCP.
+
+
+====
+.Implante o NVMe em TCP datastore
+[%collapsible%open]
+====
+Para criar um datastore VMFS no namespace NVMe, execute as seguintes etapas:
+
+. No cliente vSphere, navegue para um dos hosts ESXi no cluster do domínio da carga de trabalho. No menu *ações* selecione *armazenamento > novo armazenamento de dados...*.
++
+image:vmware-vcf-asa-image104.png["Adicione o adaptador NVMe sobre TCP"]
+
++
+clique em ok
+
+. No assistente *New datastore*, selecione *VMFS* como o tipo. Clique em *Next* para continuar.
+. Na página *Nome e seleção de dispositivo*, forneça um nome para o datastore e selecione o namespace NVMe na lista de dispositivos disponíveis.
++
+image:vmware-vcf-asa-image105.png["Seleção de nome e dispositivo"]
+
++
+clique em ok
+
+. Na página *VMFS version*, selecione a versão do VMFS para o datastore.
+. Na página *Partition Configuration*, faça as alterações desejadas no esquema de partição padrão. Clique em *Next* para continuar.
++
+image:vmware-vcf-asa-image106.png["Configuração de partição NVMe"]
+
++
+clique em ok
+
+. Na página *Pronto para concluir*, revise o resumo e clique em *concluir* para criar o datastore.
+. Navegue até o novo datastore no inventário e clique na guia *hosts*. Se configurado corretamente, todos os hosts ESXi no cluster devem ser listados e ter acesso ao novo datastore.
++
+image:vmware-vcf-asa-image107.png["Hosts conetados ao datastore"]
+
++
+clique em ok
+
+
+
+====
+
+
+== Informações adicionais
+
+Para obter informações sobre a configuração de sistemas de armazenamento ONTAP, consulte o link:https://docs.netapp.com/us-en/ontap["Documentação do ONTAP 9"] centro.
+
+Para obter informações sobre como configurar o VCF, link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentação do VMware Cloud Foundation"]consulte .

@@ -142,7 +142,7 @@ As seções a seguir fornecem procedimentos passo a passo para implantação aut
 
 === Pré-requisitos para implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -200,7 +200,7 @@ video::d1c859b6-e45a-44c7-8361-b10f012fc89b[panopto,width=360]
 
 === Arquivos de parâmetros de automação
 
-[%collapsible]
+[%collapsible%open]
 ====
 O manual de estratégia do Ansible executa tarefas de configuração e instalação do banco de dados com parâmetros predefinidos. Para esta solução de automação Oracle, existem três arquivos de parâmetros definidos pelo usuário que precisam de entrada do usuário antes da execução do manual de estratégia.
 
@@ -216,7 +216,7 @@ Além desses arquivos de variáveis definidos pelo usuário, existem vários arq
 
 === Configuração dos ficheiros de parâmetros
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Configuração do arquivo de destino do Ansible `hosts`:
 +
@@ -290,7 +290,7 @@ nfs_lif: 172.30.136.68
 
 === Execução do Playbook
 
-[%collapsible]
+[%collapsible%open]
 ====
 Há um total de cinco playbooks no kit de ferramentas de automação. Cada um executa diferentes blocos de tarefas e serve diferentes propósitos.
 
@@ -354,7 +354,7 @@ ansible-playbook -i hosts 5-destroy.yml -u azureuser -e @vars/vars.yml
 
 === Validação pós-execução
 
-[%collapsible]
+[%collapsible%open]
 ====
 Após a execução do manual de estratégia, faça login na VM do servidor Oracle DB para validar que o Oracle está instalado e configurado e um banco de dados de contentor é criado com êxito. A seguir está um exemplo de validação de banco de dados Oracle no host ora-01.
 
@@ -591,7 +591,7 @@ image:automation_ora_anf_nfs_em_01.png["Esta imagem fornece tela de login para o
 
 === Migrar banco de dados Oracle para o Azure
 
-[%collapsible]
+[%collapsible%open]
 ====
 A migração de banco de dados Oracle do local para a nuvem é um trabalho pesado. Usar a estratégia e a automação certas pode suavizar o processo e minimizar a interrupção do serviço e o tempo de inatividade. Siga esta instrução detalhada link:azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["Migração de banco de dados do local para a nuvem Azure"^]para guiar sua jornada de migração de banco de dados.
 
@@ -600,7 +600,7 @@ A migração de banco de dados Oracle do local para a nuvem é um trabalho pesad
 
 === Faça backup, restauração e clone do Oracle com o SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 A NetApp recomenda a ferramenta de IU do SnapCenter para gerenciar o banco de dados Oracle implantado na nuvem do Azure. Consulte TR-4988: link:snapctr_ora_azure_anf.html["Backup, recuperação e clone de banco de dados Oracle no ANF com o SnapCenter"^] Para obter mais detalhes.
 

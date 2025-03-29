@@ -62,7 +62,7 @@ Este cenário requer os seguintes componentes e configurações:
 
 A NetApp recomenda um design de rede redundante para NFS, fornecendo tolerância a falhas para sistemas de storage, switches, adaptadores de rede e sistemas host. É comum implantar NFS com uma única sub-rede ou várias sub-redes, dependendo dos requisitos de arquitetura.
 
-Consulte https://core.vmware.com/resource/best-practices-running-nfs-vmware-vsphere["Práticas recomendadas para executar o NFS com o VMware vSphere"] para obter informações detalhadas específicas do VMware vSphere.
+Consulte https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["Práticas recomendadas para executar o NFS com o VMware vSphere"] para obter informações detalhadas específicas do VMware vSphere.
 
 Para obter orientações de rede sobre o uso do ONTAP com VMware vSphere, consulte https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["Configuração de rede - NFS"] a seção da documentação dos aplicativos empresariais da NetApp.
 
@@ -91,7 +91,7 @@ As instruções passo a passo são delineadas no documento a seguir, localizado 
 Execute as etapas a seguir para configurar o dispositivo SRM e o adaptador SRA.
 
 .Ligue o dispositivo SRM para locais primários e secundários
-[%collapsible]
+[%collapsible%open]
 ====
 As etapas a seguir devem ser concluídas para os locais primário e secundário.
 
@@ -122,7 +122,7 @@ clique em ok
 
 ====
 .Configure o SRA no dispositivo SRM
-[%collapsible]
+[%collapsible%open]
 ====
 Execute as seguintes etapas para configurar o SRA no dispositivo SRM:
 
@@ -145,7 +145,7 @@ clique em ok
 Conclua as etapas a seguir para configurar o emparelhamento de sites, criar grupos de proteção,
 
 .Configurar o emparelhamento do local para SRM
-[%collapsible]
+[%collapsible%open]
 ====
 A etapa a seguir é concluída no cliente vCenter do site principal.
 
@@ -193,7 +193,7 @@ image:vmware-nfs-srm-image11.png["Resumo do par de locais"]
 
 ====
 .Adicione um par de matrizes para SRM
-[%collapsible]
+[%collapsible%open]
 ====
 A etapa a seguir é concluída na interface Site Recovery do site principal.
 
@@ -237,7 +237,7 @@ clique em ok
 
 ====
 .Configurar grupos de proteção para SRM
-[%collapsible]
+[%collapsible%open]
 ====
 A etapa a seguir é concluída na interface Site Recovery do site principal.
 
@@ -284,7 +284,7 @@ image:vmware-nfs-srm-image22.png["Plano de recuperação"]
 
 ====
 .Configure o plano de recuperação para SRM
-[%collapsible]
+[%collapsible%open]
 ====
 A etapa a seguir é concluída na interface Site Recovery do site principal.
 
@@ -329,7 +329,7 @@ Nesta seção, várias funções do uso da recuperação de desastres com o SRM 
  https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-operational_best_practices.html["Práticas recomendadas operacionais"]Consulte para obter mais informações sobre como usar o armazenamento ONTAP com operações de recuperação de desastres do SRM.
 
 .Teste de failover com o SRM
-[%collapsible]
+[%collapsible%open]
 ====
 A etapa a seguir é concluída na interface Site Recovery.
 
@@ -362,7 +362,7 @@ image:vmware-nfs-srm-image30.png["Armazenamento de dados recém-montado"]
 
 ====
 .Execute o plano de recuperação com o SRM
-[%collapsible]
+[%collapsible%open]
 ====
 Executar uma recuperação completa e failover no local secundário.
 
@@ -394,4 +394,4 @@ Para obter a documentação do NetApp sobre como usar o armazenamento ONTAP com 
 
 Para obter informações sobre a configuração de sistemas de armazenamento ONTAP, consulte o link:https://docs.netapp.com/us-en/ontap["Documentação do ONTAP 9"] centro.
 
-Para obter informações sobre como configurar o VCF, link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentação do VMware Cloud Foundation"]consulte .
+Para obter informações sobre como configurar o VCF, link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentação do VMware Cloud Foundation"]consulte .

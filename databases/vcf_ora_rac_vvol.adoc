@@ -146,7 +146,7 @@ As seções a seguir fornecem procedimentos passo a passo para a implantação d
 
 === Pré-requisitos para implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -165,7 +165,7 @@ NOTE: Certifique-se de ter alocado pelo MENOS 50g GB no volume raiz da VM Oracle
 
 === Criar perfil de capacidade de armazenamento
 
-[%collapsible]
+[%collapsible%open]
 ====
 Primeiro, crie um perfil de capacidade de armazenamento personalizado para o armazenamento ONTAP sublinhado que hospeda o armazenamento de dados vVols.
 
@@ -204,7 +204,7 @@ image:vcf_ora_vvol_scp_07.png["Captura de tela mostrando uma configuração de p
 
 === Crie e configure o armazenamento de dados vVols
 
-[%collapsible]
+[%collapsible%open]
 ====
 Com os pré-requisitos concluídos, faça login no VCF como um usuário admin via cliente vSphere, navegando para o domínio da carga de trabalho. Não use a opção de armazenamento VMware incorporada para criar vVols. Em vez disso, use a ferramenta NetApp ONTAP para criar vVols. A seguir demonstra os procedimentos para criar e configurar vVols.
 
@@ -258,7 +258,7 @@ image:vcf_orarac_vvol_datastore_07.png["Captura de tela mostrando a configuraç�
 
 === Criar política de storage de VM com base no perfil de capacidade de storage
 
-[%collapsible]
+[%collapsible%open]
 ====
 Antes de provisionar o storage do vVols datastore para a VM do banco de dados, adicione uma política de armazenamento de VM com base no perfil de capacidade de armazenamento criado na etapa anterior. A seguir estão os procedimentos.
 
@@ -301,7 +301,7 @@ image:vcf_ora_vvol_vm_policy_07.png["Captura de tela mostrando uma configuraçã
 
 === Alocar discos para VMs RAC a partir de armazenamentos de dados vVols e configurar o armazenamento de banco de dados
 
-[%collapsible]
+[%collapsible%open]
 ====
 A partir do cliente vSphere, adicione os discos desejados dos datastores vVols à VM do banco de dados editando as configurações da VM. Em seguida, faça login na VM para formatar e montar o disco binário para montar pontos /u01. O seguinte demonstra as etapas e tarefas exatas.
 
@@ -469,7 +469,7 @@ UUID=aff942c4-b224-4b62-807d-6a5c22f7b623 /boot                   xfs     defaul
 
 === Implantação do Oracle RAC no VCF
 
-[%collapsible]
+[%collapsible%open]
 ====
 Recomenda-se utilizar o kit de ferramentas de automação NetApp para implantar o Oracle RAC no VCF com vVols. Leia atentamente a instrução incluída (readme) e configure arquivos de parâmetros de implantação, como arquivo de destino de implantação - hosts, arquivo de variáveis globais - vars/vars.yml e arquivo de variáveis VM DB local - host_vars/host_name.yml seguindo as instruções no kit de ferramentas. A seguir estão os procedimentos passo a passo.
 
@@ -628,7 +628,7 @@ ansible-playbook -i hosts 0-all_playbook.yml -u admin -e @vars/vars.yml
 
 === Validação da implantação do Oracle RAC no VCF
 
-[%collapsible]
+[%collapsible%open]
 ====
 Esta seção fornece detalhes sobre a validação da implantação do Oracle RAC no VCF para garantir que todos os recursos do Oracle RAC estejam totalmente implantados, configurados e funcionando conforme esperado.
 
@@ -945,7 +945,7 @@ image:vcf_orarac_vvol_em_01.png["Captura de tela mostrando a configuração do O
 
 ==== Configuração do SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 O SnapCenter versão 6 tem muitos aprimoramentos de recursos em relação à versão 5, incluindo suporte ao armazenamento de dados do VMware vVols. O SnapCenter confia em um plug-in do lado do host em uma VM de banco de dados para executar atividades de gerenciamento de proteção de dados com reconhecimento de aplicações. Para obter informações detalhadas sobre o plug-in do NetApp SnapCenter para Oracle, consulte esta documentação link:https://docs.netapp.com/us-en/snapcenter/protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html["O que você pode fazer com o Plug-in para Oracle Database"^]. O seguinte fornece etapas de alto nível para configurar o SnapCenter versão 6 para backup e recuperação de banco de dados do Oracle RAC no VCF.
 
@@ -1001,7 +1001,7 @@ NOTE: Certifique-se de que o nome do servidor SnapCenter possa ser resolvido par
 
 ==== Backup de banco de dados
 
-[%collapsible]
+[%collapsible%open]
 ====
 O SnapCenter utiliza o snapshot de volume do ONTAP para backup, restauração ou clone de banco de dados muito mais rápidos em comparação com a metodologia tradicional baseada em RMAN. Os snapshots são consistentes com aplicações, pois o banco de dados é colocado no modo de backup Oracle antes de um snapshot.
 
@@ -1044,7 +1044,7 @@ image:vcf_ora_vvol_snapctr_bkup_10.png["Captura de tela mostrando a configuraç�
 
 ==== Restauração/recuperação de banco de dados
 
-[%collapsible]
+[%collapsible%open]
 ====
 O SnapCenter fornece várias opções de restauração e recuperação para o banco de dados do Oracle RAC a partir do backup instantâneo. Neste exemplo, demonstramos a restauração a partir de um backup instantâneo mais antigo e, em seguida, encaminhar o banco de dados para o último log disponível.
 

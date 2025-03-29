@@ -16,7 +16,11 @@ summary:
 [role="lead"]
 As cargas de trabalho no VCF são protegidas pelo vSphere Metro Storage Cluster (vMSC). O ONTAP MetroCluster com implantação FC ou IP é normalmente utilizado para fornecer tolerância de falhas de armazenamentos de dados VMFS e NFS.
 
-image:vmw-vcf-vmsc-viwld-mcc-image01.png["Domínio de carga de trabalho VCF VI com vMSC"]
+image:vmw-vcf-vmsc-viwld-mcc-image01.png["Domínio de carga de trabalho VCF VI com vMSC, largura de 500 mm"]
+
+
+
+== Introdução
 
 Nesta solução, demonstraremos como implementar o domínio de carga de trabalho do VCF VI com NFS como datastore principal usando o ONTAP MetroCluster. O VI Workload Domain pode ser implantado usando o SDDC Manager ou importar um ambiente vSphere existente como VI Workload Domain.
 
@@ -97,7 +101,7 @@ Para obter uma visão geral do processo de conversão, https://techdocs.broadcom
 Implante o vSphere em hosts usando o ISO baixado do portal de suporte da Broadcom ou use a opção de implantação existente para o host vSphere.
 
 .Montar o armazenamento de dados NFS para hospedar VMs
-[%collapsible]
+[%collapsible%open]
 ====
 Nessa etapa, criamos o volume NFS e o montamos como datastore para hospedar VMs.
 
@@ -137,7 +141,7 @@ A ferramenta de importação VCF, da VMware by Broadcom, é um utilitário usado
 Para obter mais informações, https://docs.vmware.com/en/VMware-Cloud-Foundation/5.2/vcf-admin/GUID-44CBCB85-C001-41B2-BBB4-E71928B8D955.html["Opções e parâmetros da ferramenta de importação VCF"] consulte .
 
 .Copiar e extrair a ferramenta de importação VCF
-[%collapsible]
+[%collapsible%open]
 ====
 A ferramenta de importação do VCF é usada no vCenter Appliance para validar que o cluster do vSphere está em um estado saudável para o processo de conversão ou importação do VCF.
 
@@ -153,7 +157,7 @@ tar -xvf vcf-brownfield-import-<buildnumber>.tar.gz
 
 ====
 .Valide o vCenter Appliance
-[%collapsible]
+[%collapsible%open]
 ====
 Use a ferramenta importação do VCF para validar o vCenter Appliance antes da importação como VI Workload Domain.
 
@@ -162,7 +166,7 @@ Use a ferramenta importação do VCF para validar o vCenter Appliance antes da i
 
 ====
 .Crie um arquivo JSON para implantação do NSX
-[%collapsible]
+[%collapsible%open]
 ====
 Para implantar o NSX Manager ao importar ou converter um ambiente vSphere para o VMware Cloud Foundation, crie uma especificação de implantação do NSX. A implantação do NSX requer um mínimo de 3 hosts.
 
@@ -206,7 +210,7 @@ Copie o arquivo JSON para a pasta home do usuário do vcf no Gerenciador do SDDC
 
 ====
 .Carregue o software para o SDDC Manager
-[%collapsible]
+[%collapsible%open]
 ====
 Copie a ferramenta de importação do VCF para a pasta inicial do usuário do vcf e o pacote de implantação do NSX para a pasta /nfs/vmware/vcf/nfs-mount/bundle/ no Gerenciador do SDDC.
 
@@ -214,7 +218,7 @@ Copie a ferramenta de importação do VCF para a pasta inicial do usuário do vc
 
 ====
 .Verificação detalhada do vCenter antes da conversão
-[%collapsible]
+[%collapsible%open]
 ====
 Antes de executar uma operação de conversão de domínio de gerenciamento ou uma operação de importação de domínio de carga de trabalho VI, você deve fazer uma verificação detalhada para garantir que a configuração do ambiente vSphere existente seja compatível com a conversão ou importação. . SSH para o dispositivo SDDC Manager como usuário vcf. . Navegue até o diretório onde você copiou a ferramenta de importação do VCF. . Execute o seguinte comando para verificar se o ambiente vSphere pode ser convertido
 
@@ -225,7 +229,7 @@ image:vmw-vcf-vmsc-viwld-mcc-image08.png["Verificação VCF VC"]
 
 ====
 .Converta o cluster vSphere para o domínio de carga de trabalho VCF VI
-[%collapsible]
+[%collapsible%open]
 ====
 A ferramenta de importação VCF é usada para conduzir o processo de conversão.
 
@@ -246,7 +250,7 @@ Ao inspecionar o cluster, ele fornece as informações dos armazenamentos de dad
 
 ====
 .Adicione licenciamento ao VCF
-[%collapsible]
+[%collapsible%open]
 ====
 Depois de concluir a conversão, o licenciamento deve ser adicionado ao ambiente.
 

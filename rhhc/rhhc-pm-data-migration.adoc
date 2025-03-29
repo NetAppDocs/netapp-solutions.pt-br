@@ -30,7 +30,7 @@ O serviço Red Hat OpenShift na AWS, bem como o Amazon FSX for NetApp ONTAP (FSX
 video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto]
 A migração de aplicativos de contêiner envolve:
 
-* Volumes persistentes: Isso pode ser feito usando o BlueXP . Outra opção é usar o Astra Control Center para lidar com migrações de aplicações de contêiner do ambiente local para a nuvem. A automação pode ser usada para o mesmo propósito.
+* Volumes persistentes: Isso pode ser feito usando o BlueXP . Outra opção é usar o Trident Protect para lidar com migrações de aplicativos de contêiner do ambiente local para a nuvem. A automação pode ser usada para o mesmo propósito.
 * Metadados de aplicativos: Isso pode ser feito usando OpenShift GitOps (Argo CD).
 
 

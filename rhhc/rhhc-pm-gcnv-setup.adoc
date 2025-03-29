@@ -41,7 +41,7 @@ Criar classes de back-end e storage usando o Trident (para volumes do Google Clo
 
 * Consulte aqui para obter detalhes sobre como criar backend.
 * Se qualquer uma das classes de armazenamento atuais no kureau estiver marcada como padrão, remova essa anotação editando a classe de armazenamento.
-* Crie pelo menos uma classe de storage para volumes do NetApp com o provisionador de CSI Astra Trident. Faça exatamente uma das classes de armazenamento o padrão usando uma anotação. Isso permitirá que um PVC use essa classe de armazenamento quando não for explicitamente chamado no manifesto PVC. Um exemplo com a anotação é mostrado abaixo.
+* Crie pelo menos uma classe de storage para o NetApp volumes com o provisionador de CSI do Trident. Faça exatamente uma das classes de armazenamento o padrão usando uma anotação. Isso permitirá que um PVC use essa classe de armazenamento quando não for explicitamente chamado no manifesto PVC. Um exemplo com a anotação é mostrado abaixo.
 
 
 [source]

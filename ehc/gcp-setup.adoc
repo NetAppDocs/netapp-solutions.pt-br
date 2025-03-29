@@ -21,7 +21,7 @@ Esta seção descreve como configurar e gerenciar o GCVE e usá-lo em combinaç�
 O processo de configuração pode ser dividido nas seguintes etapas:
 
 .Implantar e configurar o GCVE
-[%collapsible]
+[%collapsible%open]
 ====
 Para configurar um ambiente GCVE no GCP, faça login no console do GCP e acesse o portal do VMware Engine.
 
@@ -40,7 +40,7 @@ Observação: A criação de nuvem privada pode levar de 30 minutos a 2 horas.
 
 ====
 .Ative o acesso privado ao GCVE
-[%collapsible]
+[%collapsible%open]
 ====
 Depois que a nuvem privada for provisionada, configure o acesso privado à nuvem privada para conexão de caminho de dados de alta taxa de transferência e baixa latência.
 
@@ -62,7 +62,7 @@ image:gcve-access-4.png["Figura que mostra a caixa de diálogo de entrada/saída
 
 ====
 .Implante o armazenamento de dados suplementar do Google Cloud NetApp volumes no GCVE
-[%collapsible]
+[%collapsible%open]
 ====
 Consulte link:gcp-ncvs-datastore.html["Procedimento para implantar armazenamento de dados NFS suplementar com volumes NetApp no GCVE"]
 

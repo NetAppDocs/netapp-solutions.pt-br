@@ -72,10 +72,6 @@ Para obter mais informações, visite o site da NetApp https://www.netapp.com["a
 
 === Integrações de storage da NetApp
 
-O NetApp Astra Control oferece um conjunto avançado de serviços de gerenciamento de dados com reconhecimento de aplicações e storage para workloads Kubernetes com monitoramento de estado, implantados em um ambiente local e equipados com tecnologia de proteção de dados confiável da NetApp.
-
-Para obter mais informações, visite o site do NetApp Astra https://docs.netapp.com/us-en/astra-family/["aqui"] .
-
 O Trident é um orquestrador de storage de código aberto e totalmente compatível para distribuições de contêineres e Kubernetes, incluindo o Red Hat OpenShift.
 
 Para obter mais informações, visite o site da Trident https://docs.netapp.com/us-en/trident/index.html["aqui"] .
@@ -100,9 +96,6 @@ Esta seção é dedicada a personalizações que os usuários do mundo real prov
 
 
 | NetApp Element | Armazenamento | 12,3 
-
-
-| NetApp Astra Control | Gerenciamento de dados com reconhecimento de aplicações | 21.12.60, 23,04, 23,07, 23,10, 24,02 
 
 
 | NetApp Trident | Orquestração de armazenamento | 22.01.0, 23,04, 23,07, 23,10, 24,02 

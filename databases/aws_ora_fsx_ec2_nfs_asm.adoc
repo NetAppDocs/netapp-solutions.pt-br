@@ -114,7 +114,7 @@ A seção a seguir fornece procedimentos de implantação passo a passo.
 
 === Pré-requisitos para implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -136,7 +136,7 @@ NOTE: Certifique-se de que você alocou pelo MENOS 50g em volume raiz de instân
 
 === Configuração do kernel da instância EC2
 
-[%collapsible]
+[%collapsible%open]
 ====
 Com os pré-requisitos provisionados, faça login na instância EC2 como EC2-user e sudo para root user para configurar o kernel Linux para instalação Oracle.
 
@@ -245,7 +245,7 @@ usermod -a -G asm oracle
 
 === Provisione e exporte volumes NFS para ser montado no host de instância do EC2
 
-[%collapsible]
+[%collapsible%open]
 ====
 Provisione três volumes da linha de comando fazendo login no cluster FSX via ssh como usuário fsxadmin com o IP de gerenciamento de cluster FSX para hospedar os arquivos binários, dados e Registros do banco de dados Oracle.
 
@@ -297,7 +297,7 @@ svm_ora   svm_ora_root aggr1        online     RW          1GB    972.1MB    0%
 
 === Configuração de armazenamento de banco de dados
 
-[%collapsible]
+[%collapsible%open]
 ====
 Agora, importe e configure o armazenamento FSX para a instalação de infraestrutura de grade Oracle e banco de dados no host de instância EC2.
 
@@ -406,7 +406,7 @@ chmod 640 /oralogs/asm/*
 
 === Instalação da infraestrutura Oracle Grid
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Faça login na instância EC2 como o usuário EC2 via SSH e ative a autenticação de senha descomentando `PasswordAuthentication yes` e depois comentando `PasswordAuthentication no` .
 +
@@ -542,7 +542,7 @@ ora.evmd            ONLINE  ONLINE       ip-172-30-15-58          STABLE
 
 === Instalação do banco de dados Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Faça login como o usuário Oracle e desmarque `$ORACLE_HOME` e `$ORACLE_SID` se ele estiver definido.
 +

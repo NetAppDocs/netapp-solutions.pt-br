@@ -13,8 +13,6 @@ summary:
 :imagesdir: ../media/
 
 
-Author(s): João Paulo, são Paulo - NetApp Engenharia de soluções
-
 [role="lead"]
 Este documento aborda as etapas necessárias para executar o backup e a recuperação para o Microsoft SQL Server no AWS FSX ONTAP com SnapCenter. Isso inclui as seguintes informações:
 
@@ -51,7 +49,7 @@ A NetApp recomenda o uso do controle de acesso baseado em funções (RBAC) para 
 Expanda as seções a seguir para ver as instruções detalhadas sobre como concluir cada etapa.
 
 .Adicione as credenciais
-[%collapsible]
+[%collapsible%open]
 ====
 Vá para *Configurações*, selecione *credenciais* e clique em (**).
 
@@ -63,7 +61,7 @@ image:sqlsb-aws-image3.png["Figura que mostra a caixa de diálogo de entrada/sa�
 
 ====
 .Configurar o armazenamento
-[%collapsible]
+[%collapsible%open]
 ====
 Para configurar o armazenamento no SnapCenter, execute as seguintes etapas:
 
@@ -84,7 +82,7 @@ image:sqlsb-aws-image6.png["Figura que mostra a caixa de diálogo de entrada/sa�
 
 ====
 .Adicione um host SQL Server ao SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Para adicionar um host do SQL Server, execute as seguintes etapas:
 
@@ -115,7 +113,7 @@ image:sqlsb-aws-image10.png["Figura que mostra a caixa de diálogo de entrada/sa
 
 ====
 .Configure o diretório de log
-[%collapsible]
+[%collapsible%open]
 ====
 Para configurar um diretório de log do host, execute as seguintes etapas:
 
@@ -153,7 +151,7 @@ Uma política de backup é um conjunto de regras que regem como gerenciar, agend
 Expanda as seções a seguir para ver as instruções detalhadas sobre como concluir cada etapa.
 
 .Configure a operação de backup para um banco de dados FCI
-[%collapsible]
+[%collapsible%open]
 ====
 Para configurar uma política de backup para um banco de dados FCI, execute as seguintes etapas:
 

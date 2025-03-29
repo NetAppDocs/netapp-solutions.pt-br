@@ -27,7 +27,7 @@ Essa solução inclui tecnologias inovadoras da NetApp, VMware, Amazon Web Servi
 === VMware
 
 .Base do VMware Cloud
-[%collapsible]
+[%collapsible%open]
 ====
 A plataforma VMware Cloud Foundation integra várias ofertas de produtos que permitem que os administradores provisionem infraestruturas lógicas em um ambiente heterogêneo. Essas infraestruturas (conhecidas como domínios) oferecem operações consistentes em nuvens privadas e públicas. Acompanha o software Cloud Foundation uma lista de material que identifica componentes pré-validados e qualificados para reduzir o risco para os clientes e facilitar a implantação.
 
@@ -47,7 +47,7 @@ Para obter mais informações sobre o VMware Cloud Foundation, consulte o https:
 
 ====
 .VMware vSphere
-[%collapsible]
+[%collapsible%open]
 ====
 O VMware vSphere é uma plataforma de virtualização que transforma recursos físicos em pools de computação, rede e storage que podem ser usados para atender aos requisitos de carga de trabalho e aplicativos dos clientes. Os principais componentes do VMware vSphere incluem os seguintes:
 
@@ -63,7 +63,7 @@ Para obter mais informações sobre as soluções NetApp com VMware, siga link:.
 
 ====
 .VMware NSX
-[%collapsible]
+[%collapsible%open]
 ====
 Comumente referido como um hypervisor de rede, o VMware NSX emprega um modelo definido por software para conetar cargas de trabalho virtualizadas. O VMware NSX é onipresente no local e no VMware Cloud na AWS, onde capacita a virtualização e a segurança de rede para aplicativos e cargas de trabalho do cliente.
 
@@ -75,7 +75,7 @@ Para obter mais informações sobre o VMware NSX, siga https://docs.vmware.com/e
 === NetApp
 
 .NetApp ONTAP
-[%collapsible]
+[%collapsible%open]
 ====
 O software NetApp ONTAP é uma solução de storage líder para ambientes VMware vSphere há quase duas décadas e continua adicionando recursos inovadores para simplificar o gerenciamento e reduzir custos. O uso do ONTAP em conjunto com o vSphere é uma ótima combinação que permite reduzir as despesas de hardware do host e software VMware. Você também pode proteger seus dados a um custo menor com alta performance consistente e aproveitar as eficiências de storage nativo.
 
@@ -83,7 +83,7 @@ Para obter mais informações sobre o NetApp ONTAP, siga https://docs.vmware.com
 
 ====
 .Ferramentas do NetApp ONTAP para VMware
-[%collapsible]
+[%collapsible%open]
 ====
 As ferramentas do ONTAP para VMware combinam vários plug-ins em um único dispositivo virtual que fornece gerenciamento de ciclo de vida completo para máquinas virtuais em ambientes VMware que usam sistemas de storage NetApp. As ferramentas do ONTAP para VMware incluem o seguinte:
 
@@ -98,7 +98,7 @@ Para obter mais informações sobre as ferramentas do NetApp ONTAP para VMware, 
 
 ====
 .NetApp SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 O software NetApp SnapCenter é uma plataforma empresarial fácil de usar para coordenar e gerenciar com segurança a proteção de dados em aplicações, bancos de dados e sistemas de arquivos. O SnapCenter simplifica o gerenciamento do ciclo de vida de backup, restauração e clone, transferindo essas tarefas para os proprietários de aplicações sem sacrificar a capacidade de supervisionar e regular a atividade nos sistemas de storage. Ao utilizar o gerenciamento de dados baseado em storage, o SnapCenter aumenta a performance e a disponibilidade, além de reduzir o tempo de teste e desenvolvimento.
 
@@ -112,7 +112,7 @@ Para obter mais informações sobre o NetApp SnapCenter, siga https://docs.netap
 === Proteção de dados de terceiros
 
 .Replicação do Veeam Backup &
-[%collapsible]
+[%collapsible%open]
 ====
 O Veeam Backup & Replication é uma solução de backup, recuperação e gerenciamento de dados para workloads físicos, virtuais e de nuvem. O Veeam Backup & Replication tem integrações especializadas com a tecnologia NetApp Snapshot que protege ainda mais os ambientes vSphere.
 
@@ -124,7 +124,7 @@ Para obter mais informações sobre o Veeam Backup & Replication, siga https://w
 === Nuvem pública
 
 .Gerenciamento de identidade e acesso da AWS
-[%collapsible]
+[%collapsible%open]
 ====
 Os ambientes da AWS contêm uma ampla variedade de produtos, incluindo computação, storage, banco de dados, rede, análises e muito mais para ajudar a resolver os desafios de negócios. As empresas devem ser capazes de definir quem está autorizado a acessar esses produtos, serviços e recursos. É igualmente importante determinar em que condições os usuários podem manipular, alterar ou adicionar configurações.
 
@@ -134,7 +134,7 @@ Para obter mais informações sobre O AIM, siga https://docs.aws.amazon.com/iam/
 
 ====
 .VMware Cloud na AWS
-[%collapsible]
+[%collapsible%open]
 ====
 O VMware Cloud on AWS leva o software SDDC de classe empresarial da VMware para a nuvem AWS, com acesso otimizado a serviços nativos da AWS. Equipado com o VMware Cloud Foundation, o VMware Cloud on AWS integra os produtos de computação, armazenamento e virtualização de rede da VMware (VMware vSphere, VMware VSAN e VMware NSX), juntamente com o gerenciamento do VMware vCenter Server otimizado para execução em infraestrutura AWS dedicada, elástica e bare-metal.
 
@@ -142,7 +142,7 @@ Para obter mais informações sobre o VMware Cloud na AWS, siga https://docs.vmw
 
 ====
 .Amazon FSX ONTAP
-[%collapsible]
+[%collapsible%open]
 ====
 O Amazon FSX ONTAP é um sistema ONTAP totalmente gerenciado e com recursos, disponível como um serviço AWS nativo. Desenvolvido com o NetApp ONTAP, ele oferece recursos conhecidos e oferece a simplicidade de um serviço de nuvem totalmente gerenciado.
 
@@ -158,7 +158,7 @@ Para obter mais informações sobre o Amazon FSX ONTAP, siga https://aws.amazon.
 Esta seção fornece instruções para ajudar os usuários a verificar, configurar e validar seus ambientes locais e de nuvem para uso com o NetApp e VMware. Especificamente, essa solução se concentra no caso de uso conectado ao convidado da VMware com o ONTAP AFF on-premises e o VMware Cloud e o AWS FSX ONTAP para a nuvem. Esta solução é demonstrada com duas aplicações: Oracle e MS SQL em um cenário de recuperação de desastres.
 
 .Habilidades e conhecimento
-[%collapsible]
+[%collapsible%open]
 ====
 As habilidades e informações a seguir são necessárias para acessar o Google Cloud NetApp volumes para AWS:
 
@@ -173,7 +173,7 @@ As habilidades e informações a seguir são necessárias para acessar o Google 
 
 ====
 .Administrativo
-[%collapsible]
+[%collapsible%open]
 ====
 Seja interagindo com recursos no local ou na nuvem, os usuários e administradores devem ter a capacidade e os direitos de provisionar esses recursos onde precisam, quando necessário, de acordo com seus direitos. A interação de suas funções e permissões para seus sistemas locais, incluindo ONTAP e VMware, e seus recursos de nuvem, incluindo VMware Cloud e AWS, é fundamental para uma implantação bem-sucedida de nuvem híbrida.
 
@@ -195,20 +195,20 @@ As tarefas administrativas a seguir devem estar implementadas para criar uma sol
 
 ====
 .On-premises
-[%collapsible]
+[%collapsible%open]
 ====
 O ambiente virtual da VMware inclui o licenciamento de hosts ESXi, VMware vCenter Server, rede NSX e outros componentes, como pode ser visto na figura a seguir. Todos são licenciados de forma diferente e é importante entender como os componentes subjacentes consomem a capacidade licenciada disponível.
 
 image:dr-vmc-aws-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 .Hosts ESXi
-[%collapsible]
+[%collapsible%open]
 =====
 Os hosts de computação em um ambiente VMware são implantados com o ESXi. Quando licenciadas com o vSphere em vários níveis de capacidade, as máquinas virtuais podem aproveitar as CPUs físicas em cada host e os recursos intitulados aplicáveis.
 
 =====
 .VMware vCenter
-[%collapsible]
+[%collapsible%open]
 =====
 O gerenciamento de hosts e armazenamento ESXi é um dos muitos recursos disponibilizados ao administrador da VMware com o vCenter Server. A partir do VMware vCenter 7,0, há três edições do VMware vCenter disponíveis, dependendo da licença:
 
@@ -219,7 +219,7 @@ O gerenciamento de hosts e armazenamento ESXi é um dos muitos recursos disponib
 
 =====
 .VMware NSX
-[%collapsible]
+[%collapsible%open]
 =====
 O VMware NSX oferece aos administradores a flexibilidade necessária para habilitar recursos avançados. Os recursos são ativados dependendo da versão do NSX-T Edition licenciada:
 
@@ -231,7 +231,7 @@ O VMware NSX oferece aos administradores a flexibilidade necessária para habili
 
 =====
 .NetApp ONTAP
-[%collapsible]
+[%collapsible%open]
 =====
 O licenciamento com o NetApp ONTAP refere-se a como os administradores obtêm acesso a vários recursos e recursos no armazenamento do NetApp. Uma licença é um Registro de um ou mais direitos de software. A instalação de chaves de licença, também conhecidas como códigos de licença, permite que você use determinados recursos ou serviços em seu sistema de armazenamento. Por exemplo, o ONTAP dá suporte a todos os principais protocolos de cliente padrão do setor (NFS, SMB, FC, FCoE, iSCSI e NVMe/FC) com licenciamento.
 
@@ -247,7 +247,7 @@ Os tipos de licença são os seguintes:
 
 =====
 .NetApp SnapCenter
-[%collapsible]
+[%collapsible%open]
 =====
 O SnapCenter requer várias licenças para habilitar operações de proteção de dados. O tipo de licenças do SnapCenter que você instala depende do ambiente de storage e dos recursos que deseja usar. A licença padrão do SnapCenter protege aplicativos, bancos de dados, sistemas de arquivos e máquinas virtuais. Antes de adicionar um sistema de storage ao SnapCenter, você precisa instalar uma ou mais licenças do SnapCenter.
 
@@ -263,7 +263,7 @@ Consulte os seguintes pré-requisitos de backup do SnapCenter para esta soluçã
 
 =====
 .MS SQL
-[%collapsible]
+[%collapsible%open]
 =====
 Como parte da validação desta solução, usamos o MS SQL para demonstrar a recuperação de desastres.
 
@@ -271,23 +271,23 @@ Para obter mais informações sobre as melhores práticas com MS SQL e NetApp ON
 
 =====
 .Oracle
-[%collapsible]
+[%collapsible%open]
 =====
 Como parte da validação desta solução, usamos A ORACLE para demonstrar a recuperação de desastres. Para obter mais informações sobre as práticas recomendadas com ORACLE e NetApp ONTAP, siga https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-overview.html["este link"^].
 
 =====
 .Veeam
-[%collapsible]
+[%collapsible%open]
 =====
 Como parte da validação dessa solução, usamos a Veeam para demonstrar a recuperação de desastres. Para obter mais informações sobre as melhores práticas com a Veeam e o NetApp ONTAP, siga https://www.veeam.com/wp-netapp-configuration-best-practices-guide.html["este link"^].
 
 =====
 ====
 .Nuvem
-[%collapsible]
+[%collapsible%open]
 ====
 .AWS
-[%collapsible]
+[%collapsible%open]
 =====
 Você deve ser capaz de executar as seguintes tarefas:
 
@@ -299,7 +299,7 @@ Você deve ser capaz de executar as seguintes tarefas:
 
 =====
 .VMware Cloud
-[%collapsible]
+[%collapsible%open]
 =====
 Você deve ser capaz de executar as seguintes tarefas:
 
@@ -308,7 +308,7 @@ Você deve ser capaz de executar as seguintes tarefas:
 
 =====
 .Verificação de conta do Cloud Manager
-[%collapsible]
+[%collapsible%open]
 =====
 Você precisa ser capaz de implantar recursos com o NetApp Cloud Manager. Para verificar se é possível, execute as seguintes tarefas:
 
@@ -320,7 +320,7 @@ Você precisa ser capaz de implantar recursos com o NetApp Cloud Manager. Para v
 
 =====
 .Amazon FSX ONTAP
-[%collapsible]
+[%collapsible%open]
 =====
 Você deve ser capaz de executar a seguinte tarefa depois de ter uma conta da AWS:
 
@@ -330,12 +330,12 @@ Você deve ser capaz de executar a seguinte tarefa depois de ter uma conta da AW
 =====
 ====
 .Pré-requisitos de configuração
-[%collapsible]
+[%collapsible%open]
 ====
 Dadas as diferentes topologias que os clientes têm, esta seção se concentra nas portas necessárias para permitir a comunicação de recursos locais para a nuvem.
 
 .Considerações de portas e firewall necessárias
-[%collapsible]
+[%collapsible%open]
 =====
 As tabelas a seguir descrevem as portas que devem ser habilitadas em toda a sua infraestrutura.
 
@@ -443,14 +443,14 @@ A tabela a seguir lista os requisitos da porta SnapCenter.
 Essa solução requer uma comunicação bem-sucedida do cluster ONTAP local para os endereços de rede de cluster de interconexão do AWS FSX ONTAP para executar operações do NetApp SyncMirror. Além disso, um servidor de backup da Veeam precisa ter acesso a um bucket do AWS S3. Em vez de usar o transporte pela Internet, um link VPN ou Direct Connect existente pode ser usado como um link privado para um bucket do S3.
 
 .No local
-[%collapsible]
+[%collapsible%open]
 ====
 O ONTAP dá suporte a todos os principais protocolos de storage usados para virtualização, incluindo iSCSI, Fibre Channel (FC), Fibre Channel over Ethernet (FCoE) ou memória não volátil Express sobre Fibre Channel (NVMe/FC) para ambientes SAN. O ONTAP também é compatível com NFS (v3 e v4,1) e SMB ou S3 para conexões de convidados. Você é livre para escolher o que funciona melhor para o seu ambiente e pode combinar protocolos conforme necessário em um único sistema. Por exemplo, você pode aumentar o uso geral de armazenamentos de dados NFS com alguns iSCSI LUNs ou compartilhamentos de convidados.
 
 Essa solução utiliza datastores NFS para datastores no local para VMDKs convidados e iSCSI e NFS para dados de aplicações convidadas.
 
 .Redes de clientes
-[%collapsible]
+[%collapsible%open]
 =====
 As portas de rede VMkernel e as redes definidas por software fornecem conetividade aos hosts ESXi, permitindo que eles se comuniquem com elementos fora do ambiente VMware. A conetividade depende do tipo de interfaces VMkernel usadas.
 
@@ -464,7 +464,7 @@ Para esta solução, as seguintes interfaces VMkernel foram configuradas:
 
 =====
 .Redes de storage provisionadas
-[%collapsible]
+[%collapsible%open]
 =====
 Um LIF (interface lógica) representa um ponto de acesso à rede para um nó no cluster. Isso permite a comunicação com as máquinas virtuais de armazenamento que abrigam os dados acessados pelos clientes. Você pode configurar LIFs em portas pelas quais o cluster envia e recebe comunicações pela rede.
 
@@ -477,12 +477,12 @@ Para essa solução, os LIFs são configurados para os seguintes protocolos de s
 =====
 ====
 .Opções de conectividade de nuvem
-[%collapsible]
+[%collapsible%open]
 ====
 Os clientes têm muitas opções ao conetar seu ambiente local a recursos de nuvem, incluindo a implantação de topologias VPN ou Direct Connect.
 
 .Rede privada virtual (VPN)
-[%collapsible]
+[%collapsible%open]
 =====
 As VPNs (redes privadas virtuais) são frequentemente usadas para criar um túnel IPSec seguro com redes MPLS privadas ou baseadas na Internet. Uma VPN é fácil de configurar, mas não tem confiabilidade (se baseada na Internet) e velocidade. O ponto final pode ser encerrado na AWS VPC ou no VMware Cloud SDDC. Para essa solução de recuperação de desastres, criamos conetividade com o AWS FSX ONTAP a partir da rede local. Assim, ele pode ser encerrado na VPC da AWS (gateway privado virtual ou gateway de trânsito), onde o FSX ONTAP está conetado.
 
@@ -497,7 +497,7 @@ image:dr-vmc-aws-image3.png["Figura que mostra a caixa de diálogo de entrada/sa
 
 =====
 .Conexão direta
-[%collapsible]
+[%collapsible%open]
 =====
 O Direct Connect fornece um link dedicado à rede AWS. As conexões dedicadas criam links para a AWS usando uma porta Ethernet 1Gbps, 10Gbps ou 100Gbps. Os parceiros do AWS Direct Connect fornecem conexões hospedadas usando links de rede pré-estabelecidos entre si e a AWS e estão disponíveis de 50Mbps a 10Gbps. Por padrão, o tráfego não é criptografado. No entanto, as opções estão disponíveis para proteger o tráfego com MACsec ou IPsec. O MACsec fornece criptografia de camada 2, enquanto o IPsec fornece criptografia de camada 3. O MACsec fornece uma melhor segurança ocultando quais dispositivos estão se comunicando.
 
@@ -509,14 +509,14 @@ image:dr-vmc-aws-image4.png["Figura que mostra a caixa de diálogo de entrada/sa
 
 =====
 .Gateway de trânsito
-[%collapsible]
+[%collapsible%open]
 =====
 O gateway de trânsito é uma construção em nível de região que permite maior escalabilidade de uma conexão Direct Connect-to-VPC dentro de uma região. Se for necessária uma ligação entre regiões, os gateways de trânsito devem ser colocados em contacto. Para obter mais informações, consulte https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html["Documentação do AWS Direct Connect"^] .
 
 =====
 ====
 .Considerações sobre rede na nuvem
-[%collapsible]
+[%collapsible%open]
 ====
 Na nuvem, a infraestrutura de rede subjacente é gerenciada pelo provedor de serviços em nuvem, enquanto os clientes precisam gerenciar as redes VPC, sub-redes, tabelas de rotas e assim por diante na AWS. Eles também precisam gerenciar segmentos de rede do NSX na borda da computação. O SDDC agrupa rotas para a VPC externa e o Transit Connect.
 
@@ -534,7 +534,7 @@ image:dr-vmc-aws-image5.png["Figura que mostra a caixa de diálogo de entrada/sa
 No VMware Cloud SDDC, a rede é gerenciada com o NSX, e o gateway de borda (roteador Tier-0) que lida com a porta de uplink de tráfego norte-sul é conetado à AWS VPC. O gateway de computação e os gateways de gerenciamento (roteadores Tier-1) lidam com o tráfego leste-oeste. Se as portas de uplink da borda se tornarem muito usadas, você poderá criar grupos de tráfego para associar-se a IPs ou sub-redes de host específicos. A criação de um grupo de tráfego cria nós de borda adicionais para separar o tráfego. Verifique o https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-306D3EDC-F94E-4216-B306-413905A4A784.html["Documentação da VMware"^] no número mínimo de hosts vSphere necessários para usar uma configuração multi-borda.
 
 .Redes de clientes
-[%collapsible]
+[%collapsible%open]
 =====
 Quando você provisiona o VMware Cloud SDDC, as portas VMkernel já estão configuradas e estão prontas para consumo. A VMware gerencia essas portas e não há necessidade de fazer atualizações.
 
@@ -544,7 +544,7 @@ image:dr-vmc-aws-image6.png["Figura que mostra a caixa de diálogo de entrada/sa
 
 =====
 .Redes de storage provisionadas (iSCSI, NFS)
-[%collapsible]
+[%collapsible%open]
 =====
 Para redes de armazenamento convidado VM, normalmente criamos grupos de portas. Com o NSX, criamos segmentos que são consumidos no vCenter como grupos de portas. Como as redes de armazenamento estão em uma sub-rede roteável, você pode acessar os LUNs ou montar as exportações NFS usando a NIC padrão, mesmo sem criar segmentos de rede separados. Para separar o tráfego de armazenamento, você pode criar segmentos adicionais, definir regras e controlar o tamanho da MTU nesses segmentos. Para fornecer tolerância a falhas, é melhor ter pelo menos dois segmentos dedicados à rede de armazenamento. Como mencionamos anteriormente, se a largura de banda do uplink se tornar um problema, você pode criar grupos de tráfego e atribuir prefixos e gateways IP para executar o roteamento baseado na fonte.
 
@@ -552,7 +552,7 @@ Recomendamos a correspondência dos segmentos no SDDC de DR com o ambiente de or
 
 =====
 .Grupos de segurança
-[%collapsible]
+[%collapsible%open]
 =====
 Muitas opções de segurança fornecem comunicação segura na AWS VPC e na rede VMware Cloud SDDC. Na rede VMware Cloud SDDC, você pode usar o fluxo de rastreamento NSX para identificar o caminho, incluindo as regras usadas. Em seguida, você pode usar um analisador de rede na rede VPC para identificar o caminho, incluindo as tabelas de rota, grupos de segurança e listas de controle de acesso à rede, que é consumido durante o fluxo.
 
@@ -567,7 +567,7 @@ Os sistemas NetApp AFF A-Series oferecem uma infraestrutura de storage de alto d
 O NetApp ONTAP, juntamente com as Ferramentas do ONTAP para VMware e SnapCenter, foram usados na solução para fornecer recursos abrangentes de gerenciamento e backup de aplicativos que são totalmente integrados ao VMware vSphere.
 
 .On-premises
-[%collapsible]
+[%collapsible%open]
 ====
 Usamos o storage ONTAP para os datastores VMware que hospedavam as máquinas virtuais e seus arquivos VMDK. A VMware dá suporte a vários protocolos de storage para datastores conectados e, nessa solução, usamos volumes NFS para datastores nos hosts ESXi. No entanto, os sistemas de storage ONTAP dão suporte a todos os protocolos compatíveis com VMware.
 
@@ -607,14 +607,14 @@ Também usamos o storage ONTAP para o repositório de backup primário da Veeam,
 
 ====
 .Storage de nuvem
-[%collapsible]
+[%collapsible%open]
 ====
 Essa solução inclui o VMware Cloud on AWS para hospedar máquinas virtuais restauradas como parte do processo de failover. A partir dessa gravação, a VMware oferece suporte ao storage VSAN para armazenamentos de dados que hospedam as VMs e VMDKs.
 
 O FSX ONTAP é usado como o armazenamento secundário para dados de aplicativos que são espelhados usando SnapCenter e SyncMirror. Como parte do processo de failover, o cluster do FSX ONTAP é convertido para armazenamento primário, e os aplicativos de banco de dados podem retomar a função normal em execução no cluster de armazenamento do FSX.
 
 .Configuração do Amazon FSX ONTAP
-[%collapsible]
+[%collapsible%open]
 =====
 Para implantar o AWS FSX ONTAP usando o Cloud Manager, siga as instruções em https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/start/task-getting-started-fsx.html["este link"^].
 
@@ -626,13 +626,13 @@ image:dr-vmc-aws-image8.png["Figura que mostra a caixa de diálogo de entrada/sa
 
 =====
 .Interfaces de rede criadas
-[%collapsible]
+[%collapsible%open]
 =====
 O FSX ONTAP tem interfaces de rede pré-configuradas e prontas para uso em redes iSCSI, NFS, SMB e entre clusters.
 
 =====
 .Storage de armazenamento de dados VM
-[%collapsible]
+[%collapsible%open]
 =====
 O VMware Cloud SDDC vem com dois datastores VSAN `vsandatastore` nomeados e `workloaddatastore`. Costumávamos `vsandatastore` hospedar VMs de gerenciamento com acesso restrito a credenciais cloudadmin. Para cargas de trabalho, usamos `workloaddatastore`o .
 
@@ -645,7 +645,7 @@ O VMware Cloud SDDC vem com dois datastores VSAN `vsandatastore` nomeados e `wor
 O VMware vSphere fornece infraestrutura virtualizada no data center e em todos os principais provedores de nuvem. Esse ecossistema é ideal para cenários de recuperação de desastres para os quais a computação virtualizada permanece consistente, independentemente do local. Essa solução usa recursos de computação virtualizados da VMware no local do data center e no VMware Cloud na AWS.
 
 .On-premises
-[%collapsible]
+[%collapsible%open]
 ====
 Esta solução usa servidores HPE ProLiant DL360 Gen 10 executando o VMware vSphere v7.0U3. Implantamos seis instâncias de computação para fornecer recursos adequados para nossos servidores SQL e Oracle.
 
@@ -653,7 +653,7 @@ Implantamos 10 VMs Windows Server 2019 executando o SQL Server 2019 com diferent
 
 ====
 .Nuvem
-[%collapsible]
+[%collapsible%open]
 ====
 Implantamos um SDDC no VMware Cloud on AWS com dois hosts para fornecer recursos adequados para executar as máquinas virtuais restauradas a partir do nosso local principal.
 
@@ -667,12 +667,12 @@ image:dr-vmc-aws-image9.png["Figura que mostra a caixa de diálogo de entrada/sa
 Para realizar um failover das VMs de aplicação e volumes de banco de dados para os serviços VMware Cloud volume executados na AWS, foi necessário instalar e configurar uma instância em execução do servidor SnapCenter e do Veeam Backup and Replication Server. Após a conclusão do failover, essas ferramentas também devem ser configuradas para retomar as operações normais de backup até que um failback para o data center local seja planejado e executado.
 
 .Implantação de ferramentas de backup
-[%collapsible]
+[%collapsible%open]
 ====
 O servidor SnapCenter e o servidor Veeam Backup & Replication podem ser instalados no VMware Cloud SDDC ou podem ser instalados em instâncias EC2 que residem em uma VPC com conetividade de rede ao ambiente VMware Cloud.
 
 .Servidor SnapCenter
-[%collapsible]
+[%collapsible%open]
 =====
 O software SnapCenter está disponível no site de suporte da NetApp e pode ser instalado em sistemas Microsoft Windows que residem em um domínio ou grupo de trabalho. Pode encontrar um guia de planeamento detalhado e instruções de instalação no link:https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["Centro de documentação do NetApp"^].
 
@@ -680,14 +680,14 @@ O software SnapCenter pode ser encontrado em https://mysupport.netapp.com["este 
 
 =====
 .Servidor de replicação Veeam Backup &
-[%collapsible]
+[%collapsible%open]
 =====
 Você pode instalar o servidor Veeam Backup & Replication em um servidor Windows no VMware Cloud na AWS ou em uma instância do EC2. Para obter orientações detalhadas sobre a implementação, consulte o https://www.veeam.com/documentation-guides-datasheets.html["Documentação técnica do Veeam Help Center"^].
 
 =====
 ====
 .Ferramentas de backup e configuração
-[%collapsible]
+[%collapsible%open]
 ====
 Após a instalação, o SnapCenter e o Veeam Backup & Replication precisam estar configurados para executar as tarefas necessárias para restaurar os dados no VMware Cloud na AWS.
 
@@ -702,7 +702,7 @@ Para obter uma lista de etapas a serem concluídas no servidor SnapCenter reside
 
 =====
 .Configuração de replicação do Veeam Backup &
-[%collapsible]
+[%collapsible%open]
 =====
 Para restaurar máquinas virtuais que tenham sido feitas backup no armazenamento do Amazon S3, o Veeam Server deve ser instalado em um servidor Windows e configurado para se comunicar com o VMware Cloud, o FSX ONTAP e o bucket do S3 que contém o repositório de backup original. Ele também deve ter um novo repositório de backup configurado no FSX ONTAP para realizar novos backups das VMs assim que elas forem restauradas.
 

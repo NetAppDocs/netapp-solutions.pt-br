@@ -16,8 +16,6 @@ summary: 'O artigo é um tutorial sobre como usar o Amazon FSX for NetApp ONTAP 
 [role="lead"]
 este artigo é um tutorial sobre como usar o Amazon FSX for NetApp ONTAP (FSX ONTAP) para treinar modelos PyTorch no SageMaker, especificamente para um projeto de classificação de qualidade de pneu.
 
-*Autor(es):* Jian Jian (Ken), cientista Sênior de dados e aplicado, NetApp
-
 
 
 == Introdução

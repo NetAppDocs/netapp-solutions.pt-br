@@ -5,3 +5,15 @@ entries:
 - title: Migração de máquina virtual (Shift Toolkit)
   pdf-filename: Migração de máquina virtual (Shift Toolkit)
   url: "/vm-migrate/migrate-overview.html"
+- title: Migrar VMs para o armazenamento de dados do ONTAP
+  url: "/vmware/migrate-vms-to-ontap-datastore.html"
+- title: Migre VMs para o Amazon EC2 usando o Amazon FSX for ONTAP
+  entries:
+  - title: Visão geral
+    url: "/vmware/migrate-vms-to-ec2-fsxn.html"
+  - title: Arquitetura e Pré-requisitos
+    url: "/vmware/migrate-vms-to-ec2-fsxn-arch.html"
+  - title: Procedimento de implantação
+    url: "/vmware/migrate-vms-to-ec2-fsxn-deploy.html"
+  - title: Conclusão
+    url: "/vmware/migrate-vms-to-ec2-fsxn-wrapup.html"

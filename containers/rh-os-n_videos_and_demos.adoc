@@ -42,14 +42,6 @@ video::fae6605f-b61a-4a34-a97f-b1ed00d2de93[panopto,width=360]
 
 .Implante um aplicativo de contentor postgresql usando a Classe de armazenamento do ONTAP nas
 video::d3eacf8c-888f-4028-a695-b1ed00d28dee[panopto,width=360]
-.Acelere o desenvolvimento de software com o Astra Control e a tecnologia NetApp FlexClone - Red Hat OpenShift com NetApp
-video::26b7ea00-9eda-4864-80ab-b01200fa13ac[panopto,width=360]
-.Utilize o NetApp Astra Control para executar análises pós-mortem e restaurar sua aplicação
-video::3ae8eb53-eda3-410b-99e8-b01200fa30a8[panopto,width=360]
-.Proteção de dados em pipeline de CI/CD com Astra Control Center
-video::a6400379-52ff-4c8f-867f-b01200fa4a5e[panopto,width=360]
-.Migração de carga de trabalho usando o Astra Control Center - Red Hat OpenShift com NetApp
-video::e397e023-5204-464d-ab00-b01200f9e6b5[panopto,width=360]
 .Migração de carga de trabalho - Red Hat OpenShift com NetApp
 video::27773297-a80c-473c-ab41-b01200fa009a[panopto,width=360]
 .Instalação da virtualização OpenShift - Red Hat OpenShift com NetApp

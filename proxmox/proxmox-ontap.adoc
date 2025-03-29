@@ -145,7 +145,7 @@ NOTE: A senha será salva em arquivo de texto não criptografado e acessível ap
 .Pool de storage compartilhado de SMB com ONTAP
 video::5b4ae54a-08d2-4f7d-95ec-b22d015f6035[panopto,width=360]
 .Tarefas de administração do <strong>.</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 Se for novo no ONTAP, use a interface do Gerenciador de sistema para concluir essas tarefas para uma melhor experiência.
 
@@ -171,7 +171,7 @@ image:proxmox-ontap-image03.png["Informações de compartilhamento SMB"]
 
 ====
 .Tarefas administrativas de virtualização do <strong> </strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . Colete o servidor SMB, o nome do compartilhamento e as credenciais a serem usadas para a autenticação de compartilhamento.
 . Certifique-se de que pelo menos duas interfaces estejam configuradas em VLANs diferentes (para tolerância a falhas) e que a NIC ofereça suporte a RSS.
@@ -205,7 +205,7 @@ Se for novo no ONTAP, use a interface do Gerenciador de sistema para concluir es
 .Opção NFS nconnect com ONTAP
 video::f6c9aba3-b070-45d6-8048-b22e001acfd4[panopto,width=360]
 .Tarefas de administração do <strong>.</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . Garantir que o SVM esteja habilitado para NFS. Consulte link:https://docs.netapp.com/us-en/ontap/nfs-config/verify-protocol-enabled-svm-task.html["Documentação do ONTAP 9"]
 . Tenha pelo menos duas vidas por controlador. Siga os passos a partir do link acima. Para referência, aqui está a captura de tela das vidas que usamos em nosso laboratório.
@@ -226,7 +226,7 @@ image:proxmox-ontap-image08.png["Informações de volume NFS"]
 
 ====
 .Tarefas administrativas de virtualização do <strong> </strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . Certifique-se de que pelo menos duas interfaces estejam configuradas em VLANs diferentes (para tolerância a falhas). Use a ligação NIC.
 . Se estiver usando a IU de gerenciamento `https:<proxmox-node>:8006` , clique em datacenter, selecione armazenamento, clique em Adicionar e selecione NFS.
@@ -257,7 +257,7 @@ video::d66ef67f-bcc2-4ced-848e-b22e01588e8c[panopto,width=360]
 Para configurar o Logical volume Manager para armazenamento compartilhado entre hosts Proxmox, execute as seguintes tarefas:
 
 .Tarefas administrativas de virtualização do <strong> </strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . Certifique-se de que duas interfaces vlan do linux estejam disponíveis.
 . Certifique-se de que as ferramentas multipath estejam instaladas em todos os hosts Proxmox VE. Certifique-se de que inicia na inicialização.
@@ -279,7 +279,7 @@ cat /etc/iscsi/initiator.name
 
 ====
 .Tarefas de administração do <strong>.</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 Se for novo no ONTAP, use o Gerenciador de sistema para uma experiência melhor.
 
@@ -298,7 +298,7 @@ image:proxmox-ontap-image14.png["detalhes do iscsi lun"]
 
 ====
 .Tarefas administrativas de virtualização do <strong> </strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . Vá para Management UI `https:<proxmox node>:8006`, clique em datacenter, selecione armazenamento, clique em Add e selecione iSCSI.
 +
@@ -332,7 +332,7 @@ video::80164fe4-06db-4c21-a25d-b22e0179c3d2[panopto,width=360]
 Para configurar o Logical volume Manager para armazenamento compartilhado entre hosts Proxmox, execute as seguintes tarefas:
 
 .Tarefas administrativas de virtualização do <strong> </strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . Certifique-se de que duas interfaces vlan do linux estejam disponíveis.
 . Em cada host Proxmox no cluster, execute o seguinte comando para coletar as informações do iniciador do host.
@@ -346,7 +346,7 @@ nvme show-hostnqn
 
 ====
 .Tarefas de administração do <strong>.</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 Se for novo no ONTAP, use o Gerenciador de sistema para uma melhor experiência.
 
@@ -361,7 +361,7 @@ image:proxmox-ontap-image20.png["criação de namespace nvme"]
 
 ====
 .Tarefas administrativas de virtualização do <strong> </strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . Navegue para shell em cada host Proxmox VE no cluster e crie o arquivo /etc/nvme/Discovery.conf e atualize o conteúdo específico para o seu ambiente.
 +

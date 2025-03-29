@@ -24,10 +24,6 @@ https://docs.netapp.com/["https://docs.netapp.com/"^]
 +
 https://docs.netapp.com/us-en/trident/["https://docs.netapp.com/us-en/trident/"^]
 
-* Documentação do Centro de Controle NetApp Astra
-+
-https://docs.netapp.com/us-en/astra-control-center/["https://docs.netapp.com/us-en/astra-control-center/"^]
-
 * Documentação do Ansible
 +
 https://docs.ansible.com/["https://docs.ansible.com/"^]

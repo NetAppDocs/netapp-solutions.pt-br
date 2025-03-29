@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-ontap-tools-for-vmware.html 
+keywords: vmware, getting, started, overview, netapp, otv, ontap, tools 
+summary:  
+---
+= Ferramentas do ONTAP para VMware (OTV)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+As ferramentas do ONTAP para VMware vSphere fornecem gerenciamento de ciclo de vida completo para máquinas virtuais em ambientes VMware que usam sistemas de storage NetApp.
+
+
+
+== Introdução
+
+Ele permite que os administradores gerenciem o storage no vCenter Server diretamente e simplifiquem o storage e o gerenciamento de dados para ambientes VMware. A ferramenta de plug-in do VMware vSphere Client foi projetada para integrar a funcionalidade de plug-in ao vSphere Client sem a necessidade de ser executada dentro do vCenter Server. Isso fornece isolamento de plug-ins e permite a escalabilidade horizontal de plug-ins que operam em grandes ambientes vSphere.
+
+
+
+== Componentes das ferramentas do ONTAP
+
+* *Virtual Storage Console (VSC)* o VSC inclui a interface integrada ao cliente vSphere, onde é possível adicionar controladores de armazenamento, provisionar armazenamentos de dados, monitorar o desempenho dos armazenamentos de dados e visualizar e atualizar as configurações do host ESXi.
+* *Fornecedor VASA* o provedor VMware vSphere APIs for Storage Awareness (VASA) para ONTAP envia informações sobre o armazenamento usado pelo VMware vSphere para o vCenter Server, permitindo o provisionamento de armazenamentos de dados VMware Virtual volumes (vVols), criação e uso de perfis de capacidade de armazenamento, verificação de conformidade e monitoramento de desempenho.
+* *Storage Replication Adapter (SRA)* quando ativado e usado com o VMware Site Recovery Manager (SRM), o SRA facilita a recuperação de armazenamentos de dados do vCenter Server e máquinas virtuais em caso de falha, permitindo a configuração de locais protegidos e locais de recuperação para recuperação de desastres.
+
+
+Para obter mais informações sobre as ferramentas do NetApp ONTAP para VMware, https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Ferramentas do ONTAP para documentação do VMware vSphere"]consulte .

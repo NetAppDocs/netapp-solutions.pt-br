@@ -87,6 +87,6 @@ Para provisionar um datastore VMFS, execute as seguintes etapas:
 
 === Tarefas do VMware vSphere
 
-. Verfiy que os drivers HBA estão instalados. Os HBAs suportados pela VMware têm drivers implantados fora da caixa e devem estar visíveis no link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["Informações do adaptador de armazenamento"].
+. Verfiy que os drivers HBA estão instalados. Os HBAs suportados pela VMware têm drivers implantados fora da caixa e devem estar visíveis no link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/getting-started-with-a-traditional-storage-model-in-vsphere-environment/supported-storage-adapters/view-storage-adapters-available-on-an-esxi-host.html++["Informações do adaptador de armazenamento"].
 . link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["Provisione um datastore VMFS com as Ferramentas do ONTAP"].
 

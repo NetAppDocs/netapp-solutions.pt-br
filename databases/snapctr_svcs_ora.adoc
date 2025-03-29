@@ -123,7 +123,7 @@ video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto]
 
 === Pré-requisitos para a implantação do serviço SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -138,7 +138,7 @@ A implantação requer os seguintes pré-requisitos.
 
 === Preparação de integração para BlueXP 
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Use o link link:https://console.bluexp.netapp.com/["NetApp BlueXP"] para se inscrever no acesso ao console do BlueXP .
 . Faça login na sua conta da AWS para criar uma política do IAM com permissões adequadas e atribuir a política à conta da AWS que será usada para a implantação do BlueXP  Connector.
@@ -156,7 +156,7 @@ A política deve ser configurada com uma string JSON disponível na documentaç�
 
 === Implante um conetor para serviços SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Faça login no console do BlueXP . Para uma conta compartilhada, é uma prática recomendada criar um espaço de trabalho individual clicando em *conta* > *Gerenciar conta* > *Área de trabalho* para adicionar um novo espaço de trabalho.
 +
@@ -204,7 +204,7 @@ image:snapctr_svcs_connector_10-review.png["Captura de tela mostrando esta etapa
 
 === Defina uma credencial no BlueXP  para acesso aos recursos da AWS
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Primeiro, a partir do console AWS EC2, crie uma função no menu *Identity and Access Management (IAM)* *Roles*, *Create role* para iniciar o fluxo de trabalho de criação de funções.
 +
@@ -242,7 +242,7 @@ image:snapctr_svcs_credential_07-aws.png["Captura de tela mostrando esta etapa n
 
 === Configuração dos serviços SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 Com o conetor implantado e a credencial adicionada, os serviços SnapCenter podem agora ser configurados com o seguinte procedimento:
 
@@ -325,7 +325,7 @@ Isso conclui a configuração inicial dos serviços SnapCenter para Oracle. As p
 
 === Backup de banco de dados Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Clique nos três pontos ao lado do banco de dados *Status de proteção* e clique em *políticas* para exibir as políticas de proteção de banco de dados pré-carregadas padrão que podem ser aplicadas para proteger seus bancos de dados Oracle.
 
@@ -367,7 +367,7 @@ image:snapctr_svcs_bkup_07.png["Captura de tela mostrando esta etapa na GUI."]
 
 === Restauração e recuperação de banco de dados Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Para uma restauração de banco de dados, escolha o backup certo, seja pelo SCN ou pelo tempo de backup. Clique nos três pontos do backup de dados do banco de dados e, em seguida, clique em *Restore* para iniciar a restauração e recuperação do banco de dados.
 
@@ -396,7 +396,7 @@ image:snapctr_svcs_restore_04.png["Captura de tela mostrando esta etapa na GUI."
 
 === Clone de banco de dados Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 Para clonar um banco de dados, inicie o fluxo de trabalho clone na mesma página de detalhes do backup do banco de dados.
 

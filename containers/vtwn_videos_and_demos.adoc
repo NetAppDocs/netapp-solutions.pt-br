@@ -18,7 +18,7 @@ Os vídeos a seguir demonstram alguns dos recursos descritos neste documento:
 
 .Use o Trident para provisionar storage persistente no VMware Tanzu - VMware Tanzu com NetApp
 video::8db3092b-3468-4754-b2d7-b01200fbb38d[panopto,width=360]
-.Use o Astra Control Center para clonar aplicativos no VMware Tanzu - VMware Tanzu com NetApp
+.Use o Trident Protect para clonar aplicativos no VMware Tanzu - VMware Tanzu com NetApp
 video::01aff358-a0a2-4c4f-9062-b01200fb9abd[panopto,width=360]
 
-NOTE: Essas demos foram gravadas como uma prévia técnica usando a versão 1.3.1 do TKG e a versão 21,12 do Astra Control Center. Consulte a Matriz de suporte para ver as versões oficiais suportadas.
+NOTE: Essas demos foram gravadas como uma prévia técnica usando a versão 1.3.1 do TKG e a versão 21,12 do Trident Protect. Consulte a Matriz de suporte para ver as versões oficiais suportadas.

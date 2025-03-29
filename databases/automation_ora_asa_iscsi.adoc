@@ -140,7 +140,7 @@ As seções a seguir fornecem procedimentos passo a passo para implantação e p
 
 === Pré-requisitos para implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -178,7 +178,7 @@ video::79095731-6b02-41d5-9fa1-b0c00100d055[panopto,width=360]
 
 === Arquivos de parâmetros de automação
 
-[%collapsible]
+[%collapsible%open]
 ====
 O manual de estratégia do Ansible executa tarefas de configuração e instalação do banco de dados com parâmetros predefinidos. Para esta solução de automação Oracle, existem três arquivos de parâmetros definidos pelo usuário que precisam de entrada do usuário antes da execução do manual de estratégia.
 
@@ -194,7 +194,7 @@ Além desses arquivos de variáveis definidos pelo usuário, existem vários arq
 
 === Configuração dos ficheiros de parâmetros
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Configuração do arquivo de destino do Ansible `hosts`:
 +
@@ -285,7 +285,7 @@ memory_limit: 8192
 
 === Execução do Playbook
 
-[%collapsible]
+[%collapsible%open]
 ====
 Há um total de seis playbooks no kit de ferramentas de automação. Cada um executa diferentes blocos de tarefas e serve diferentes propósitos.
 
@@ -360,7 +360,7 @@ ansible-playbook -i hosts 5-destroy.yml -u admin -e @vars/vars.yml
 
 === Validação pós-execução
 
-[%collapsible]
+[%collapsible%open]
 ====
 Após a execução do manual de estratégia, faça login no servidor Oracle DB como usuário oracle para validar que a infraestrutura e o banco de dados Oracle Grid são criados com sucesso. A seguir está um exemplo de validação de banco de dados Oracle no host ora_01.
 
@@ -494,7 +494,7 @@ image:automation_ora_asa_em_03.png["Esta imagem fornece visualização de banco 
 
 === Faça backup, restauração e clone do Oracle com o SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 Consulte a seção `Oracle backup, restore, and clone with SnapCenter` TR-4979 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle simplificado e autogerenciado no VMware Cloud no AWS com o FSX ONTAP instalado no convidado"^]para obter detalhes sobre como configurar o SnapCenter e executar os fluxos de trabalho de backup, restauração e clone do banco de dados.
 

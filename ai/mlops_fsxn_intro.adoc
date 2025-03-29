@@ -16,8 +16,6 @@ summary: Esta é a página introdutória da seção MLOps do FSX ONTAP.
 [role="lead"]
 Esta seção aborda a aplicação prática do desenvolvimento de infraestrutura de IA, fornecendo um passo a passo completo da construção de um pipeline de MLOps usando o FSX ONTAP. Com três exemplos abrangentes, ele o orienta para atender às suas necessidades de MLOps por meio desta poderosa plataforma de gerenciamento de dados.
 
-*Autor(es):* Jian Jian (Ken), cientista Sênior de dados e aplicado, NetApp
-
 Esses artigos se concentram em:
 
 . link:./mlops_fsxn_s3_integration.html["Parte 1 - integração do Amazon FSX for NetApp ONTAP (FSX ONTAP) como um bucket privado do S3 no AWS SageMaker"]

@@ -79,6 +79,16 @@ entries:
     entries:
     - title: Visão geral
       url: "/containers/rh-os-n_overview_storint.html"
+    - title: Visão geral do NetApp Trident
+      entries:
+      - title: Visão geral
+        url: "/containers/rh-os-n_overview_trident.html"
+      - title: NetApp ONTAP NFS
+        url: "/containers/rh-os-n_trident_ontap_nfs.html"
+      - title: NetApp ONTAP iSCSI
+        url: "/containers/rh-os-n_trident_ontap_iscsi.html"
+      - title: NetApp Element iSCSI
+        url: "/containers/rh-os-n_trident_element_iscsi.html"
   - title: Opções de configuração avançada
     entries:
     - title: Explorando as opções do Load Balancer
@@ -177,16 +187,6 @@ entries:
     entries:
     - title: Visão geral
       url: "/containers/vtwn_overview_storint.html"
-    - title: Visão geral do NetApp Astra Control Center
-      entries:
-      - title: Visão geral
-        url: "/containers/vtwn_overview_astra.html"
-      - title: Registre seus clusters de Kubernetes do Tanzu
-        url: "/containers/vtwn_astra_register.html"
-      - title: Escolha as aplicações a proteger
-        url: "/containers/vtwn_astra_applications.html"
-      - title: Proteja suas aplicações
-        url: "/containers/vtwn_astra_protect.html"
     - title: Visão geral do NetApp Trident
       entries:
       - title: Visão geral

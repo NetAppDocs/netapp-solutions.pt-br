@@ -85,19 +85,19 @@ TIP: São recomendadas duas interfaces de rede iSCSI por nó.
 == Tarefas do VMware vSphere
 
 . Verifique se há pelo menos uma NIC disponível para a VLAN iSCSI. Duas NICs são preferidas para melhor desempenho e tolerância a falhas.
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.networking.doc/GUID-B2AA3EEE-2334-45FE-9A0F-1172FDDCC6A8.html++["Identificar o número de NICs físicos disponíveis no host vSphere."]
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-C476065E-C02F-47FA-A5F7-3B3F2FD40EA8.html++["Configurar o iniciador iSCSI."] Um caso de uso típico é um iniciador iSCSI de software.
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.networking.doc/GUID-660423B1-3D35-4F85-ADE5-FE1D6BF015CF.html++["Verifique se a pilha TCPIP para iSCSI está disponível"].
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-0D31125F-DC9D-475B-BC3D-A3E131251642.html++["Verifique se os grupos de portas iSCSI estão disponíveis"].
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-single-host-management-vmware-host-client-7-0/networking-in-the-vsphere-host-client-vSphereSingleHostManagementVMwareHostClient/managing-physical-network-adapters-in-the-vsphere-host-client-vSphereSingleHostManagementVMwareHostClient/view-physical-network-adapter-information-in-the-vsphere-host-client-vSphereSingleHostManagementVMwareHostClient.html++["Identificar o número de NICs físicos disponíveis no host vSphere."]
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-storage-8-0/configuring-iscsi-and-iser-adapters-and-storage-with-esxi/configure-the-software-iscsi-adapter-with-esxi.html++["Configurar o iniciador iSCSI."] Um caso de uso típico é um iniciador iSCSI de software.
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsan/vsan/8-0/vsan-network-design/ip-network-transport-configuration/vsphere-tcp-ip-stacks.html++["Verifique se a pilha TCPIP para iSCSI está disponível"].
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/assign-a-port-group-or-network-to-a-network-protocol-profile.html++["Verifique se os grupos de portas iSCSI estão disponíveis"].
 +
 ** Normalmente, usamos um único switch virtual com várias portas uplink.
 ** Use o mapeamento do adaptador 1:1.
 
 
 . Verifique se os adaptadores iSCSI VMkernel estão ativados para corresponder ao número de NICs e se os IPs são atribuídos.
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-D9B862DF-476A-4BCB-8CA5-DE6DB2A1A981.html++["Vincule o adaptador de software iSCSI ao(s) adaptador(s) iSCSI VMkernel."]
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-storage-8-0/configuring-iscsi-and-iser-adapters-and-storage-with-esxi/configure-the-software-iscsi-adapter-with-esxi.html++["Vincule o adaptador de software iSCSI ao(s) adaptador(s) iSCSI VMkernel."]
 . link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["Provisione o datastore VMFS com as Ferramentas do ONTAP"]. Repita esta etapa para todos os datastores.
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-0520FD37-D7AD-4FBA-9A2E-E5F8211FCBBB.html++["Verifique o suporte de aceleração de hardware."]
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/storage-hardware-acceleration-in-vsphere/vsphere-hardware-acceleration-on-block-storage/managing-hardware-acceleration-filter-and-plug-ins/verify-hardware-acceleration-support-status.html++["Verifique o suporte de aceleração de hardware."]
 
 
 

@@ -137,7 +137,7 @@ Supõe-se que você já tenha seu banco de dados Oracle primário implantado em 
 
 === Pré-requisitos para implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -177,7 +177,7 @@ Valide que os fluxos de tráfego estão estabelecidos (clique em três pontos pa
 
 === Configuração primária do Oracle VLDB para Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 Nesta demonstração, configuramos um banco de dados Oracle primário chamado NTAP no servidor de banco de dados Azure primário com seis pontos de montagem NFS: /u01 para o binário Oracle, /u02, /u04, /u05, /u06 para os arquivos de dados Oracle e um arquivo de controle Oracle, /u03 para os logs ativos Oracle, arquivos de log arquivados e um arquivo de controle Oracle redundante. Esta configuração serve como uma configuração de referência. Sua implantação real deve levar em consideração suas necessidades e requisitos específicos em termos de dimensionamento do pool de capacidade, nível de serviço, número de volumes de banco de dados e dimensionamento de cada volume.
 
@@ -505,7 +505,7 @@ Isso conclui a demonstração de uma configuração do Data Guard para VLDB NTAP
 
 === Configuração de espera do Oracle VLDB para Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 O Oracle Data Guard requer a configuração do kernel do sistema operacional e as pilhas de software Oracle, incluindo conjuntos de patches no servidor de banco de dados de reserva para corresponder ao servidor de banco de dados primário. Para facilitar o gerenciamento e a simplicidade, a configuração de armazenamento de banco de dados do servidor de banco de dados de reserva também deve corresponder ao servidor de banco de dados primário, como o layout do diretório de banco de dados e os tamanhos dos pontos de montagem NFS.
 
@@ -825,7 +825,7 @@ Isso conclui a demonstração de uma configuração do Data Guard para VLDB NTAP
 
 === Configurar Data Guard Broker
 
-[%collapsible]
+[%collapsible%open]
 ====
 O broker Oracle Data Guard é uma estrutura de gerenciamento distribuída que automatiza e centraliza a criação, manutenção e monitoramento das configurações do Oracle Data Guard. A seção a seguir demonstra como configurar o Data Guard Broker para gerenciar o ambiente do Data Guard.
 
@@ -922,7 +922,7 @@ No caso de uma falha, o Data Guard Broker pode ser usado para fazer failover do 
 
 === Clone o banco de dados em espera para outros casos de uso por meio da automação
 
-[%collapsible]
+[%collapsible%open]
 ====
 Entre em Contato com a equipe de engenharia de soluções da NetApp para o kit de ferramentas de automação para criar e atualizar clones para um gerenciamento completo do ciclo de vida de clones.
 

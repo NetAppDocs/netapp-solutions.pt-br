@@ -16,8 +16,6 @@ summary: A recuperação de desastres na nuvem é uma maneira resiliente e econ�
 [role="lead"]
 A recuperação de desastres na nuvem é uma maneira resiliente e econômica de proteger workloads contra interrupções no local e eventos de corrupção de dados, como ransomware. Com o NetApp SnapMirror, os workloads da VMware no local que usam storage conectado ao hóspede podem ser replicados para o NetApp Cloud Volumes ONTAP em execução no Google Cloud.
 
-Autores: Suresh Toppay, NetApp
-
 
 
 == Visão geral
@@ -72,7 +70,7 @@ NOTE: Existem várias opções para conetar datacenters locais ao Google Cloud, 
 === Detalhes da implantação
 
 .Configure o CVO no Google Cloud e replique volumes para o CVO
-[%collapsible]
+[%collapsible%open]
 ====
 A primeira etapa é configurar o Cloud Volumes ONTAP no Google Cloud (link:gcp-guest.html#gcp-cvo["cvo"^]) e replicar os volumes desejados para o Cloud Volumes ONTAP com as frequências desejadas e retenções de snapshot.
 
@@ -84,7 +82,7 @@ Para obter exemplos de instruções passo a passo sobre como configurar o SnapCe
 video::395e33db-0d63-4e48-8898-b01200f006ca[panopto]
 ====
 .Configurar hosts GCVE e acesso a dados CVO
-[%collapsible]
+[%collapsible%open]
 ====
 Dois fatores importantes a considerar ao implantar o SDDC são o tamanho do cluster SDDC na solução GCVE e o tempo para manter o SDDC em serviço. Essas duas principais considerações para uma solução de recuperação de desastres ajudam a reduzir os custos operacionais gerais. O SDDC pode ser tão pequeno quanto três hosts, até um cluster de vários hosts em uma implantação em escala completa.
 
@@ -96,13 +94,13 @@ Depois que o Cloud Volumes ONTAP e o GCVE tiverem sido configurados corretamente
 
 ====
 .Instale os componentes da Veeam
-[%collapsible]
+[%collapsible%open]
 ====
 Com base no cenário de implantação, o servidor de backup da Veeam, o repositório de backup e o proxy de backup que precisam ser implantados. Para esse caso de uso, não há necessidade de implantar o armazenamento de objetos para a Veeam e o repositório de escalabilidade horizontal também não é necessário. https://helpcenter.veeam.com/docs/backup/qsg_vsphere/deployment_scenarios.html["Consulte a documentação da Veeam para obter o procedimento de instalação"]
 
 ====
 .Configuração da replicação da VM com a Veeam
-[%collapsible]
+[%collapsible%open]
 ====
 O vCenter no local e o GCVE vCenter precisam ser registrados na Veeam. https://helpcenter.veeam.com/docs/backup/qsg_vsphere/replication_job.html["Configurar o trabalho de replicação da VM vSphere"] Na etapa de processamento de convidados do assistente, selecione Desativar processamento de aplicativos, pois utilizaremos o SnapCenter para backup e recuperação com reconhecimento de aplicativos.
 
@@ -110,7 +108,7 @@ O vCenter no local e o GCVE vCenter precisam ser registrados na Veeam. https://h
 video::8b7e4a9b-7de1-4d48-a8e2-b01200f00692[panopto]
 ====
 .Failover da VM do Microsoft SQL Server
-[%collapsible]
+[%collapsible%open]
 ====
 .Failover da VM do Microsoft SQL Server
 video::9762dc99-081b-41a2-ac68-b01200f00ac0[panopto]

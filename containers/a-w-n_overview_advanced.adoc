@@ -17,6 +17,6 @@ summary: Esta seção é dedicada a personalizações que os usuários do mundo 
 Normalmente, a solução mais fácil de implantar é a melhor, mas, em alguns casos, personalizações avançadas são necessárias para atender aos requisitos ou especificações de um aplicativo específico ou do ambiente no qual a solução está sendo implantada. Para isso, a solução Red Hat OpenShift com NetApp permite que as seguintes personalizações atendam a essas necessidades.
 
 
-NOTE: Nesta seção, documentamos algumas opções de configuração avançadas, como o uso de balanceadores de carga de terceiros ou a criação de um Registro privado para hospedar imagens de contentor personalizadas, que são pré-requisitos para a instalação do Centro de Controle NetApp Astra.
+NOTE: Nesta seção, documentamos algumas opções de configuração avançadas, como o uso de balanceadores de carga de terceiros ou a criação de um Registro privado para hospedar imagens de contentor personalizadas, ambas pré-requisitos para a instalação do NetApp Trident Protect.
 
 As páginas a seguir têm informações adicionais sobre as opções avançadas de configuração validadas na solução Red Hat OpenShift com NetApp:

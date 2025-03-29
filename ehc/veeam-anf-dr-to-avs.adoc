@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 Os armazenamentos de dados do Azure NetApp Files (ANF) desacoplam o storage da computação e garantem a flexibilidade necessária para que qualquer organização leve seus workloads para a nuvem. Ele fornece aos clientes uma infraestrutura de storage flexível e de alta performance que pode ser dimensionada independentemente dos recursos de computação. O Azure NetApp Files datastore simplifica e otimiza a implantação juntamente com o Azure VMware Solution (AVS) como um local de recuperação de desastres para ambientes VMware locais.
 
-Autor: Niyaz Mohamed - Engenharia de soluções da NetApp
-
 
 
 == Visão geral
@@ -74,7 +72,7 @@ Para obter informações adicionais, consulte "considerações e limitações" c
 === Detalhes da implantação
 
 .Etapa 1: Replique VMs
-[%collapsible]
+[%collapsible%open]
 ====
 O Veeam Backup & Replication utiliza os recursos de snapshot do VMware vSphere/durante a replicação, o Veeam Backup & Replication solicita ao VMware vSphere que crie um snapshot de VM. O snapshot da VM é a cópia pontual de uma VM que inclui discos virtuais, estado do sistema, configuração e metadados. O Veeam Backup & Replication usa o snapshot como fonte de dados para replicação.
 
@@ -127,7 +125,7 @@ Para obter informações adicionais sobre a replicação da Veeam, consulte link
 
 ====
 .Etapa 2: Crie um plano de failover
-[%collapsible]
+[%collapsible%open]
 ====
 Quando a replicação inicial ou a semeadura estiver concluída, crie o plano de failover. O plano de failover ajuda a executar o failover para VMs dependentes, uma por uma ou como um grupo automaticamente. O plano de failover é o modelo da ordem em que as VMs são processadas, incluindo os atrasos de inicialização. O plano de failover também ajuda a garantir que as VMs dependentes críticas já estejam em execução.
 
@@ -162,7 +160,7 @@ Para obter informações adicionais sobre a criação de trabalhos de replicaç�
 
 ====
 .Etapa 3: Execute o plano de failover
-[%collapsible]
+[%collapsible%open]
 ====
 Durante o failover, a VM de origem no local de produção é comutada para a réplica no local de recuperação de desastres. Como parte do processo de failover, o Veeam Backup & Replication restaura a réplica da VM para o ponto de restauração necessário e move todas as atividades de e/S da VM de origem para a réplica. As réplicas podem ser usadas não apenas em caso de desastre, mas também para simular exercícios de DR. Durante a simulação de failover, a VM de origem permanece em execução. Uma vez que todos os testes necessários tenham sido realizados, você pode desfazer o failover e retornar às operações normais.
 
@@ -190,7 +188,7 @@ Para obter informações detalhadas sobre planos de failover, link:https://helpc
 
 ====
 .Passo 4: Failback para o local de produção
-[%collapsible]
+[%collapsible%open]
 ====
 Quando o plano de failover está em execução, ele é considerado como uma etapa intermediária e precisa ser finalizado com base no requisito. As opções incluem o seguinte:
 

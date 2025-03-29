@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/vtwn_solution_overview.html 
-keywords: VMware Tanzu, Tanzu, DevOps, Netapp, Trident, Astra Control, Astra 
+keywords: VMware Tanzu, Tanzu, DevOps, Netapp, Trident, Trident Protect 
 summary: 'Este documento de referência fornece a validação da implantação de diferentes sabores das soluções do Kubernetes do VMware Tanzu, implantadas como Tanzu Kubernetes Grid (TKG), Tanzu Kubernetes Grid Service (TKGS) ou Tanzu Kubernetes Grid Integrated (TKGI) em vários ambientes de data center diferentes, conforme validado pela NetApp.' 
 ---
 = NVA-1166: VMware Tanzu com NetApp
@@ -16,7 +16,7 @@ summary: 'Este documento de referência fornece a validação da implantação d
 Alan Cowles e Nikhil M Kulkarni, NetApp
 
 [role="lead"]
-Este documento de referência fornece a validação da implantação de diferentes sabores das soluções do Kubernetes do VMware Tanzu, implantadas como Tanzu Kubernetes Grid (TKG), Tanzu Kubernetes Grid Service (TKGS) ou Tanzu Kubernetes Grid Integrated (TKGI) em vários ambientes de data center diferentes, conforme validado pela NetApp. Ele também descreve a integração de storage com os sistemas de storage NetApp e o orquestrador de storage Trident para o gerenciamento de storage persistente e o Astra Control Center para backup e clonagem de aplicações com estado usando esse storage persistente. Por fim, o documento fornece demonstrações em vídeo das integrações e validações da solução.
+Este documento de referência fornece a validação da implantação de diferentes sabores das soluções do Kubernetes do VMware Tanzu, implantadas como Tanzu Kubernetes Grid (TKG), Tanzu Kubernetes Grid Service (TKGS) ou Tanzu Kubernetes Grid Integrated (TKGI) em vários ambientes de data center diferentes, conforme validado pela NetApp. Ele também descreve a integração de storage com os sistemas de storage NetApp e o orquestrador de storage Trident para o gerenciamento do storage persistente e o Trident Protect para o backup e clonagem das aplicações com estado usando esse storage persistente. Por fim, o documento fornece demonstrações em vídeo das integrações e validações da solução.
 
 
 
@@ -26,8 +26,8 @@ A solução VMware Tanzu com NetApp foi projetada para fornecer valor excepciona
 
 * Fácil de implantar e gerenciar as ofertas de Grade do Kubernetes do VMware Tanzu implantadas no VMware vSphere e integradas aos sistemas de storage da NetApp.
 * O poder combinado de contêiner empresarial e workloads virtualizados com as ofertas do VMware Tanzu Kubernetes Grid.
-* Configuração e casos de uso do mundo real, destacando os recursos do VMware Tanzu quando usados com storage NetApp e o pacote de produtos NetApp Astra.
-* Proteção consistente com aplicações ou migração de workloads em contêiner implantados em clusters de grade de Kubernetes do VMware Tanzu cujos dados residem em sistemas de storage NetApp que usam o Astra Control Center.
+* Configuração do mundo real e casos de uso, destacando os recursos do VMware Tanzu quando usado com storage NetApp e pacote de produtos NetApp Trident.
+* Proteção consistente com aplicações ou migração de workloads em contêiner implantados em clusters de grade de Kubernetes do VMware Tanzu cujos dados residem em sistemas de storage da NetApp que usam o Trident Protect.
 
 
 
@@ -116,10 +116,6 @@ Para obter mais informações, visite o site da NetApp https://www.netapp.com["a
 
 === Integrações de storage da NetApp
 
-O NetApp Astra Control Center oferece um conjunto avançado de serviços de gerenciamento de dados com reconhecimento de aplicações e storage para workloads Kubernetes com monitoramento de estado, implantados em um ambiente local e equipados com tecnologia de proteção de dados confiável da NetApp.
-
-Para obter mais informações, visite o site do NetApp Astra https://cloud.netapp.com/astra["aqui"] .
-
 O Trident é um orquestrador de storage de código aberto e totalmente compatível para distribuições de contêineres e Kubernetes, incluindo o VMware Tanzu.
 
 Para obter mais informações, visite o site da Trident https://docs.netapp.com/us-en/trident/index.html["aqui"] .
@@ -135,9 +131,6 @@ Para obter mais informações, visite o site da Trident https://docs.netapp.com/
 
 
 | NetApp ONTAP | Armazenamento | 9.9.1 
-
-
-| Centro de Controle NetApp Astra | Gerenciamento de dados com reconhecimento de aplicações | 22,04 
 
 
 | NetApp Trident | Orquestração de armazenamento | 22.04.0 

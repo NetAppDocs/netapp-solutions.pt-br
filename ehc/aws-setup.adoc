@@ -24,7 +24,7 @@ NOTE: Atualmente, o storage in-Guest é o único método com suporte para coneta
 O processo de configuração pode ser dividido nas seguintes etapas:
 
 .Implante e configure o VMware Cloud para AWS
-[%collapsible]
+[%collapsible%open]
 ====
 link:https://www.vmware.com/products/vmc-on-aws.html["VMware Cloud na AWS"] Fornece uma experiência nativa da nuvem para workloads baseados em VMware no ecossistema da AWS. Cada VMware Software-Defined Data Center (SDDC) é executado em uma Amazon Virtual Private Cloud (VPC) e fornece uma pilha completa de VMware (incluindo vCenter Server), rede definida por software NSX-T, armazenamento definido por software VSAN e um ou mais hosts ESXi que fornecem recursos de computação e armazenamento para suas cargas de trabalho.
 
@@ -36,7 +36,7 @@ NOTE: Atualmente, o storage in-Guest é o único método com suporte para coneta
 O processo de configuração pode ser dividido em três partes:
 
 .Registre-se para obter uma conta da AWS
-[%collapsible]
+[%collapsible%open]
 =====
 Registre-se para um link:https://aws.amazon.com/["Conta Amazon Web Services"].
 
@@ -44,7 +44,7 @@ Você precisa de uma conta da AWS para começar, supondo que ainda não haja uma
 
 =====
 .Registre-se para obter uma conta My VMware
-[%collapsible]
+[%collapsible%open]
 =====
 Registre-se para uma link:https://customerconnect.vmware.com/home["Meu VMware"] conta.
 
@@ -52,7 +52,7 @@ Para ter acesso ao portfólio de nuvem da VMware (incluindo VMware Cloud on AWS)
 
 =====
 .Provisione SDDC no VMware Cloud
-[%collapsible]
+[%collapsible%open]
 =====
 Depois que a conta VMware é configurada e o dimensionamento adequado é executado, a implantação de um Data Center definido por software é a próxima etapa óbvia para o uso do serviço VMware Cloud on AWS. Para criar um SDDC, escolha uma região da AWS para hospedá-la, dê um nome ao SDDC e especifique quantos hosts ESXi você deseja que o SDDC contenha. Se você ainda não tiver uma conta da AWS, ainda poderá criar um SDDC de configuração inicial que contenha um único host ESXi.
 
@@ -101,7 +101,7 @@ Para obter um guia passo a passo sobre a implantação do SDDC, link:https://doc
 =====
 ====
 .Conete o VMware Cloud ao FSX ONTAP
-[%collapsible]
+[%collapsible%open]
 ====
 Para conetar o VMware Cloud ao FSX ONTAP, siga estas etapas:
 

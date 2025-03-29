@@ -16,8 +16,6 @@ keywords: database, Oracle, Azure NetApp files, Azure
 [role="lead"]
 Este guia de práticas recomendadas fornece detalhes de uma solução para implantar e migrar banco de dados Oracle no armazenamento de arquivos do Azure NetApp e VM do Azure.
 
-Autor(a): Daniel, NetApp
-
 
 
 == Visão geral

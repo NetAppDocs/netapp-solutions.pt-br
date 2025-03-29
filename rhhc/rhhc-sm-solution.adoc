@@ -20,7 +20,7 @@ O NetApp Cloud Volumes ONTAP Storage oferece proteção de dados, confiabilidade
 
 
 
-== Solução de migração e proteção de dados para workloads de contêiner do OpenShift em uma nuvem híbrida usando o Astra Control Center
+== Solução de migração e proteção de dados para workloads de contêiner do OpenShift em uma nuvem híbrida usando o Trident Protect
 
 On-premises e AWS image:rhhc-self-managed-aws.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 

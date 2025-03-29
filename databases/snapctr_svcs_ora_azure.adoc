@@ -121,7 +121,7 @@ video::48adf2d8-3f5e-4ab3-b25c-b04a014635ac[panopto]
 
 === Pré-requisitos para a implantação do serviço SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -136,7 +136,7 @@ A implantação requer os seguintes pré-requisitos.
 
 === Preparação de integração para BlueXP 
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Use o link link:https://console.bluexp.netapp.com/["NetApp BlueXP"] para se inscrever no acesso ao console do BlueXP .
 . Crie uma conta de usuário do Azure ou um princípio de serviço do ative Directory e conceda permissões com função no portal do Azure para implantação do Azure Connector.
@@ -149,7 +149,7 @@ A implantação requer os seguintes pré-requisitos.
 
 === Implante um conetor para serviços SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Faça login no console do BlueXP .
 +
@@ -198,7 +198,7 @@ image:snapctr_svcs_connector_11-azure.png["Captura de tela mostrando esta etapa 
 
 === Defina uma credencial no BlueXP  para acesso aos recursos do Azure
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Clique no ícone de configuração no canto superior direito do console BlueXP  para abrir a página *credenciais da conta*, clique em *Adicionar credenciais* para iniciar o fluxo de trabalho de configuração de credenciais.
 +
@@ -221,7 +221,7 @@ image:snapctr_svcs_credential_03-azure.png["Captura de tela mostrando esta etapa
 
 === Configuração dos serviços SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 Com a credencial do Azure configurada, os serviços do SnapCenter agora podem ser configurados com os seguintes procedimentos:
 
@@ -282,7 +282,7 @@ Isso conclui a configuração inicial dos serviços SnapCenter para Oracle. As p
 
 === Backup de banco de dados Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Nosso banco de dados Oracle de teste no Azure VM é configurado com três volumes com um armazenamento total agregado de cerca de 1,6 TIB. Isso dá contexto sobre o tempo para o backup, restauração e clone de um banco de dados desse tamanho.
 
@@ -339,7 +339,7 @@ image:snapctr_svcs_bkup_06-azure.png["Captura de tela mostrando esta etapa na GU
 
 === Restauração e recuperação de banco de dados Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Para uma restauração de banco de dados, clique no menu suspenso de três pontos para que o banco de dados específico seja restaurado em *aplicativos* e clique em *Restaurar* para iniciar o fluxo de trabalho de recuperação e restauração de banco de dados.
 +
@@ -372,7 +372,7 @@ image:snapctr_svcs_restore_06-azure.png["Captura de tela mostrando esta etapa na
 
 === Clone de banco de dados Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 Os procedimentos de clone de banco de dados são semelhantes à restauração, mas a uma VM Azure alternativa com pilha de software Oracle idêntica pré-instalada e configurada.
 

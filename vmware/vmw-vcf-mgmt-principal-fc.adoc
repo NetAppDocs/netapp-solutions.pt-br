@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-principal-fc.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
+summary:  
+---
+= VMFS no FC como storage principal para domínios de gerenciamento
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesse cenário, analisaremos o caso de uso do uso de um datastore VMFS baseado em FC existente, no ONTAP, para uso como storage principal para domínios de gerenciamento do VMware Cloud Foundation (VCF).
+
+
+
+== Introdução
+
+Quando apropriado, vamos consultar a documentação externa para as etapas que devem ser executadas no Gerenciador SDDC do VCF e referenciar as etapas que são específicas para a parte de configuração de armazenamento.
+
+Para obter informações sobre a conversão de um ambiente vSphere baseado em FC existente com o ONTAP, link:vmw-vcf-mgmt-fc.html["Converta vSphere Environment (armazenamento de dados FC) para VCF Management Domain"]consulte .
+
+
+NOTE: A versão 5,2 do VCF introduziu a capacidade de converter um ambiente vSphere 8 existente em um domínio de gerenciamento VCF ou importar como domínios de carga de trabalho do VCF VI. Antes desta versão, o VMware VSAN era a única opção para armazenamento principal para o domínio de gerenciamento VCF.
+
+
+NOTE: Essa solução é aplicável às plataformas ONTAP que oferecem suporte a storage FC, incluindo NetApp ASA, AFF e FAS.
+
+
+
+== Pré-requisitos
+
+Neste cenário são utilizados os seguintes componentes e configurações:
+
+* Sistema de storage NetApp com uma máquina virtual de storage (SVM) configurada para permitir o tráfego FC.
+* As interfaces lógicas (LIF) foram criadas na malha FC para transportar tráfego FC e associada ao SVM.
+* O zoneamento foi configurado para usar o zoneamento de destino de iniciador único em switches FC para HBAs de host e destinos de armazenamento.
+
+
+Para obter informações sobre a configuração de sistemas de armazenamento ONTAP, consulte o link:https://docs.netapp.com/us-en/ontap["Documentação do ONTAP 9"] centro.
+
+Para obter informações sobre como configurar o VCF, link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentação do VMware Cloud Foundation"]consulte .
+
+
+
+== Etapas de implantação
+
+
+
+=== Domínio de Gestão - Cluster predefinido
+
+O storage principal do FC no cluster inicial é compatível apenas com a ferramenta de importação brownfield do VCF. Se o VCF for implantado com a ferramenta Cloud Builder (priort para lançar a versão 5,2.x), somente o VSAN é suportado.
+
+Para obter mais informações sobre como usar um ambiente vSphere existente, https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["Conversão do ambiente vSphere existente para o domínio de gerenciamento"] consulte para obter mais informações.
+
+
+
+=== Domínio de Gestão - Cluster adicional
+
+O cluster vSphere adicional no domínio de gerenciamento pode ser implantado com as seguintes opções:
+
+* Ter cluster adicional no ambiente vSphere e usar a ferramenta de importação brownfield VCF para converter o ambiente vSphere para o domínio de gerenciamento. https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["Ferramentas do ONTAP para VMware vSphere"] https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["System Manager ou API ONTAP"] Pode ser usado para implantar o armazenamento de dados VMFS no cluster vSphere.
+* Use a API SDDC para implantar um cluster adicional. Os hosts do vSphere devem ter o datastore VMFS configurado.  https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["System Manager ou API ONTAP"]Use para implantar LUN em hosts vSphere.
+* Use a interface do usuário do SDDC Manager para implantar um cluster adicional. Mas essa opção só cria o armazenamento de dados VSAN até a versão 5,2.x.
+
+
+
+
+== Informações adicionais
+
+Para obter informações sobre a configuração de sistemas de armazenamento ONTAP, consulte o link:https://docs.netapp.com/us-en/ontap["Documentação do ONTAP 9"] centro.
+
+Para obter informações sobre como configurar o VCF, link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentação do VMware Cloud Foundation"]consulte .

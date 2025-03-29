@@ -20,8 +20,6 @@ Os clientes que atualmente usam a Veeam para seus requisitos de proteção de da
 
 == Visão geral
 
-Autores: Suresh Toppay, NetApp
-
 As cargas de trabalho de VM executadas no VMware vSphere podem ser migradas para o Google Cloud VMware Engine (GCVE) utilizando o recurso Veeam Replication.
 
 Este documento fornece uma abordagem passo a passo para configurar e executar a migração de VM que usa o Google Cloud NetApp volumes, a Veeam e o GCVE.

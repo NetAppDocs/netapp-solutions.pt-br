@@ -17,13 +17,13 @@ summary: Virtualização OpenShift da Red Hat com NetApp ONTAP
 Esta seção mostra como migrar uma máquina virtual do VMware para um cluster OpenShift usando o kit de ferramentas de migração do Red Hat OpenShift Virtualization. Os seguintes tipos de migrações são abordados:
 
 .Migração fria
-[%collapsible]
+[%collapsible%open]
 ====
 Este é o tipo de migração padrão. As máquinas virtuais de origem são desligadas enquanto os dados são copiados.
 
 ====
 .Migração quente
-[%collapsible]
+[%collapsible%open]
 ====
 Nesse tipo de migração, a maioria dos dados é copiada durante a fase de pré-cópia enquanto as máquinas virtuais de origem (VMs) estão em execução. Em seguida, as VMs são desligadas e os dados restantes são copiados durante a fase de transição.
 

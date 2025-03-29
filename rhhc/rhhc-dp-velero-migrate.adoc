@@ -17,7 +17,7 @@ summary: Proteção de dados do aplicativo de contêiner do Red Hat OpenShift co
 Os recursos de backup e restauração da Velero o tornam uma ferramenta valiosa para migrar seus dados entre clusters. Esta seção descreve como migrar aplicativos de um cluster para outro, criando um backup do aplicativo no armazenamento de objetos de um cluster e restaurando o aplicativo do mesmo armazenamento de objetos para outro cluster. .
 
 .Backup do primeiro cluster
-[%collapsible]
+[%collapsible%open]
 ====
 **Pré-requisitos no Cluster 1**
 
@@ -86,7 +86,7 @@ Um backup dos recursos no namespace postgresql será armazenado no local de arma
 
 ====
 .Restaurar para um segundo cluster
-[%collapsible]
+[%collapsible%open]
 ====
 **Pré-requisitos no Cluster 2**
 

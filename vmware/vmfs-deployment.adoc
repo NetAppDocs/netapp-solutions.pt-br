@@ -259,7 +259,7 @@ image:vmfs-deploy-image23.png["Figura que mostra a caixa de diálogo de entrada/
 
 === Criar política de backup
 
-Uma estratégia abrangente de backup inclui fatores como quando, o que fazer backup e por quanto tempo manter os backups. Os snapshots podem ser trigados por hora ou diariamente para fazer backup de datastores inteiros. Essa abordagem não só captura os armazenamentos de dados, mas também permite fazer backup e restaurar as VMs e VMDKs nesses armazenamentos de dados.
+Uma estratégia abrangente de backup inclui fatores como quando, o que fazer backup e por quanto tempo manter os backups. Os snapshots podem ser acionados por hora ou diariamente para fazer backup de datastores inteiros. Essa abordagem não só captura os armazenamentos de dados, mas também permite fazer backup e restaurar as VMs e VMDKs nesses armazenamentos de dados.
 
 Antes de fazer backup das VMs e armazenamentos de dados, uma política de backup e um grupo de recursos devem ser criados. Uma política de backup inclui configurações como agendamento e política de retenção. Siga as etapas abaixo para criar uma política de backup.
 

@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: rhhc/rhhc-resources.html 
-keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, ACC, Astra Control Center, Advanced Cluster Management, ACM, Hub Cluster 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, ACC, Trident Protect, Advanced Cluster Management, ACM, Hub Cluster 
 summary:  
 ---
 = Documentação adicional
@@ -23,8 +23,6 @@ Aqui estão algumas documentações adicionais para referência:
 . link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.4/html/clusters/managing-your-clusters#creating-a-cluster["Criando um cluster usando o ACM"]
 . link:https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_on_openshift/index["Implantação do Red Hat Quay no OpenShift"]
 . link:https://docs.netapp.com/us-en/trident/["Trident"]
-. link:https://docs.netapp.com/us-en/astra-control-center/index.html["Astra Control Center"]
-. link:https://docs.netapp.com/us-en/astra-control-service/index.html["Astra Control Service"]
 . link:https://docs.netapp.com/us-en/ontap/["ONTAP 9"]
 . link:https://github.com/NetApp/Verda["NetApp Verda"] - Verda (open source) tem uma coleção de ganchos de execução de referência para aplicativos populares de dados nativos da nuvem intensivos
 . link:https://docs.netapp.com/us-en/cloud-manager-family/["NetApp BlueXP"]

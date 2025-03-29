@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-vm-data-collector.html 
+keywords: vmware, getting, started, overview, netapp, vm, data, collector, vmdc 
+summary:  
+---
+= VM Data Collector (VMDC)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Um componente chave no dimensionamento correto e na projeção de possíveis oportunidades de otimização é entender o estado atual do ambiente VMware.
+
+
+
+== Introdução
+
+O Virtual Machine Data Collector (VMDC) é um kit de ferramentas baseado em GUI gratuito, leve e simples para ambientes VMware que permite aos usuários coletar informações detalhadas de inventário sobre suas máquinas virtuais (VMs), hosts, armazenamento e redes.
+
+Para obter mais informações sobre o Virtual Machine Data Collector, link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmdc.html["Documentação do Virtual Machine Data Collector"]consulte .
+
+
+
+== Capacidades VMDC
+
+O VMDC é apenas uma etapa para coletar estatísticas rápidas e instantâneas para projetar possibilidades de otimização para licenciamento de núcleo VMware, juntamente com vCPU e RAM. Os insights da infraestrutura de dados do NetApp que exigem a instalação de AUS e coletores de dados devem ser o próximo passo óbvio para entender a topologia detalhada da VM, o agrupamento de VMs usando anotações para dimensionar corretamente as cargas de trabalho e preparar a infraestrutura para o futuro.
+
+Amostragem das métricas obtidas com O VMDC:
+
+* Informações sobre o VM
++
+** Nome da VM
+** Estado de alimentação da VM
+** Informações da CPU da VM
+** Informações de memória VM
+** Localização da VM
+** Informações de rede VM
+** e muito mais
+
+
+* Desempenho da VM
++
+** Dados de performance para VMs no intervalo selecionado
+** Informações de leitura/gravação de VM
+** Informações de IOPS da VM
+** Latência da VM
+** e muito mais
+
+
+* Informações do host ESXi
++
+** Informações sobre o data center do host
+** Informações do cluster do host
+** Informações do modelo do host
+** Informações da CPU do host
+** Informações sobre a memória do host
+** e muito mais
+
+
+

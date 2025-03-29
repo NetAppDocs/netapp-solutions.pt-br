@@ -139,7 +139,7 @@ As seções a seguir fornecem procedimentos passo a passo para implantação e c
 
 === Pré-requisitos para implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -157,7 +157,7 @@ Habilite a autenticação de chave pública/privada ssh entre a controladora Ans
 
 === Provisione instâncias EC2 e cluster de armazenamento do Amazon FSX ONTAP
 
-[%collapsible]
+[%collapsible%open]
 ====
 Embora a instância do EC2 e o Amazon FSX ONTAP possam ser provisionados manualmente pelo console da AWS, é recomendável usar o kit de ferramentas de automação baseado no NetApp Terraform para automatizar o provisionamento de instâncias do EC2 e o cluster de armazenamento do FSX ONTAP. A seguir estão os procedimentos detalhados.
 
@@ -253,7 +253,7 @@ Isso conclui as instâncias EC2 e o provisionamento do FSX ONTAP para Oracle.
 
 === Configuração do conjunto de pacemakers
 
-[%collapsible]
+[%collapsible%open]
 ====
 O suplemento de alta disponibilidade para RHEL é um sistema em cluster que fornece confiabilidade, escalabilidade e disponibilidade para serviços de produção críticos, como serviços de banco de dados Oracle. Nesta demonstração de caso de uso, um cluster de pacemaker de dois nós é configurado e configurado para suportar a alta disponibilidade de um banco de dados Oracle em um cenário de cluster ativo/passivo.  
 
@@ -486,7 +486,7 @@ Isso conclui a configuração do cluster do pacemaker e a configuração inicial
 
 === Configuração de esgrima do cluster do pacemaker
 
-[%collapsible]
+[%collapsible%open]
 ====
 A configuração de esgrima do pacemaker é obrigatória para um cluster de produção. Ele garante que um nó com defeito no cluster do AWS EC2 seja isolado automaticamente, impedindo que o nó consuma os recursos do cluster, comprometa a funcionalidade do cluster ou corrompe os dados compartilhados. Esta seção demonstra a configuração de cercas de cluster usando o agente de cercas fence_aws.
 
@@ -599,7 +599,7 @@ NOTE: Execute `pcs stonith refresh` o comando para atualizar o agente stonith fe
 
 === Implantar banco de dados Oracle no cluster PCS
 
-[%collapsible]
+[%collapsible%open]
 ====
 Recomendamos que utilize o manual de estratégia do Ansible fornecido pela NetApp para executar tarefas de instalação e configuração de banco de dados com parâmetros predefinidos no cluster DE PCS. Para essa implantação automatizada da Oracle, três arquivos de parâmetros definidos pelo usuário precisam de entrada do usuário antes da execução do manual de estratégia.
 
@@ -1026,7 +1026,7 @@ The command completed successfully
 
 === Configurar recursos Oracle para gerenciamento DE PCS
 
-[%collapsible]
+[%collapsible%open]
 ====
 O objetivo de configurar o cluster do pacemaker é configurar uma solução ativa/passiva de alta disponibilidade para executar o Oracle no ambiente AWS EC2 e FSX ONTAP com intervenção mínima do usuário em caso de falha. O seguinte demonstra a configuração dos recursos Oracle para o gerenciamento DE PCS.
 
@@ -1382,7 +1382,7 @@ Daemon Status:
 
 === Validação de HA pós-implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 Após a implantação, é vital executar alguns testes e validação para garantir que o cluster de failover de banco de dados Oracle PCS esteja configurado corretamente e funcione conforme esperado. A validação do teste inclui failover gerenciado e recuperação e falha de recursos inesperados simulados pelo mecanismo de proteção do cluster.
 
@@ -1816,7 +1816,7 @@ Isso conclui a validação e a demonstração da solução do Oracle HA no AWS E
 
 === Faça backup, restauração e clone do Oracle com o SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 A NetApp recomenda a ferramenta de IU do SnapCenter para gerenciar o banco de dados Oracle implantado no AWS EC2 e no Amazon FSX ONTAP. Consulte a seção `Oracle backup, restore, and clone with SnapCenter` TR-4979 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle simplificado e autogerenciado no VMware Cloud no AWS com o FSX ONTAP instalado no convidado"^]para obter detalhes sobre como configurar o SnapCenter e executar os fluxos de trabalho de backup, restauração e clone do banco de dados.
 

@@ -21,7 +21,7 @@ O Jetstream DR pode ser usado para recuperar facilmente as cargas de trabalho re
 Este documento fornece uma compreensão dos princípios de operações do JetStream DR e seus principais componentes.
 
 .Visão geral da implantação da solução
-[%collapsible]
+[%collapsible%open]
 ====
 . Instale o software JetStream DR no data center local.
 +
@@ -69,7 +69,7 @@ NOTE: O número e o conteúdo dos domínios prescritos dependem de várias carac
 O software Jetstream DR consiste em três componentes principais: Jetstream DR Management Server Virtual Appliance (MSA), DR Virtual Appliance (DRVA) e componentes de host (pacotes de filtro de e/S). O MSA é usado para instalar e configurar componentes de host no cluster de computação e, em seguida, para administrar o software JetStream DR. A lista a seguir fornece uma descrição de alto nível do processo de instalação:
 
 .Como instalar o JetStream DR no local
-[%collapsible]
+[%collapsible%open]
 ====
 . Verifique os pré-requisitos.
 . Execute a ferramenta de Planejamento de capacidade para recomendações de recursos e configuração (opcional, mas recomendado para testes de prova de conceito).
@@ -140,7 +140,7 @@ NOTE: A configuração de rede, incluindo a criação de segmentos, deve ser con
 Dependendo dos requisitos de SLA e rto, o modo de failover contínuo ou failover regular (padrão) pode ser usado. Para rto quase zero, a reidratação contínua deve ser iniciada no local de recuperação.
 
 .Como instalar o JetStream DR para AVS em uma nuvem privada
-[%collapsible]
+[%collapsible%open]
 ====
 Para instalar o JetStream DR para AVS em uma nuvem privada da Azure VMware Solution, execute as seguintes etapas:
 
@@ -189,7 +189,7 @@ image:vmware-dr-image18.png["Figura que mostra a caixa de diálogo de entrada/sa
 == Efetuar failover/failback
 
 .Como efetuar um failover/failback
-[%collapsible]
+[%collapsible%open]
 ====
 . Depois que um desastre ocorrer no cluster protegido do ambiente local (falha parcial ou total), acione o failover.
 +

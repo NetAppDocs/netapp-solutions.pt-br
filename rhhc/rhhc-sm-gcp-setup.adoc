@@ -72,5 +72,5 @@ NOTE: O Kubernetes suporta dois modos de vinculação de volume: - Quando **_Vol
 
 .Instalação do OpenShift Cluster no Google Cloud Platform
 video::4efc68f1-d37f-4cdd-874a-b09700e71da9[panopto,width=360]
-.Importação de clusters do OpenShift para o Astra Control Center
+.Importando clusters OpenShift para o Trident Protect
 video::57b63822-6bf0-4d7b-b844-b09700eac6ac[panopto,width=360]

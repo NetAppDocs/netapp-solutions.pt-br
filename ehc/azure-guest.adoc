@@ -31,7 +31,7 @@ Como o serviço é fornecido através do Portal do Microsoft Azure, os usuários
 === Azure NetApp Files (ANF) como storage conectado aos hóspedes
 
 .Configurar o Azure NetApp Files com a solução Azure VMware (AVS)
-[%collapsible]
+[%collapsible%open]
 ====
 Os compartilhamentos do Azure NetApp Files podem ser montados a partir de VMs criadas no ambiente SDDC da solução VMware Azure. Os volumes também podem ser montados no cliente Linux e mapeados no cliente Windows porque o Azure NetApp Files oferece suporte aos protocolos SMB e NFS. O Azure NetApp Files volumes pode ser configurado em cinco etapas simples.
 
@@ -39,7 +39,7 @@ A solução Azure NetApp Files e Azure VMware precisam estar na mesma região do
 
 ====
 .Criar e montar volumes Azure NetApp Files
-[%collapsible]
+[%collapsible%open]
 ====
 Para criar e montar volumes Azure NetApp Files, execute as seguintes etapas:
 
@@ -115,7 +115,7 @@ O CVO oferece performance extrema e recursos avançados de gerenciamento de dado
 === Cloud Volumes ONTAP (CVO) como armazenamento conetado ao convidado
 
 .Implante o novo Cloud Volumes ONTAP no Azure
-[%collapsible]
+[%collapsible%open]
 ====
 Os compartilhamentos e LUNs do Cloud Volumes ONTAP podem ser montados a partir de VMs criadas no ambiente SDDC da solução VMware Azure. Os volumes também podem ser montados no cliente Linux e no cliente Windows porque o Cloud Volumes ONTAP suporta protocolos iSCSI, SMB e NFS. O Cloud Volumes ONTAP volumes pode ser configurado em poucos passos simples.
 
@@ -172,7 +172,7 @@ image:azure-cvo-guest-11.png["Figura que mostra a caixa de diálogo de entrada/s
 
 ====
 .Configurações adicionais para volumes SMB
-[%collapsible]
+[%collapsible%open]
 ====
 . Depois que o ambiente de trabalho estiver pronto, verifique se o servidor CIFS está configurado com os parâmetros de configuração DNS e ative Directory apropriados. Esta etapa é necessária antes que você possa criar o volume SMB.
 +
@@ -198,7 +198,7 @@ image:azure-cvo-guest-24.png["Figura que mostra a caixa de diálogo de entrada/s
 
 ====
 .Conete o LUN a um host
-[%collapsible]
+[%collapsible%open]
 ====
 Para conetar o LUN a um host, execute as seguintes etapas:
 

@@ -6,7 +6,43 @@ indexpage:
   lead: O NetApp oferece muitas práticas recomendadas e soluções para um ambiente
     de virtualização robusto, tanto no local quanto na nuvem.
   tiles:
-  - title: Base do VMware vSphere
+  - title: Primeiros passos com o NetApp e a VMware
+    links:
+    - title: 'VMware e NetApp: Melhores juntos'
+      url: "/vmware-netapp.html"
+    - title: Visão geral
+      url: "/vmw-getting-started-overview.html"
+    - title: Opções de armazenamento do NetApp
+      url: "/vmw-getting-started-netapp-storage-options.html"
+    - title: Vídeos
+      url: "/vsphere_demos_videos.html"
+    - title: Blogs
+      url: "/../blogs.html#vmware"
+  - title: Configurando o VMware Cloud Foundation (VCF) no NetApp
+    links:
+    - title: Visão geral
+      url: "/vmw-vcf-overview.html"
+    - title: Migrar a infraestrutura existente para o VCF
+      url: "/vmw-vcf-migrate.html"
+    - title: Provisione ambiente VCF com storage principal
+      url: "/vmw-vcf-provision.html"
+    - title: Expanda o ambiente VCF com armazenamento suplementar
+      url: "/vmw-vcf-expand.html"
+  - title: Gerenciando VCF no NetApp
+    links:
+    - title: Migrar VMs
+      url: "/migrate-vms-to-ontap-datastore.html"
+    - title: Proteja workloads com o SnapCenter
+      url: "/vmw-vcf-protect-sc.html"
+    - title: Proteja workloads com o VMware vSphere Metro Storage Cluster (vMSC)
+      url: "/vmw-vcf-protect-vmsc.html"
+    - title: Recuperação de desastres usando BlueXP  DRaaS
+      url: "/vmw-vcf-draas-bxp.html"
+    - title: Proteção contra ransomware
+      url: "/vmware_nfs_arp.html"
+    - title: Monitore workloads com o Data Infrastructure Insights (DII)
+      url: "/vmw-dii.html"
+  - title: VMware vSphere Foundation (VVF)
     links:
     - title: VMware vSphere com práticas recomendadas da ONTAP
       url: https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html
@@ -21,16 +57,6 @@ indexpage:
     - title: Cluster de armazenamento Metro do VMware vSphere com sincronização ativa
         do SnapMirror
       url: "/vmware-vmsc-with-smas.html"
-  - title: Base do VMware Cloud
-    links:
-    - title: Storage do NetApp com o VMware Cloud Foundation
-      url: "/vmware-vcf-overview.html"
-    - title: Proteja domínios de workloads com o NetApp SnapCenter
-      url: "/vmware_vcf_aff_multi_wkld_scv.html"
-    - title: Expansão da nuvem híbrida da FlexPod com o VMware Cloud Foundation
-      url: https://www.netapp.com/blog/expanding-flexpod-hybrid-cloud-with-vmware-cloud-foundation/
-    - title: Guias de design da FlexPod para o VMware Cloud Foundation
-      url: https://www.cisco.com/c/en/us/solutions/design-zone/data-center-design-guides/flexpod-design-guides.html?flt0_general-table0=vmware%20cloud%20foundation
   - title: O que o VMware Cloud oferece
     links:
     - title: Multiclouds híbridas do NetApp com VMware
@@ -41,29 +67,7 @@ indexpage:
       url: "/../ehc/azure-avs.html"
     - title: NetApp no Google Cloud (GCVE)
       url: "/../ehc/gcp-gcve.html"
-  - title: 'VMware e NetApp: Melhores juntos'
-    links:
-    - title: Por que VMware e NetApp?
-      url: "/vmware-netapp.html"
-    - title: Visão geral das soluções da NetApp para VMware
-      url: "/vmware-on-netapp.html"
-    - title: Histórias de clientes
-      url: "/vmware-customer-stories.html"
-    - title: Migrar VMs para o armazenamento de dados do ONTAP
-      url: "/migrate-vms-to-ontap-datastore.html"
-    - title: Migre VMs para o EC2 usando o Amazon FSX for ONTAP
-      url: "/migrate-vms-to-ec2-fsxn.html"
-  - title: Suporte da NetApp para o portfólio VMware
-    links:
-    - title: Vídeos
-      url: "/vsphere_demos_videos.html"
-    - title: Blogs
-      url: "/../blogs.html#vmware"
-    - title: Ferramenta de Matriz de interoperabilidade do NetApp
-      url: https://mysupport.netapp.com/matrix/#welcome
-    - title: Guia de compatibilidade de hardware da VMware
-      url: https://www.vmware.com/resources/compatibility/search.php?deviceCategory=san&details=1&partner=64&isSVA=0&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc
-  - title: Recursos adicionais
+  - title: Ferramentas e utilitários
     links:
     - title: Coletor de dados de máquina virtual
       url: "/vmdc.html"
@@ -71,7 +75,7 @@ indexpage:
       url: https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html
     - title: VMware Site Recovery Manager (SRM) com NetApp ONTAP 9
       url: https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html
-    - title: Plug-in do NetApp SnapCenter para VMware vSphere
-      url: "/vmware-scv-overview.html"
-    - title: NetApp BlueXP
-      url: https://docs.netapp.com/us-en/bluexp-family/
+    - title: Ferramenta de Matriz de interoperabilidade do NetApp
+      url: https://mysupport.netapp.com/matrix/#welcome
+    - title: Guia de compatibilidade de hardware da VMware
+      url: https://www.vmware.com/resources/compatibility/search.php?deviceCategory=san&details=1&partner=64&isSVA=0&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc

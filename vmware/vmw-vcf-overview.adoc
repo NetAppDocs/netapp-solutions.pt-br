@@ -1,0 +1,167 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-overview.html 
+keywords: netapp, vmware, cloud, foundation, vcf, flexpod 
+summary:  
+---
+= VMware Cloud Foundation e NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O VMware Cloud Foundation (VCF) é um conjunto de tecnologias projetadas para simplificar a jornada para uma experiência de nuvem híbrida em um ecossistema heterogêneo do cliente.
+
+
+
+= Introdução
+
+O uso do NetApp com VCF aumenta o gerenciamento de dados e a eficiência de storage com os recursos avançados da NetApp, como deduplicação, compactação e snapshots. Essa combinação oferece integração perfeita, alto desempenho e escalabilidade para ambientes virtualizados. Além disso, ele simplifica as implantações de nuvem híbrida, habilitando serviços de dados e gerenciamento consistentes em infraestruturas no local e de nuvem.
+
+
+
+== Introdução ao NetApp ONTAP
+
+O NetApp ONTAP é um software de gerenciamento de dados abrangente que oferece recursos avançados de storage em uma ampla linha de produtos. O ONTAP está disponível como storage definido por software, como um serviço primário por meio dos principais fornecedores de nuvem e como sistema operacional de storage para plataformas NetApp ASA (All SAN Array), AFF (All-flash FAS) e FAS (Fabric-Attached Storage). O ONTAP oferece alta performance e baixa latência para vários casos de uso, incluindo virtualização da VMware, sem criar silos.
+
+
+
+== Introdução ao VMware Cloud Foundation
+
+O VCF integra ofertas de computação, rede e storage com produtos VMware e integrações de 3rd partes, facilitando cargas de trabalho nativas baseadas em Kubernetes e máquinas virtuais. Essa plataforma de software inclui componentes-chave, como VMware vSphere, NSX, Aria Suite Enterprise, Tanzu Kubernetes Grid, HCX Enterprise, SDDC Manager e capacidade de storage vinculada a núcleos de CPU de host por meio de VSAN. O NetApp ONTAP se integra perfeitamente a uma variedade de modelos de implantação do VCF, tanto no local quanto na nuvem pública.
+
+image:vmware-vcf-overview-components.png["Componentes do VMware Cloud Foundation"]
+
+
+
+== Domínios VCF
+
+Os domínios são uma construção fundamental dentro do VCF que permite a organização de recursos em agrupamentos distintos e independentes. Os domínios ajudam a organizar a infraestrutura de forma mais eficaz, garantindo que os recursos sejam utilizados de forma eficiente. Cada domínio é implantado com seus próprios elementos de computação, rede e storage.
+
+image:vmware-vcf-overview-domains.png["Domínios do VMware Cloud"]
+
+Existem dois tipos principais de domínios com VCF:
+
+* *Domínio de gestão* – o domínio de gestão inclui componentes responsáveis pelas funções principais do ambiente VCF. Os componentes lidam com tarefas essenciais, como provisionamento de recursos, monitoramento, manutenção e incluem integrações de plug-in de 3rd partes, como as Ferramentas do NetApp ONTAP para VMware. Os domínios de gerenciamento podem ser implantados usando o Cloud Builder Appliance para garantir que as práticas recomendadas sejam seguidas ou que um ambiente vCenter existente possa ser convertido em um domínio de gerenciamento VCF.
+* *Domínio de carga de trabalho de infraestrutura virtual* – os domínios de carga de trabalho de infraestrutura virtual são projetados para serem conjuntos de recursos dedicados a uma necessidade operacional específica, carga de trabalho ou organização. Os domínios de carga de trabalho são implantados facilmente através do SDDC Manager, ajudando a automatizar uma série de tarefas complexas. Até 24 domínios de carga de trabalho podem ser provisionados em um ambiente VCF, cada um representando uma unidade de infraestrutura pronta para aplicações.
+
+
+
+
+== Armazenamento com VCF
+
+Central para a funcionalidade dos domínios é o armazenamento que eles consomem. Embora o VCF inclua capacidade VSAN baseada no núcleo da CPU para casos de uso hiperconvergentes, ele também oferece suporte a uma ampla variedade de soluções de armazenamento externo. Essa flexibilidade é crucial para empresas que têm investimentos significativos em storage arrays existentes ou precisam oferecer suporte a protocolos além do que o VSAN oferece. A VMware é compatível com vários tipos de storage com VCF.
+
+Existem dois tipos principais de armazenamento com VCF:
+
+* *Armazenamento principal* – este tipo de armazenamento é alocado durante a criação inicial do domínio. Para domínios de gerenciamento, esse armazenamento abriga os componentes administrativos e operacionais do VCF. Para domínios de workload, esse storage foi desenvolvido para dar suporte a cargas de trabalho, VMs ou contêineres para os quais o domínio foi implantado.
+* *Armazenamento suplementar* – o armazenamento suplementar pode ser adicionado a qualquer domínio de carga de trabalho após a implementação. Esse tipo de storage ajuda as organizações a aproveitar os investimentos existentes na infraestrutura de storage e integrar várias tecnologias de storage para otimizar a performance, a escalabilidade e a economia.
+
+
+*Suporte a tipos de armazenamento VCF*
+
+[cols="25%, 25%, 50%"]
+|===
+
+
+| * Tipo de domínio* | *Armazenamento Principal* | *Armazenamento suplementar* 
+
+
+| Domínio de Gestão | VSAN FC* NFS* | VVols (FC, iSCSI ou NFS) FC NFS iSCSI NVMe/TCP NVMe/FC NVMe/RDMA 
+
+
+| Domínio de carga de trabalho de infraestrutura virtual | VSAN vVols (FC, iSCSI ou NFS) FC NFS | VVols (FC, iSCSI ou NFS) FC NFS iSCSI NVMe/TCP NVMe/FC NVMe/RDMA 
+|===
+Observação: * Suporte específico ao protocolo fornecido ao usar a ferramenta de importação VCF com ambientes vSphere existentes.
+
+
+
+== Por que ONTAP para VCF
+
+Além dos casos de uso que envolvem proteção de investimento e suporte a vários protocolos, há muitos motivos adicionais para aproveitar o armazenamento compartilhado externo em um domínio de carga de trabalho VCF. Pode-se supor que o storage provisionado para um domínio de workload seja meramente um repositório para hospedar VMs e contêineres. No entanto, as necessidades da organização muitas vezes superam os recursos da capacidade licenciada e exigem storage empresarial. O storage fornecido pela ONTAP, alocado a domínios dentro do VCF, é fácil de implantar e oferece uma solução de storage compartilhado pronta para o futuro.
+
+image:why_ontap_for_vmware_2.png["Por que ONTAP para VCF"]
+
+Para obter mais informações sobre os principais benefícios do ONTAP para o VMware VCF identificados abaixo, link:vmw-getting-started-overview.html#why-ontap-for-vmware["Por que ONTAP para VMware"]consulte .
+
+* Flexibilidade no dia 1 e à medida que você escala
+* Descarregar tarefas de armazenamento para o ONTAP
+* A melhor eficiência de storage da categoria
+* Disponibilidade de dados de nível empresarial
+* Operações eficientes de backup e recuperação
+* Capacidades de continuidade de negócios holísticas
+
+
+
+
+== Informações adicionais:
+
+* link:vmw-getting-started-netapp-storage-options.html["Opções de armazenamento do NetApp"]
+* link:vmw-getting-started-metro-storage-cluster.html["Suporte ao vSphere Metro Storage Cluster (vMSC)"]
+* link:vmw-getting-started-ontap-tools-for-vmware.html["Ferramentas do ONTAP para VMware vSphere"]
+* link:vmw-getting-started-ontap-apis-automation.html["Automação da VMware com o ONTAP"]
+* link:vmw-getting-started-snapcenter.html["NetApp SnapCenter"]
+* link:vmw-getting-started-hybrid-multicloud.html["Multicloud híbrida com VMware e NetApp"]
+* link:vmw-getting-started-security-ransomware.html["Segurança e proteção contra ransomware"]
+* link:vmw-getting-started-migration.html["Migração fácil dos workloads da VMware para o NetApp"]
+* link:vmw-getting-started-bluexp-disaster-recovery.html["Recuperação de desastres do BlueXP "]
+* link:vmw-getting-started-data-infrastructure-insights.html["Insights da infraestrutura de dados"]
+* link:vmw-getting-started-vm-data-collector.html["Coletor de dados VM"]
+
+
+
+
+== Resumo
+
+O ONTAP fornece uma plataforma que atende a todos os requisitos de workload, oferecendo soluções personalizadas de storage de bloco e ofertas unificadas para permitir resultados mais rápidos para VMs e aplicações de maneira confiável e segura. O ONTAP incorpora técnicas avançadas de redução e movimentação de dados para minimizar o espaço físico do data center, ao mesmo tempo em que garante disponibilidade de nível empresarial para manter workloads críticos on-line. Além disso, a AWS, o Azure e o Google oferecem suporte ao storage externo com tecnologia NetApp para aprimorar o storage VSAN em clusters baseados na nuvem da VMware como parte das ofertas VMware-in-the-Cloud. Em geral, os recursos superiores do NetApp o tornam uma escolha mais eficaz para implantações do VMware Cloud Foundation.
+
+
+
+== Recursos de documentação
+
+Para obter informações detalhadas sobre as ofertas do NetApp para o VMware Cloud Foundation, consulte o seguinte:
+
+*Documentação do VMware Cloud Foundation*
+
+* link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentação do VMware Cloud Foundation"]
+
+
+* Quatro (4) parte da série do blog no VCF com NetApp*
+
+* link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-getting-started/["NetApp e VMware Cloud Foundation simplificados parte 1: Primeiros passos"]
+* link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-ontap-principal-storage/["NetApp e VMware Cloud Foundation simplificados parte 2: Storage principal do VCF e do ONTAP"]
+* link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-element-principal-storage/["NetApp e VMware Cloud Foundation simplificados parte 3: Storage principal do VCF e do Element"]
+* link:https://www.netapp.com/blog/netapp-vmware-cloud-foundation-supplemental-storage/["NetApp e VMware Cloud Foundation simplificados - parte 4: Ferramentas ONTAP para VMware e armazenamento suplementar"]
+
+
+*VMware Cloud Foundation com arrays SAN all-flash NetApp*
+
+* link:vmw-getting-started-netapp-storage-options.html#netapp-asa-all-san-array-benefits["VCF com arrays NetApp ASA, Introdução e Visão Geral da tecnologia"]
+* link:vmw-vcf-mgmt-principal-fc.html["Use o ONTAP com FC como storage principal para domínios de gerenciamento"]
+* link:vmw-vcf-viwld-principal-fc.html["Use o ONTAP com FC como storage principal para domínios de workloads VI"]
+* link:vmw-vcf-mgmt-supplemental-iscsi.html["Use as Ferramentas do ONTAP para implantar armazenamentos de dados iSCSI em um domínio de gerenciamento VCF"]
+* link:vmw-vcf-mgmt-supplemental-fc.html["Use as ferramentas do ONTAP para implantar armazenamentos de dados FC em um domínio de gerenciamento VCF"]
+* link:vmw-vcf-viwld-supplemental-vvols.html["Use as Ferramentas do ONTAP para implantar armazenamentos de dados vVols (iSCSI) em um domínio de workload do VI"]
+* link:vmw-vcf-viwld-supplemental-nvme.html["Configurar o NVMe em armazenamentos de dados TCP para uso em um domínio de workload do VI"]
+* link:vmw-vcf-scv-wkld.html["Implante e use o plug-in do SnapCenter para VMware vSphere para proteger e restaurar VMs em um domínio de workload do VI"]
+* link:vmw-vcf-scv-nvme.html["Implante e use o plug-in SnapCenter para VMware vSphere para proteger e restaurar VMs em um domínio de workload VI (datastores NVMe/TCP)"]
+
+
+*VMware Cloud Foundation com arrays AFF all-flash NetApp*
+
+* link:vmw-getting-started-netapp-storage-options.html#netapp-aff-all-flash-fas-benefits["VCF com arrays NetApp AFF, Introdução e Visão Geral da tecnologia"]
+* link:vmw-vcf-mgmt-principal-nfs.html["Use o ONTAP com NFS como storage principal para domínios de gerenciamento"]
+* link:vmw-vcf-viwld-principal-nfs.html["Use o ONTAP com NFS como storage principal para domínios de workload do VI"]
+* link:vmw-vcf-viwld-supplemental-nfs-vvols.html["Use as ferramentas do ONTAP para implantar armazenamentos de dados vVols (NFS) em um domínio de workload do VI"]
+
+
+*Soluções NetApp FlexPod para o VMware Cloud Foundation*
+
+* link:https://www.netapp.com/blog/expanding-flexpod-hybrid-cloud-with-vmware-cloud-foundation/["Expansão da nuvem híbrida da FlexPod com o VMware Cloud Foundation"]
+* link:https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flexpod_vcf.html["FlexPod como um domínio de carga de trabalho para o VMware Cloud Foundation"]
+* link:https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flexpod_vcf_design.html["Guia de design do FlexPod como um domínio de workload para o VMware Cloud Foundation"]
+

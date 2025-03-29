@@ -13,8 +13,6 @@ summary: Recomendações de práticas recomendadas para VMs no Red Hat OpenShift
 :imagesdir: ../media/
 
 
-Autor: Banu Sundhar, NetApp
-
 [role="lead"]
 Esta seção descreve os diferentes fatores que você deve considerar ao implantar novas VMs ou ao importar VMs existentes de um VMware vSphere para o OpenShift Virtualization na OpenShift Container Platform.
 

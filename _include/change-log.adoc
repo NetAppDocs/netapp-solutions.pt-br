@@ -271,7 +271,7 @@
 | 8 de março de 2022 | Contêineres | Adicionado uma nova demonstração em vídeo: Acelere o desenvolvimento de software com o Astra Control e a tecnologia NetApp FlexClone 
 
 
-| 1 de março de 2022 | Contêineres | Adicionadas novas seções ao NVA-1160: Instalação do Astra Control Center via OperatorHub e Ansible 
+| 1 de março de 2022 | Contêineres | Adicionadas novas seções ao NVA-1160: Instalação do Trident Protect via OperatorHub e Ansible 
 
 
 | 2 de fevereiro de 2022 | Geral | Criou Landing pages para organizar melhor o conteúdo da IA e do Data Analytics moderno 
@@ -313,7 +313,7 @@
 | 14 de outubro de 2021 | Virtualização | Adicionadas partes 1-4 do NetApp com a série de blogs do VMware VCF 
 
 
-| 4 de outubro de 2021 | Contêineres | Adicionado uma nova demonstração em vídeo: Migração de carga de trabalho usando o Astra Control Center para NVA-1160 
+| 4 de outubro de 2021 | Contêineres | Adicionado uma nova demonstração em vídeo: Migração de carga de trabalho usando o Trident Protect para NVA-1160 
 
 
 | 23 de setembro de 2021 | Migração de dados | Novo conteúdo: Melhores práticas da NetApp para NetApp XCP 
@@ -325,7 +325,7 @@
 | 9 de setembro de 2021 | Contêineres | Adicionado F5 BIG-IP load balancer integração com OpenShift para NVA-1160 
 
 
-| 5 de agosto de 2021 | Contêineres | Adicionado uma nova integração de tecnologia ao NVA-1160 - Centro de Controle Astra NetApp no Red Hat OpenShift 
+| 5 de agosto de 2021 | Contêineres | Adicionado uma nova integração de tecnologia ao NVA-1160 - NetApp Trident Protect em Red Hat OpenShift 
 
 
 | 21 de julho de 2021 | Banco de dados | Implantação automatizada do Oracle19c para ONTAP em NFS 

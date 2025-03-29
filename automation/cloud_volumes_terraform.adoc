@@ -58,7 +58,7 @@ Leia mais sobre controle de versão do provedor.
 == Executando módulos específicos
 
 .AWS
-[%collapsible]
+[%collapsible%open]
 ====
 [role="tabbed-block"]
 =====
@@ -530,7 +530,7 @@ Variáveis Terraform para instância do NetApp ONTAP FSX.
 =====
 ====
 .Azure
-[%collapsible]
+[%collapsible%open]
 ====
 [role="tabbed-block"]
 =====
@@ -1394,7 +1394,7 @@ Variáveis Terraform para Cloud Volumes ONTAP de par de HA (CVO).
 =====
 ====
 .GCP
-[%collapsible]
+[%collapsible%open]
 ====
 [role="tabbed-block"]
 =====

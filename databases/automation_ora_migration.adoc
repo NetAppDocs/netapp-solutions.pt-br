@@ -62,7 +62,7 @@ NOTE: Existem certas restrições em torno de produzir e/ou compartilhar qualque
 
 === Pré-requisitos para implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -91,7 +91,7 @@ Network connectivity
 
 === Baixe o kit de ferramentas
 
-[%collapsible]
+[%collapsible%open]
 ====
 [source, cli]
 ----
@@ -102,7 +102,7 @@ git clone https://github.com/NetApp/na_ora_aws_migration.git
 
 === Configuração das variáveis do host
 
-[%collapsible]
+[%collapsible%open]
 ====
 Variáveis de host são definidas no diretório host_vars nomeado como host_name.yml. Um exemplo de arquivo de variável host host_name.yml é incluído para demonstrar a configuração típica. A seguir estão as principais considerações:
 
@@ -131,7 +131,7 @@ Target Oracle CDB - define host specific variables for the target CDB including 
 
 === Configuração do arquivo host do servidor DB
 
-[%collapsible]
+[%collapsible%open]
 ====
 A instância do AWS EC2 usa o endereço IP para a nomeação do host por padrão. Se você usar um nome diferente no arquivo hosts para Ansible, configure a resolução de nomes de host no arquivo /etc/hosts para o servidor de origem e de destino. Segue-se um exemplo.
 
@@ -146,7 +146,7 @@ A instância do AWS EC2 usa o endereço IP para a nomeação do host por padrão
 
 === Execução do Playbook - executada em sequência
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Instalar pré-requisitos da controladora Ansible.
 +

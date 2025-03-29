@@ -20,8 +20,6 @@ A recuperação de desastres na nuvem é uma maneira resiliente e econômica de 
 
 == Visão geral
 
-Autores: Ravi BCB e Niyaz Mohamed, NetApp
-
  This covers application data; however, what about the actual VMs themselves. Disaster recovery should cover all dependent components, including virtual machines, VMDKs, application data, and more. To accomplish this, SnapMirror along with Jetstream can be used to seamlessly recover workloads replicated from on-premises to Cloud Volumes ONTAP while using vSAN storage for VM VMDKs.
 Este documento fornece uma abordagem passo a passo para configurar e executar a recuperação de desastres que usa NetApp SnapMirror, JetStream e a solução VMware Azure (AVS).
 
@@ -71,7 +69,7 @@ NOTE: Existem várias opções para conetar datacenters locais ao Azure, o que n
 === Detalhes da implantação
 
 .Configure o CVO no Azure e replique volumes para o CVO
-[%collapsible]
+[%collapsible%open]
 ====
 A primeira etapa é configurar o Cloud Volumes ONTAP no Azure (link:azure-guest.html["Link"^]) e replicar os volumes desejados para o Cloud Volumes ONTAP com as frequências desejadas e retenções de instantâneos.
 
@@ -79,7 +77,7 @@ image:dr-cvo-avs-image2.png["Figura que mostra a caixa de diálogo de entrada/sa
 
 ====
 .Configurar hosts AVS e acesso a dados CVO
-[%collapsible]
+[%collapsible%open]
 ====
 Dois fatores importantes a serem considerados ao implantar o SDDC são o tamanho do cluster SDDC na solução Azure VMware e o tempo para manter o SDDC em serviço. Essas duas principais considerações para uma solução de recuperação de desastres ajudam a reduzir os custos operacionais gerais. O SDDC pode ser tão pequeno quanto três hosts, até um cluster de vários hosts em uma implantação em escala completa.
 
@@ -93,7 +91,7 @@ Depois que o Cloud Volumes ONTAP e o AVS tiverem sido configurados corretamente,
 
 ====
 .Instalar o JetStream DR no data center local
-[%collapsible]
+[%collapsible%open]
 ====
 O software Jetstream DR consiste em três componentes principais: O JetStream DR Management Server Virtual Appliance (MSA), o DR Virtual Appliance (DRVA) e componentes de host (pacotes de filtro de e/S). O MSA é usado para instalar e configurar componentes de host no cluster de computação e, em seguida, para administrar o software JetStream DR. O processo de instalação é o seguinte:
 
@@ -201,7 +199,7 @@ O status dos runbooks de failover e failback agora está listado como configurad
 
 ====
 .Instale o JetStream DR para AVS em nuvem privada
-[%collapsible]
+[%collapsible%open]
 ====
 Uma prática recomendada para um local de recuperação (AVS) é criar um cluster de luz piloto de três nós com antecedência. Isso permite que a infraestrutura do local de recuperação seja pré-configurada, incluindo o seguinte:
 
@@ -274,7 +272,7 @@ O processo de failover contínuo começa e seu progresso pode ser monitorado a p
 
 ====
 .Failover e failback
-[%collapsible]
+[%collapsible%open]
 ====
 . Depois que um desastre ocorre no cluster protegido do ambiente local (falha parcial ou completa), você pode acionar o failover para VMs usando o Jetstream depois de quebrar a relação do SnapMirror para os respetivos volumes de aplicativos.
 +

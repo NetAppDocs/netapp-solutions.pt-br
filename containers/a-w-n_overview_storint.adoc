@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/a-w-n_overview_storint.html 
-keywords: Astra, Astra Control Center, Trident, Trident, persistent storage 
+keywords: Trident, Trident, persistent storage 
 summary: A NetApp fornece vários produtos que ajudam nossos clientes a orquestrar e gerenciar dados persistentes em ambientes baseados em contêineres, como o Anthos. 
 ---
 = Visão geral da integração de storage da NetApp

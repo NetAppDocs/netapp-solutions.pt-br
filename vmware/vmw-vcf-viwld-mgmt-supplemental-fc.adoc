@@ -1,0 +1,102 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-mgmt-supplemental-fc.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
+summary:  
+---
+= VMFS no FC como storage complementar para domínios de carga de trabalho e gerenciamento do VI usando as ferramentas do ONTAP para VMware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nesse cenário, demonstraremos como implantar o armazenamento de dados VMFS com o back-end Fibre Channel (FC) para domínios de gerenciamento e carga de trabalho utilizando ferramentas do ONTAP.
+
+
+
+== Benefícios do Fibre Channel
+
+* Alto desempenho:* o FC fornece taxas de transferência de dados de alta velocidade, tornando-o ideal para aplicativos que exigem acesso rápido e confiável a grandes quantidades de dados.
+
+* Baixa latência: * Latência muito baixa, o que é crucial para aplicativos sensíveis ao desempenho, como bancos de dados e ambientes virtualizados.
+
+* Confiabilidade: * As redes FC são conhecidas por sua robustez e confiabilidade, com recursos como redundância incorporada e correção de erros.
+
+* Largura de banda dedicada:* o FC fornece largura de banda dedicada para o tráfego de armazenamento, reduzindo o risco de congestionamento da rede.
+
+Para obter mais informações sobre como usar Fibre Channel com sistemas de armazenamento NetApp, https://docs.netapp.com/us-en/ontap/san-admin/san-provisioning-fc-concept.html["Provisionamento DE SAN com FC"] consulte .
+
+
+
+== Visão geral do cenário
+
+O armazenamento de dados suplementar do VCF é projetado como parte das operações do dia 2 usando o vCenter. Este cenário abrange os seguintes passos de alto nível:
+
+* Implantação de ferramentas ONTAP no domínio de gerenciamento
+* Registre os servidores do vCenter de carga de trabalho VI nas ferramentas do ONTAP
+* Defina o back-end de armazenamento no plugin de ferramentas do ONTAP para VMware vSphere
+* Provisione VMFS no transporte FC
+
+
+
+
+== Pré-requisitos
+
+Este cenário requer os seguintes componentes e configurações:
+
+* Um sistema de storage ONTAP com portas FC conectadas aos switches FC.
+* SVM criado com FC Lifs.
+* VSphere com FC HBAs conectados a switches FC.
+* O zoneamento de destino de iniciador único é configurado em switches FC.
++
+
+NOTE: Use a interface lógica do SVM FC na configuração de zona em vez de portas FC físicas em sistemas ONTAP.
+
+
+
+A NetApp recomenda o multipath para FC LUNs.
+
+Para obter informações completas sobre como configurar o Fibre Channel em sistemas de armazenamento ONTAP, consulte a https://docs.netapp.com/us-en/ontap/san-management/index.html["Gerenciamento de STORAGE SAN"] documentação do ONTAP 9.
+
+Para obter mais informações sobre como usar o VMFS com sistemas de armazenamento ONTAP, consulte o https://docs.netapp.com/us-en/netapp-solutions/vmware/vmfs-deployment.html["Guia de implantação para VMFS"].
+
+
+
+== Etapas de implantação para o domínio de gerenciamento
+
+Para implantar as Ferramentas do ONTAP e usá-las para criar um datastore VMFS no domínio de gerenciamento do VCF, execute as seguintes etapas:
+
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["Implantar ferramentas do ONTAP no domínio de gerenciamento"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["Defina o back-end do storage usando a interface do cliente vSphere"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["Provisione VMFS no FC"]
+
+
+
+
+== Etapas de implantação para o domínio de carga de trabalho do VI
+
+Para implantar as Ferramentas do ONTAP e usá-las para criar um datastore VMFS no domínio de carga de trabalho do VCF VI, execute as seguintes etapas:
+
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["Registre o VI Workload vCenter para habilitar o vCenter Plugin"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["Defina o back-end do storage usando a interface do cliente vSphere"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["Provisione VMFS no FC"]
+
+
+
+
+== Informações adicionais
+
+Para obter informações sobre a configuração de sistemas de armazenamento ONTAP, consulte o link:https://docs.netapp.com/us-en/ontap["Documentação do ONTAP 9"] centro.
+
+Para obter informações sobre como configurar o VCF, link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentação do VMware Cloud Foundation"]consulte .
+
+
+
+== Vídeo demo para esta solução
+
+.Armazenamento de dados VMFS(FC) como armazenamento suplementar para o domínio de gerenciamento do VCF
+video::3135c36f-3a13-4c95-aac9-b2a0001816dc[panopto,width=360]

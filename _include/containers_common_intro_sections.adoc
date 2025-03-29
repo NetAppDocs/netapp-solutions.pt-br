@@ -21,16 +21,12 @@ A NetApp tem vários sistemas de storage perfeitos para data centers empresariai
 
 Para obter mais informações, visite o site da NetApp https://www.netapp.com["aqui"] .
 
-O NetApp Astra Control Center oferece um conjunto avançado de serviços de gerenciamento de dados com reconhecimento de aplicações e storage para workloads Kubernetes com monitoramento de estado implantado em ambiente local e equipado com tecnologia de proteção de dados confiável da NetApp.
-
-Para obter mais informações, visite o site do NetApp Astra https://cloud.netapp.com/astra["aqui"] .
-
 O Trident é um orquestrador de storage de código aberto e totalmente compatível para distribuições de contêineres e Kubernetes, como o k8s_Distribution_NAME.
 
 Para obter mais informações, visite o site da Trident https://docs.netapp.com/us-en/trident/index.html["aqui"] .
 
 [role="normal"]
-O NetApp tem várias plataformas de storage qualificadas com o Trident e o Astra Control para provisionar, proteger e gerenciar dados para aplicações em contêiner.
+A NetApp tem várias plataformas de storage qualificadas com o Trident para provisionar, proteger e gerenciar dados para aplicações em contêiner.
 
 image:redhat_openshift_image43.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
@@ -119,31 +115,12 @@ O NetApp fornece vários produtos para ajudar você a orquestrar, gerenciar, pro
 
 image:devops_with_netapp_image1.jpg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
-O NetApp Astra Control oferece um conjunto avançado de serviços de gerenciamento de dados com reconhecimento de aplicações e storage para workloads Kubernetes com monitoramento de estado e tecnologia de proteção de dados da NetApp. O Astra Control Service está disponível para atender a workloads com estado monitorado em implantações Kubernetes nativas em nuvem. O Astra Control Center está disponível para atender a workloads com estado em implantações locais de plataformas Kubernetes empresariais, como a k8s_Distribution_NAME. Para obter mais informações, visite o site do NetApp Astra Control https://cloud.netapp.com/astra["aqui"] .
-
 O NetApp Trident é um orquestrador de storage de código aberto e totalmente compatível para distribuições de contêineres e Kubernetes, como o k8s_Distribution_NAME. Para obter mais informações, visite o site da Trident https://docs.netapp.com/us-en/trident/index.html["aqui"] .
 
 As páginas a seguir têm informações adicionais sobre os produtos NetApp que foram validados para gerenciamento de aplicativos e armazenamento persistente na solução:
 
 * link:{trident_overview_page_link}["NetApp Trident"]
 
-
-[role="normal"]
-O NetApp Astra Control Center oferece um conjunto avançado de serviços de gerenciamento de dados com reconhecimento de aplicações e storage para workloads Kubernetes com monitoramento de estado implantado em ambiente local e equipado com tecnologia de proteção de dados da NetApp.
-
-image:redhat_openshift_image44.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
-
-O NetApp pode ser instalado em um cluster k8s_Distribution_NAME que tenha o orquestrador de storage Trident implantado e configurado com classes de storage e backends de storage para sistemas de storage NetApp ONTAP.
-
-Para obter mais informações sobre o Trident, link:dwn_overview_trident.html["este documento aqui"^]consulte .
-
-Em um ambiente conectado à nuvem, o Astra Control Center usa o Cloud Insights para fornecer monitoramento avançado e telemetria. Na ausência de uma conexão Cloud Insights, monitoramento e telemetria limitados (sete dias de métricas) estão disponíveis e exportados para ferramentas de monitoramento nativas do Kubernetes (Prometheus e Grafana) por meio de endpoints de métricas abertas.
-
-O Astra Control Center é totalmente integrado ao ecossistema de consultores digitais da NetApp AutoSupport e Active IQ (também conhecido como consultor digital) para fornecer suporte aos usuários, fornecer assistência com a solução de problemas e exibir estatísticas de uso.
-
-Além da versão paga do Astra Control Center, uma licença de avaliação de 90 dias também está disponível. A versão de avaliação é suportada por e-mail e pelo canal Slack da comunidade. Os clientes têm acesso a esses recursos, outros artigos da base de conhecimento e documentação disponíveis no painel de suporte do produto.
-
-Para entender mais sobre o portfólio do Astra, visite o link:https://cloud.netapp.com/astra["Site Astra"^].
 
 [role="normal"]
 O Trident é um orquestrador de storage de código aberto e totalmente compatível para contêineres e distribuições do Kubernetes, como o k8s_Distribution_NAME. O Trident funciona com todo o portfólio de storage da NetApp, incluindo os sistemas de storage NetApp ONTAP e Element, além de dar suporte a conexões NFS e iSCSI. O Trident acelera o fluxo de trabalho do DevOps, permitindo que os usuários finais provisionem e gerenciem o storage de seus sistemas de storage NetApp sem a intervenção de um administrador de storage.

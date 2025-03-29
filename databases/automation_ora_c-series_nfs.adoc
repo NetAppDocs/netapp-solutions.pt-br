@@ -142,7 +142,7 @@ As seções a seguir fornecem procedimentos passo a passo para implantação aut
 
 === Pré-requisitos para implantação
 
-[%collapsible]
+[%collapsible%open]
 ====
 A implantação requer os seguintes pré-requisitos.
 
@@ -176,7 +176,7 @@ installer_archives:
 
 === Configurar rede e SVM no C-Series para Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 Esta seção do guia de implantação demonstra as práticas recomendadas para configurar a máquina virtual de rede e storage (SVM) no controlador C-Series para workloads Oracle com protocolo NFS usando a IU do ONTAP System Manager.
 
@@ -276,7 +276,7 @@ Isso conclui a configuração do controlador da série C para Oracle.
 
 === Arquivos de parâmetros de automação
 
-[%collapsible]
+[%collapsible%open]
 ====
 O manual de estratégia do Ansible executa tarefas de configuração e instalação do banco de dados com parâmetros predefinidos. Para esta solução de automação Oracle, existem três arquivos de parâmetros definidos pelo usuário que precisam de entrada do usuário antes da execução do manual de estratégia.
 
@@ -292,7 +292,7 @@ Além desses arquivos de variáveis definidos pelo usuário, existem vários arq
 
 === Configuração dos ficheiros de parâmetros
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Configuração do arquivo de destino do Ansible `hosts`:
 +
@@ -366,7 +366,7 @@ nfs_lif: 172.30.136.68
 
 === Execução do Playbook
 
-[%collapsible]
+[%collapsible%open]
 ====
 Há um total de cinco playbooks no kit de ferramentas de automação. Cada um executa diferentes blocos de tarefas e serve diferentes propósitos.
 
@@ -430,7 +430,7 @@ ansible-playbook -i hosts 5-destroy.yml -u admin -e @vars/vars.yml
 
 === Validação pós-execução
 
-[%collapsible]
+[%collapsible%open]
 ====
 Após a execução do manual de estratégia, faça login na VM do servidor Oracle DB para validar que o Oracle está instalado e configurado e um banco de dados de contentor é criado com êxito. A seguir está um exemplo de validação de banco de dados Oracle no DB VM ora_01 ou ora_02.
 
@@ -662,7 +662,7 @@ image:automation_ora_c-series_nfs_em_01.png["Esta imagem fornece tela de login p
 
 === Faça backup, restauração e clone do Oracle com o SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 A NetApp recomenda a ferramenta SnapCenter UI para gerenciar o banco de dados Oracle implantado na série C. Consulte a seção `Oracle backup, restore, and clone with SnapCenter` TR-4979 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle simplificado e autogerenciado no VMware Cloud no AWS com o FSX ONTAP instalado no convidado"^]para obter detalhes sobre como configurar o SnapCenter e executar os fluxos de trabalho de backup, restauração e clone do banco de dados.
 

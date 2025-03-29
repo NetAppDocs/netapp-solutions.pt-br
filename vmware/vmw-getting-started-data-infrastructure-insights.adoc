@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-data-infrastructure-insights.html 
+keywords: vmware, getting, started, overview, netapp, data, infrastructure, insights, dii 
+summary:  
+---
+= Insights de infraestrutura de dados (DII)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NetApp Data Infrastructure Insights é uma ferramenta de monitoramento de infraestrutura de nuvem que oferece visibilidade de toda a sua infraestrutura.
+
+
+
+== Introdução
+
+Com o Data Infrastructure Insights, você pode monitorar, solucionar problemas e otimizar todos os recursos, incluindo suas nuvens públicas e seus data centers privados.
+
+Para obter mais informações sobre o Data Infrastructure Insights, link:https://docs.netapp.com/us-en/data-infrastructure-insights/index.html["Documentação do Data Infrastructure Insights"]consulte .
+
+
+
+== Funcionalidades do Data Infrastructure Insights
+
+* O Data Infrastructure Insights oferece monitoramento de multicloud híbrida, com uma observabilidade de toda a stack de infraestrutura e workloads.
+* Coletores de dados para infraestrutura e workloads heterogêneos, incluindo Kubernetes
+* Open Telegraf Collector e APIs abertas para fácil integração
+* Alertas e notificações abrangentes
+* Aprendizado de máquina para insights inteligentes
+* Otimizar a utilização de recursos
+* Painéis integrados ou personalizáveis com filtros avançados para minimizar o ruído de exibição para responder a perguntas
+* Descubra a integridade das operações de storage da ONTAP 
+* Proteja seu ativo comercial mais valioso: Os dados, contra ransomware ou ataque de destruição de dados
+

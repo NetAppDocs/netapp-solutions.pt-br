@@ -81,7 +81,7 @@ As opções de storage da VMware geralmente são organizadas como ofertas de sto
 
 image:vmware-nfs-overview-image01.png["Opções de armazenamento de VM"] clique em ok
 
-Consulte https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-storage/GUID-F602EB17-8D24-400A-9B05-196CEA66464F.html["Introdução ao armazenamento no ambiente vSphere"] para obter mais informações sobre os tipos de armazenamento suportados para o VMware vSphere Foundation.
+Consulte https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-storage-8-0/introduction-to-storage-in-vsphere-environment.html["Introdução ao armazenamento no ambiente vSphere"] para obter mais informações sobre os tipos de armazenamento suportados para o VMware vSphere Foundation.
 
 
 
@@ -203,7 +203,7 @@ A integração com o BlueXP  possibilita estratégias de backup 3-2-1 que esten
 
 Para obter mais informações sobre estratégias de backup 3-2-1 com o BlueXP , visite link:../ehc/bxp-scv-hybrid-solution.html["Proteção de dados 3-2-1 para VMware com plug-in SnapCenter e backup e recuperação de BlueXP  para VMs"].
 
-Para obter instruções passo a passo de implantação do plug-in SnapCenter, consulte a solução link:vmware_vcf_asa_scv_wkld.html["Use o plug-in do SnapCenter para VMware vSphere para proteger VMs em domínios de carga de trabalho VCF"].
+Para obter instruções passo a passo de implantação do plug-in SnapCenter, consulte a solução link:vmw-vcf-scv-wkld.html["Use o plug-in do SnapCenter para VMware vSphere para proteger VMs em domínios de carga de trabalho VCF"].
 
 
 
@@ -245,7 +245,7 @@ O NetApp fornece o storage mais seguro do planeta. O NetApp pode ajudar a proteg
 
 *O VMware Live Site Recovery*, anteriormente conhecido como VMware Site Recovery Manager, oferece automação simplificada e baseada em políticas para proteger máquinas virtuais no cliente da Web vSphere. Essa solução utiliza as tecnologias avançadas de gerenciamento de dados da NetApp por meio do adaptador de replicação de armazenamento como parte das ferramentas do ONTAP para VMware. Ao aproveitar os recursos do NetApp SnapMirror para replicação baseada em array, os ambientes VMware podem se beneficiar de uma das tecnologias mais confiáveis e maduras da ONTAP. O SnapMirror garante transferências de dados seguras e altamente eficientes, copiando apenas os blocos de sistema de arquivos alterados, em vez de VMs inteiras ou armazenamentos de dados. Além disso, esses blocos aproveitam as técnicas de economia de espaço, como deduplicação, compressão e compactação. Com a introdução do SnapMirror independente da versão em sistemas ONTAP modernos, você ganha flexibilidade na seleção dos clusters de origem e destino. O SnapMirror realmente surgiu como uma ferramenta poderosa para recuperação de desastres e, quando combinado com a recuperação de local ao vivo, oferece escalabilidade, desempenho e economia de custos aprimorados em comparação com as alternativas de armazenamento local.
 
-Para obter mais informações, consulte https://docs.vmware.com/en/Site-Recovery-Manager/8.8/srm-installation-and-configuration/GUID-C1E9E7D0-B88F-4D2E-AA15-31897C01AB82.html["Visão geral do VMware Site Recovery Manager"].
+Para obter mais informações, consulte https://techdocs.broadcom.com/us/en/vmware-cis/live-recovery/site-recovery-manager/8-7/site-recovery-manager-installation-and-configuration-8-7/overview-of-vmware-site-recovery-manager.html["Visão geral do VMware Site Recovery Manager"].
 
 Veja a solução completa no centro de documentação da NetApps Solutions: link:vmware_nfs_vlsr.html["Proteção autônoma contra ransomware para storage NFS"]
 
@@ -262,7 +262,7 @@ Soluções abordadas nesta documentação:
 * *Recurso NFS nConete-se ao NetApp e VMware*. Clique link:vmware-vsphere8-nfs-nconnect.html["*aqui*"] em para obter as etapas de implantação.
 +
 ** *Use as ferramentas do ONTAP 10 para configurar datastores NFS para o vSphere 8*. Clique link:vmware_nfs_otv10.html["*aqui*"] em para obter as etapas de implantação.
-** *Implante e use o plug-in SnapCenter para VMware vSphere para proteger e restaurar VMs*. Clique link:vmware_vcf_asa_scv_wkld.html["*aqui*"] em para obter as etapas de implantação.
+** *Implante e use o plug-in SnapCenter para VMware vSphere para proteger e restaurar VMs*. Clique link:vmw-vcf-scv-wkld.html["*aqui*"] em para obter as etapas de implantação.
 ** *Recuperação de desastres de datastores NFS com o VMware Site Recovery Manager*. Clique link:vmware_nfs_vlsr.html["*aqui*"] em para obter as etapas de implantação.
 ** * Autonomous ransomware Protection para armazenamento NFS*. Clique link:../ehc/dr-draas-nfs.html["*aqui*"] em para obter as etapas de implantação.
 

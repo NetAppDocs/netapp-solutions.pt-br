@@ -13,8 +13,6 @@ summary: Proteção de dados do aplicativo de contêiner do Red Hat OpenShift us
 :imagesdir: ../media/
 
 
-Autor: Banu Sundhar, NetApp
-
 [role="lead"]
 Esta seção do documento de referência fornece detalhes para a criação de snapshots e backups de aplicativos de contentor usando o Trident Protect. O NetApp Trident Protect oferece recursos avançados de gerenciamento de dados de aplicações que aprimoram o recurso e a disponibilidade de aplicações Kubernetes com monitoramento de estado e respaldo dos sistemas de storage da NetApp ONTAP e do provisionador de storage NetApp Trident CSI. O Trident Protect cria backups e snapshots de aplicações. Isso significa que não apenas os snapshots e os backups dos dados de aplicações em volumes persistentes são criados, mas também os snapshots e backups dos metadados de aplicações. Os snapshots e backups criados pelo Trident Protect podem ser armazenados em qualquer um dos seguintes storages de objetos e restaurados a partir deles posteriormente.
 
@@ -36,7 +34,7 @@ NOTE: O administrador do cluster tem acesso a recursos no namespace padrão Trid
 O Trident Protect pode ser instalado usando as instruções fornecidas na documentaçãolink:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-installation.html["aqui"]. Esta seção mostrará o fluxo de trabalho para a proteção de dados de aplicativos de contentor e restauração de aplicativos usando o Trident Protect. 1. Criação de snapshot (sob demanda no programado) 2. Restauração a partir do Snapshot (restauração para o mesmo namespace diferente) 3. Criação de backup 4. Restaurar a partir de cópia de segurança
 
 .Pré-requisito
-[%collapsible]
+[%collapsible%open]
 ====
 Antes de criar snapshots e backups para um aplicativo, um storage de objetos deve ser configurado no Trident Protect para armazenar os snapshots e backups. Isto é feito utilizando o balde CR. Somente os administradores podem criar um bucket CR e configurá-lo. O bucket CR é conhecido como AppVault no Trident Protect. Os objetos AppVault são a representação declarativa do fluxo de trabalho do Kubernetes de um bucket de storage. Um AppVault CR contém as configurações necessárias para que um bucket seja usado em operações de proteção, como backups, snapshots, operações de restauração e replicação do SnapMirror.
 
@@ -178,7 +176,7 @@ image:rhhc_dp_tp_solution_container_image2.png["Aplicação criada"]
 
 ====
 .Criar instantâneos
-[%collapsible]
+[%collapsible%open]
 ====
 **Criação de um snapshot sob demanda**
 
@@ -243,7 +241,7 @@ image:rhhc_dp_tp_solution_container_image8.png["PVC Snap criado no cronograma"]
 
 ====
 .Exclua o aplicativo para simular a perda de aplicativo
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -253,7 +251,7 @@ No resources found in postgres namespace.
 ----
 ====
 .Restauração do Snapshot para o mesmo namespace
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -268,7 +266,7 @@ image:rhhc_dp_tp_solution_container_image10.png["Aplicativo restaurado, senhor"]
 
 ====
 .Restauração do Snapshot para um namespace diferente
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -283,7 +281,7 @@ image:rhhc_dp_tp_solution_container_image12.png["Aplicação restaurada, SnapRes
 
 ====
 .Criar backups
-[%collapsible]
+[%collapsible%open]
 ====
 **Criação de um backup sob demanda**
 
@@ -307,7 +305,7 @@ image:rhhc_dp_tp_solution_container_image13a.png["Programação criada anteriorm
 
 ====
 .Restaurar a partir do backup
-[%collapsible]
+[%collapsible%open]
 ====
 **Excluir o aplicativo e os PVCs para simular uma perda de dados.**
 
@@ -327,7 +325,7 @@ image:rhhc_dp_tp_solution_container_image17.png["restauração para um namespace
 
 ====
 .Migrar aplicações
-[%collapsible]
+[%collapsible%open]
 ====
 Para clonar ou migrar uma aplicação para um cluster diferente (executar um clone entre clusters), crie um backup no cluster de origem e restaure o backup para um cluster diferente. Certifique-se de que o Trident Protect está instalado no cluster de destino.
 

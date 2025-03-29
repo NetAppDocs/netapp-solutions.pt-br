@@ -2,6 +2,9 @@
 section: virtualization
 title: Virtualização
 entries:
+- title: Usando o NetApp para qualquer solução de virtualização
+  pdf-filename: Usando o NetApp para qualquer solução de virtualização
+  url: "/virtualization/virt-options-on-netapp.html"
 - title: Visão geral da virtualização
   url: "/virtualization/virt-overview.html"
 - section: vmware

@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 A recuperação de desastres usando replicação em nível de bloco entre regiões na nuvem é uma maneira resiliente e econômica de proteger os workloads contra interrupções no local e eventos de corrupção de dados (por exemplo, ransomware).
 
-Autor(a): NetApp, Engenheiro de soluções
-
 
 
 == Visão geral

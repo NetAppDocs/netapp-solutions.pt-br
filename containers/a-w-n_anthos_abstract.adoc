@@ -14,4 +14,4 @@ summary:
 
 
 [role="lead"]
-Este documento de referência fornece validação de implantação do Anthos do Google Cloud em vários ambientes de data center diferentes, conforme validado pela NetApp. Ele também detalha a integração de storage com sistemas de storage NetApp, fazendo uso do orquestrador de storage Trident para o gerenciamento de storage persistente e do NetApp Astra Control Center para gerenciamento e proteção de aplicações com monitoramento de estado. Por fim, várias validações de solução e casos de uso do mundo real são explorados e documentados.
+Este documento de referência fornece validação de implantação do Anthos do Google Cloud em vários ambientes de data center diferentes, conforme validado pela NetApp. Ele também detalha a integração de storage com os sistemas de storage NetApp, fazendo uso do orquestrador de storage Trident para o gerenciamento de storage persistente, e o Trident Protect para o gerenciamento e a proteção de aplicações com monitoramento de estado. Por fim, várias validações de solução e casos de uso do mundo real são explorados e documentados.

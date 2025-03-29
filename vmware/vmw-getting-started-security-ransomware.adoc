@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-security-ransomware.html 
+keywords:  
+summary:  
+---
+= Endereçamento de segurança e ransomware para workloads da VMware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mitigar o risco de interrupções em um ambiente VMware é importante para manter operações de negócios contínuas, garantir alta disponibilidade de aplicativos críticos e proteger contra perda de dados.
+
+
+
+== Introdução
+
+Ao aproveitar os recursos avançados do NetApp ONTAP em ambientes VMware, as organizações podem garantir a integridade, a disponibilidade e a segurança de seus dados.
+
+Veja abaixo como essas tecnologias funcionam juntas para oferecer *segurança* e *benefícios de backup* com mais detalhes.
+
+
+
+== Segurança e ransomware
+
+A segurança é uma preocupação primordial em ambientes virtualizados, e o NetApp ONTAP fornece recursos robustos para aprimorar a segurança nas infraestruturas VMware. O ONTAP oferece criptografia para dados em repouso e em trânsito, garantindo que informações confidenciais fiquem protegidas contra acesso não autorizado. As chaves de criptografia são gerenciadas com segurança e o ONTAP oferece suporte a soluções de criptografia baseadas em software e em hardware. Ao integrar com as ferramentas de segurança da VMware, como os recursos de segurança integrados do vSphere e as soluções de segurança de terceiros, o ONTAP ajuda a criar um ambiente seguro e compatível.
+
+
+
+== Defesa contra ransomware
+
+Os ataques de ransomware representam uma ameaça significativa para as organizações, e a combinação de VMware e ONTAP fornece um mecanismo de defesa forte. A tecnologia Snapshot da ONTAP permite a criação de snapshots imutáveis que não podem ser alterados ou excluídos por ransomware. Em caso de ataque, esses snapshots podem ser usados para restaurar rapidamente as VMs e armazenamentos de dados afetados em seu estado de pré-ataque, minimizando o tempo de inatividade e a perda de dados. Além disso, a integração da ONTAP com sistemas de gerenciamento de informações e eventos de segurança (SIEM) permite o monitoramento proativo e o alerta de atividades suspeitas. O ONTAP também é compatível com autenticação multifator (MFA) e controle de acesso baseado em funções (RBAC) para aprimorar ainda mais a segurança.
+
+
+
+== Garantia de recuperação de ransomware
+
+A garantia do NetApp ransomware fornece às organizações uma solução robusta e confiável para proteção contra ataques de ransomware. Ao aproveitar os recursos avançados do NetApp ONTAP, as organizações podem garantir a segurança e a disponibilidade de seus dados. A garantia oferece tranquilidade, sabendo que, em caso de ataque de ransomware, os dados podem ser restaurados de forma rápida e eficaz, minimizando o tempo de inatividade, a perda de dados e o impacto financeiro. Esse compromisso com a segurança e a resiliência dos dados faz da NetApp um parceiro ideal para organizações que buscam proteger seus ativos essenciais contra ameaças cibernéticas em evolução.
+
+
+
+== Recursos avançados de segurança
+
+O ONTAP inclui recursos avançados de segurança, como alocação segura a vários clientes, que isola dados e recursos em ambientes de alocação a vários clientes e auditoria de conformidade, que controla e Registra o acesso a dados confidenciais. Esses recursos garantem que os dados permaneçam seguros e que as organizações possam demonstrar conformidade com as regulamentações e padrões do setor.
+
+
+
+== Resumo
+
+A integração dos recursos de segurança do ONTAP, como criptografia, snapshots imutáveis e controles avançados de acesso, com as ferramentas da VMware, oferece uma defesa robusta contra ameaças cibernéticas, incluindo ransomware. O suporte da ONTAP para auditoria de conformidade e alocação segura a vários clientes garante a proteção de dados e a conformidade regulamentar.
+
+Juntos, a NetApp ONTAP e a VMware oferecem uma solução abrangente para proteger ambientes virtualizados, permitindo que as organizações protejam dados, minimizem o tempo de inatividade e mantenham a continuidade dos negócios. A implementação dessas tecnologias ajuda as empresas a lidar com desafios modernos DE TI e a proteger ativos críticos contra ameaças à segurança em evolução.

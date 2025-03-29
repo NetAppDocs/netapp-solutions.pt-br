@@ -13,8 +13,6 @@ summary: Proteção de dados do aplicativo de contêiner do Red Hat OpenShift co
 :imagesdir: ../media/
 
 
-Autor: Banu Sundhar, NetApp
-
 [role="lead"]
 Esta secção do documento de referência fornece detalhes para a criação de cópias de segurança das aplicações de contentor utilizando a API OpenShift para proteção de dados (OADP) com Velero no NetApp ONTAP S3 ou NetApp StorageGRID S3. Os backups de recursos com escopo de namespace, incluindo volumes persistentes (PVS) do aplicativo são criados usando snapshots CSI Trident.
 

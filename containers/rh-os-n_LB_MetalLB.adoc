@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: containers/rh-os-n_LB_MetalLB.html 
 summary: Esta página detalha as instruções de instalação e configuração para o balanceador de carga MetalLB. 
-keywords: Red Hat OpenShift, Kubernetes, MetalLB, LoadBalancer, Astra, Astra Control Center 
+keywords: Red Hat OpenShift, Kubernetes, MetalLB, LoadBalancer 
 ---
 = Instalando balanceadores de carga MetalLB: Red Hat OpenShift com NetApp
 :hardbreaks:

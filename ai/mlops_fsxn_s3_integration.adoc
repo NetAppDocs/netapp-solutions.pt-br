@@ -16,8 +16,6 @@ summary: Este post fornece um guia sobre como configurar o FSX ONTAP como um buc
 [role="lead"]
 Esta seção fornece um guia sobre como configurar o FSX ONTAP como um bucket privado do S3 usando o AWS SageMaker.
 
-*Autor(es):* Jian Jian (Ken), cientista Sênior de dados e aplicado, NetApp
-
 
 
 == Introdução
