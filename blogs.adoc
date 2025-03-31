@@ -73,6 +73,7 @@ Visão geral dos blogs destacando caraterísticas específicas das muitas soluç
 [[containers-osv]]
 * Contentores e virtualização OpenShift:
 +
+** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Simplifying-Trident-Installation-on-Red-Hat-OpenShift-with-the-New-Certified/ba-p/459710["Simplificando a instalação do Trident no Red Hat OpenShift com o novo Operador Trident certificado"]
 ** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Unlock-Seamless-iSCSI-Storage-Integration-A-Guide-to-FSxN-on-ROSA-Clusters-for/ba-p/459124["Desbloquear integração perfeita de armazenamento iSCSI: Um guia para FSxN em clusters ROSA para iSCSI"]
 ** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Crash-Consistent-Backup-and-Restore-Operations-for-OpenShift-Virtualization-VMs/ba-p/459417["Operações de backup e restauração consistentes com falhas para VMs de virtualização OpenShift usando o Trident 25,02"]
 ** link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Live-Migration-of-VMs-with-OpenShift-Virtualization-on-ROSA-and-Amazon-FSx-for/ba-p/456213["Migração ao vivo de VMs com virtualização OpenShift no ROSA e no Amazon FSX for NetApp ONTAP"]
