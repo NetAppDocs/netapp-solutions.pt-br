@@ -716,7 +716,7 @@ https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html["https://
 * Visão geral da interface SnapCenter
 
 
-https://www.youtube.com/watch?v=lVEBF4kV6Ag&t=0s["https://www.youtube.com/watch?v=lVEBF4kV6Ag&t=0s"^]
+https://www.youtube.com/watch?v=8s-rV5X43iQ&t=0s["https://www.youtube.com/watch?v=8s-rV5X43iQ&t=0s"^]
 
 * Navegue pelas opções do painel de navegação do SnapCenter
 
@@ -726,14 +726,14 @@ https://www.youtube.com/watch?v=_lDKt-koySQ["https://www.youtube.com/watch?v=_lD
 * Configuração do plug-in do SnapCenter 4,0 para SQL Server
 
 
-https://www.youtube.com/watch?v=MopbUFSdHKE["https://www.youtube.com/watch?v=MopbUFSdHKE"^]
+https://www.youtube.com/watch?v=6jgjIx276no["https://www.youtube.com/watch?v=6jgjIx276no"^]
 
 * Como fazer backup e restaurar bancos de dados usando o SnapCenter com o plug-in SQL Server
 
 
-https://www.youtube.com/watch?v=K343qPD5_Ys["https://www.youtube.com/watch?v=K343qPD5_Ys"^]
+https://www.youtube.com/watch?v=unKwtT-BSsc["https://www.youtube.com/watch?v=unKwtT-BSsc"^]
 
 * Como clonar um banco de dados usando o SnapCenter com o plug-in SQL Server
 
 
-https://www.youtube.com/watch?v=ogEc4DkGv1E["https://www.youtube.com/watch?v=ogEc4DkGv1E"^]
+https://www.youtube.com/watch?v=Od6QWYgpFFc["https://www.youtube.com/watch?v=Od6QWYgpFFc"^]

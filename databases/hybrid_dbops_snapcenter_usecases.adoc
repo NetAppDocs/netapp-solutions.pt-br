@@ -36,8 +36,8 @@ Essa solução demonstra que, usando a ferramenta de software baseada em GUI da 
 
 Os vídeos a seguir demonstram o SnapCenter em ação:
 
-* https://www.youtube.com/watch?v=-8GPzwjX9CM&list=PLdXI3bZJEw7nofM6lN44eOe4aOSoryckg&index=35["Backup de um banco de dados Oracle em uma nuvem híbrida usando o SnapCenter"^]
-* https://www.youtube.com/watch?v=v3udynwJlpI["SnapCenter- Clone DESENVOLVIMENTO/TESTE para o AWS Cloud para um banco de dados Oracle"^]
+* https://www.youtube.com/watch?v=-DDTVtd868Q&list=PLdXI3bZJEw7nofM6lN44eOe4aOSoryckg&index=35["Backup de um banco de dados Oracle em uma nuvem híbrida usando o SnapCenter"^]
+* https://www.youtube.com/watch?v=NpeDbhK5f4c["SnapCenter- Clone DESENVOLVIMENTO/TESTE para o AWS Cloud para um banco de dados Oracle"^]
 
 
 Notavelmente, embora as ilustrações deste documento mostrem o CVO como uma instância de armazenamento de destino na nuvem pública, a solução também é totalmente validada para a nova versão do mecanismo de armazenamento FSX ONTAP para AWS.
