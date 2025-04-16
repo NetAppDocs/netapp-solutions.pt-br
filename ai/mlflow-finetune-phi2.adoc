@@ -4,7 +4,7 @@ permalink: ai/mlflow-finetune-phi2.html
 keywords: Jupyter Notebook, MLFlow, NetApp DataOps Toolkit, LLM, 
 summary: Ajuste um modelo de linguagem grande com MLFlow no Jupyter Hub 
 ---
-= Pré-requisitos
+= Ajuste um modelo de linguagem grande com MLFlow no Jupyter Hub
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,9 @@ summary: Ajuste um modelo de linguagem grande com MLFlow no Jupyter Hub
 
 
 [role="lead"]
-Esta seção descreve as etapas envolvidas no ajuste fino de um modelo de linguagem Grande (LLM) com MLFlow usando Jupyter Hub. Isso serve como exemplo para mostrar um trabalho de treinamento que incorpora o armazenamento NetApp e a infraestrutura de dados inteligente NetApp para casos de uso do cliente, como geração aumentada de recuperação (RAG).
+Esta seção descreve as etapas envolvidas no ajuste fino de um modelo de linguagem Grande (LLM) com MLFlow usando Jupyter Hub.
+
+Isso serve como exemplo para mostrar um trabalho de treinamento que incorpora o armazenamento NetApp e a infraestrutura de dados inteligente NetApp para casos de uso do cliente, como geração aumentada de recuperação (RAG).
 
 
 

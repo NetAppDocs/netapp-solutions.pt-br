@@ -5,12 +5,13 @@ keywords: OpenShift, OCP, Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShi
 summary: Gerenciamento avançado de clusters para Kubernetes no Red Hat OpenShift com NetApp 
 ---
 = Gerenciamento do ciclo de vida do aplicativo
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
 
-
-
-
-== Gerenciamento do ciclo de vida do aplicativo
 
 [role="lead"]
 Para criar uma aplicação e gerenciá-la em um conjunto de clusters,

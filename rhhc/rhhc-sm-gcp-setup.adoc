@@ -5,12 +5,13 @@ keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshif
 summary:  
 ---
 = Implante e configure o Red Hat OpenShift Container Platform no Google Cloud
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
 
-
-
-
-== Implante e configure o Red Hat OpenShift Container Platform no Google Cloud
 
 [role="lead"]
 Esta seção descreve um fluxo de trabalho de alto nível de como configurar e gerenciar clusters OpenShift no GCP e implantar aplicativos com monitoramento de estado neles. Isso mostra o uso do Google Cloud NetApp volumes e do storage NetApp Cloud Volumes ONTAP com a ajuda do Trident para fornecer volumes persistentes.

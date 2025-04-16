@@ -5,12 +5,13 @@ keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshif
 summary:  
 ---
 = Implante e configure a plataforma de contentor Red Hat OpenShift no Azure
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
 
-
-
-
-== Implante e configure a plataforma de contentor Red Hat OpenShift no Azure
 
 [role="lead"]
 Esta seção descreve um fluxo de trabalho de alto nível de como configurar e gerenciar clusters OpenShift no Azure e implantar aplicativos com estado neles. Ele mostra o uso do storage NetApp Cloud Volumes ONTAP com a ajuda do Trident para fornecer volumes persistentes. São fornecidos detalhes sobre o uso do Trident Protect para realizar atividades de proteção e migração de dados para as aplicações com estado monitorado.
