@@ -96,6 +96,76 @@ Para simplificar o gerenciamento de um ambiente de banco de dados de nuvem híbr
 
 A funcionalidade de automação de um controlador Ansible também pode ser usada para aumentar o SnapCenter para certas tarefas, como a quebra da instância do SnapMirror e ativar a cópia de dados de DR para produção.
 
-Siga estas instruções para configurar o nó de controle do Ansible para máquinas RedHat ou CentOS: Include::_include/Automation_rhel_centos_setup.adoc[]
+Siga estas instruções para configurar o nó de controle do Ansible para máquinas RedHat ou CentOS:
 
-Siga estas instruções para configurar seu nó de controle Ansible para máquinas Ubuntu ou Debian: Include::_include/Automation_ubuntu_Debian_setup.adoc[]
+. Requisitos para o nó de controle do Ansible:
++
+.. Uma máquina RHEL/CentOS com os seguintes pacotes instalados:
++
+... Python3
+... Pip3
+... Ansible (versão maior que 2.10.0)
+... Git
+
+
+
+
+
+
+Se você tiver uma nova máquina RHEL/CentOS sem os requisitos acima instalados, siga as etapas abaixo para configurar essa máquina como nó de controle do Ansible:
+
+. Habilite o repositório Ansible para RHEL-8/RHEL-7
++
+.. Para RHEL-8 (execute o comando abaixo como root)
++
+[source, cli]
+----
+subscription-manager repos --enable ansible-2.9-for-rhel-8-x86_64-rpms
+----
+.. Para RHEL-7 (execute o comando abaixo como root)
++
+[source, cli]
+----
+subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
+----
+
+
+. Cole o conteúdo abaixo no Terminal
++
+[source, cli]
+----
+sudo yum -y install python3 >> install.log
+sudo yum -y install python3-pip >> install.log
+python3 -W ignore -m pip --disable-pip-version-check install ansible >> install.log
+sudo yum -y install git >> install.log
+----
+
+
+Siga estas instruções para configurar seu nó de controle Ansible para máquinas Ubuntu ou Debian:
+
+. Requisitos para o nó de controle do Ansible:
++
+.. Uma máquina Ubuntu/Debian com os seguintes pacotes instalados:
++
+... Python3
+... Pip3
+... Ansible (versão maior que 2.10.0)
+... Git
+
+
+
+
+
+
+Se você tiver uma nova máquina Ubuntu/Debian sem os requisitos acima instalados, siga as etapas abaixo para configurar essa máquina como o nó de controle Ansible:
+
+. Cole o conteúdo abaixo no terminal
++
+[source, cli]
+----
+sudo apt-get -y install python3 >> outputlog.txt
+sudo apt-get -y install python3-pip >> outputlog.txt
+python3 -W ignore -m pip --disable-pip-version-check install ansible >> outputlog.txt
+sudo apt-get -y install git >> outputlog.txt
+----
+
