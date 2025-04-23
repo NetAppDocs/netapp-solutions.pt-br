@@ -23,7 +23,7 @@ Este tópico fornece etapas para configurar e implantar um cluster de failover d
 * Todo o hardware deve ser certificado para a versão do Windows Server que você está executando e a solução completa de cluster de failover deve passar em todos os testes no Assistente para validar uma configuração
 * Nós Hyper-V Unidos ao controlador de domínio (recomendado) e conetividade apropriada entre si.
 * Cada nó do Hyper-V deve ser configurado de forma idêntica.
-* Adaptadores de rede e switches virtuais designados configurados em cada servidor Hyper-V para tráfego segregado para mgmt, ISCSI, SMB, migração em tempo real.
+* Adaptadores de rede e switches virtuais designados configurados em cada servidor Hyper-V para tráfego segregado para gerenciamento, iSCSI, SMB, migração em tempo real.
 * O recurso de cluster de failover é ativado em cada servidor Hyper-V.
 * Compartilhamentos SMB ou CSVs são usados como armazenamento compartilhado para armazenar VMs e seus discos para clustering Hyper-V.
 * O storage não deve ser compartilhado entre clusters diferentes. Planeje um ou vários compartilhamentos CSV/CIFS por cluster.

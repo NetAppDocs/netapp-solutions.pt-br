@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: hyperv/hyperv-smas.html 
 keywords: hyperv, hyper-v, snapmirror, active, sync, stretch, cluster, netapp, virtualization 
-summary: Este documento documenta a replicação bidirecional síncrona da tecnologia de sincronização ativa da SnapMirror entre clusters de failover, permitindo que os dados de aplicativos multisite, por exemplo, MSSQL e Oracle, estejam ativamente acessíveis e sincronizados em ambos os sites. 
+summary: Este documento documenta a replicação bidirecional síncrona da tecnologia de sincronização ativa da SnapMirror entre clusters do Microsoft Stretch, permitindo que os dados de aplicativos multisite, por exemplo, MSSQL e Oracle, estejam ativamente acessíveis e sincronizados em ambos os sites. 
 ---
 = SnapMirror ative Sync com clusters Microsoft Stretch
 :hardbreaks:
@@ -269,7 +269,7 @@ image:hyperv-smas-image13.png["Figura que mostra a caixa de diálogo de entrada/
 
 
 .Falha de storage em um local
-* Parar um SVM no local primário Ação: Parar os resultados esperados do iSCSI SVM: O cluster primário Hyper-v já se conetou ao local espelhado e com o SnapMirror ativo-ativo simétrico sem impacto de workload com RPO zero e rto zero.
+* Parar um SVM no local primário Ação: Parar os resultados esperados do iSCSI SVM: O cluster primário Hyper-V já se conetou ao local espelhado e com o SnapMirror ativo-ativo simétrico sem impacto de workload com RPO zero e rto zero.
 
 
 .Critérios de sucesso
@@ -288,4 +288,4 @@ Durante os testes, observe o seguinte:
 
 == Resumo
 
-O SnapMirror ative Sync pode ajudar os dados de aplicativos multisite, por exemplo, MSSQL e Oracle a serem ativamente acessíveis e sincronizados em ambos os sites. Se ocorrer uma falha, os aplicativos são imediatamente redirecionados para o local ativo restante, sem perda de dados e sem perda de acesso.
+O SnapMirror ative Sync pode ajudar os dados de aplicativos de vários sites, por exemplo, MSSQL e Oracle a serem ativamente acessíveis e sincronizados em ambos os sites. Se ocorrer uma falha, os aplicativos são imediatamente redirecionados para o local ativo restante, sem perda de dados e sem perda de acesso.
