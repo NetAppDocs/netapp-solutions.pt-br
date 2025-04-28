@@ -84,6 +84,10 @@ entries:
         url: "/databases/azure_ora_nfile_migration.html"
   - title: Google Cloud
     entries:
+    - title: Implementação do Oracle VLDB de alto rendimento no GCNV com Data Guard
+      pdf-filename: Implementação do Oracle VLDB de alto rendimento no GCNV com Data
+        Guard
+      url: "/databases/gcp_ora_gcnv_vldb_dg.html"
     - title: 'Visão geral: Banco de dados Oracle com o Google Cloud NetApp volumes'
       pdf-filename: 'Visão geral: Banco de dados Oracle com o Google Cloud NetApp
         volumes'

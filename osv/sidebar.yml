@@ -16,6 +16,9 @@ entries:
     url: "/blogs.html#containers-osv"
   - title: Vídeos
     url: "/containers/rh-os-n_videos_and_demos.html"
+- title: Instalação do Trident
+  pdf-filename: Instalação do Trident
+  url: "/containers/rh-os-n_use_case_openshift_virtualization_trident_install.html"
 - title: Implantação no local
   pdf-filename: Implantação do Red Hat OpenShift Virtualization
   entries:

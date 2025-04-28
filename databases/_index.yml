@@ -41,6 +41,8 @@ indexpage:
       url: "/azure_ora_nfile_usecase.html"
   - title: Oracle para Google Cloud
     links:
+    - title: Implementação do Oracle VLDB de alto rendimento no GCNV com Data Guard
+      url: "/gcp_ora_gcnv_vldb_dg.html"
     - title: 'Visão geral: Solução de armazenamento de banco de dados Oracle com o
         Google Cloud NetApp volumes'
       url: "/gcp-oracle-gcnv-overview.html"

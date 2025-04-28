@@ -14,7 +14,7 @@ summary: Virtualização OpenShift da Red Hat com NetApp ONTAP
 
 
 [role="lead"]
-Esta seção aborda como criar uma máquina virtual com o Red Hat OpenShift Virtualization.
+Esta seção aborda como criar uma máquina virtual com o Red Hat OpenShift Virtualization. Como pré-requisito, você já deve ter criado o back-end do Trident, a classe de storage e os objetos da classe snapshot de volume. Pode consultar o link:rh-os-n_use_case_openshift_virtualization_trident_install.html["Seção de instalação do Trident"] para obter mais informações.
 
 
 
@@ -38,7 +38,7 @@ A máquina virtual é criada e iniciada e chega ao estado *Running*. Ele cria au
 Para configurar a classe de armazenamento ONTAP-san no cluster, consulte link:rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["Seção para migrar uma VM do VMware para a virtualização OpenShift"].
 
 
-NOTE: Você pode configurar o ONTAP nas ou iSCSI como a classe de armazenamento padrão para o cluster. Clicar em criar rapidamente VirtualMachine usará a classe de armazenamento padrão para criar o PVC e o PV para o disco raiz inicializável para a VM. Se sua classe de armazenamento padrão não for ONTAP-nas ou ONTAP-san, você pode selecionar a classe de armazenamento para o disco, selecionando Personalizar VirtualMachine > Personalizar parâmetros VirtualMachine > discos e editando o disco para usar a classe de armazenamento necessária.
+NOTE: Clicar em criar rapidamente VirtualMachine usará a classe de armazenamento padrão para criar o PVC e o PV para o disco raiz inicializável para a VM. Você pode selecionar uma classe de armazenamento diferente para o disco, selecionando Personalizar VirtualMachine > Personalizar parâmetros VirtualMachine > discos e, em seguida, editar o disco para usar a classe de armazenamento necessária.
 
 Normalmente, o modo de acesso de bloco é preferido em comparação com os sistemas de arquivos enquanto provisionam os discos da VM.
 
