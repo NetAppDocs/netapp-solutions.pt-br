@@ -32,6 +32,8 @@ indexpage:
     links:
     - title: SnapMirror ative Sync com clusters de estiramento
       url: hyperv-smas.html
+    - title: Suporte do fornecedor NetApp SMI-S para Microsoft Hyper-V.
+      url: hyperv-smis.html
   - title: Recursos adicionais
     links:
     - title: Diretrizes de implantação e práticas recomendadas de armazenamento para
