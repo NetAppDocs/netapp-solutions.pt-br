@@ -22,10 +22,14 @@ Esta seção detalha como implantar a virtualização do Red Hat OpenShift com o
 
 * Um cluster Red Hat OpenShift (posterior à versão 4,6) instalado em uma infraestrutura bare-metal com nós de trabalho RHCOS
 * Implante verificações de integridade da máquina para manter a HA de VMs
-* Um cluster NetApp ONTAP
+* Cluster de NetApp ONTAP, com SVM configurado com o protocolo correto.
 * Trident instalado no cluster OpenShift
-* Um back-end do Trident configurado com um SVM no cluster do ONTAP
+* Uma configuração de back-end do Trident criada
 * Um StorageClass configurado no cluster OpenShift com o Trident como provisionador
+
+
+Para obter os pré-requisitos do Trident acima, consulte link:rh-os-n_use_case_openshift_virtualization_trident_install.html["Seção de instalação do Trident"] para obter detalhes.
+
 * Acesso de administrador de cluster ao cluster Red Hat OpenShift
 * Acesso de administrador ao cluster do NetApp ONTAP
 * Uma estação de trabalho de administração com ferramentas tridentctl e oc instaladas e adicionadas ao CAMINHO

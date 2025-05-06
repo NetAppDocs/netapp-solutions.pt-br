@@ -231,3 +231,12 @@ image:redhat_openshift_ocpv_tp_image18.png["App Mirror no Estado estabelecido"]
 image:redhat_openshift_ocpv_tp_image19.png["PVC em DR ns ainda permanece"]
 
 image:redhat_openshift_ocpv_tp_image20.png["POD e PVC na fonte ns ainda permanece"]
+
+
+
+== Demonstração de vídeo
+
+O vídeo a seguir mostra uma demonstração da implementação de um cenário de recuperação de desastres para uma VM OpenShift usando o Trident Protect
+
+.Recuperação de desastres usando o Trident Protect
+video::ae4bdcf7-b344-4f19-89ed-b2d500f94efd[panopto,width=360]

@@ -16,6 +16,14 @@ summary:
 [role="lead"]
 Os vídeos a seguir demonstram alguns dos recursos documentados neste documento
 
+.Recuperação de desastres para uma VM usando o Trident Protect
+video::ae4bdcf7-b344-4f19-89ed-b2d500f94efd[panopto,width=360]
+.Proteger uma VM usando o Trident Protect
+video::4670e188-3d67-4207-84c5-b2d500f934a0[panopto,width=360]
+.Criando uma VM no OpenShift Virtualization usando armazenamento iSCSI
+video::497b868d-2917-4824-bbaa-b2d500f92dda[panopto,width=360]
+.Instalação do Trident usando o operador Trident certificado pela Red Hat
+video::15c225f3-13ef-41ba-b255-b2d500f927c0[panopto,width=360]
 .O Amazon FSX for NetApp ONTAP usa o plano de controle hospedado
 video::213061d2-53e6-4762-a68f-b21401519023[panopto,width=360]
 .Migração ao vivo de máquinas virtuais na virtualização OpenShift no ROSA com o Amazon FSX for NetApp ONTAP

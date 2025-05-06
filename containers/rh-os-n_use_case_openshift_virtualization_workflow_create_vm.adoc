@@ -63,3 +63,12 @@ image:rh-os-n_use_case_vm_create_3.png["Figura que mostra a caixa de diálogo de
 image:rh-os-n_use_case_vm_create_4.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 image:rh-os-n_use_case_vm_create_5.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+
+
+== Demonstração de vídeo
+
+O vídeo a seguir mostra uma demonstração da criação de uma VM no OpenShift Virtualization usando armazenamento iSCSI.
+
+.Crie uma VM no OpenShift Virtualization usando o Block Storage
+video::497b868d-2917-4824-bbaa-b2d500f92dda[panopto,width=360]
