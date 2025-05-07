@@ -1329,11 +1329,18 @@ NOTE: Para obter nenhuma perda de dados, o modo de proteção do Oracle Data Gua
 ====
 
 
-=== Clone o banco de dados em espera para outros casos de uso por meio da automação
+=== Clonar banco de dados em espera para outros casos de uso por meio da automação
 
 [%collapsible%open]
 ====
-Entre em Contato com a equipe de engenharia de soluções da NetApp para o kit de ferramentas de automação para criar e atualizar clones para um gerenciamento completo do ciclo de vida de clones.
+O kit de ferramentas de automação a seguir foi projetado especificamente para criar ou atualizar clones de um banco de dados em espera do Oracle Data Guard implantado no GCNV com configuração NFS/ASM para um gerenciamento completo do ciclo de vida dos clones.
+
+[source, cli]
+----
+https://bitbucket.ngage.netapp.com/projects/NS-BB/repos/na_oracle_clone_gcnv/browse
+----
+
+NOTE: O kit de ferramentas só pode ser acessado pelo usuário interno do NetApp com acesso bitbucket neste momento. Para usuários externos interessados, solicite acesso da equipe de sua conta ou entre em Contato com a equipe de Engenharia de soluções da NetApp. Entre em Contato com a equipe de engenharia de soluções da NetApp para o kit de ferramentas de automação para criar e atualizar clones para um gerenciamento completo do ciclo de vida de clones.
 
 ====
 

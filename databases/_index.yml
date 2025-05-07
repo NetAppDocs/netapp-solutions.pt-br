@@ -41,7 +41,8 @@ indexpage:
       url: "/azure_ora_nfile_usecase.html"
   - title: Oracle para Google Cloud
     links:
-    - title: Implementação do Oracle VLDB de alto rendimento no GCNV com Data Guard
+    - title: Implementação de alta taxa de transferência do Oracle VLDB no Google
+        Cloud NetApp volumes com Data Guard
       url: "/gcp_ora_gcnv_vldb_dg.html"
     - title: 'Visão geral: Solução de armazenamento de banco de dados Oracle com o
         Google Cloud NetApp volumes'
@@ -102,6 +103,8 @@ indexpage:
       url: "/hybrid_dbops_snapcenter_usecases.html"
   - title: Kits de ferramentas de automação DB
     links:
+    - title: Ciclo de vida automatizado do Oracle Clone no GCNV com ASM
+      url: "/automation_ora_clone_gcnv_asm.html"
     - title: Ciclo de vida automatizado do Oracle Clone no ANF com ASM
       url: "/automation_ora_clone_anf_asm.html"
     - title: Migração Oracle via realocação PDB
@@ -112,5 +115,3 @@ indexpage:
       url: "/automation_fsx_ec2_provision.html"
     - title: Implantação do PostgreSQL na AWS
       url: https://github.com/NetApp/na_postgresql_aws_deploy_hadr
-    - title: Proteção de dados Oracle
-      url: https://github.com/NetApp/na_oracle19c_data_protection

@@ -84,7 +84,8 @@ entries:
         url: "/databases/azure_ora_nfile_migration.html"
   - title: Google Cloud
     entries:
-    - title: Implementação do Oracle VLDB de alto rendimento no GCNV com Data Guard
+    - title: Implementação de alta taxa de transferência do Oracle VLDB no Google
+        Cloud NetApp volumes com Data Guard
       pdf-filename: Implementação do Oracle VLDB de alto rendimento no GCNV com Data
         Guard
       url: "/databases/gcp_ora_gcnv_vldb_dg.html"
@@ -238,6 +239,8 @@ entries:
     url: "/databases/customer_usecase_mssql_fsx1.html"
 - title: Kits de ferramentas de automação DB
   entries:
+  - title: Ciclo de vida automatizado do Oracle Clone no GCNV com ASM
+    url: "/databases/automation_ora_clone_gcnv_asm.html"
   - title: Ciclo de vida automatizado do Oracle Clone no ANF com ASM
     url: "/databases/automation_ora_clone_anf_asm.html"
   - title: Ciclo de vida do clone do SnapCenter

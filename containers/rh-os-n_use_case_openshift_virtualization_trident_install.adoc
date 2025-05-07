@@ -387,7 +387,9 @@ oc create -f <snapshotclass-filename.yaml>
 .Configuração de padrões com armazenamento Trident e Classe de captura Instantânea
 [%collapsible%open]
 ====
-Agora você pode tornar a classe de armazenamento Trident necessária e a classe de snapshot de volume como padrão no cluster OpenShift. Como mencionado anteriormente, é necessário definir a classe de armazenamento padrão e a classe de instantâneo de volume para permitir que o OpenShift Virtualization disponibilize a fonte de imagem dourada para criar vms a partir de modelos padrão.
+Agora você pode tornar a classe de armazenamento Trident necessária e a classe de snapshot de volume como padrão no cluster OpenShift.
+
+Como mencionado anteriormente, é necessário definir a classe de armazenamento padrão e a classe de instantâneo de volume para permitir que o OpenShift Virtualization disponibilize a fonte de imagem dourada para criar vms a partir de modelos padrão.
 
 Você pode definir a classe de armazenamento Trident e a classe snapshot como padrão editando a anotação do console ou corrigindo a partir da linha de comando com o seguinte.
 

@@ -920,7 +920,7 @@ No caso de uma falha, o Data Guard Broker pode ser usado para fazer failover do 
 ====
 
 
-=== Clone o banco de dados em espera para outros casos de uso por meio da automação
+=== Clonar banco de dados em espera para outros casos de uso por meio da automação
 
 [%collapsible%open]
 ====
