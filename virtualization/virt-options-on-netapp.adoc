@@ -475,7 +475,7 @@ Migrar de um hypervisor para outro envolve um processo complexo de tomada de dec
 
 O kit de ferramentas NetApp Shift é uma solução de interface gráfica de usuário (GUI) fácil de usar que permite migrar máquinas virtuais (VMs) entre diferentes hipervisores e converter formatos de disco virtual. Ele utiliza a tecnologia NetApp FlexClone para converter rapidamente discos rígidos da VM. Além disso, o kit de ferramentas gerencia a criação e configuração de VMs de destino.
 
-Para obter informações detalhadas, link:https://docs.netapp.com/us-en/netapp-solutions/vm-migrate/migrate-overview.html["Migração de máquinas virtuais (VMs) entre ambientes de virtualização (Shift Toolkit)"]consulte .
+Para obter informações detalhadas, link:https://docs.netapp.com/us-en/netapp-solutions/vm-migrate/shift-toolkit-overview.html["Migração de máquinas virtuais (VMs) entre ambientes de virtualização (Shift Toolkit)"]consulte .
 
 image:virt-options-image3.png["Diagrama das capacidades do Shift Toolkit"]
 

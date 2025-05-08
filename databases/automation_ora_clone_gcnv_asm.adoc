@@ -197,6 +197,9 @@ sys_pwd: "XXXXXXXX"
 # Data Guard mode - MaxAvailability or MaxPerformance
 dg_mode: MaxAvailability
 ....
+
+NOTE: Para uma implantação de automação mais segura, o Ansible Vault pode ser usado para criptografar informações confidenciais, como senha, token de acesso ou chave, etc. a solução não abrange a implementação do Ansible Vault, mas está bem documentada na documentação do Ansible. Por favor, link:https://docs.ansible.com/ansible/latest/vault_guide/index.html["Proteção de dados confidenciais com o Ansible Vault"^]consulte para obter detalhes.
+
 ====
 
 

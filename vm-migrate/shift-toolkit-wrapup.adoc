@@ -1,0 +1,161 @@
+---
+sidebar: sidebar 
+permalink: vm-migrate/shift-toolkit-wrapup.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
+summary:  
+---
+= Conclusão e informações adicionais
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Esta seção oferece as próximas etapas e solução de problemas para usar o Shift Toolkit.
+
+
+
+== Conclusão
+
+O kit de ferramentas NetApp Shift ajuda um administrador a converter máquinas virtuais de forma rápida e perfeita do VMware para o Hyper-V. ele também pode converter apenas os discos virtuais entre os diferentes hipervisores. Portanto, o kit de ferramentas Shift economiza várias horas de esforço cada vez que você deseja mover cargas de trabalho de um hypervisor para o outro. Agora, as organizações podem hospedar ambientes com vários hypervisor sem se preocupar se as cargas de trabalho estão vinculadas a um único hypervisor. Esse recurso aumenta a flexibilidade e reduz os custos de licenciamento, o aprisionamento e os compromissos com um único fornecedor.
+
+
+
+== Próximas etapas
+
+Desbloqueie o potencial com o Data ONTAP baixando o pacote de ferramentas Shift e comece a migrar ou converter as máquinas virtuais ou os arquivos de disco para simplificar e simplificar as migrações.
+
+Para saber mais sobre este processo, sinta-se à vontade para seguir o passo a passo detalhado:
+
+.Guia passo a passo do Shift Toolkit
+video::dc0d9627-0399-45d9-a843-b1d8010fff80[panopto,width=360]
+
+
+== Solução de problemas e problemas conhecidos
+
+. O script de acionamento para a configuração do endereço IP e a remoção das ferramentas VMware falha para a VM Windows com o seguinte erro: A credencial é inválida
++
+[listing]
+----
+Error message:
+
+Enter-PSSession : The credential is invalid.
+
+Potential causes:
+
+The guest credentials couldn't be validated
+
+a. The supplied credentials were incorrect
+b. There are no user accounts in the guest
+----
+. A máquina virtual do Windows encontra erros BSOD
++
+*NOTA:* este não é um problema de kit de ferramentas Shift, no entanto, relacionado com o ambiente.
+
++
+[listing]
+----
+Error message:
+
+Bluescreen error during initial boot after migration.
+
+Potential cause:
+
+Local group policy setup to block the installation of applications including new drivers for Microsoft Hyper-V.
+
+a. Update the policy to allow installation of drivers.
+----
+. Nenhum datastores listado ao tentar criar um grupo de recursos
++
+[listing]
+----
+Error message:
+
+Mount paths are empty while getting volumes for mountpaths for site.
+
+Potential causes:
+
+The NFS volume used as a datastore is using v4.1
+
+a. Shift toolkit filters out NFS v3 datastores during the resource group creation. NFS 4.1 or 4.2 is not supported in the current release.
+----
+. Não foi possível acessar a IU do kit de ferramentas Shift depois de ativar o SSL.
++
+[listing]
+----
+Error message:
+
+Login failed, Network error
+
+Potential causes:
+
+MongoDB service not running
+Using Firefox browser to access Shift UI
+
+a. Ensure Mongo service is running
+b. Use Google Chrome or IE to access Shift UI.
+----
+. Não é possível migrar VMs com a criptografia ativada.
++
+[listing]
+----
+Error message:
+
+Boot failure on Hyper-V side
+
+Potential causes:
+
+VMDK encrytped using vSphere encryption
+
+a. Decrypt the VMDK inside VMware and retry the operation.
+----
+
+
+
+
+== Apêndice
+
+
+
+=== Função ONTAP personalizada para o kit de ferramentas Shift
+
+Crie uma função ONTAP com Privileges mínimo para que não seja necessário usar a função de administrador do ONTAP para executar operações no kit de ferramentas Shift. Essas funções mínimas são necessárias no nível da SVM, no lado do storage do ONTAP.
+
+
+NOTE: vsadmin também pode ser usado.
+
+image:shift-toolkit-image84.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+
+Use o Gerenciador do sistema ONTAP para criar a função.
+
+Execute as seguintes etapas no Gerenciador do sistema do ONTAP:
+
+*Crie uma função personalizada:*
+
+* Para criar uma função personalizada no nível SVM, selecione Storage > Storage VMs > Required SVM> Settings > Users and Roles.
+* Selecione o ícone de seta (→) ao lado de usuários e funções.
+* Selecione Adicionar em funções.
+* Defina as regras para a função e clique em Salvar.
+
+
+*Mapeie a função para o usuário do kit de ferramentas Shift:*
+
+Execute as seguintes etapas na página usuários e funções:
+
+* Selecione Adicionar ícone em usuários.
+* Selecione o nome de usuário necessário e selecione a função criada na etapa anterior no menu suspenso para a função.
+* Clique em Guardar.
+
+
+Uma vez feito, use o usuário criado acima ao configurar os sites de origem e destino dentro da IU do kit de ferramentas Shift.
+
+
+
+=== Função de permissões mínimas exigida no VMware
+
+Para migrar máquinas virtuais do VMware vSphere usando o kit de ferramentas Shift, crie um usuário RBAC com o Privileges mencionado abaixo usando Administração > Controle de Acesso > funções.
+
+image:shift-toolkit-image85.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]

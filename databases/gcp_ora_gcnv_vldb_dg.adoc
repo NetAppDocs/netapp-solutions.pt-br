@@ -4,7 +4,7 @@ permalink: databases/gcp_ora_gcnv_vldb_dg.html
 keywords: Database, VLDB, Oracle, Data Guard, Google, GCNV, 
 summary: 'A solução fornece uma visão geral e detalhes para a configuração de banco de dados muito grande (VLDB) de alta taxa de transferência no Google Cloud NetApp volumes (GCNV) com o Oracle Data Guard na nuvem do Google.' 
 ---
-= TR-5006: Implementação Oracle VLDB de alto rendimento no GCNV com Data Guard
+= TR-5006: Implementação de alta taxa de transferência do Oracle VLDB no Google Cloud volumes NetApp com proteção de dados
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -1340,7 +1340,7 @@ O kit de ferramentas de automação a seguir foi projetado especificamente para 
 https://bitbucket.ngage.netapp.com/projects/NS-BB/repos/na_oracle_clone_gcnv/browse
 ----
 
-NOTE: O kit de ferramentas só pode ser acessado pelo usuário interno do NetApp com acesso bitbucket neste momento. Para usuários externos interessados, solicite acesso da equipe de sua conta ou entre em Contato com a equipe de Engenharia de soluções da NetApp. Entre em Contato com a equipe de engenharia de soluções da NetApp para o kit de ferramentas de automação para criar e atualizar clones para um gerenciamento completo do ciclo de vida de clones.
+NOTE: O kit de ferramentas só pode ser acessado pelo usuário interno do NetApp com acesso bitbucket neste momento. Para usuários externos interessados, solicite acesso da equipe de sua conta ou entre em Contato com a equipe de Engenharia de soluções da NetApp.
 
 ====
 
