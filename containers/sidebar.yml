@@ -43,7 +43,9 @@ entries:
       - title: Instalação de balanceadores de carga de gangorra
         url: "/containers/a-w-n_LB_SeeSaw.html"
   - title: Validação da solução e casos de uso
-    url: "/containers/a-w-n_use_cases.html"
+    entries:
+    - title: Instale um aplicativo usando o Console do Google Cloud
+      url: "/containers/a-w-n_use_case_deploy_app_with_cloud_console.html"
   - title: Vídeos / demonstrações
     url: "/containers/a-w-n_videos_and_demos.html"
   - title: Informações adicionais
@@ -177,6 +179,8 @@ entries:
       url: "/containers/vtwn_overview_tkgs.html"
     - title: Visão geral do VMware TKGI (Tanzu Kubernetes Grid Integrated Edition)
       url: "/containers/vtwn_overview_tkgi.html"
+    - title: VMware vSphere com Tanzu (pods do vSphere)
+      url: "/containers/vtwn_overview_vst.html"
   - title: Visão geral dos sistemas de storage da NetApp
     entries:
     - title: Visão geral

@@ -31,7 +31,7 @@ Desbloqueie o potencial com o Data ONTAP baixando o pacote de ferramentas Shift 
 Para saber mais sobre este processo, sinta-se à vontade para seguir o passo a passo detalhado:
 
 .Guia passo a passo do Shift Toolkit
-video::dc0d9627-0399-45d9-a843-b1d8010fff80[panopto,width=360]
+video::6bf11896-3219-4ba7-9a00-b2d800d47144[panopto,width=360]
 
 
 == Solução de problemas e problemas conhecidos

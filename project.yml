@@ -30,6 +30,10 @@ sidebar:
     url: https://docs.netapp.com/us-en/netapp-solutions-sap/
   - title: Soluções da FlexPod
     url: https://docs.netapp.com/us-en/flexpod/
+  - title: Coleção de vídeos
+    url: "/videos.html"
+  - title: Blogs
+    url: "/blogs.html"
   - title: Alterar registo
     url: "/change-log-display.html"
   - title: Sobre as soluções da NetApp

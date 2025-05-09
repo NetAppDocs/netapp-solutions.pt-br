@@ -40,7 +40,7 @@ Gerenciar seus dados com o FSX ONTAP é mais fácil porque você pode snapshots,
 
 O FSX ONTAP também oferece armazenamento altamente disponível e durável com backups totalmente gerenciados e suporte para recuperação de desastres entre regiões. Para facilitar a proteção e a segurança dos seus dados, o FSX ONTAP oferece suporte a aplicativos antivírus e de segurança de dados populares.
 
-Para mais informação, por favor visite link:aws-guest.html#fsx-ontap["FSX ONTAP como armazenamento conetado ao convidado"]
+Para obter mais informações, visite link:aws-guest.html#fsx-ontap["FSX ONTAP como armazenamento conetado ao convidado"]
 
 
 

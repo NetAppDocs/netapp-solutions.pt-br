@@ -122,7 +122,9 @@ entries:
   entries:
   - title: Usando vVols com ONTAP
     url: "/vmware/vmware-vvol-overview.html"
-- title: Demonstrações e Tutoriais
+- title: Informações adicionais
   entries:
+  - title: Coletor de dados de máquina virtual
+    url: "/vmdc.html"
   - title: Vídeos
     url: "/vmware/vsphere_demos_videos.html"

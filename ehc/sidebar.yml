@@ -150,6 +150,47 @@ entries:
       url: "/ehc/gcp-migrate-veeam.html"
   - title: Suporte de região para armazenamentos de dados NFS do NetApp volumes
     url: "/ehc/gcp-regions.html"
+  - title: Visão geral da segurança - Google Cloud NetApp volumes (GCNV) no Google
+      Cloud
+    entries:
+    - title: Visão geral
+      url: "/ehc/ncvs-gc-overview.html"
+    - title: Como o Google Cloud NetApp volumes protege seus dados
+      url: "/ehc/ncvs-gc-how-cloud-volumes-service-in-google-cloud-secures-your-data.html"
+    - title: Considerações de segurança e superfícies de ataque
+      url: "/ehc/ncvs-gc-security-considerations-and-attack-surfaces.html"
+    - title: Visão geral da arquitetura
+      url: "/ehc/ncvs-gc-architecture_overview.html"
+    - title: Arquitetura do Google Cloud NetApp volumes
+      url: "/ehc/ncvs-gc-cloud-volumes-service-architecture.html"
+    - title: Arquitetura do plano de controle
+      url: "/ehc/ncvs-gc-control-plane-architecture.html"
+    - title: Arquitetura do plano de dados
+      url: "/ehc/ncvs-gc-data-plane-architecture.html"
+    - title: Criptografia de dados em trânsito
+      url: "/ehc/ncvs-gc-data-encryption-in-transit.html"
+    - title: Criptografia de dados em repouso
+      url: "/ehc/ncvs-gc-data-encryption-at-rest.html"
+    - title: Firewall
+      url: "/ehc/ncvs-gc-firewall.html"
+    - title: Visão geral dos protocolos nas
+      url: "/ehc/ncvs-gc-nas-protocols_overview.html"
+    - title: Noções básicas de protocolos nas
+      url: "/ehc/ncvs-gc-basics-of-nas-protocols.html"
+    - title: NFS
+      url: "/ehc/ncvs-gc-nfs.html"
+    - title: SMB
+      url: "/ehc/ncvs-gc-smb.html"
+    - title: Protocolo duplo/multiprotocolo
+      url: "/ehc/ncvs-gc-dual-protocol-multiprotocol.html"
+    - title: Considerações para criar conexões do ative Directory
+      url: "/ehc/ncvs-gc-considerations-creating-active-directory-connections.html"
+    - title: Outras dependências de serviço de infraestrutura nas (KDC, LDAP, DNS)
+      url: "/ehc/ncvs-gc-other-nas-infrastructure-service-dependencies.html"
+    - title: Operação de manutenção
+      url: "/ehc/ncvs-gc-service-operation.html"
+    - title: Informações adicionais
+      url: "/ehc/ncvs-gc-additional-information.html"
 - title: Recuperação de desastres do BlueXP 
   entries:
   - title: Proteção de dados 3-2-1 para VMware com plug-in SnapCenter e backup e recuperação
