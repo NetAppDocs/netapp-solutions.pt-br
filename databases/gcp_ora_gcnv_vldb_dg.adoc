@@ -1340,7 +1340,7 @@ O kit de ferramentas de automação a seguir foi projetado especificamente para 
 https://bitbucket.ngage.netapp.com/projects/NS-BB/repos/na_oracle_clone_gcnv/browse
 ----
 
-NOTE: O kit de ferramentas só pode ser acessado pelo usuário interno do NetApp com acesso bitbucket neste momento. Para usuários externos interessados, solicite acesso da equipe de sua conta ou entre em Contato com a equipe de Engenharia de soluções da NetApp.
+NOTE: O kit de ferramentas só pode ser acessado pelo usuário interno do NetApp com acesso bitbucket neste momento. Para usuários externos interessados, solicite acesso da equipe de sua conta ou entre em Contato com a equipe de Engenharia de soluções da NetApp. link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_clone_gcnv_asm.html#purpose["Ciclo de vida automatizado do Oracle Clone no GCNV com ASM"^]Consulte para obter instruções de utilização.
 
 ====
 

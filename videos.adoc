@@ -33,6 +33,8 @@ Visão geral dos vídeos e demonstrações destacando recursos específicos de m
 video::c381b887-8c8b-4d7d-8b0f-b0c0010c5c04[panopto,width=360]
 * Vídeos para o banco de dados Oracle*
 
+.Clone automatizado do Oracle DB do DataGuard em espera no GCNV com ASM
+video::74062c18-b120-45b7-9bf9-b2db00f73675[panopto,width=360]
 .Backup, recuperação e clone de banco de dados Oracle no ANF com o SnapCenter
 video::960fb370-c6e0-4406-b6d5-b110014130e8[panopto,width=360]
 .Implantação Oracle simplificada e automatizada no Azure NetApp Files com NFS
