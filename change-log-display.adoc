@@ -46,6 +46,18 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 | 23 de abril de 2025 | Banco de dados | Novo TR-5006: "Implementação Oracle VLDB de alto rendimento no GCNV com Data Guard" 
 
 
+| 12 de maio de 2025 | Banco de dados | Adicione vídeo de demonstração para o clone do banco de dados Oracle fora o DataGuard standby no GCNV com ASM 
+
+
+| 8 de maio de 2025 | Virtualização | Publique a versão GA do Shift Toolkit 
+
+
+| 7 de maio de 2025 | Banco de dados | Novo kit de ferramentas de automação de banco de dados: "Ciclo de vida automatizado do Oracle Clone no GCNV com ASM" 
+
+
+| 23 de abril de 2025 | Banco de dados | Novo TR-5006: "Implementação Oracle VLDB de alto rendimento no GCNV com Data Guard" 
+
+
 | 28 de março de 2025 | Banco de dados | Kit de ferramentas de automação de atualização: "Automação do ciclo de vida do clone do SnapCenter" para suporte ao ANF 
 
 
@@ -651,6 +663,9 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 | 8 de maio de 2025 | Virtualização | Publique a versão GA do Shift Toolkit 
 
 
+| 8 de maio de 2025 | Virtualização | Publique a versão GA do Shift Toolkit 
+
+
 | 12 de dezembro de 2024 | Virtualização | Adicionado novo conteúdo do Shift Toolkit 
 
 
@@ -795,6 +810,15 @@ Mudanças recentes no material de apoio de soluções da NetApp. As mudanças ma
 [cols="10%, 30%, 60%"]
 |===
 | *Data* | *Área da solução* | *Descrição da mudança* 
+
+
+| 7 de maio de 2025 | Banco de dados | Novo kit de ferramentas de automação de banco de dados: "Ciclo de vida automatizado do Oracle Clone no GCNV com ASM" 
+
+
+| 23 de abril de 2025 | Banco de dados | Novo TR-5006: "Implementação Oracle VLDB de alto rendimento no GCNV com Data Guard" 
+
+
+| 12 de maio de 2025 | Banco de dados | Adicione vídeo de demonstração para o clone do banco de dados Oracle fora o DataGuard standby no GCNV com ASM 
 
 
 | 7 de maio de 2025 | Banco de dados | Novo kit de ferramentas de automação de banco de dados: "Ciclo de vida automatizado do Oracle Clone no GCNV com ASM" 
