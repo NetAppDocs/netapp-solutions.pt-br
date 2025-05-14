@@ -40,14 +40,14 @@ spec:
 ....
 Quando o backup for concluído, sua fase será exibida como concluída.
 
-image:redhat_openshift_OADP_backup_image1.jpg["Cópia de segurança concluída"]
+image:redhat_openshift_OADP_backup_image1.png["Cópia de segurança concluída"]
 
 Você pode inspecionar o backup no armazenamento de objetos com a ajuda de um aplicativo de navegador S3. O caminho da cópia de segurança é apresentado no intervalo configurado com o nome do prefixo (velero/demosbackup). Você pode ver o conteúdo do backup inclui os instantâneos de volume, logs e outros metadados da máquina virtual.
 
 
 NOTE: No StorageGRID, você também pode usar o console S3 que está disponível no Gerenciador do Locatário para exibir os objetos de backup.
 
-image:redhat_openshift_OADP_backup_image2.jpg["Backup de objetos em S3"]
+image:redhat_openshift_OADP_backup_image2.png["Backup de objetos em S3"]
 
 
 
@@ -75,8 +75,8 @@ A expressão cron 0 7 * * * significa que um backup será criado às 7:00 todos 
 
 Uma vez que o agendamento é criado, ele será ativado.
 
-image:redhat_openshift_OADP_backup_image3.jpg["Programação criada"]
+image:redhat_openshift_OADP_backup_image3.png["Programação criada"]
 
 Os backups serão criados de acordo com essa programação e podem ser visualizados na guia Backup.
 
-image:redhat_openshift_OADP_backup_image4.jpg["Programação criada"]
+image:redhat_openshift_OADP_backup_image4.png["Programação criada"]

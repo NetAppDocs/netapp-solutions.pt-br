@@ -24,7 +24,7 @@ Para criar os recursos necessários para implantar o aplicativo Jenkins, execute
 
 . Crie um novo projeto chamado Jenkins.
 +
-image:redhat_openshift_image15.jpeg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+image:redhat_openshift_image15.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 . Neste exemplo, implantamos o Jenkins com armazenamento persistente. Para suportar a construção Jenkins, crie o PVC. Navegue até Storage > Persistent volume Claims (armazenamento > reivindicações de volume persistente) e clique em Create Persistent volume Claim Selecione a classe de armazenamento que foi criada, certifique-se de que o Nome da reclamação de volume persistente é jenkins, selecione o tamanho e o modo de acesso apropriados e clique em criar.
 
@@ -47,7 +47,7 @@ image:redhat_openshift_image18.png["Figura que mostra a caixa de diálogo de ent
 
 . Por padrão, os detalhes do aplicativo Jenkins são preenchidos. Com base em seus requisitos, modifique os parâmetros e clique em criar. Esse processo cria todos os recursos necessários para apoiar Jenkins no OpenShift.
 +
-image:redhat_openshift_image19.jpeg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+image:redhat_openshift_image19.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 . Os pods Jenkins levam aproximadamente 10 a 12 minutos para entrar no estado Pronto.
 +
@@ -59,11 +59,11 @@ image:redhat_openshift_image21.png["Figura que mostra a caixa de diálogo de ent
 
 . Como o OpenShift OAuth foi usado ao criar o aplicativo Jenkins, clique em fazer login com OpenShift.
 +
-image:redhat_openshift_image22.jpeg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+image:redhat_openshift_image22.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 . Autorize a conta de serviço Jenkins para acessar os usuários do OpenShift.
 +
-image:redhat_openshift_image23.jpeg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+image:redhat_openshift_image23.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 . A página de boas-vindas do Jenkins é exibida. Como estamos usando uma compilação Maven, complete a instalação do Maven primeiro. Navegue até Manage Jenkins > Global Tool Configuration (Gerenciar Jenkins > Configuração global de ferramentas) e, em seguida, no subcabeçalho Maven, clique em Add Maven (Adicionar Maven). Digite o nome de sua escolha e certifique-se de que a opção Instalar automaticamente está selecionada. Clique em Guardar.
 +
@@ -71,7 +71,7 @@ image:redhat_openshift_image24.png["Figura que mostra a caixa de diálogo de ent
 
 . Agora você pode criar um pipeline para demonstrar o fluxo de trabalho de CI/CD. Na página inicial, clique em criar novos trabalhos ou novo item no menu à esquerda.
 +
-image:redhat_openshift_image25.jpeg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+image:redhat_openshift_image25.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 . Na página criar item, digite o nome de sua escolha, selecione Pipeline e clique em OK.
 +

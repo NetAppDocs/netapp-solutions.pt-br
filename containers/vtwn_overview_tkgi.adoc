@@ -26,7 +26,7 @@ Notas importantes:
 
 * O NetApp Trident requer acesso privilegiado a contêineres. Portanto, durante a instalação do TKGI, marque a caixa de seleção Habilitar contentores privilegiados na etapa para configurar os planos de nó de cluster do Tanzu Kubernetes.
 +
-image:vtwn_image05.jpg["Contentores privilegiados em TKGI"]
+image:vtwn_image05.png["Contentores privilegiados em TKGI"]
 
 * A NetApp recomenda que todos os ambientes de produção sejam implantados em várias implantações principais para tolerância de falhas com a configuração de nós de trabalho escolhida para atender aos requisitos das cargas de trabalho pretendidas. Assim, um plano de cluster TKGI recomendado consistiria em pelo menos três mestres e três trabalhadores com pelo menos quatro vCPUs e 12GB GB de RAM para uma carga de trabalho altamente intensiva.
 

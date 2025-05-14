@@ -1,9 +1,0 @@
-= 
-:allow-uri-read: 
-
-
-A disponibilidade de datastores NFS suplementares no Azure / AVS é definida pela Microsoft. Primeiro, você precisa determinar se AVS e ANF estão disponíveis em uma região específica. Em seguida, você precisa determinar se o armazenamento de dados NFS complementar do ANF é compatível nessa região.
-
-* Verifique a disponibilidade de AVS e ANF .link:https://azure.microsoft.com/en-us/global-infrastructure/services/?products=netapp,azure-vmware&regions=all["aqui"]
-* Verifique a disponibilidade do armazenamento de dados NFS suplementar do ANF link:https://docs.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal#supported-regions["aqui"].
-

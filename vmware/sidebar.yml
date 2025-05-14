@@ -32,6 +32,35 @@ entries:
     url: "/vmware/vmw-getting-started-vm-data-collector.html"
 - title: VMware Cloud Foundation (VCF) no NetApp
   pdf-filename: VMware Cloud Foundation (VCF) no NetApp
+- title: Primeiros passos com o NetApp e a VMware
+  pdf-filename: Primeiros passos com o NetApp e a VMware
+  entries:
+  - title: Visão geral
+    url: "/vmware/vmw-getting-started-overview.html"
+  - title: Opções de armazenamento do NetApp
+    url: "/vmware/vmw-getting-started-netapp-storage-options.html"
+  - title: Cluster de armazenamento vSphere Metro
+    url: "/vmware/vmw-getting-started-metro-storage-cluster.html"
+  - title: Ferramentas do ONTAP para VMware (OTV)
+    url: "/vmware/vmw-getting-started-ontap-tools-for-vmware.html"
+  - title: Automação da VMware com o ONTAP
+    url: "/vmware/vmw-getting-started-ontap-apis-automation.html"
+  - title: SnapCenter
+    url: "/vmware/vmw-getting-started-snapcenter.html"
+  - title: Multicloud híbrida
+    url: "/vmware/vmw-getting-started-hybrid-multicloud.html"
+  - title: Endereçamento de segurança e ransomware para workloads da VMware
+    url: "/vmware/vmw-getting-started-security-ransomware.html"
+  - title: Migração de workloads de VM para o ONTAP
+    url: "/vmware/vmw-getting-started-migration.html"
+  - title: Recuperação de desastres do BlueXP  (DRaaS)
+    url: "/vmware/vmw-getting-started-bluexp-disaster-recovery.html"
+  - title: Insights de infraestrutura de dados (DII)
+    url: "/vmware/vmw-getting-started-data-infrastructure-insights.html"
+  - title: VM Data Collector (VMDC)
+    url: "/vmware/vmw-getting-started-vm-data-collector.html"
+- title: VMware Cloud Foundation (VCF) no NetApp
+  pdf-filename: VMware Cloud Foundation (VCF) no NetApp
   entries:
   - title: Visão geral
     url: "/vmware/vmw-vcf-overview.html"
@@ -45,6 +74,8 @@ entries:
       url: "/vmware/vmw-vcf-mgmt-fc.html"
   - title: Provisione ambiente VCF com storage principal
     entries:
+    - title: Visão geral
+      url: "/vmware/vmw-vcf-provision.html"
     - title: Domínio de gerenciamento com FC
       url: "/vmware/vmw-vcf-mgmt-principal-fc.html"
     - title: Domínio de gerenciamento com NFS
@@ -55,6 +86,8 @@ entries:
       url: "/vmware/vmw-vcf-viwld-principal-nfs.html"
   - title: Expanda o ambiente VCF com armazenamento suplementar
     entries:
+    - title: Visão geral
+      url: "/vmware/vmw-vcf-expand.html"
     - title: Domínio de gestão com iSCSI
       url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi.html"
     - title: Domínio de gerenciamento com FC
@@ -75,6 +108,13 @@ entries:
       url: "/vmware/vmw-vcf-scv-multiwkld.html"
     - title: Proteja o VCF Workload Domain com o NVMe
       url: "/vmware/vmw-vcf-scv-nvme.html"
+    - title: Proteção de workloads VCF com o SnapCenter
+      url: "/vmware/vmw-vcf-protect-sc.html"
+    - title: Protegendo cargas de trabalho VCF com o VMware vSphere Metro Storage
+        Cluster (vMSC)
+      url: "/vmware/vmw-vcf-protect-vmsc.html"
+    - title: Recuperação de desastres usando BlueXP  DRaaS
+      url: "/vmware/vmw-vcf-draas-bxp.html"
     - title: Proteção de dados 3-2-1 para VMware com plug-in SnapCenter e backup e
         recuperação de BlueXP  para VMs
       url: "/vmware/vmw-vcf-scv-321.html"
@@ -109,14 +149,21 @@ entries:
     url: "/vmware/vmware_nfs_overview.html"
   - title: 'Virtualização VMware para ONTAP: Práticas recomendadas'
     url: "/vmware/vmware-for-ontap.html"
+  - title: Novidades do VMware vSphere 8
+    url: "/vmware/vmware-vsphere8-intro.html"
   - title: Guia de implantação do VMFS para o vSphere 8
     url: "/vmware/vmfs-deployment.html"
+  - title: All-Flash moderno e conectado à nuvem para vSphere 8
+    url: "/vmware/netapp-vsphere8.html"
   - title: Recurso NFS nLigue ao NetApp e VMware
     url: "/vmware/vmware-vsphere8-nfs-nconnect.html"
   - title: Gerencie armazenamentos de dados NFS com o OTV 10
     url: "/vmware/vmware_nfs_otv10.html"
   - title: Recuperação de desastres de datastores NFS com o VMware Site Recovery Manager
     url: "/vmware/vmware_nfs_vlsr.html"
+  - title: Cluster de armazenamento Metro do VMware vSphere com sincronização ativa
+      do SnapMirror
+    url: "/vmware-vmsc-with-smas.html"
 - title: VMware Virtual volumes (vVols) no NetApp
   pdf-filename: VMware Virtual volumes (vVols) no NetApp
   entries:

@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 Neste cenário, demonstraremos como usar as Ferramentas do ONTAP para VMware vSphere (OTV) para configurar um cluster de stretch para um domínio de gerenciamento de VCF. Isso é considerado como instância única - várias zonas de disponibilidade.
 
-image:vmware_vcf_asa_mgmt_stretchcluster_image01.jpg["Instância única - várias zonas de disponibilidade"]
+image:vmware_vcf_asa_mgmt_stretchcluster_image01.png["Instância única - várias zonas de disponibilidade"]
 
 
 
@@ -24,7 +24,7 @@ image:vmware_vcf_asa_mgmt_stretchcluster_image01.jpg["Instância única - vária
 
 A solução Stretch cluster pode ser implementada no cluster padrão ou em cluster adicional no gerenciamento de VCF ou domínios de carga de trabalho. O VMFS no FC é compatível com datastore principal e datastores suplementares. O VMFS no iSCSI só é suportado com datastores suplementares. Consulte o IMT para obter suporte ao VMFS no NVMe-of com sincronização ativa do SnapMirror.
 
-image:vmware_vcf_asa_mgmt_stretchcluster_image02.jpg["Cluster Stretch com ONTAP para domínio de gerenciamento VCF"]
+image:vmware_vcf_asa_mgmt_stretchcluster_image02.png["Cluster Stretch com ONTAP para domínio de gerenciamento VCF"]
 
 .Armazenamento principal no domínio de gerenciamento
 [%collapsible%open]

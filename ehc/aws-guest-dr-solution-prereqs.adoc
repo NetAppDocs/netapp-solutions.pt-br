@@ -59,7 +59,7 @@ Os clientes aproveitam todo o potencial do ambiente vSphere usando o NetApp ONTA
 
 Para obter mais informações sobre o VMware vSphere, siga https://docs.vmware.com/en/VMware-vSphere/index.html["este link"^].
 
-Para obter mais informações sobre as soluções NetApp com VMware, siga link:../vmware/vmware-on-netapp.html["este link"^].
+Para obter mais informações sobre as soluções NetApp com VMware, siga link:../vmware/index.html["este link"^].
 
 ====
 .VMware NSX

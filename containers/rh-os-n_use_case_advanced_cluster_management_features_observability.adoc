@@ -17,18 +17,18 @@ O Advanced Cluster Management for Kubernetes oferece uma maneira de monitorar os
 
 . Navegue para observar ambientes > Visão geral.
 +
-image:redhat_openshift_image82.jpg["Página inicial de observabilidade"]
+image:redhat_openshift_image82.png["Página inicial de observabilidade"]
 
 . Todos os pods e workloads em todos os clusters são monitorados e classificados com base em uma variedade de filtros. Clique em pods para exibir os dados correspondentes.
 +
-image:redhat_openshift_image83.jpg["Observe os pods"]
+image:redhat_openshift_image83.png["Observe os pods"]
 
 . Todos os nós nos clusters são monitorados e analisados com base em vários pontos de dados. Clique em nós para obter mais informações sobre os detalhes correspondentes.
 +
-image:redhat_openshift_image84.jpg["Observe os nós"]
+image:redhat_openshift_image84.png["Observe os nós"]
 
 . Todos os clusters são monitorados e organizados com base em diferentes recursos e parâmetros do cluster. Clique em clusters para exibir os detalhes do cluster.
 +
-image:redhat_openshift_image85.jpg["Observe clusters"]
+image:redhat_openshift_image85.png["Observe clusters"]
 
 

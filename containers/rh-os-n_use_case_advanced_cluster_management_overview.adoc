@@ -26,6 +26,6 @@ O Red Hat Advanced Cluster Management para Kubernetes permite que você execute 
 
 O Red Hat Advanced Cluster Management for Kubernetes é instalado como um complemento para um cluster do Red Hat OpenShift e usa esse cluster como um controlador central para todas as suas operações. Esse cluster é conhecido como cluster hub e expõe um plano de gerenciamento para que os usuários se conetem ao Gerenciamento Avançado de Cluster. Todos os outros clusters OpenShift importados ou criados através do console de Gerenciamento Avançado de Cluster são gerenciados pelo cluster do hub e são chamados de clusters gerenciados. Ele instala um agente chamado Klusterlet nos clusters gerenciados para conectá-los ao cluster do hub e atender às solicitações de diferentes atividades relacionadas ao gerenciamento do ciclo de vida do cluster, gerenciamento do ciclo de vida do aplicativo, observabilidade e conformidade de segurança.
 
-image:redhat_openshift_image65.jpg["Arquitetura ACM"]
+image:redhat_openshift_image65.png["Arquitetura ACM"]
 
 Para obter mais informações, consulte a documentação https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/["aqui"].

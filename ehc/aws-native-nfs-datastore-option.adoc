@@ -4,7 +4,7 @@ permalink: ehc/aws-native-nfs-datastore-option.html
 keywords:  
 summary:  
 ---
-= Opção suplementar de armazenamento de dados NFS na AWS
+= Criando um armazenamento de dados NFS suplementar na AWS
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -19,7 +19,7 @@ Depois que o VMware Cloud estiver pronto e conetado à VPC da AWS, você deve im
 Para iniciar, implante uma VPC adicional na mesma região e zona de disponibilidade em que o SDDC reside e, em seguida, implante o Amazon FSX ONTAP na nova VPC. https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-C957DBA7-16F5-412B-BB72-15B49B714723.html["Configuração de um grupo SDDC no VMware Cloud"^] O console permite as opções de configuração de rede necessárias para se conetar à VPC recém-designada, onde o FSX ONTAP será implantado.
 
 
-NOTE: Implante o FSX ONTAP na mesma zona disponível do VMware Cloud no AWS SDDC.
+NOTE: Implante o FSX ONTAP na mesma zona de disponibilidade do VMware Cloud no AWS SDDC.
 
 
 NOTE: Você não pode implantar o FSX ONTAP na VPC conetada. Em vez disso, você deve implantá-lo em uma nova VPC designada e, em seguida, conetar a VPC a um VMware Managed Transit Gateway (vTGW) por meio de grupos SDDC.

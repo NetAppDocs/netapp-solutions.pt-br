@@ -29,7 +29,7 @@ image:redhat_openshift_OADP_app_deleted_image1.png["Aplicação eliminada"]
 ====
 Para restaurar a partir do backup que acabamos de criar, precisamos criar um recurso personalizado de restauração (CR). Precisamos fornecer um nome, fornecer o nome do backup que queremos restaurar e definir o restorePVs como verdadeiro. Parâmetros adicionais podem ser definidos como mostrado na link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentação"]. Clique no botão criar.
 
-image:redhat_openshift_OADP_restore_image1.jpg["Criar Restaurar CR"]
+image:redhat_openshift_OADP_restore_image1.png["Criar Restaurar CR"]
 
 ....
 apiVersion: velero.io/v1
@@ -44,7 +44,7 @@ spec:
 ....
 Quando a fase for exibida concluída, você poderá ver que o aplicativo foi restaurado para o estado quando o snapshot foi feito. O aplicativo é restaurado para o mesmo namespace.
 
-image:redhat_openshift_OADP_restore_image2.jpg["Restauro concluído"] image:redhat_openshift_OADP_restore_image2a.png["Restaurado para o mesmo namespace"]
+image:redhat_openshift_OADP_restore_image2.png["Restauro concluído"] image:redhat_openshift_OADP_restore_image2a.png["Restaurado para o mesmo namespace"]
 
 ====
 .Restauração para um namespace diferente

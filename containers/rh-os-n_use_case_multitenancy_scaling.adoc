@@ -20,7 +20,7 @@ Em uma configuração multitenant, a adição de novos projetos com recursos de 
 . Navegue até `Storage -> Storage VMs` e clique `Add`em . Criar um novo SVM dedicado ao Project-3. Também crie uma conta vsadmin para gerenciar o SVM e seus recursos.
 
 
-image:redhat_openshift_image42.jpg["Criar SVM para dimensionamento"]
+image:redhat_openshift_image42.png["Criar SVM para dimensionamento"]
 
 . Faça login no cluster Red Hat OpenShift como administrador de cluster.
 . Crie um novo projeto.

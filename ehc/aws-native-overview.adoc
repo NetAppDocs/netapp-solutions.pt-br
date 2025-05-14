@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 Este documento descreve como montar o Amazon FSX ONTAP como um armazenamento de dados NFS com o VMware Cloud na AWS.
 
-Niyaz Mohamed, NetApp
-
 
 
 == Introdução

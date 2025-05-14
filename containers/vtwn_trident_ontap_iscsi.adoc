@@ -33,15 +33,15 @@ Para criar um SVM no ONTAP, siga estas etapas:
 . Faça login no Gerenciador de sistemas do ONTAP, navegue até armazenamento > armazenamento de VMs e clique em Adicionar.
 . Introduza um nome para o SVM, ative o protocolo iSCSI e, em seguida, forneça detalhes para os LIFs de dados.
 +
-image:vtwn_image25.jpg["ISCSI SVM Data LIFs"]
+image:vtwn_image25.png["ISCSI SVM Data LIFs"]
 
 . Insira os detalhes da conta de administração SVM e clique em Salvar.
 +
-image:vtwn_image26.jpg["Administração do iSCSI SVM"]
+image:vtwn_image26.png["Administração do iSCSI SVM"]
 
 . Para atribuir os agregados ao SVM, navegue até Storage > Storage VMs, clique na elipse ao lado do SVM recém-criado e clique em Edit (Editar). Marque a caixa de seleção limitar criação de volume aos níveis locais preferidos e anexe os agregados necessários a ele.
 +
-image:vtwn_image27.jpg["Alocação de agregados SVM"]
+image:vtwn_image27.png["Alocação de agregados SVM"]
 
 
 

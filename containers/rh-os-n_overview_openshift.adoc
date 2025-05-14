@@ -52,11 +52,11 @@ A implantação da infraestrutura provisionada do Instalador (IPI) do OpenShift 
 . Visite o Red Hat OpenShift link:https://www.openshift.com["website"^] e faça login com suas credenciais SSO.
 . Selecione o ambiente no qual você gostaria de implantar o Red Hat OpenShift.
 +
-image:redhat_openshift_image8.jpeg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+image:redhat_openshift_image8.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 . Na próxima tela, baixe o instalador, o segredo exclusivo e as ferramentas CLI para gerenciamento.
 +
-image:redhat_openshift_image9.jpeg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+image:redhat_openshift_image9.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 . Siga o link:https://docs.openshift.com/container-platform/4.7/installing/index.html["instruções de instalação"] fornecido pela Red Hat para implantar no seu ambiente de sua escolha.
 

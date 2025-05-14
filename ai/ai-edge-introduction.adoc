@@ -53,7 +53,7 @@ Este documento destina-se aos seguintes públicos:
 
 Esse servidor Lenovo ThinkSystem e a solução de storage NetApp ONTAP ou NetApp SANtricity foram projetados para lidar com inferência de AI em grandes conjuntos de dados usando o poder de processamento das GPUs junto com CPUs tradicionais. Essa validação demonstra alto desempenho e gerenciamento de dados otimizado com uma arquitetura que usa servidores de borda único ou múltiplo Lenovo SR350 interconetados com um único sistema de armazenamento NetApp AFF, como mostrado nas duas figuras a seguir.
 
-image:ai-edge-image2.jpg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+image:ai-edge-image2.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 image:ai-edge-image17.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 

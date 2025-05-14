@@ -34,4 +34,4 @@ Detecte informações das fontes de dados, como o dispositivo de armazenamento O
 
 Arquitetura da Cloud Insights
 
-image:redhat_openshift_ci_overview_image1.jpg["Arquitetura da Cloud Insights"]
+image:redhat_openshift_ci_overview_image1.png["Arquitetura da Cloud Insights"]

@@ -20,7 +20,7 @@ summary: A NetApp oferece vários produtos que ajudam nossos clientes a orquestr
 [role="normal"]
 O NetApp fornece vários produtos para ajudar você a orquestrar, gerenciar, proteger e migrar aplicações em contêiner com estado monitorado e seus dados.
 
-image:devops_with_netapp_image1.jpg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+image:devops_with_netapp_image1.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 O NetApp Trident é um orquestrador de storage de código aberto e totalmente compatível para distribuições de contêineres e Kubernetes, como o k8s_Distribution_NAME. Para obter mais informações, visite o site da Trident https://docs.netapp.com/us-en/trident/index.html["aqui"] .
 

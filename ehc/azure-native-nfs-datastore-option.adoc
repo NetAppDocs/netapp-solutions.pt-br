@@ -4,7 +4,7 @@ permalink: ehc/azure-native-nfs-datastore-option.html
 keywords:  
 summary:  
 ---
-= Opção suplementar de armazenamento de dados NFS no Azure
+= Criando um armazenamento de dados NFS suplementar no Azure
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

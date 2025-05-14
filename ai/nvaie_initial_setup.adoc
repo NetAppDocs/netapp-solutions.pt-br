@@ -20,7 +20,7 @@ Esta seção descreve as tarefas de configuração inicial que precisam ser exec
 
 == Pré-requisitos
 
-Antes de executar as etapas descritas nesta seção, assumimos que você já implantou o VMware vSphere e o NetApp ONTAP. Consulte o link:https://docs.nvidia.com/ai-enterprise/latest/product-support-matrix/index.html["Matriz de suporte ao produto empresarial NVIDIA AI"] para obter detalhes sobre as versões do vSphere suportadas. Consulte o link:../vmware/vmware-on-netapp.html["Documentação de soluções da NetApp e VMware"] para obter detalhes sobre como implantar o VMware vSphere com o NetApp ONTAP.
+Antes de executar as etapas descritas nesta seção, assumimos que você já implantou o VMware vSphere e o NetApp ONTAP. Consulte o link:https://docs.nvidia.com/ai-enterprise/latest/product-support-matrix/index.html["Matriz de suporte ao produto empresarial NVIDIA AI"] para obter detalhes sobre as versões do vSphere suportadas. Consulte o link:../vmware/index.html["Documentação de soluções da NetApp e VMware"] para obter detalhes sobre como implantar o VMware vSphere com o NetApp ONTAP.
 
 
 

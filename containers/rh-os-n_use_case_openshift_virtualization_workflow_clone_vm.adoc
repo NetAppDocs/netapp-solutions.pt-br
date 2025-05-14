@@ -46,7 +46,7 @@ Clonar uma VM existente ao encerrar a VM é um recurso nativo do OpenShift que �
 . Navegue até cargas de trabalho > virtualização > máquinas virtuais e clique na elipse ao lado da máquina virtual que você deseja clonar.
 . Clique em Clone Virtual Machine e forneça os detalhes da nova VM.
 +
-image:redhat_openshift_image58.jpg["clone vm"]
+image:redhat_openshift_image58.png["clone vm"]
 
 . Clique em Clone Virtual Machine; isso desliga a VM de origem e inicia a criação da VM clone.
 . Depois que essa etapa for concluída, você poderá acessar e verificar o conteúdo da VM clonada.
@@ -61,7 +61,7 @@ Uma VM existente também pode ser clonada clonando o PVC existente da VM de orig
 . Navegue até armazenamento > PersistentVolumeClaims e clique na elipse ao lado do PVC que está anexado à VM de origem.
 . Clique em Clone PVC e forneça os detalhes para o novo PVC.
 +
-image:redhat_openshift_image59.jpg["clone pvc"]
+image:redhat_openshift_image59.png["clone pvc"]
 
 . Em seguida, clique em Clone. Isso cria um PVC para a nova VM.
 . Navegue até cargas de trabalho > virtualização > máquinas virtuais e clique em criar > com YAML.

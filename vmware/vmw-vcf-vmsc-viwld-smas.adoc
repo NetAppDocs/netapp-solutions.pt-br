@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 Neste cenário, demonstraremos como usar as Ferramentas do ONTAP para VMware vSphere (OTV) para configurar um cluster de stretch para um domínio de carga de trabalho VCF VI.
 
-image:vmware_vcf_asa_mgmt_stretchcluster_image01.jpg["Instância única - várias zonas de disponibilidade"]
+image:vmware_vcf_asa_mgmt_stretchcluster_image01.png["Instância única - várias zonas de disponibilidade"]
 
 
 

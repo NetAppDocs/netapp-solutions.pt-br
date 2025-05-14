@@ -18,11 +18,11 @@ Para criar uma aplicação e gerenciá-la em um conjunto de clusters,
 
 . Navegue até Gerenciar aplicativos na barra lateral e clique em criar aplicativo. Forneça os detalhes do aplicativo que você gostaria de criar e clique em Salvar.
 +
-image:redhat_openshift_image78.jpg["Criar aplicação"]
+image:redhat_openshift_image78.png["Criar aplicação"]
 
 . Depois que os componentes do aplicativo forem instalados, o aplicativo será exibido na lista.
 +
-image:redhat_openshift_image79.jpg["Lista de aplicações"]
+image:redhat_openshift_image79.png["Lista de aplicações"]
 
 . O aplicativo agora pode ser monitorado e gerenciado a partir do console.
 

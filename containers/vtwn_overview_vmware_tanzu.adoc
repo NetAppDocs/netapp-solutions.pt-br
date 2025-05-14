@@ -16,7 +16,7 @@ summary: O VMware Tanzu é um portfólio de produtos que permite que as empresas
 [role="lead"]
 O VMware Tanzu é um portfólio de produtos que permite que as empresas modernizem suas aplicações e a infraestrutura em que elas são executadas. O stack completo de funcionalidades do VMware Tanzu une as equipes de operações DE desenvolvimento e TI em uma única plataforma para adotar a modernização nas aplicações e na infraestrutura de forma consistente em ambientes de nuvem híbrida e no local para fornecer software melhor para produção continuamente.
 
-image:vtwn_image01.jpg["Portfólio do VMware Tanzu"]
+image:vtwn_image01.png["Portfólio do VMware Tanzu"]
 
 Para entender mais sobre as diferentes ofertas e seus recursos no portfólio Tanzu, visite a documentação link:https://docs.vmware.com/en/VMware-Tanzu/index.html["aqui"^].
 

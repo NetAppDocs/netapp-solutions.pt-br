@@ -19,7 +19,7 @@ indexpage:
     - title: Soluções compatíveis
       url: "/ehc-solutions.html"
     - title: Resumo
-      url: "../videos.html#hmc"
+      url: "/ehc-summary.html"
   - title: NetApp na AWS (VMC)
     links:
     - title: Multicloud híbrida da NetApp com VMware para VMC

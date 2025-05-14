@@ -20,7 +20,7 @@ Os recursos a seguir devem ser configurados por um administrador de storage:
 . Navegue até armazenamento > armazenamento VMs e clique em Adicionar. Crie dois SVMs, um para o Project-1 e o outro para o Project-2, fornecendo os detalhes necessários. Também crie uma conta vsadmin para gerenciar o SVM e seus recursos.
 
 
-image:redhat_openshift_image41.jpg["Criação de SVM no ONTAP"]
+image:redhat_openshift_image41.png["Criação de SVM no ONTAP"]
 
 . Faça login no cluster Red Hat OpenShift como administrador de armazenamento.
 . Crie o backend para o project-1 e mapeie-o para o SVM dedicado ao projeto. A NetApp recomenda usar a conta vsadmin da SVM para conectar o back-end ao SVM em vez de usar o administrador do cluster do ONTAP.

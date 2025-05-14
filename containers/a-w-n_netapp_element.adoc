@@ -16,7 +16,7 @@ summary: O software NetApp Element fornece performance modular e dimensionável,
 [role="lead"]
 O software NetApp Element fornece performance modular e dimensionável, com cada nó de storage fornecendo capacidade e taxa de transferência garantidas para o ambiente. Os sistemas NetApp Element podem escalar de 4 a 100 nós em um único cluster e oferecer vários recursos avançados de gerenciamento de storage.
 
-image:a-w-n_element.jpg["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
+image:a-w-n_element.png["Figura que mostra a caixa de diálogo de entrada/saída ou que representa o conteúdo escrito"]
 
 Para obter mais informações sobre os sistemas de storage NetApp Element, visite o https://www.netapp.com/data-storage/solidfire/["Site da NetApp SolidFire"^].
 

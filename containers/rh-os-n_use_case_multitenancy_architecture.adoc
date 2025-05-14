@@ -20,7 +20,7 @@ Vamos supor que uma organização executa duas de suas cargas de trabalho em um 
 
 A figura a seguir mostra a solução multitenant em um cluster Red Hat OpenShift com Trident apoiado pelo NetApp ONTAP.
 
-image:redhat_openshift_image40.jpg["Alocação a vários clientes no cluster do Red Hat OpenShift com Trident com suporte do NetApp ONTAP"]
+image:redhat_openshift_image40.png["Alocação a vários clientes no cluster do Red Hat OpenShift com Trident com suporte do NetApp ONTAP"]
 
 
 

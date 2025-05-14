@@ -54,7 +54,7 @@ image:token_authentication.png["Atualizar Token"]
 . Na janela Autenticação que aparece, copie a ID do cliente do acesso regular se você precisar de um nome de usuário/senha para fazer login. Os usuários federados com SSO devem copiar o ID do cliente da guia "Atualizar token".
 
 
-image:client_id.jpg["ID do cliente"]
+image:client_id.png["ID do cliente"]
 
 
 
@@ -72,4 +72,4 @@ image:key_pair.png["Par de chaves"]
 . No Cloud Manager, clique em conta –> Gerenciar contas e copie o ID da conta para uso em variáveis para AWX.
 
 
-image:account_id.jpg["ID do cliente"]
+image:account_id.png["ID do cliente"]

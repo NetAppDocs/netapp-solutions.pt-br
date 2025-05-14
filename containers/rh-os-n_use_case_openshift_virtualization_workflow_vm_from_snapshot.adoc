@@ -36,12 +36,12 @@ Para criar instantâneo de uma VM, execute as seguintes etapas:
 . Crie uma VolumeSnapshotClass que pode ser usada para criar um VolumeSnapshot. Navegue até armazenamento > VolumeSnapshotClasses e clique em criar VolumeSnapshotClass.
 . Digite o nome da Classe de captura Instantânea, digite csi.Trident.NetApp.io para o driver e clique em criar.
 +
-image:redhat_openshift_image61.jpg["Criar classe Snapshot"]
+image:redhat_openshift_image61.png["Criar classe Snapshot"]
 
 . Identifique o PVC que está anexado à VM de origem e, em seguida, crie um instantâneo desse PVC. Navegue até `Storage > VolumeSnapshots` e clique em Create VolumeSnapshots.
 . Selecione o PVC para o qual pretende criar a captura Instantânea, introduza o nome da captura Instantânea ou aceite a predefinição e selecione a VolumeSnapshotClass adequada. Em seguida, clique em criar.
 +
-image:redhat_openshift_image62.jpg["Criar instantâneo"]
+image:redhat_openshift_image62.png["Criar instantâneo"]
 
 . Isso cria o instantâneo do PVC nesse ponto no tempo.
 
@@ -53,7 +53,7 @@ image:redhat_openshift_image62.jpg["Criar instantâneo"]
 . Primeiro, restaure o Snapshot em um novo PVC. Navegue até armazenamento > VolumeSnapshots, clique na elipse ao lado do instantâneo que você deseja restaurar e clique em Restaurar como novo PVC.
 . Insira os detalhes do novo PVC e clique em Restaurar. Isso cria um novo PVC.
 +
-image:redhat_openshift_image63.jpg["Restaure o snapshot para um novo PVC"]
+image:redhat_openshift_image63.png["Restaure o snapshot para um novo PVC"]
 
 . Em seguida, crie uma nova VM a partir deste PVC. Navegue até virtualização > máquinas virtuais e clique em criar > com YAML.
 . Na seção spec > template > spec > volumes, especifique o novo PVC criado a partir de Snapshot em vez de no disco do contentor. Forneça todos os outros detalhes para a nova VM de acordo com suas necessidades.
