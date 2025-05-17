@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_jupyterhub_ingest_snapmirror.html 
+keywords: AI, control plane, MLOps, JupyterHub 
+summary: Obtenha dados com o NetApp SnapMirror 
+---
+= Obtenha dados no JupyterHub com o NetApp SnapMirror
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+O NetApp SnapMirror é uma tecnologia de replicação que permite replicar dados entre sistemas de storage da NetApp. O SnapMirror pode ser usado para obter dados de ambientes remotos para o JupyterHub.
+
+
+
+== Exemplo Worklfow e Demo
+
+link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Accelerating-Data-Ingestion-and-AI-ML-Experimentation-with-NetApp-SnapMirror-and/ba-p/457814["Este post no blog do Tech OnTap"]Consulte para obter um exemplo detalhado de fluxo de trabalho e demonstração do uso do NetApp SnapMirror para obter dados no JupyterHub.
