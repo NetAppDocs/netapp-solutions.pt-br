@@ -32,35 +32,6 @@ entries:
     url: "/vmware/vmw-getting-started-vm-data-collector.html"
 - title: VMware Cloud Foundation (VCF) no NetApp
   pdf-filename: VMware Cloud Foundation (VCF) no NetApp
-- title: Primeiros passos com o NetApp e a VMware
-  pdf-filename: Primeiros passos com o NetApp e a VMware
-  entries:
-  - title: Visão geral
-    url: "/vmware/vmw-getting-started-overview.html"
-  - title: Opções de armazenamento do NetApp
-    url: "/vmware/vmw-getting-started-netapp-storage-options.html"
-  - title: Cluster de armazenamento vSphere Metro
-    url: "/vmware/vmw-getting-started-metro-storage-cluster.html"
-  - title: Ferramentas do ONTAP para VMware (OTV)
-    url: "/vmware/vmw-getting-started-ontap-tools-for-vmware.html"
-  - title: Automação da VMware com o ONTAP
-    url: "/vmware/vmw-getting-started-ontap-apis-automation.html"
-  - title: SnapCenter
-    url: "/vmware/vmw-getting-started-snapcenter.html"
-  - title: Multicloud híbrida
-    url: "/vmware/vmw-getting-started-hybrid-multicloud.html"
-  - title: Endereçamento de segurança e ransomware para workloads da VMware
-    url: "/vmware/vmw-getting-started-security-ransomware.html"
-  - title: Migração de workloads de VM para o ONTAP
-    url: "/vmware/vmw-getting-started-migration.html"
-  - title: Recuperação de desastres do BlueXP  (DRaaS)
-    url: "/vmware/vmw-getting-started-bluexp-disaster-recovery.html"
-  - title: Insights de infraestrutura de dados (DII)
-    url: "/vmware/vmw-getting-started-data-infrastructure-insights.html"
-  - title: VM Data Collector (VMDC)
-    url: "/vmware/vmw-getting-started-vm-data-collector.html"
-- title: VMware Cloud Foundation (VCF) no NetApp
-  pdf-filename: VMware Cloud Foundation (VCF) no NetApp
   entries:
   - title: Visão geral
     url: "/vmware/vmw-vcf-overview.html"
