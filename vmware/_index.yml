@@ -57,6 +57,9 @@ indexpage:
     - title: Cluster de armazenamento Metro do VMware vSphere com sincronização ativa
         do SnapMirror
       url: "/vmware-vmsc-with-smas.html"
+    - title: Converta a sincronização ativa SM de ativo/ativo assimétrico para ativo-ativo
+        simétrico com o VMware vSphere Metro Storage Cluster
+      url: "/vmware-smbc-cvt-smas.html"
   - title: O que o VMware Cloud oferece
     links:
     - title: Multiclouds híbridas do NetApp com VMware
