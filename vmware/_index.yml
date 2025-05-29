@@ -48,8 +48,6 @@ indexpage:
       url: https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html
     - title: VMware vSphere Virtual volumes (vVols) com o NetApp ONTAP
       url: https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-overview.html
-    - title: VMware vSphere Virtual volumes (vVols) com ferramentas do ONTAP
-      url: "/vmware-vvol-overview.html"
     - title: All-Flash moderno e conectado à nuvem para vSphere 8
       url: "/netapp-vsphere8.html"
     - title: Novidades do VMware vSphere 8
@@ -57,9 +55,6 @@ indexpage:
     - title: Cluster de armazenamento Metro do VMware vSphere com sincronização ativa
         do SnapMirror
       url: "/vmware-vmsc-with-smas.html"
-    - title: Converta a sincronização ativa SM de ativo/ativo assimétrico para ativo-ativo
-        simétrico com o VMware vSphere Metro Storage Cluster
-      url: "/vmware-smbc-cvt-smas.html"
   - title: O que o VMware Cloud oferece
     links:
     - title: Multiclouds híbridas do NetApp com VMware

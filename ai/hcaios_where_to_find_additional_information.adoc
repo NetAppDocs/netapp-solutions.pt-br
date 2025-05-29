@@ -20,7 +20,7 @@ Para saber mais sobre as informações descritas neste documento, consulte os se
 +
 ** NÚCLEO Cnvrg (plataforma ML livre)
 +
-https://cnvrg.io/platform/core[]
+https://cnvrg.io/platform/[]
 
 ** Cnvrg docs
 +

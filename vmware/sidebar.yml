@@ -135,8 +135,8 @@ entries:
   - title: Cluster de armazenamento Metro do VMware vSphere com sincronização ativa
       do SnapMirror
     url: "/vmware-vmsc-with-smas.html"
-  - title: Converta a sincronização ativa SM de ativo/ativo assimétrico para ativo-ativo
-      simétrico com o VMware vSphere Metro Storage Cluster
+  - title: Converter SnapMirror ativo/ativo assimétrico de sincronização ativa para
+      simétrico ativo/ativo com VMSC
     url: "/vmware-smbc-cvt-smas.html"
 - title: VMware Virtual volumes (vVols) no NetApp
   pdf-filename: VMware Virtual volumes (vVols) no NetApp

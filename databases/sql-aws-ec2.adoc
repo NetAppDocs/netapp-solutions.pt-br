@@ -43,7 +43,7 @@ O Amazon FSX ONTAP é o armazenamento de arquivos ideal para implantações de S
 * Reduzindo o MTTR encontrando a causa raiz após uma grande atualização ou atualização de patch
 
 
-A implantação de bancos de dados do SQL Server no FSX ONTAP com o protocolo iSCSI, como é comumente usado no local, fornece um ambiente de armazenamento de dados ideal com desempenho superior, eficiência de armazenamento e recursos de gerenciamento de dados. Usando várias sessões iSCSI, assumindo um tamanho de conjunto de trabalho de 5%, a instalação de um Flash Cache oferece mais de 100K IOPs com o serviço FSX ONTAP. Essa configuração fornece controle completo sobre a performance das aplicações mais exigentes. O SQL Server em execução em instâncias EC2 menores conetadas ao FSX ONTAP pode executar o mesmo que o SQL Server em uma instância EC2 muito maior, porque apenas os limites de largura de banda da rede são aplicados contra o FSX ONTAP. Reduzir o tamanho das instâncias também reduz o custo de computação, o que fornece uma implantação otimizada para TCO. A combinação de SQL usando iSCSI, SMB3,0 com compartilhamentos de disponibilidade contínua multicanal no FSX ONTAP oferece grandes vantagens para cargas de trabalho SQL.
+A implantação de bancos de dados do SQL Server no FSX ONTAP com o protocolo iSCSI, como é comumente usado no local, fornece um ambiente de armazenamento de dados ideal com desempenho superior, eficiência de armazenamento e recursos de gerenciamento de dados. Usando várias sessões iSCSI, assumindo um tamanho de conjunto de trabalho de 5%, a instalação de um Flash Cache oferece mais de 100K IOPs com o serviço FSX ONTAP. Essa configuração fornece controle completo sobre a performance das aplicações mais exigentes. O SQL Server em execução em instâncias EC2 menores conetadas ao FSX ONTAP pode executar o mesmo que o SQL Server em uma instância EC2 muito maior, porque apenas os limites de largura de banda da rede são aplicados contra o FSX ONTAP. Reduzir o tamanho das instâncias também reduz o custo de computação, o que proporciona uma implantação otimizada em termos de TCO. A combinação de SQL usando iSCSI, SMB3,0 com compartilhamentos de disponibilidade contínua multicanal no FSX ONTAP oferece grandes vantagens para cargas de trabalho SQL.
 
 
 
@@ -338,7 +338,7 @@ Espaço mínimo para instalação: 10Gb espaço mínimo para o repositório: 10G
 
 
 |===
-Para obter informações detalhadas, link:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["requisitos de espaço e dimensionamento"]consulte .
+Para obter informações detalhadas, link:https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_install_snapcenter_plug_in_for_microsoft_sql_server_database.html["requisitos de espaço e dimensionamento"]consulte .
 
 Para ver a compatibilidade da versão, consulte o https://mysupport.netapp.com/matrix/["Ferramenta de Matriz de interoperabilidade do NetApp"^].
 
