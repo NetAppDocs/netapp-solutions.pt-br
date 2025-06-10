@@ -24,8 +24,4 @@ https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-sol
 +
 https://docs.microsoft.com/en-us/azure/azure-netapp-files/solutions-benefits-azure-netapp-files-sql-server["https://docs.microsoft.com/en-us/azure/azure-netapp-files/solutions-benefits-azure-netapp-files-sql-server"^]
 
-* Tolerância de falhas, alta disponibilidade e resiliência com o Azure NetApp Files
-+
-https://cloud.netapp.com/blog/azure-anf-blg-fault-tolerance-high-availability-and-resilience-with-azure-netapp-files["https://cloud.netapp.com/blog/azure-anf-blg-fault-tolerance-high-availability-and-resilience-with-azure-netapp-files"^]
-
 

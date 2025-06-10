@@ -84,6 +84,11 @@ entries:
         url: "/databases/azure_ora_nfile_migration.html"
   - title: Google Cloud
     entries:
+    - title: Otimize o backup e a recuperação do Oracle VLDB com mesclagem incremental
+        no servidor no Google Cloud NetApp Volumes
+      pdf-filename: Otimize o backup e a recuperação do Oracle VLDB com mesclagem
+        incremental no servidor no Google Cloud NetApp Volumes
+      url: "/databases/gcp_ora_gcnv_inc_merge.html"
     - title: Implementação de alta taxa de transferência do Oracle VLDB no Google
         Cloud NetApp volumes com Data Guard
       pdf-filename: Implementação do Oracle VLDB de alto rendimento no GCNV com Data

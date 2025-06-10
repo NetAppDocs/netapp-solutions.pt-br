@@ -47,7 +47,7 @@ Para obter mais informações sobre conetores, visite nosso https://docs.netapp.
 
 Ao implantar o Cloud Volumes ONTAP, você terá a opção de um pacote predefinido ou a criação de sua própria configuração. Embora muitos desses valores possam ser alterados posteriormente sem interrupções, há algumas decisões importantes que precisam ser tomadas antes da implantação com base nos workloads a serem implantados na nuvem.
 
-Cada provedor de nuvem tem opções diferentes para implantação e quase todas as cargas de trabalho têm suas próprias propriedades exclusivas. O NetApp tem um https://cloud.netapp.com/cvo-sizer["Ferramenta de dimensionamento CVO"^] que pode ajudar a dimensionar as implantações corretamente com base na capacidade e no desempenho, mas foi construído em torno de alguns conceitos básicos que valem a pena considerar:
+Cada provedor de nuvem tem opções diferentes para implantação e quase todas as cargas de trabalho têm suas próprias propriedades exclusivas. O NetApp tem um https://bluexp.netapp.com/calculator-hub["Calculadora de TCO"^] que pode ajudar a dimensionar as implantações corretamente com base na capacidade e no desempenho, mas foi construído em torno de alguns conceitos básicos que valem a pena considerar:
 
 * Capacidade necessária
 * Capacidade de rede da máquina virtual em nuvem

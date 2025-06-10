@@ -10,7 +10,7 @@ indexpage:
   tiles:
   - title: Como começar
     links:
-    - title: Introdução ao Hyper-V no Windows 10
+    - title: Introdução ao Hyper-V no Windows Server
       url: https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/
     - title: Visão geral da tecnologia Hyper-V
       url: https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/hyper-v-technology-overview

@@ -105,7 +105,7 @@ image:sql-srv-anf_image2.png["Figura que mostra a caixa de diálogo de entrada/s
 
 == Validação de desempenho
 
-Assim como em qualquer implantação, testar a VM e o storage é essencial. Para validação de armazenamento, ferramentas como HammerDB, Apploader, o https://github.com/NetApp/SQL_Storage_Benchmark["Ferramenta de benchmark de armazenamento do SQL Server (SB)"^], ou qualquer script personalizado ou fio com a mistura de leitura/gravação apropriada devem ser usadas. Lembre-se, no entanto, que a maioria dos workloads do SQL Server, mesmo com cargas de trabalho OLTP ocupadas, está perto de 80% a 90% de leitura e 10% a 20% de gravação.
+Assim como em qualquer implantação, testar a VM e o storage é essencial. Para validação de armazenamento, ferramentas como HammerDB, Apploader ou qualquer script personalizado ou FIO com a combinação apropriada de leitura/gravação devem ser usadas. Lembre-se, no entanto, que a maioria dos workloads do SQL Server, mesmo com cargas de trabalho OLTP ocupadas, está perto de 80% a 90% de leitura e 10% a 20% de gravação.
 
 Para demonstrar a performance, foi realizado um teste rápido em relação a um volume usando níveis de serviço premium. Nesse teste, o tamanho do volume foi aumentado de 100GB TB para 2TB TB imediatamente, sem interrupções no acesso aos aplicativos e sem migração de dados.
 
