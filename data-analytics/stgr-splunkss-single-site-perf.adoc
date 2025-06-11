@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
-permalink: data-analytics/stgr-splunkss-single-site-smartstore-performance.html 
-keywords: configuration, warm data, cold data, cache storage, indexer, eventgen, event generator, search head 
-summary: Esta página descreve a performance do Splunk SmartStore em uma controladora NetApp StorageGRID. O Splunk SmartStore transfere dados ativos para o storage remoto, que é o storage de objetos StorageGRID na validação de performance. 
+permalink: data-analytics/stgr-splunkss-single-site-perf.html 
+keywords: configuration, warm data, cold data, cache storage, indexer, event, generator 
+summary: Esta página descreve a performance do Splunk SmartStore em uma controladora NetApp StorageGRID. 
 ---
 = Desempenho SmartStore de um único local
 :hardbreaks:

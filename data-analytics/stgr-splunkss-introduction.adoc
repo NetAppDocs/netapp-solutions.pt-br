@@ -13,10 +13,14 @@ summary: Este relatório técnico descreve o benefício que o NetApp oferece a u
 :imagesdir: ../media/
 
 
-Karthikeyan Nagalingam, Bobby Oommen, Joseph Kandatilparambil
-
 [role="lead"]
-O Splunk Enterprise é a solução de gerenciamento de eventos e informações de segurança (SIEM) líder de mercado que impulsiona os resultados das equipes de segurança, TI e DevOps. Os volumes de dados continuam crescendo a taxas exponenciais, criando grandes oportunidades para empresas que podem utilizar esse vasto recurso. O Splunk Enterprise continua a ser adotado em uma variedade maior de casos de uso. À medida que os casos de uso crescem, também aumenta a quantidade de dados que o Splunk Enterprise ingere e processa. A arquitetura tradicional do Splunk Enterprise é um design com escalabilidade horizontal distribuído que fornece acesso e disponibilidade excelentes aos dados. No entanto, as empresas que usam essa arquitetura enfrentam custos crescentes associados ao dimensionamento para atender ao volume de dados que cresce rapidamente.
+O Splunk Enterprise é a solução de gerenciamento de eventos e informações de segurança (SIEM) líder de mercado que impulsiona os resultados das equipes de segurança, TI e DevOps.
+
+
+
+== Visão geral
+
+Os volumes de dados continuam crescendo a taxas exponenciais, criando grandes oportunidades para empresas que podem utilizar esse vasto recurso. O Splunk Enterprise continua a ser adotado em uma variedade maior de casos de uso. À medida que os casos de uso crescem, também aumenta a quantidade de dados que o Splunk Enterprise ingere e processa. A arquitetura tradicional do Splunk Enterprise é um design com escalabilidade horizontal distribuído que fornece acesso e disponibilidade excelentes aos dados. No entanto, as empresas que usam essa arquitetura enfrentam custos crescentes associados ao dimensionamento para atender ao volume de dados que cresce rapidamente.
 
 O Splunk SmartStore com NetApp StorageGRID soluciona esse desafio ao fornecer um novo modelo de implantação no qual a computação e o storage são desacoplados. Essa solução também garante escalabilidade e elasticidade incomparáveis para ambientes Splunk Enterprise ao permitir que os clientes escalem em um ou vários locais, ao mesmo tempo em que reduz os custos ao permitir que a computação e o storage sejam dimensionados de forma independente e adicionar disposição em camadas inteligente para storage de objetos S3U econômico baseado em nuvem.
 

@@ -175,7 +175,23 @@ entries:
   url: "/data-analytics/sb-4154.html"
 - title: NetApp StorageGRID com
   pdf-filename: NetApp StorageGRID com
-  url: "/data-analytics/stgr-splunks-introduction.html"
+  entries:
+  - title: Introdução
+    url: "/data-analytics/stgr-splunkss-introduction.html"
+  - title: Visão geral da solução
+    url: "/data-analytics/stgr-splunkss-solution-overview.html"
+  - title: Benefícios desta solução
+    url: "/data-analytics/stgr-splunkss-solution-benefits.html"
+  - title: Arquitetura Splunk
+    url: "/data-analytics/stgr-splunkss-splunk-architecture.html"
+  - title: Recursos do StorageGRID para Splunk SmartStore
+    url: "/data-analytics/stgr-splunkss-flexible-storagegrid-features.html"
+  - title: Hierarquização e economia de custos
+    url: "/data-analytics/stgr-splunkss-tiering-cost-savings.html"
+  - title: Desempenho do SmartStore de Site Único
+    url: "/data-analytics/stgr-splunkss-single-site-perf.html"
+  - title: Conclusão
+    url: "/data-analytics/stgr-splunkss-conclusion.html"
 - title: NetApp e-Series E5700 e Splunk Enterprise
   pdf-filename: NetApp e-Series E5700 e Splunk Enterprise
   url: "/data-analytics/tr-4623.html"

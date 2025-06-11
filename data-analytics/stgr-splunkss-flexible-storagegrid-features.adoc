@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
-permalink: data-analytics/stgr-splunkss-flexible-storagegrid-features-for-splunk-smartstore.html 
+permalink: data-analytics/stgr-splunkss-flexible-storagegrid-features.html 
 keywords: ILM policies, Grid Manager, performance, Load Balancer, endpoint configuration 
-summary: 'O StorageGRID tem uma grande variedade de recursos que os usuários podem aproveitar e personalizar para seu ambiente em constante mudança. Da implantação ao dimensionamento do Splunk SmartStore, seu ambiente precisa de adoção rápida de alterações e não deve causar interrupções ao Splunk. As políticas flexíveis de gerenciamento de dados (ILM) e os classificadores de tráfego (QoS) da StorageGRID permitem que você Planeje e se adapte ao seu ambiente.' 
+summary: O StorageGRID tem uma grande variedade de recursos que os usuários podem aproveitar e personalizar para seu ambiente em constante mudança. 
 ---
 = Recursos flexíveis do StorageGRID para Splunk SmartStore
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: 'O StorageGRID tem uma grande variedade de recursos que os usuários po
 
 
 [role="lead"]
-O StorageGRID tem uma grande variedade de recursos que os usuários podem aproveitar e personalizar para seu ambiente em constante mudança. Da implantação ao dimensionamento do Splunk SmartStore, seu ambiente precisa de adoção rápida de alterações e não deve causar interrupções ao Splunk. As políticas flexíveis de gerenciamento de dados (ILM) e os classificadores de tráfego (QoS) da StorageGRID permitem que você Planeje e se adapte ao seu ambiente.
+O StorageGRID tem uma grande variedade de recursos que os usuários podem aproveitar e personalizar para seu ambiente em constante mudança. Da implantação ao dimensionamento do seu Splunk SmartStore, seu ambiente exige rápida adoção de mudanças e não deve causar interrupções no Splunk. As políticas flexíveis de gerenciamento de dados (ILM) e os classificadores de tráfego (QoS) da StorageGRID permitem que você Planeje e se adapte ao seu ambiente.
 
 
 

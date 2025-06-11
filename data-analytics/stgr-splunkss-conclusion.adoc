@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: data-analytics/stgr-splunkss-conclusion.html 
 keywords: conclusion, references 
-summary: O Splunk Enterprise é a solução SIEM líder DE mercado que gera resultados nas equipes de segurança, TI e DevOps. O uso do Splunk aumentou consideravelmente nas organizações dos nossos clientes. Portanto, é necessário adicionar mais fontes de dados e, ao mesmo tempo, reter os dados por um período mais longo, salientando a infraestrutura do Splunk. 
+summary: O Splunk Enterprise é a solução SIEM líder DE mercado que gera resultados nas equipes de segurança, TI e DevOps. 
 ---
 = Conclusão
 :hardbreaks:
@@ -24,28 +24,10 @@ A combinação do Splunk SmartStore e do NetApp StorageGRID foi projetada para f
 
 Para saber mais sobre as informações descritas neste documento, consulte os seguintes documentos e/ou sites:
 
-* Recursos de documentação do NetApp StorageGRID
-+
-https://docs.netapp.com/us-en/storagegrid-family/["https://docs.netapp.com/us-en/storagegrid-family/"^]
-
-* Documentação do produto NetApp
-+
-https://docs.netapp.com["https://docs.netapp.com"^]
-
-* Documentação do Splunk Enterprise
-+
-https://docs.splunk.com/Documentation/Splunk["https://docs.splunk.com/Documentation/Splunk"^]
-
-* Splunk Enterprise sobre o SmartStore
-+
-https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/AboutSmartStore["https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/AboutSmartStore"^]
-
-* Manual de implantação distribuída do Splunk Enterprise
-+
-https://docs.splunk.com/Documentation/Splunk/8.0.6/Deploy/Distributedoverview["https://docs.splunk.com/Documentation/Splunk/8.0.6/Deploy/Distributedoverview"^]
-
-* Splunk Enterprise Gerenciando indexadores e clusters de indexadores
-+
-https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/Aboutindexesandindexers["https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/Aboutindexesandindexers"^]
-
+* https://docs.netapp.com/us-en/storagegrid-family/["Recursos de documentação do NetApp StorageGRID"^]
+* https://docs.netapp.com["Documentação do produto NetApp"^]
+* https://docs.splunk.com/Documentation/Splunk["Documentação do Splunk Enterprise"^]
+* https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/AboutSmartStore["Splunk Enterprise sobre o SmartStore"^]
+* https://docs.splunk.com/Documentation/Splunk/8.0.6/Deploy/Distributedoverview["Manual de implantação distribuída do Splunk Enterprise"^]
+* https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/Aboutindexesandindexers["Splunk Enterprise Gerenciando indexadores e clusters de indexadores"^]
 
