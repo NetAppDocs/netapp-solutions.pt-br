@@ -73,7 +73,8 @@ Antes de iniciar a implantação do provedor SMI-S, você precisa implantar
 
 . Obtenha o SMI-S no site de download do NetApp e instale em uma versão suportada do servidor Windows.
 . Verifique se o servidor SMI-S está em execução. image:hyperv-smis-image3.png["Verifique se o servidor SMI-S está em execução"]
-. Para adicionar um sistema de storage NetApp, verifique se você tem o nome do host do endereço IP de gerenciamento da máquina virtual de storage (SVM) e as credenciais do usuário vsadmin. image:hyperv-smis-image4.png["Registrar a SVM"]
+. Adicione um usuário do servidor CIM. Esse usuário do SIM deve ter privilégios de administrador no servidor Windows SMIS, e você precisará usar esse usuário para se registrar no SCVMM. image:hyperv-smis-image13.png["Adicionar usuário CIM"]
+. Para adicionar um sistema de armazenamento NetApp, certifique-se de ter o nome do host ou o endereço IP de gerenciamento da Máquina Virtual de Armazenamento (SVM) e as credenciais do usuário vsadmin. Observação: o SMI-S não oferece suporte ao endereço IP de gerenciamento da SVM, apenas ao nome do host. image:hyperv-smis-image4.png["Registrar a SVM"]
 
 
 

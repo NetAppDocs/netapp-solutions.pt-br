@@ -26,7 +26,7 @@ entries:
     entries:
     - title: Introdução
       url: "/ehc/ehc-datastore-intro.html"
-    - title: Opções de armazenamento para VMS na AWS
+    - title: Opções de armazenamento para VMC na AWS
       url: "/ehc/aws-storage-options.html"
     - title: Armazenamento de dados NFS suplementar para VMC (Visão geral)
       url: "/ehc/aws-native-overview.html"
@@ -92,6 +92,18 @@ entries:
       pdf-filename: Migração de cargas de trabalho para o armazenamento de dados do
         FSX ONTAP usando VMware HCX
       url: "/ehc/aws-migrate-vmware-hcx.html"
+- title: NetApp para AWS / EVS
+  entries:
+  - title: Monte o FSx ONTAP como armazenamento de dados externo para EVS
+    entries:
+    - title: Introdução
+      url: "/ehc/evs-mount-fsxn-intro.html"
+    - title: Implantação como um armazenamento de dados NFS
+      url: "/ehc/evs-mount-fsxn-nfs.html"
+    - title: Implantação como um armazenamento de dados iSCSI
+      url: "/ehc/evs-mount-fsxn-iscsi.html"
+    - title: Conclusão
+      url: "/ehc/evs-mount-fsxn-conclusion.html"
 - title: NetApp para Azure / AVS
   entries:
   - title: Visão geral

@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: ehc/evs-mount-fsxn-intro.html 
+keywords: Amazon, AWS, EVS, Elastic VMware Service, ONTAP, FSx 
+summary: 'Este documento apresentará etapas detalhadas para criar um FSx para sistema de arquivos ONTAP e anexá-lo para uso como um armazenamento de dados de interface de sistema de computadores pequenos da Internet (iSCSI) ou de sistema de arquivos de rede (NFS) para uso com o Amazon EVS.' 
+---
+= Como montar o Amazon FSx para NetApp ONTAP como um armazenamento de dados externo para o Amazon Elastic VMware Service
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Este documento apresentará etapas detalhadas para criar um FSx para sistema de arquivos ONTAP e anexá-lo para uso como um armazenamento de dados de interface de sistema de computadores pequenos da Internet (iSCSI) ou de sistema de arquivos de rede (NFS) para uso com o Amazon EVS.
+
+
+
+== Introdução
+
+Organizações com investimentos locais em VMware que buscam maneiras eficientes e econômicas de modernizar suas implantações migrando, distribuindo, estendendo ou protegendo (backup, recuperação de desastres) cópias na AWS têm enfrentado diversos desafios. Com o lançamento do Amazon Elastic VMware Service (Amazon EVS), agora existe um serviço nativo da AWS que permite executar o VMware Cloud Foundation (VCF) diretamente em uma Nuvem Virtual Privada (VPC) da Amazon.
+
+O Amazon EVS possibilita estender implantações de VCF existentes para a AWS, expandir na AWS para aumentar o desempenho durante o pico de uso e executar cargas de trabalho de VCF inteiramente na AWS para facilitar modernizações, saídas de data centers, consolidações e outros casos de uso.
+
+Embora o Amazon EVS ofereça grandes benefícios, a arquitetura hiperconvergente padrão acopla computação e armazenamento, impedindo o escalonamento independente de um ou outro conforme as necessidades do negócio. No mundo atual, centrado em dados, as demandas de armazenamento em muitas organizações são maiores do que as de computação. No entanto, com a arquitetura hiperconvergente da VMware, os recursos de armazenamento são acoplados aos recursos de computação. Isso significa que o escalonamento do armazenamento só pode ser feito adicionando hosts de computação que nunca serão usados. Essa é uma situação que pode aumentar consideravelmente os custos, especialmente em cargas de trabalho com uso intenso de armazenamento.
+
+Para solucionar esse problema, a AWS e a NetApp oferecem o Amazon FSx para NetApp ONTAP (FSx para ONTAP) como serviço de armazenamento externo para o Amazon EVS. O FSx para ONTAP é um serviço de armazenamento nativo da AWS que oferece os recursos de alto desempenho, resiliência de dados e economia do software NetApp® ONTAP®. Ao usar o FSx para ONTAP como armazenamento externo, os usuários do Amazon EVS podem escalar recursos de computação e armazenamento de forma independente, permitindo um custo total de propriedade (TCO) otimizado.
+
+
+
+== Visão geral
+
+Este documento apresentará etapas detalhadas para criar um FSx para sistema de arquivos ONTAP e anexá-lo para uso como um armazenamento de dados de interface de sistema de computadores pequenos da Internet (iSCSI) ou de sistema de arquivos de rede (NFS) para uso com o Amazon EVS.
+
+
+
+== Objetivo deste Guia
+
+Este guia fornece instruções sobre como configurar um armazenamento de dados FSx for ONTAP para o Amazon EVS, bem como práticas recomendadas, requisitos de suporte, considerações de dimensionamento e outras informações para ajudar você a planejar, projetar e implementar a integração.
+
+
+
+== Público-alvo
+
+Este tutorial é destinado a arquitetos e administradores de nuvem familiarizados com VMware vSphere, Amazon EVS, AWS Console e FSx for ONTAP.
+
+
+
+== Arquitetura de alto nível
+
+Nesta seção, daremos uma visão geral da arquitetura da solução para usar o FSx for ONTAP como um armazenamento de dados para o Amazon EVS.
+
+Abaixo você pode ver uma visão geral da arquitetura do armazenamento de dados FSx for ONTAP com um ambiente Amazon EVS dentro de uma VPC AWS.
+
+image:evs-mount-fsxn-01.png["Figura representando a arquitetura de alto nível para esta solução"]
