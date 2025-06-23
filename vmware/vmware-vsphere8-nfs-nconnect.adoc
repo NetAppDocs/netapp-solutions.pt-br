@@ -63,7 +63,7 @@ Para utilizar o recurso nconnect, as seguintes dependências devem ser atendidas
 | Versão do ONTAP | Versão do vSphere | Comentários 
 
 
-| 9,8 ou superior | 8 Atualização 1 | Visualização técnica com opção para aumentar o número de conexões. 
+| 9,8 ou superior | 8 Atualização 1 | Visualização técnica com opção para aumentar o número de conexões. É necessário desmontar o armazenamento de dados para diminuir o número de conexões. 
 
 
 | 9,8 ou superior | 8 Atualização 2 | Geralmente disponível com opção para aumentar e diminuir o número de conexões. 
